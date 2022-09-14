@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Petlove Front-end
 
-## Getting Started
+Projeto de bootcamp desenvolvido para a equipe da Petlove, referente a uma aplicação onde os gestores possam avaliar seus colaboradores através de questionarios que determinam as qualidades individuais e da equipe como um todo.
 
-First, run the development server:
+---------------------------------------------------------------------------------------------
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Pré-requisitos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 👯‍ Clonando o projeto
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Clone o projeto na sua maquina utilizando o comando do git:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+``` git clone https://github.com/pedroasdoliveira/petlove-project-frontend.git ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Ou através do Github Desktop:
 
-## Learn More
+```gh repo clone pedroasdoliveira/petlove-project-frontend```
 
-To learn more about Next.js, take a look at the following resources:
+### 🔧 Instalação
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Com o projeto clonado na maquina, execute o comando dentro da pasta do projeto:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```yarn install```
 
-## Deploy on Vercel
+### ⚙️ Rodando o projeto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Após a instalação de todas as dependencias, execute o comando abaixo para rodar o projeto no ambiente de produção:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```yarn dev```
+
+- Para roda no ambiente de produção utilize os comandos: 
+
+```yarn build``` & ```yarn start```
+
+---------------------------------------------------------------------------------------------
+
+## 🛠️ Construído com
+
+* JavaScript
+* TypeScript
+* Next.js
+* Yarn
+* Chakra-UI
+
+---------------------------------------------------------------------------------------------
+
+## ✒️ Autores
+
+* **Pedro Oliveira** (Github: https://github.com/pedroasdoliveira);
+* **Giovanne Berteli** (Github: https://github.com/hethus);
+* **João Vitor Carvalho** (Github: https://github.com/jcvalgas);
+* **Bruna Barbosa Bomfim** (Github: https://github.com/brunabbomfim);
+* **Felipe dos Santos Azevedo** (Github: https://github.com/Felipe360flp);
+
+---------------------------------------------------------------------------------------------
+
+## 📄 Licença
+
+Este projeto está sob a licença (Mozilla Public License Version 2.0) - veja o arquivo [LICENSE.md] para mais detalhes.
