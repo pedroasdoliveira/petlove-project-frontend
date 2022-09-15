@@ -2,7 +2,7 @@
 export default function (plop) {
   // controller generator
   plop.setGenerator("component", {
-    description: "application controller logic",
+    description: "application component logic",
     prompts: [
       {
         type: "input",
@@ -13,7 +13,7 @@ export default function (plop) {
     actions: [
       {
         type: "add",
-        path: "../src/components/{{pascalCase name}}.tsx",
+        path: "../src/components/{{pascalCase name}}/{{pascalCase name}}.tsx",
         templateFile: "templates/index.tsx.hbs",
       },
     ],
