@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "component": "yarn plop --plopfile ./generators/plopfile.mjs"
+    "component": "yarn plop --plopfile ./generators/plopfile.mjs",
+    "page": "yarn plop --plopfile ./generators/plopfile_page.mjs"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.9",
