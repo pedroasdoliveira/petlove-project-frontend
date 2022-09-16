@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -5,7 +6,10 @@ import * as Style from "./style";
 import {
   Box,
   Flex,
+  Grid,
+  GridItem,
   Heading,
+  Image,
   Text,
   useColorMode,
   useColorModeValue,
@@ -13,6 +17,7 @@ import {
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
+import DefaultButton from "components/Button/Button";
 
 const Homepage: NextPage = () => {
   const { toggleColorMode } = useColorMode();
@@ -20,6 +25,9 @@ const Homepage: NextPage = () => {
 
   const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
+  const textColor = useColorModeValue("#2D3748", "#CBD5E0");
+  const bgCardColor = useColorModeValue("#f4f5f9", "#000");
+  const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
   return (
     <Flex
@@ -51,12 +59,12 @@ const Homepage: NextPage = () => {
           w={"100%"}
           justifyContent={"space-between"}
           alignItems={"center"}
-          mx={6}
+          mx={8}
         >
           <Heading as="h2" fontSize={"2xl"} fontWeight="medium">
             Questionario
           </Heading>
-          <Flex gap={12} alignItems={"center"}>
+          <Flex gap={16} alignItems={"center"}>
             <Heading as="h2" fontSize={"2xl"} fontWeight="medium">
               Sobre
             </Heading>
@@ -84,9 +92,111 @@ const Homepage: NextPage = () => {
           Avalie suas capacidades!
         </Heading>
 
-        <Text my={6} fontSize={"xl"} fontWeight="normal">
+        <Text
+          marginTop={6}
+          fontSize={"xl"}
+          fontWeight="normal"
+          color={textColor}
+        >
           Faça um teste agora mesmo
         </Text>
+
+        <Grid templateColumns="repeat(3, 1fr)" gap={8} my={12}>
+          <GridItem
+            bg={bgCardColor}
+            w={"285px"}
+            h={"340px"}
+            borderRadius={"15px"}
+            boxShadow={`10px 5px 15px ${shadowColor}`}
+          >
+            <Flex
+              direction={"column"}
+              alignItems={"center"}
+              justifyContent={"space-around"}
+              wrap={"wrap"}
+              p={4}
+              w="full"
+              h="full"
+            >
+              <Image
+                src="/public/icon/Icon_check.svg"
+                width={"20px"}
+                height={"20px"}
+              />
+
+              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
+                magnam, esse voluptas! Accusantium adipisci optio recusandae?
+                Nam nostrum velit vitae autem.
+              </Text>
+            </Flex>
+          </GridItem>
+
+          <GridItem
+            bg={bgCardColor}
+            w={"285px"}
+            h={"340px"}
+            borderRadius={"15px"}
+            boxShadow={`10px 5px 15px ${shadowColor}`}
+          >
+            <Flex
+              direction={"column"}
+              alignItems={"center"}
+              justifyContent={"space-around"}
+              wrap={"wrap"}
+              p={4}
+              w="full"
+              h="full"
+            >
+              <Image
+                src="/public/icon/Icon_check.svg"
+                width={"20px"}
+                height={"20px"}
+              />
+
+              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
+                magnam, esse voluptas! Accusantium adipisci optio recusandae?
+                Nam nostrum velit vitae autem.
+              </Text>
+            </Flex>
+          </GridItem>
+
+          <GridItem
+            bg={bgCardColor}
+            w={"285px"}
+            h={"340px"}
+            borderRadius={"15px"}
+            boxShadow={`10px 5px 15px ${shadowColor}`}
+          >
+            <Flex
+              direction={"column"}
+              alignItems={"center"}
+              justifyContent={"space-around"}
+              wrap={"wrap"}
+              p={4}
+              w="full"
+              h="full"
+            >
+              <Image
+                src="/public/icon/Icon_check.svg"
+                width={"20px"}
+                height={"20px"}
+              />
+
+              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
+                magnam, esse voluptas! Accusantium adipisci optio recusandae?
+                Nam nostrum velit vitae autem.
+              </Text>
+            </Flex>
+          </GridItem>
+        </Grid>
+
+        <DefaultButton />
       </Flex>
     </Flex>
   );
