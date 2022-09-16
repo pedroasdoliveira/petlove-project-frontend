@@ -13,7 +13,7 @@ export default function (plop) {
     actions: [
       {
         type: "add",
-        path: "../src/pages/{{pascalCase name}}/{{pascalCase name}}.tsx",
+        path: "../src/pages/{{pascalCase name}}/index.tsx",
         templateFile: "templates/index.tsx.hbs",
       },
     ],
