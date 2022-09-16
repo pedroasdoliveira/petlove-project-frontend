@@ -10,11 +10,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useToggle } from "hooks/useToggle";
+import { ToggleMode } from "types/interfaces";
 
 const Home: NextPage = () => {
   const { toggleColorMode } = useColorMode();
-  const [toggle, setToggle] = useState<boolean>(false);
+  const { toggle, setToggle } = useToggle() as ToggleMode;
 
   const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
   const formBackground = useColorModeValue("#dee0e3", "#000000");
