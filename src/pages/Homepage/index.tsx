@@ -2,6 +2,10 @@
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
+import CheckIcon from "../../../public/icon/Icon_check.svg";
+import ClockIcon from "../../../public/icon/Icon_Clock.svg";
+import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import * as Style from "./style";
 import {
   Box,
@@ -9,7 +13,6 @@ import {
   Grid,
   GridItem,
   Heading,
-  Image,
   Text,
   useColorMode,
   useColorModeValue,
@@ -18,12 +21,17 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
 import DefaultButton from "components/Button/Button";
+import Footer from "components/Footer/Footer";
 
 const Homepage: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
 
   const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
+  const navbarLinearBackground = useColorModeValue(
+    "linear-gradient(180deg, rgba(4,4,4,1) 27%, rgba(142,84,235,1) 32%)",
+    "linear-gradient(180deg, rgba(4,4,4,1) 90%, rgba(142,84,235,1) 43%)"
+  );
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = useColorModeValue("#2D3748", "#CBD5E0");
   const bgCardColor = useColorModeValue("#f4f5f9", "#000");
@@ -33,8 +41,8 @@ const Homepage: NextPage = () => {
     <Flex
       as="main"
       bg={pageBackground}
-      h={"100%"}
-      w={"100%"}
+      minH={"100vh"}
+      w={"100vw"}
       direction={"column"}
       cursor={"default"}
     >
@@ -52,6 +60,7 @@ const Homepage: NextPage = () => {
         py={2}
         position={"fixed"}
         zIndex={1}
+        bg={navbarLinearBackground}
         borderBottom={`1px solid ${borderColor}`}
       >
         <Flex
@@ -64,10 +73,7 @@ const Homepage: NextPage = () => {
           <Heading as="h2" fontSize={"2xl"} fontWeight="medium">
             Questionario
           </Heading>
-          <Flex gap={16} alignItems={"center"}>
-            <Heading as="h2" fontSize={"2xl"} fontWeight="medium">
-              Sobre
-            </Heading>
+          <Flex alignItems={"center"} marginRight={12}>
             <Box
               cursor={"pointer"}
               onClick={() => {
@@ -87,8 +93,9 @@ const Homepage: NextPage = () => {
         justifyContent={"center"}
         alignItems={"center"}
         marginTop={"5rem"}
+        marginBottom={"5rem"}
       >
-        <Heading as="h1" fontSize={"3xl"} fontWeight="bold">
+        <Heading as="h1" fontSize={"4xl"} fontWeight="bold">
           Avalie suas capacidades!
         </Heading>
 
@@ -118,11 +125,7 @@ const Homepage: NextPage = () => {
               w="full"
               h="full"
             >
-              <Image
-                src="/public/icon/Icon_check.svg"
-                width={"20px"}
-                height={"20px"}
-              />
+              <Image src={CheckIcon} width={"60px"} height={"60px"} />
 
               <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
@@ -149,11 +152,7 @@ const Homepage: NextPage = () => {
               w="full"
               h="full"
             >
-              <Image
-                src="/public/icon/Icon_check.svg"
-                width={"20px"}
-                height={"20px"}
-              />
+              <Image src={ClockIcon} width={"60px"} height={"60px"} />
 
               <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
@@ -180,11 +179,7 @@ const Homepage: NextPage = () => {
               w="full"
               h="full"
             >
-              <Image
-                src="/public/icon/Icon_check.svg"
-                width={"20px"}
-                height={"20px"}
-              />
+              <Image src={ProfileIcon} width={"60px"} height={"60px"} />
 
               <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
@@ -196,8 +191,10 @@ const Homepage: NextPage = () => {
           </GridItem>
         </Grid>
 
-        <DefaultButton />
+        <DefaultButton valueButton="Realizar teste" />
       </Flex>
+
+      <Footer color={textColor} />
     </Flex>
   );
 };
