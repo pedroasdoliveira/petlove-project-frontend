@@ -15,10 +15,12 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import LoginComponent from "components/Login/Login";
 import RegisterComponent from "components/RegisterComponent/RegisterComponent";
+import { useToggle } from "hooks/useToggle";
+import { ToggleMode } from "types/interfaces";
 
 const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
-  const [toggle, setToggle] = useState<boolean>(false);
+  const { toggle, setToggle } = useToggle() as ToggleMode;
 
   const pageBackground = useColorModeValue("#7d54ce", "#1d1d31");
   const formBackground = useColorModeValue("#ffffffa2", "#000000");
