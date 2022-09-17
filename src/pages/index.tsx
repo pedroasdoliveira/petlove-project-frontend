@@ -2,25 +2,26 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import {
   Box,
-  Button,
   Flex,
-  Heading,
-  Input,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import LoginComponent from "components/Login/Login";
+import RegisterComponent from "components/RegisterComponent/RegisterComponent";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const [toggle, setToggle] = useState<boolean>(false);
 
-  const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
-  const formBackground = useColorModeValue("#dee0e3", "#000000");
-  const buttonBackground = useColorModeValue("#472dba", "#5030dd");
-  const buttonHover = useColorModeValue("#000000", "#dee0e3");
-  const buttonColor = useColorModeValue("#dee0e3", "#000000");
+  const pageBackground = useColorModeValue("#7d54ce", "#1d1d31");
+  const formBackground = useColorModeValue("#ffffffa2", "#000000");
 
   return (
     <Flex
@@ -31,9 +32,8 @@ const Home: NextPage = () => {
       justifyContent={"center"}
     >
       <Head>
-        <title>Log In </title>
-        <meta name="description" content="Log In page" />
-        <link rel="icon" href="/public/favicon.ico" />
+        <title>Login </title>
+        <meta name="pagina inicial e de login" content="Pagina de Login" />
       </Head>
 
       <Flex
@@ -44,28 +44,20 @@ const Home: NextPage = () => {
         rounded={6}
         position={"relative"}
       >
-        <Heading mb={6} textAlign={"center"} cursor="default">
-          Login
-        </Heading>
-
-        <Input
-          placeholder="Seu email..."
-          variant={"flushed"}
-          mb={3}
-          type="email"
-        />
-
-        <Input
-          placeholder="Sua senha..."
-          variant={"flushed"}
-          mb={6}
-          type="password"
-        />
-
-        <Button background={buttonBackground} _hover={{background: buttonHover, color: buttonColor}} color="#b2aec2" variant="ghost">
-          Log In
-        </Button>
-
+        <Tabs isFitted>
+          <TabList mb="2em" mt="-2em">
+            <Tab>Login</Tab>
+            <Tab>Registro</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <LoginComponent />
+            </TabPanel>
+            <TabPanel p={0}>
+              <RegisterComponent />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
         <Box
           position={"absolute"}
           top={2}
@@ -83,4 +75,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Login;
