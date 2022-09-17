@@ -1,6 +1,10 @@
 import { Button, useColorModeValue } from "@chakra-ui/react";
 
-const DefaultButton = () => {
+interface Prop {
+  valueButton: string;
+}
+
+const DefaultButton = ({valueButton}: Prop) => {
   const color = useColorModeValue("#2D3748", "#CBD5E0");
   const buttonBackground = useColorModeValue("#e5e1f9", "#1b1a1e");
   const buttonHover = useColorModeValue("#1b1a1e", "#e5e1f9");
@@ -16,7 +20,7 @@ const DefaultButton = () => {
       color={color}
       _hover={{ background: buttonHover, color: buttonColor }}
     >
-      Fazer teste
+      {valueButton}
     </Button>
   );
 };
