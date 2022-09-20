@@ -9,7 +9,7 @@ const Content = (
   </Flex>
 )
 
-const steps = [{ label: "Step 1", Content }, { label: "Step 2", Content }, { label: "Step 3", Content }, {label: "Step 4", Content}, {label: "Step 5", Content}]
+const steps = [{ label: "Sistemas", Content}, { label: "Processos", Content }, { label: "Pessoas", Content }, {label: "Tech", Content}];
 
 const StepsForm = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
@@ -28,7 +28,7 @@ const StepsForm = () => {
       {activeStep === steps.length ? (
         <Flex px={4} py={4} width="100%" flexDir="column">
           <Heading fontSize="xl" textAlign="center">
-            Teste Qualquer coisa
+            Teste Concluido
           </Heading>
           <Button mx="auto" mt={6} size="sm" onClick={reset}>Reset</Button>
         </Flex> 
