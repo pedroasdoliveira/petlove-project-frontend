@@ -9,16 +9,17 @@ import {
   HStack,
   FormControl,
   RadioGroup,
-  Radio,
   Button,
-  Icon,
   Progress,
+  Text,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import ArrowRight from "../../public/icon/arrow-right.svg";
 import * as S from "./style";
+import { ToggleMode } from "types/interfaces";
+import { useToggle } from "hooks/useToggle";
+import { ArrowForwardIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
+import StepsForm from "components/Steps/Steps";
 
 function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -31,41 +32,50 @@ function RadioCard(props: any) {
       <input {...input} />
       <Box
         {...checkbox}
+        position="relative"
         cursor="pointer"
-        borderWidth="1px"
-        borderRadius="md"
+        h="2px"
+        w="2px"
+        border={`4px solid ${props.children == "Sim" ? "#87FA34" : "#FD5028"}`}
+        borderRadius="100%"
         boxShadow="md"
         _checked={{
-          bg: "teal.600",
+          bg: `${props.children == "Sim" ? "#87FA34" : "#FD5028"}`,
           color: "white",
-          borderColor: "teal.600",
         }}
-        _focus={{
-          boxShadow: "outline",
-        }}
-        px={5}
-        py={3}
+        p={4}
       >
-        {props.children}
+        <Text
+          letterSpacing="3px"
+          fontWeight="bold"
+          fontSize="lg"
+          position="absolute"
+          top={0}
+          left={props.children == "Sim" ? -12 : 12}
+        >
+          {props.children}
+        </Text>
       </Box>
     </Box>
   );
 }
 
 const Test: NextPage = () => {
-  const options = ["Sim", "Talvez", "Não"];
+  const options = ["Sim", "Não"];
   const { toggleColorMode } = useColorMode();
+  const { toggle, setToggle } = useToggle() as ToggleMode;
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "framework",
-    defaultValue: "react",
-    onChange: console.log,
+    name: "option",
+    defaultValue: "none",
   });
 
   const group = getRootProps();
   const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
+  const borderStyleNav = useColorModeValue("#fff", "#5030DD");
+  const colorButtonSend = useColorModeValue("#8e6dd1", "#fff");
+  const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
   const buttonColorHover = useColorModeValue("#fff", "#000000");
-  const backgroundContent = useColorModeValue("transparent", "#fff");
 
   return (
     <Flex
@@ -77,7 +87,7 @@ const Test: NextPage = () => {
       px="50px"
       py="30px"
       justifyContent="space-between"
-      onClick={() => toggleColorMode()}
+      position="relative"
     >
       <Head>
         <title>Test</title>
@@ -85,33 +95,7 @@ const Test: NextPage = () => {
         <link rel="icon" href="./public/favicon.ico" />
       </Head>
 
-      <Flex flexWrap="wrap" gap="20px" justifyContent="center" px="20px">
-        <S.ButtonNavItem>1</S.ButtonNavItem>
-        <S.ButtonNavItem>2</S.ButtonNavItem>
-        <S.ButtonNavItem>3</S.ButtonNavItem>
-        <S.ButtonNavItem>4</S.ButtonNavItem>
-        <S.ButtonNavItem>5</S.ButtonNavItem>
-        <S.ButtonNavItem>6</S.ButtonNavItem>
-        <S.ButtonNavItem>7</S.ButtonNavItem>
-        <S.ButtonNavItem>8</S.ButtonNavItem>
-        <S.ButtonNavItem>9</S.ButtonNavItem>
-        <S.ButtonNavItem>10</S.ButtonNavItem>
-        <S.ButtonNavItem>11</S.ButtonNavItem>
-        <S.ButtonNavItem>12</S.ButtonNavItem>
-        <S.ButtonNavItem>13</S.ButtonNavItem>
-        <S.ButtonNavItem>14</S.ButtonNavItem>
-        <S.ButtonNavItem>15</S.ButtonNavItem>
-        <S.ButtonNavItem>16</S.ButtonNavItem>
-        <S.ButtonNavItem>17</S.ButtonNavItem>
-        <S.ButtonNavItem>18</S.ButtonNavItem>
-        <S.ButtonNavItem>19</S.ButtonNavItem>
-        <S.ButtonNavItem>20</S.ButtonNavItem>
-        <S.ButtonNavItem>21</S.ButtonNavItem>
-        <S.ButtonNavItem>22</S.ButtonNavItem>
-        <S.ButtonNavItem>23</S.ButtonNavItem>
-        <S.ButtonNavItem>24</S.ButtonNavItem>
-        <S.ButtonNavItem>25</S.ButtonNavItem>
-      </Flex>
+      <StepsForm />
 
       <Flex flexDir="column" justifyContent="center" alignItems="center">
         <Heading color="#fff" textAlign="center" mb="20px">
@@ -125,7 +109,7 @@ const Test: NextPage = () => {
           flexDir="column"
         >
           <RadioGroup defaultValue="none" mb={5}>
-            <HStack color="#fff" spacing="60px" {...group}>
+            <HStack color="#fff" spacing="80px" {...group}>
               {options.map((value) => {
                 const radio = getRadioProps({ value });
                 return (
@@ -137,19 +121,26 @@ const Test: NextPage = () => {
             </HStack>
           </RadioGroup>
           <Button
-            bgColor="#5030DD"
-            color="#fff"
+            bgColor={buttonSendColorMode}
+            color={colorButtonSend}
             letterSpacing="tight"
             _hover={{ background: buttonSendHover, color: buttonColorHover }}
           >
-            Next Question{" "}
-            <Box ml={2} mt={1}>
-              <Image height="15px" src={ArrowRight} />
-            </Box>
+            Next Question <ArrowForwardIcon w={8} h={5} />
           </Button>
         </FormControl>
       </Flex>
-      <Progress colorScheme="green" size="sm" value={50} mb={5} />
+      <Progress colorScheme="green" size="sm" value={50} />
+      <Button
+        position="absolute"
+        top="25%"
+        onClick={() => {
+          toggleColorMode();
+          setToggle(!toggle);
+        }}
+      >
+        {toggle ? <SunIcon /> : <MoonIcon />}
+      </Button>
     </Flex>
   );
 };

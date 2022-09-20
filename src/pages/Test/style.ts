@@ -1,24 +1,17 @@
 import styled from 'styled-components';
 
-
 export const ButtonNavItem = styled.div`
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 4px solid #5030DD;
+    border: 4px solid;
     border-radius: 8px;
     padding: 5px 0;
     width: 50px;
     cursor: pointer;
     transition: all .2s;
-    &:first-child {
-        background-color: #5030DD;
-    }
 
-    &:hover {
-        background-color: #5030DD;
-    }
 `
 
 export const Options = styled.div`
