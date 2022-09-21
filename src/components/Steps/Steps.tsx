@@ -14,6 +14,7 @@ import {
 import { ArrowForwardIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
 import { obj } from "components/SystemSteps/SystemSteps";
+import React from "react";
 
 const steps = [
   { label: "Sistemas", Content: obj.sistemas },
@@ -26,16 +27,10 @@ const steps = [
 ];
 
 const StepsForm = () => {
-  const options = ["Sim", "Não"];
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
-  const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "option",
-    defaultValue: "none",
-  });
 
-  const group = getRootProps();
   const colorButtonSend = useColorModeValue("#8e6dd1", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
@@ -44,15 +39,18 @@ const StepsForm = () => {
   const [valueButton, setValueButton] = useState('');
   const [testValue, setTestValue] = useState('');
 
-  const handleValueButton = (value: string) => {
-    setValueButton(valueButton)
+  const changeValueRadio = (value: string) => {
+    setTestValue(value);
+    console.log(value);
   }
 
-  const testLog = (a: string) => {
-    console.log(a);
-  }
-  
-  
+  const { value, getRootProps, getRadioProps } = useRadioGroup({
+    name: "option",
+    defaultValue: "none",
+    onChange: changeValueRadio
+  });
+
+  const group = getRootProps();
 
   return (
     <Flex as="section" flexDir={"column"} width="100%">
@@ -97,7 +95,6 @@ const StepsForm = () => {
           <Button size="sm" onClick={nextStep}>
             {activeStep === steps.length - 1 ? "Finish" : <ArrowForwardIcon />}
           </Button>
-          {testValue}
         </Flex>
       )}
 
@@ -110,48 +107,13 @@ const StepsForm = () => {
         alignItems="center"
         flexDir="column"
       >
-        <RadioGroup defaultValue="none" mb={5} display="flex" >
-          <HStack color="#fff" spacing="80px" {...group} onChange={() => testLog('Sim')}>
-            {options.map((value) => {
-              const radio = getRadioProps({ value });
-              if (value === "Sim") {
-              return (
-                <RadioCard key={value} {...radio} setValueButton={setValueButton} >
-                  {value}
-                </RadioCard>
-              );
-              }
-            })}
-            {/* {options.map((value) => {
-              const radio = getRadioProps({ value });
-              return (
-                <RadioCard key={value} {...radio}>
-                  {value}
-                </RadioCard>
-              );
-            })} */}
-          </HStack>
-          <HStack color="#fff" spacing="80px" {...group} onChange={() => testLog('Não')}>
-            {options.map((value) => {
-              const radio = getRadioProps({ value });
-              if (value === "Não") {
-              return (
-                <RadioCard key={value} {...radio} setValueButton={setValueButton} >
-                  {value}
-                </RadioCard>
-              );
-              }
-            })}
-            {/* {options.map((value) => {
-              const radio = getRadioProps({ value });
-              return (
-                <RadioCard key={value} {...radio}>
-                  {value}
-                </RadioCard>
-              );
-            })} */}
+        <RadioGroup defaultValue="none" mb={5} display="flex">
+          <HStack color="#fff" spacing="80px" {...group} >
+            <RadioCard value="sim" {...getRadioProps({value: 'Sim'})}>Sim</RadioCard>
+            <RadioCard value="não" {...getRadioProps({value: 'Não'})}>Não</RadioCard>
           </HStack>
         </RadioGroup>
+        {testValue}
         <Button
           bgColor={buttonSendColorMode}
           color={colorButtonSend}

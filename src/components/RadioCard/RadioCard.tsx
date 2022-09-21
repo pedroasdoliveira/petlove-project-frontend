@@ -16,7 +16,7 @@ interface Props {
 
   return (
     <Box as="label">
-      <input {...input} />
+      <input {...input} placeholder=''/>
       <Box
         {...checkbox}
         position="relative"
