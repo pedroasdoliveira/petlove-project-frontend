@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import {
   Flex,
@@ -10,6 +10,7 @@ import {
   useRadioGroup,
   useColorModeValue,
   Progress,
+  FormLabel,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
@@ -20,11 +21,21 @@ const steps = [
   { label: "Sistemas", Content: obj.sistemas },
   { label: "Processos", Content: obj.processos },
   { label: "Pessoas", Content: obj.pessoas },
-  { label: "Ferramentaria", Content: obj.ferramentarias },
+  { label: "Ferramentarias", Content: obj.ferramentarias },
   { label: "Design", Content: obj.designs },
   { label: "Teste", Content: obj.testes },
   { label: "Computacionais", Content: obj.computacionais },
 ];
+
+const respostas = {
+  Sistemas: 0,
+  Processos: 0,
+  Pessoas: 0,
+  Ferramentarias: 0,
+  Design: 0,
+  Teste: 0,
+  Computacionais: 0
+}
 
 const StepsForm = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
@@ -36,18 +47,26 @@ const StepsForm = () => {
   const buttonSendHover = useColorModeValue("#000000", "#fff");
   const buttonColorHover = useColorModeValue("#fff", "#000000");
 
-  const [valueButton, setValueButton] = useState('');
-  const [testValue, setTestValue] = useState('');
+  const [valueButton, setValueButton] = useState(false);
+  const [questionaryVerify, setQuestionaryVerify] = useState('false');
 
   const changeValueRadio = (value: string) => {
-    setTestValue(value);
+    setValueButton(true);
     console.log(value);
+
+    if (value === "Sim"){
+      console.log('proxima questao')
+      setQuestionaryVerify('question')
+    } else {
+      console.log('proximo step')
+      setQuestionaryVerify('step')
+    }
   }
 
-  const { value, getRootProps, getRadioProps } = useRadioGroup({
+  const { value, getRootProps, getRadioProps, setValue } = useRadioGroup({
     name: "option",
     defaultValue: "none",
-    onChange: changeValueRadio
+    onChange: changeValueRadio,
   });
 
   const group = getRootProps();
@@ -64,11 +83,12 @@ const StepsForm = () => {
       <Steps activeStep={activeStep}>
         {steps.map(({ label, Content }, index) => (
           <Step label={label} key={label}>
-            {Content.map((quest) => (
               <Flex>
-                {quest}
+                <FormLabel>
+                
+                {Content[eval(`respostas.${label}`)]}
+                </FormLabel>
               </Flex>
-            ))}
           </Step>
         ))}
       </Steps>
@@ -109,18 +129,30 @@ const StepsForm = () => {
       >
         <RadioGroup defaultValue="none" mb={5} display="flex">
           <HStack color="#fff" spacing="80px" {...group} >
-            <RadioCard value="sim" {...getRadioProps({value: 'Sim'})}>Sim</RadioCard>
-            <RadioCard value="não" {...getRadioProps({value: 'Não'})}>Não</RadioCard>
+            <RadioCard {...getRadioProps({value: 'Sim'})}>Sim</RadioCard>
+            <RadioCard {...getRadioProps({value: 'Não'})}>Não</RadioCard>
           </HStack>
         </RadioGroup>
-        {testValue}
         <Button
           bgColor={buttonSendColorMode}
           color={colorButtonSend}
           letterSpacing="tight"
           _hover={{ background: buttonSendHover, color: buttonColorHover }}
+          hidden={!valueButton}
+          onClick={() => {
+            if (questionaryVerify === "question"){
+              console.log('mandando pra proxima questão!')
+            } else if (questionaryVerify === "step"){
+              console.log('mandando pro proximo step!')
+              nextStep()
+            }
+            console.log("clicaram")
+            setValue('none')
+            setValueButton(false)
+            setQuestionaryVerify('false')
+          }}
         >
-          Next Question <ArrowForwardIcon w={8} h={5} />
+          Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
         </Button>
       </FormControl>
     </Flex>
