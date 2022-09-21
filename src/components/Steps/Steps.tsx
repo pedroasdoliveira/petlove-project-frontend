@@ -12,7 +12,7 @@ import {
   Progress,
   FormLabel,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon, ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
 import { obj } from "components/SystemSteps/SystemSteps";
 import React from "react";
@@ -49,6 +49,7 @@ const StepsForm = () => {
 
   const [valueButton, setValueButton] = useState(false);
   const [questionaryVerify, setQuestionaryVerify] = useState('false');
+  const [quantity, setQuantity] = useState(0);
 
   const changeValueRadio = (value: string) => {
     setValueButton(true);
@@ -72,77 +73,44 @@ const StepsForm = () => {
   const group = getRootProps();
 
   return (
-    <Flex as="section" flexDir={"column"} width="100%">
+    <Flex as="section" display={"flex"} flexDir={"column"} width="100%" minHeight="100%" >
       <Progress
         colorScheme="green"
         size="sm"
-        value={5}
-        max={18}
+        value={quantity}
+        max={27}
         marginBottom={12}
       />
-      <Steps activeStep={activeStep}>
+      <Steps activeStep={activeStep} height={"1%"}>
         {steps.map(({ label, Content }, index) => (
-          <Step label={label} key={label}>
-              <Flex>
-                <FormLabel>
-                
+          <Step label={label} key={label} height={"1%"}>
+              <Flex display={"flex"} flexDir={"column"} alignItems={"center"} mt={"10"} height={"60%"}>
+                <FormLabel display={"flex"} justifyContent={"center"}>
+                  <Heading as="h2" size="lg" marginBottom={4} textAlign={"center"} width={"60%"}>
+                    
                 {Content[eval(`respostas.${label}`)]}
+                  </Heading>
                 </FormLabel>
-              </Flex>
-          </Step>
-        ))}
-      </Steps>
-      {activeStep === steps.length ? (
-        <Flex px={4} py={4} width="100%" flexDir="column">
-          <Heading fontSize="xl" textAlign="center">
-            Teste Concluido
-          </Heading>
-          <Button mx="auto" mt={6} size="sm" onClick={reset}>
-            Reset
-          </Button>
-        </Flex>
-      ) : (
-        <Flex width="100%" justify="flex-end">
-          <Button
-            isDisabled={activeStep === 0}
-            mr={4}
-            onClick={prevStep}
-            size="sm"
-            variant="ghost"
-          >
-            <ArrowBackIcon />
-          </Button>
-          <Button size="sm" onClick={nextStep}>
-            {activeStep === steps.length - 1 ? "Finish" : <ArrowForwardIcon />}
-          </Button>
-        </Flex>
-      )}
-
-      {
-        //aq em baixo são os botao sim ou não
-      }
-      <FormControl
-        as="fieldset"
-        display="flex"
-        alignItems="center"
-        flexDir="column"
-      >
-        <RadioGroup defaultValue="none" mb={5} display="flex">
-          <HStack color="#fff" spacing="80px" {...group} >
-            <RadioCard {...getRadioProps({value: 'Sim'})}>Sim</RadioCard>
-            <RadioCard {...getRadioProps({value: 'Não'})}>Não</RadioCard>
-          </HStack>
-        </RadioGroup>
-        <Button
+                <Button
           bgColor={buttonSendColorMode}
           color={colorButtonSend}
           letterSpacing="tight"
           _hover={{ background: buttonSendHover, color: buttonColorHover }}
           hidden={!valueButton}
+          mt={"100"}
+          ml={"1"}
           onClick={() => {
             if (questionaryVerify === "question"){
-              console.log('mandando pra proxima questão!')
+              setQuantity(quantity + 1);
+              setValueButton(false);
+              if (eval(`respostas.${label}`) < Content.length - 1) {
+                eval(`respostas.${label}++`);
+              } else {
+                eval(`respostas.${label}++`);
+                nextStep();
+              }
             } else if (questionaryVerify === "step"){
+              setQuantity(quantity + Content.length - eval(`respostas.${label}`));
               console.log('mandando pro proximo step!')
               nextStep()
             }
@@ -154,7 +122,42 @@ const StepsForm = () => {
         >
           Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
         </Button>
+              </Flex>
+          </Step>
+        ))}
+      </Steps>
+      {activeStep === steps.length ? (
+        <Flex px={4} py={4} width="100%" flexDir="column">
+          <Heading fontSize="xl" textAlign="center">
+            Teste Concluido
+          </Heading>
+          <Button mx="auto" mt={6} size="sm" onClick={() => {
+            console.log(respostas)
+            reset();
+            }}>
+            Ir para o perfil
+          </Button>
+        </Flex>
+      ) : ""}
+
+      {
+        //aq em baixo são os botao sim ou não
+      }
+      {activeStep !== steps.length ? (
+      <FormControl
+        as="fieldset"
+        display="flex"
+        alignItems="center"
+        flexDir="column"
+      >
+        <RadioGroup defaultValue="none" mb={10} display="flex">
+          <HStack color="#fff" spacing="80px" {...group} >
+            <RadioCard {...getRadioProps({value: 'Sim'})}>Sim</RadioCard>
+            <RadioCard {...getRadioProps({value: 'Não'})}>Não</RadioCard>
+          </HStack>
+        </RadioGroup>
       </FormControl>
+        ) : ''}
     </Flex>
   );
 };

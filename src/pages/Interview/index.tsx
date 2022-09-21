@@ -24,7 +24,7 @@ const Interview: NextPage = () => {
       as="section"
       flexDir="column"
       h="100vh"
-      maxWidth="2000px"
+      w="100vw"
       bgColor={pageBackground}
       px="50px"
       py="30px"
