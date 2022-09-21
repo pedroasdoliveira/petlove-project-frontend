@@ -73,12 +73,20 @@ const StepsForm = () => {
   const group = getRootProps();
 
   return (
-    <Flex as="section" display={"flex"} flexDir={"column"} width="100%" minHeight="100%" >
+    <Flex as="section" display={"flex"} flexDir={"column"} width="100%" minHeight="100%" justify={"space-evenly"}>
       <Progress
         colorScheme="green"
         size="sm"
         value={quantity}
-        max={27}
+        max={
+          obj.computacionais.length +
+          obj.designs.length +
+          obj.ferramentarias.length +
+          obj.pessoas.length +
+          obj.processos.length +
+          obj.sistemas.length +
+          obj.testes.length
+        }
         marginBottom={12}
       />
       <Steps activeStep={activeStep} height={"1%"}>
@@ -88,7 +96,7 @@ const StepsForm = () => {
                 <FormLabel display={"flex"} justifyContent={"center"}>
                   <Heading as="h2" size="lg" marginBottom={4} textAlign={"center"} width={"60%"}>
                     
-                {Content[eval(`respostas.${label}`)]}
+                    {Content[eval(`respostas.${label}`)]}
                   </Heading>
                 </FormLabel>
                 <Button
