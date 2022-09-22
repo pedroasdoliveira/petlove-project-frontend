@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
-import { obj } from "components/SystemSteps/SystemSteps";
+import { obj } from "components/obj/obj";
 import React from "react";
 
 const steps = [
