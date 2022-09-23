@@ -1,10 +1,8 @@
 import {
   Flex,
-  Heading,
   useColorMode,
   useColorModeValue,
   Button,
-  Progress,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -25,7 +23,6 @@ const Interview: NextPage = () => {
       flexDir="column"
       h="100vh"
       w="100vw"
-      bgColor={pageBackground}
       px="50px"
       py="30px"
       justifyContent="space-between"
