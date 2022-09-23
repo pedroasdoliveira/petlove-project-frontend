@@ -27,7 +27,6 @@ const Login: NextPage = () => {
 
   return (
     <Flex
-      bg={pageBackground}
       h={"100vh"}
       w={"100vw"}
       alignItems={"center"}

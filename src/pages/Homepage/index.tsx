@@ -6,7 +6,6 @@ import Image from "next/image";
 import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
-import * as Style from "./style";
 import {
   Box,
   Flex,
@@ -27,24 +26,20 @@ const Homepage: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
 
-  const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
-  const navbarLinearBackground = useColorModeValue(
-    "linear-gradient(180deg, rgba(4,4,4,1) 27%, rgba(142,84,235,1) 32%)",
-    "linear-gradient(180deg, rgba(4,4,4,1) 90%, rgba(142,84,235,1) 43%)"
-  );
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = useColorModeValue("#2D3748", "#CBD5E0");
+  const textColorFooter = useColorModeValue("#fcfcfc", "#CBD5E0");
   const bgCardColor = useColorModeValue("#f4f5f9", "#000");
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
   return (
     <Flex
       as="main"
-      bg={pageBackground}
       minH={"100vh"}
       w={"100vw"}
       direction={"column"}
       cursor={"default"}
+      alignItems={"center"}
     >
       <Head>
         <title>Homepage</title>
@@ -55,13 +50,15 @@ const Homepage: NextPage = () => {
       <Flex
         as="nav"
         alignItems={"center"}
-        w={"100%"}
-        h={"65px"}
+        w={"90%"}
+        h={"60px"}
         py={2}
         position={"fixed"}
         zIndex={1}
-        bg={navbarLinearBackground}
-        borderBottom={`1px solid ${borderColor}`}
+        backdropFilter={"blur(42px)"}
+        mt={5}
+        border={`1px solid ${borderColor}`}
+        borderRadius={"10px"}
       >
         <Flex
           direction={"row"}
@@ -69,9 +66,10 @@ const Homepage: NextPage = () => {
           justifyContent={"space-between"}
           alignItems={"center"}
           mx={8}
+          color={"white"}
         >
-          <Heading as="h2" fontSize={"2xl"} fontWeight="medium">
-            Questionario
+          <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
+            Questionário
           </Heading>
           <Flex alignItems={"center"} marginRight={12}>
             <Box
@@ -194,7 +192,7 @@ const Homepage: NextPage = () => {
         <DefaultButton valueButton="Realizar teste" />
       </Flex>
 
-      <Footer color={textColor} />
+      <Footer color={textColorFooter} />
     </Flex>
   );
 };
