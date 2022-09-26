@@ -7,25 +7,18 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
-  Box,
   Flex,
   Grid,
   GridItem,
   Heading,
   Text,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
 import DefaultButton from "components/Button/Button";
 import Footer from "components/Footer/Footer";
+import AsideMenu from "components/AsideMenu/AsideMenu";
 
 const Homepage: NextPage = () => {
-  const { toggleColorMode } = useColorMode();
-  const { toggle, setToggle } = useToggle() as ToggleMode;
-
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
   const bgCardColor = useColorModeValue(
@@ -53,7 +46,7 @@ const Homepage: NextPage = () => {
         as="nav"
         alignItems={"center"}
         w={"90%"}
-        h={"60px"}
+        h={"4rem"}
         py={2}
         position={"fixed"}
         zIndex={1}
@@ -65,6 +58,7 @@ const Homepage: NextPage = () => {
         <Flex
           direction={"row"}
           w={"100%"}
+          h={"100%"}
           justifyContent={"space-between"}
           alignItems={"center"}
           mx={8}
@@ -73,17 +67,8 @@ const Homepage: NextPage = () => {
           <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
-          <Flex alignItems={"center"} marginRight={12}>
-            <Box
-              cursor={"pointer"}
-              onClick={() => {
-                toggleColorMode();
-                setToggle(!toggle);
-              }}
-            >
-              {toggle ? <SunIcon /> : <MoonIcon />}
-            </Box>
-          </Flex>
+
+          <AsideMenu direction="row" />
         </Flex>
       </Flex>
 

@@ -104,9 +104,10 @@ export const user = {
   name: "Giovanne Berteli Comba",
   email: "joebcomba@gmail.com",
   password: "123456",
-  time: "credito",
+  team: "credito",
   chapter: "backend",
   role: "junior",
+  isAdmin: false,
   createdAt: new Date("2022-09-23T00:00:00.000Z"),
   updatedAt: new Date("2022-09-23T00:00:00.000Z"),
 };

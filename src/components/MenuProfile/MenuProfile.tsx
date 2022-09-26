@@ -35,26 +35,26 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
       position={"fixed"}
     >
       <Link href={"/Profile"}>
-      <Flex
-        mb={"2"}
-        p={"3"}
-        display={"flex"}
-        alignItems={"center"}
-        background={path === "Perfil" ? menuPatchBackground : "none"}
-        fontWeight={"bold"}
-        color={path === "Perfil" ? "white" : "gray.400"}
-        borderRadius={"10px"}
-        cursor={"pointer"}
-        _hover={{
-          background: menuPatchBackground,
-          color: "white",
-        }}
-      >
-        <SettingsIcon w={"15"} pr={"3"} />
-        <Flex mr={"4"} ml={"2"}>
-          Profile
+        <Flex
+          mb={"2"}
+          p={"3"}
+          display={"flex"}
+          alignItems={"center"}
+          background={path === "Perfil" ? menuPatchBackground : "none"}
+          fontWeight={"bold"}
+          color={path === "Perfil" ? "white" : "gray.400"}
+          borderRadius={"10px"}
+          cursor={"pointer"}
+          _hover={{
+            background: menuPatchBackground,
+            color: "white",
+          }}
+        >
+          <SettingsIcon w={"15"} pr={"3"} />
+          <Flex mr={"4"} ml={"2"}>
+            Profile
+          </Flex>
         </Flex>
-      </Flex>
       </Link>
       <Link href={"/History"}>
         <Flex
@@ -91,20 +91,27 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           Comparações
         </Flex>
       </Flex>
-      <Flex
-        mb={"2"}
-        p={"3"}
-        display={"flex"}
-        alignItems={"center"}
-        background={path === "Mudar conta" ? menuPatchBackground : "none"}
-        color={path === "Mudar conta" ? "white" : "gray.400"}
-        borderRadius={"10px"}
-      >
-        <EditIcon w={"15"} pr={"3"} />
-        <Flex mr={"4"} ml={"2"}>
-          Mudar conta
+      <Link href={"/Edit"}>
+        <Flex
+          mb={"2"}
+          p={"3"}
+          display={"flex"}
+          alignItems={"center"}
+          background={path === "Mudar conta" ? menuPatchBackground : "none"}
+          color={path === "Mudar conta" ? "white" : "gray.400"}
+          borderRadius={"10px"}
+          cursor={"pointer"}
+          _hover={{
+            background: menuPatchBackground,
+            color: "white",
+          }}
+        >
+          <EditIcon w={"15"} pr={"3"} />
+          <Flex mr={"4"} ml={"2"}>
+            Mudar conta
+          </Flex>
         </Flex>
-      </Flex>
+      </Link>
       <Flex
         mb={"2"}
         p={"3"}

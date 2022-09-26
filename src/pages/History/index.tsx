@@ -1,25 +1,12 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Text,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
+import AsideMenu from "components/AsideMenu/AsideMenu";
 import LineBarAreaComposedChart from "components/Graphics/LineBarAreaComposedChart";
 import HistoryList from "components/HistoryList/HistoryList";
 import MenuProfile from "components/MenuProfile/MenuProfile";
-import { useToggle } from "hooks/useToggle";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ToggleMode } from "types/interfaces";
 
 const History: NextPage = () => {
-  const { toggleColorMode } = useColorMode();
-  const { toggle, setToggle } = useToggle() as ToggleMode;
-
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -82,14 +69,7 @@ const History: NextPage = () => {
           </Flex>
         </Flex>
       </Flex>
-      <Button
-        onClick={() => {
-          toggleColorMode();
-          setToggle(!toggle);
-        }}
-      >
-        {toggle ? <SunIcon /> : <MoonIcon />}
-      </Button>
+      <AsideMenu direction="column"/>
     </Flex>
   );
 };

@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Heading,
+  Icon,
   Text,
   useColorMode,
   useColorModeValue,
@@ -12,17 +13,11 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
-import {
-  Legend,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
-  ResponsiveContainer,
-} from "recharts";
 import { dataApi, user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
+import Link from "next/link";
+import { AiFillHome, AiFillProfile } from 'react-icons/ai';
+import AsideMenu from "components/AsideMenu/AsideMenu";
 
 interface ProfileProps {
   name: string;
@@ -56,7 +51,7 @@ const Profile: NextPage<ProfileProps> = () => {
         />
       </Head>
 
-      <Flex w="100%">
+      <Flex w="100%" >
         {/* Column 1 - Menu */}
         <MenuProfile path="Perfil" />
 
@@ -128,7 +123,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
                   Time:
                 </Text>
-                <Text>{user.time}</Text>
+                <Text>{user.team}</Text>
               </Flex>
               <Flex alignItems={"center"}>
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
@@ -153,15 +148,7 @@ const Profile: NextPage<ProfileProps> = () => {
           </Flex>
         </Flex>
       </Flex>
-
-      <Button
-        onClick={() => {
-          toggleColorMode();
-          setToggle(!toggle);
-        }}
-      >
-        {toggle ? <SunIcon /> : <MoonIcon />}
-      </Button>
+      <AsideMenu direction="column"/>
     </Flex>
   );
 };

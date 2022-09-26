@@ -9,6 +9,7 @@ import { ToggleMode } from "types/interfaces";
 import { useToggle } from "hooks/useToggle";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import StepsForm from "components/Steps/Steps";
+import AsideMenu from "components/AsideMenu/AsideMenu";
 
 const Interview: NextPage = () => {
   const { toggleColorMode } = useColorMode();
@@ -33,16 +34,7 @@ const Interview: NextPage = () => {
 
       <StepsForm />
 
-      <Button
-        position="absolute"
-        top="25%"
-        onClick={() => {
-          toggleColorMode();
-          setToggle(!toggle);
-        }}
-      >
-        {toggle ? <SunIcon /> : <MoonIcon />}
-      </Button>
+      <AsideMenu direction="column" path="Interview"/>
     </Flex>
   );
 };
