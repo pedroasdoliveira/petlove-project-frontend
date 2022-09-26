@@ -11,12 +11,13 @@ import {
   useColorModeValue,
   Progress,
   FormLabel,
-  Link,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
 import { obj } from "components/obj/obj";
 import React from "react";
+import Link from "next/link";
 
 const steps = [
   { label: "Sistemas", Content: obj.sistemas },
@@ -43,7 +44,7 @@ const StepsForm = () => {
     initialStep: 0,
   });
 
-  const colorButtonSend = useColorModeValue("#8e6dd1", "#fff");
+  const colorButtonSend = useColorModeValue("#3d1194", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
   const buttonColorHover = useColorModeValue("#fff", "#000000");
@@ -99,18 +100,20 @@ const StepsForm = () => {
         }
         marginBottom={12}
       />
-      <Steps activeStep={activeStep} height={"1%"}
+      <Steps
+        activeStep={activeStep}
+        height={"1%"}
         colorScheme="green"
         borderRadius="10px"
         textColor={"#10cc19"}
         color={useColorModeValue("#cc1010", "#1d1d31")}
         borderColor={useColorModeValue("#10cc19", "#1d1d31")}
         borderBlockEndColor={useColorModeValue("#10cc19", "#1d1d31")}
-        textStyle={{ 
+        textStyle={{
           color: useColorModeValue("#10cc19", "#1d1d31"),
           fontWeight: "bold",
           fontSize: "1.2rem",
-         }}
+        }}
       >
         {steps.map(({ label, Content }, index) => (
           <Step label={label} key={label} height={"1%"}>
@@ -141,7 +144,7 @@ const StepsForm = () => {
                         /https?:\/\/[^\s]+|www.?[^\s]+/g,
                         ""
                       )}
-                      <Link
+                      <ChakraLink
                         href={
                           Content[eval(`respostas.${label}`)].match(
                             /https?:\/\/[^\s]+|www.?[^\s]+/g
@@ -154,7 +157,7 @@ const StepsForm = () => {
                         textDecoration={"underline"}
                       >
                         Link
-                      </Link>
+                      </ChakraLink>
                     </>
                   ) : (
                     Content[eval(`respostas.${label}`)]
@@ -206,18 +209,19 @@ const StepsForm = () => {
           <Heading fontSize="xl" textAlign="center">
             Teste Concluido
           </Heading>
-          <Button
-            mx="auto"
-            mt={6}
-            size="sm"
-            onClick={() => {
-              console.log(respostas);
-              setQuantity(0);
-              reset();
-            }}
-          >
-            Ir para o perfil
-          </Button>
+          <Link href={"/Profile"}>
+            <Button
+              mx="auto"
+              mt={6}
+              size="sm"
+              onClick={() => {
+                console.log(respostas);
+                setQuantity(0);
+              }}
+            >
+              Ir para o perfil
+            </Button>
+          </Link>
         </Flex>
       ) : (
         ""
