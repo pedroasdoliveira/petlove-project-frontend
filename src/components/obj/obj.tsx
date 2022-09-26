@@ -42,16 +42,75 @@ export const obj = {
   ],
 };
 
-export const data = {
-  id: "",
-  userId: "",
-  nextRole: "Junior",
-  system: 1,
-  person: 2,
-  technology: 0,
-  process: 1,
-  influence: 2,
-  isValide: "Sim",
-  createdAt: "02/02/2020",
-  updatedAt: "02/02/2020",
+// quando pegar a data da api, teremos que usar a conversao de data para formato pt-br
+
+export const dataApi = [
+  {
+    id: 1,
+    userId: "giovanne",
+    nextRole: "Junior",
+    system: 2,
+    person: 3,
+    technology: 1,
+    process: 2,
+    influence: 3,
+    isValide: "Sim",
+    createdAt: "2022-09-23",
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 2,
+    userId: "giovanne",
+    nextRole: "Pleno",
+    system: 1,
+    person: 2,
+    technology: 1,
+    process: 5,
+    influence: 2.2,
+    isValide: "Sim",
+    createdAt: "2022-09-25",
+    updatedAt: new Date("2022-09-25T00:00:00.000Z"),
+  },
+  {
+    id: 3,
+    userId: "giovanne",
+    nextRole: "Senior",
+    system: 1,
+    person: 2,
+    technology: 1,
+    process: 5,
+    influence: 2.2,
+    isValide: "Não",
+    createdAt: "2022-09-26",
+    updatedAt: new Date("2022-09-26T00:00:00.000Z"),
+  },
+  {
+    id: 4,
+    userId: "giovanne",
+    nextRole: "Senior",
+    system: 1,
+    person: 2,
+    technology: 1,
+    process: 5,
+    influence: 2.2,
+    isValide: "null",
+    createdAt: "2022-09-27",
+    updatedAt: new Date("2022-09-26T00:00:00.000Z"),
+  },
+];
+
+export const user = {
+  id: 1,
+  name: "Giovanne Berteli Comba",
+  email: "joebcomba@gmail.com",
+  password: "123456",
+  time: "credito",
+  chapter: "backend",
+  role: "junior",
+  createdAt: new Date("2022-09-23T00:00:00.000Z"),
+  updatedAt: new Date("2022-09-23T00:00:00.000Z"),
 };
+
+// fazer for para transformar em um array que vai ser usado pelo recharts
+
+

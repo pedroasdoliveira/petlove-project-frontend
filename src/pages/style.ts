@@ -1,9 +1,15 @@
 import styled, { css } from "styled-components";
 
-export const ErrorMessage = styled.p`
-  ${({ theme }) => css`
+interface ErrorMessageProps {
+  color?: string;
+}
+
+const red = "#ff0000";
+
+export const ErrorMessage = styled.p<ErrorMessageProps>`
+  ${({ theme, color }) => css`
     display: flex;
-    color: red;
+    color: ${color || red};
     text-align: center;
     justify-content: flex-end;
     font-size: 12px;

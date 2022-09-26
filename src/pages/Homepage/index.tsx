@@ -27,9 +27,11 @@ const Homepage: NextPage = () => {
   const { toggle, setToggle } = useToggle() as ToggleMode;
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
-  const textColor = useColorModeValue("#2D3748", "#CBD5E0");
-  const textColorFooter = useColorModeValue("#fcfcfc", "#CBD5E0");
-  const bgCardColor = useColorModeValue("#f4f5f9", "#000");
+  const textColor = "white";
+  const bgCardColor = useColorModeValue(
+    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+  );
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
   return (
@@ -139,7 +141,7 @@ const Homepage: NextPage = () => {
             w={"285px"}
             h={"340px"}
             borderRadius={"15px"}
-            boxShadow={`10px 5px 15px ${shadowColor}`}
+            boxShadow={`9px 5px 15px ${shadowColor}`}
           >
             <Flex
               direction={"column"}
@@ -192,7 +194,7 @@ const Homepage: NextPage = () => {
         <DefaultButton valueButton="Realizar teste" />
       </Flex>
 
-      <Footer color={textColorFooter} />
+      <Footer />
     </Flex>
   );
 };

@@ -1,37 +1,69 @@
-import { TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, useColorModeValue } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon, WarningTwoIcon } from "@chakra-ui/icons";
+import {
+  TableContainer,
+  Table,
+  TableCaption,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { dataApi } from "components/obj/obj";
 
 const HistoryList = () => {
-  const titleColor = useColorModeValue("#171d28", "#cbdae9");
-  
+  const color = useColorModeValue("whiteAlpha", "facebook");
+  const colorValided = useColorModeValue("#093c88", "#df0303");
+
+  const isValideColor = (value: string) => {
+      if (value === "Sim") {
+        return "#00FF00";
+      } else if (value === "Não") {
+        return "#df0303";
+      } else {
+        return "#f1ee04";
+      }
+
+  };
+
+  const isValideIcon = (value: string) => {
+    if (value === "Sim") {
+      return <CheckIcon />;
+    } else if (value === "Não") {
+      return <CloseIcon />;
+    } else {
+      return <WarningTwoIcon />;
+    }
+  };
   return (
-    <TableContainer
-     marginTop={6}
-    >
-      <Table variant="striped" size="md">
-        <TableCaption color={titleColor}>Ultimos testes realizados</TableCaption>
+    <TableContainer marginTop={6}>
+      <Table variant="striped" size="md" colorScheme={color}>
+        <TableCaption color={"white"}>Ultimos testes realizados</TableCaption>
         <Thead>
           <Tr>
-            <Th color={titleColor}>Data do teste</Th>
-            <Th color={titleColor}>Nivel de senioriedade</Th>
-            <Th color={titleColor}>Aprovação</Th>
+            <Th color={"white"}>Data do teste</Th>
+            <Th color={"white"}>Nivel de senioriedade</Th>
+            <Th color={"white"}>Aprovação</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>20/03/2018</Td>
-            <Td>Junior</Td>
-            <Td>Aprovado</Td>
-          </Tr>
-          <Tr>
-            <Td>13/10/2018</Td>
-            <Td>Pleno</Td>
-            <Td>Pendente</Td>
-          </Tr>
-          <Tr>
-            <Td>06/05/2020</Td>
-            <Td>Senior</Td>
-            <Td>Reprovado</Td>
-          </Tr>
+          {dataApi.map((item) => {
+            return (
+              <Tr key={item.id}>
+                <Td color={"white"}>{item.createdAt}</Td>
+                <Td color={"white"}>{item.nextRole}</Td>
+                <Td
+                  width="7.5rem"
+                  color={isValideColor(item.isValide)}
+                  fontSize="1.5rem"
+                  textAlign="center"
+                >
+                  {isValideIcon(item.isValide)}
+                </Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>

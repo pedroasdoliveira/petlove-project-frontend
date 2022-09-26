@@ -64,10 +64,11 @@ const registerSchema = yup.object().shape({
 });
 
 const RegisterComponent: NextPage = () => {
-  const buttonBackground = useColorModeValue("#472dba", "#5030dd");
-  const buttonHover = useColorModeValue("#000000", "#dee0e3");
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
+  const buttonBackground = useColorModeValue("#230d88", "#5030dd");
+  const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
+  const errorColor = useColorModeValue("#ffee00", "red");
 
   const {
     register: register,
@@ -99,8 +100,14 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.name?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >{registerErrors.name?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -115,9 +122,15 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
 
-          <ErrorMessage>{registerErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >{registerErrors.email?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl mt={2.45}>
           <Input
@@ -132,8 +145,14 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.team?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >{registerErrors.team?.message || ""}</ErrorMessage>
         </FormControl>
         <CheckboxLeft>
           <FormControl>
@@ -149,14 +168,21 @@ const RegisterComponent: NextPage = () => {
                   registerHandleSubmit(handleRegister)();
                 }
               }}
+              color="white"
+              _placeholder={{
+                color: "#bbbaba",
+              }}
             />
-            <ErrorMessage>{registerErrors.chapter?.message || ""}</ErrorMessage>
+            <ErrorMessage
+              color={errorColor}
+            >{registerErrors.chapter?.message || ""}</ErrorMessage>
           </FormControl>
           <FormControl>
             <Checkbox
               size="sm"
               colorScheme={useColorModeValue("purple", "blue")}
               {...register("isAdmin")}
+              color="white"
             >
               Sou gestor
             </Checkbox>
@@ -175,8 +201,14 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.role?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >{registerErrors.role?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl mt={2.45}>
           <Input
@@ -191,8 +223,14 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >{registerErrors.password?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -207,8 +245,14 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>
+          <ErrorMessage
+            color={errorColor}
+          >
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
         </FormControl>
@@ -217,7 +261,7 @@ const RegisterComponent: NextPage = () => {
             <Checkbox
               size="sm"
               colorScheme="red"
-              color={registerErrors.terms ? "red" : checkboxColor}
+              color={registerErrors.terms ? `${errorColor}` : checkboxColor}
               fontWeight="bold"
               mt={3}
               {...register("terms")}
@@ -229,7 +273,7 @@ const RegisterComponent: NextPage = () => {
         <Button
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
-          color="#b2aec2"
+          color="white"
           variant="ghost"
           w={"100%"}
           onClick={registerHandleSubmit(handleRegister)}

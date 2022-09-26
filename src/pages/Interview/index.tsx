@@ -1,7 +1,6 @@
 import {
   Flex,
   useColorMode,
-  useColorModeValue,
   Button,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
@@ -14,8 +13,6 @@ import StepsForm from "components/Steps/Steps";
 const Interview: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
-
-  const pageBackground = useColorModeValue("#8e6dd1", "#1d1d31");
 
   return (
     <Flex
