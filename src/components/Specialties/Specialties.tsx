@@ -1,4 +1,4 @@
-import { Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Heading, ListItem, Text, UnorderedList, useColorModeValue } from "@chakra-ui/react";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 
 const Specialties = () => {
@@ -16,7 +16,7 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"auto"}
+        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -26,14 +26,37 @@ const Specialties = () => {
           <LastRadarUser />
         </Flex>
 
-        <Flex w={"50%"}>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
           {/* Informações*/}
-          <Text>
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList
+            marginTop={6}
+          >
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
 
