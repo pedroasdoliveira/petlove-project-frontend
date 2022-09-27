@@ -37,11 +37,11 @@ const LineBarAreaComposedChart = () => {
   };
 
   const speciality = [
-    "começo",
+    "Aprendiz",
     "Junior",
     "Pleno",
     "Senior",
-    "Especialista",
+    "Especialista / Tech-Lead",
     "Líder",
   ];
   const data = mountUserData();
@@ -69,8 +69,6 @@ const LineBarAreaComposedChart = () => {
           stroke={"#ffffff"}
           name={"função"}
         />
-        <Bar dataKey={"nextRole"}  barSize={20} fill={"#c4adad"} tooltipType={"none"} />
-        <Line dataKey={"nextRole"} type="monotone" stroke={"#c4adad"} tooltipType={"none"}/>
         <Tooltip contentStyle={{ background: background, borderRadius: "10px" }}/>
       </ComposedChart>
     </ResponsiveContainer>

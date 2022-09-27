@@ -1,6 +1,6 @@
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
-import LineBarAreaComposedChart from "components/Graphics/LineBarAreaComposedChart";
+import AreaComposedChart from "components/Graphics/AreaComposedChart";
 import HistoryList from "components/HistoryList/HistoryList";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
@@ -48,7 +48,7 @@ const History: NextPage = () => {
             <Text>Veja como você está evoluindo em relação a sua função:</Text>
 
             <Flex w={"100%"} h={"80%"} marginTop={8}>
-              <LineBarAreaComposedChart />
+              <AreaComposedChart />
             </Flex>
           </Flex>
         </Flex>
