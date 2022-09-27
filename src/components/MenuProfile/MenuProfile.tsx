@@ -77,7 +77,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           </Flex>
         </Flex>
       </Link>
-      <Link href={"/Specialties"}>
+      <Link href={"/Specialty"}>
         <Flex
           mb={"2"}
           p={"3"}
