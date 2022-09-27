@@ -162,132 +162,141 @@ const Edit: NextPage<ProfileProps> = () => {
             <Text fontSize="xl" mx="auto" mb={3}>
               Informações
             </Text>
-            <Flex wrap={"wrap"} gap="3.2rem" justifyContent="center">
-              <Flex alignItems="center" direction={"column"} w="20%">
-                <Text mr={3}>nome:</Text>
-                <FormControl>
-                  <Input
-                    defaultValue={data.name}
-                    variant={"flushed"}
-                    isInvalid={!!editErrors.name}
-                    mb={3}
-                    {...edit("name")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        editHandleSubmit(handleEdit)();
-                      }
-                    }}
-                    color="white"
-                    _placeholder={{
-                      color: "#bbbaba",
-                    }}
-                  />
-                  <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                    {editErrors.name?.message || ""}
-                  </ErrorMessage>
-                </FormControl>
+
+            {/* Form */}
+          
+            <Flex flexDir="column" justifyContent="center">
+              <Flex flexDir="row" alignItems="center" justifyContent="space-evenly" mb={8}>
+                <Flex alignItems="center" direction={"column"} w="20%">
+                  <Text mr={3}>nome:</Text>
+                  <FormControl>
+                    <Input
+                      defaultValue={data.name}
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.name}
+                      mb={3}
+                      {...edit("name")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.name?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
+
+                <Flex alignItems="center" direction={"column"} w="20%">
+                  <Text>email:</Text>
+                  <FormControl>
+                    <Input
+                      defaultValue={data.email}
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.email}
+                      mb={3}
+                      {...edit("email")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.email?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
               </Flex>
-              <Flex alignItems="center" direction={"column"} w="20%">
-                <Text>email:</Text>
-                <FormControl>
-                  <Input
-                    defaultValue={data.email}
-                    variant={"flushed"}
-                    isInvalid={!!editErrors.email}
-                    mb={3}
-                    {...edit("email")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        editHandleSubmit(handleEdit)();
-                      }
-                    }}
-                    color="white"
-                    _placeholder={{
-                      color: "#bbbaba",
-                    }}
-                  />
-                  <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                    {editErrors.email?.message || ""}
-                  </ErrorMessage>
-                </FormControl>
+              <Flex alignItems="center" justifyContent="space-evenly" mb={8}>
+                <Flex alignItems="center" direction={"column"} w="10%">
+                  <Text>team:</Text>
+                  <FormControl>
+                    <Input
+                      textAlign="center"
+                      defaultValue={data.team}
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.team}
+                      mb={3}
+                      {...edit("team")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.team?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
+                <Flex alignItems="center" direction={"column"} w="10%">
+                  <Text>chapter:</Text>
+                  <FormControl>
+                    <Input
+                      defaultValue={data.chapter}
+                      textAlign="center"
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.chapter}
+                      mb={3}
+                      {...edit("chapter")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.chapter?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
+                <Flex alignItems="center" direction={"column"} w="10%">
+                  <Text>role:</Text>
+                  <FormControl>
+                    <Input
+                      textAlign="center"
+                      defaultValue={data.role}
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.role}
+                      mb={3}
+                      {...edit("role")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.role?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
               </Flex>
-              <Flex alignItems="center" direction={"column"} w="10%">
-                <Text>team:</Text>
-                <FormControl>
-                  <Input
-                    textAlign="center"
-                    defaultValue={data.team}
-                    variant={"flushed"}
-                    isInvalid={!!editErrors.team}
-                    mb={3}
-                    {...edit("team")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        editHandleSubmit(handleEdit)();
-                      }
-                    }}
-                    color="white"
-                    _placeholder={{
-                      color: "#bbbaba",
-                    }}
-                  />
-                  <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                    {editErrors.team?.message || ""}
-                  </ErrorMessage>
-                </FormControl>
-              </Flex>
-              <Flex alignItems="center" direction={"column"} w="10%">
-                <Text>chapter:</Text>
-                <FormControl>
-                  <Input
-                    defaultValue={data.chapter}
-                    textAlign="center"
-                    variant={"flushed"}
-                    isInvalid={!!editErrors.chapter}
-                    mb={3}
-                    {...edit("chapter")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        editHandleSubmit(handleEdit)();
-                      }
-                    }}
-                    color="white"
-                    _placeholder={{
-                      color: "#bbbaba",
-                    }}
-                  />
-                  <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                    {editErrors.chapter?.message || ""}
-                  </ErrorMessage>
-                </FormControl>
-              </Flex>
-              <Flex alignItems="center" direction={"column"} w="10%">
-                <Text>role:</Text>
-                <FormControl>
-                  <Input
-                    textAlign="center"
-                    defaultValue={data.role}
-                    variant={"flushed"}
-                    isInvalid={!!editErrors.role}
-                    mb={3}
-                    {...edit("role")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        editHandleSubmit(handleEdit)();
-                      }
-                    }}
-                    color="white"
-                    _placeholder={{
-                      color: "#bbbaba",
-                    }}
-                  />
-                  <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                    {editErrors.role?.message || ""}
-                  </ErrorMessage>
-                </FormControl>
-              </Flex>
+
               <Flex
-                wrap={"wrap"}
+                flexDir="row"
                 gap="3.2rem"
                 justifyContent={"center"}
                 w="100%"
