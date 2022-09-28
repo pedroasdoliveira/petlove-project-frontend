@@ -71,7 +71,6 @@ const AreaComposedChart = () => {
           stroke={"#ffffff"}
           name={"Função"}
         />
-
         <Tooltip contentStyle={{ background: background, borderRadius: "10px" }}/>
       </ComposedChart>
     </ResponsiveContainer>

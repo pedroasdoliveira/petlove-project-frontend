@@ -27,3 +27,25 @@ export const CheckboxLeft = styled.div`
     text-align: end;
   `}
 `;
+
+// export const OptionSelect = styled.select`
+//   width: 260px;
+//   height: auto;
+//   text-align: center;
+//   font-size: 1.2rem;
+//   outline: none;
+//   color: #f4f5f9;
+//   background-color: transparent;
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+// `;
+
+// export const Options = styled.option`
+//   color: #f4f5f9;
+//   background-color: transparent;
+//   font-weight: 400;
+// `

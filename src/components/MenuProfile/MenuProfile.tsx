@@ -1,12 +1,13 @@
 import { EditIcon, SettingsIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
+import { ImUserTie } from 'react-icons/im'
 import Link from "next/link";
 
 interface SettingsMenuProps {
   path:
     | "Perfil"
     | "Histórico"
-    | "Comparações"
+    | "Especialidades"
     | "Mudar conta"
     | "Administrador";
 }
@@ -23,7 +24,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
 
   return (
     <Flex
-      as="nav"
+      as="aside"
       flexDir="column"
       w="20rem"
       h="43.5rem"
@@ -78,21 +79,27 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           </Flex>
         </Flex>
       </Link>
-      <Flex
-        mb={"2"}
-        p={"3"}
-        display={"flex"}
-        alignItems={"center"}
-        background={path === "Comparações" ? menuPatchBackground : "none"}
-        fontWeight={path === "Comparações" ? "bold" : "normal"}
-        color={path === "Comparações" ? "white" : "gray.400"}
-        borderRadius={"10px"}
-      >
-        <ViewIcon w={"15"} pr={"3"} />
-        <Flex mr={"4"} ml={"2"}>
-          Comparações
+      <Link href={"/Specialty"}>
+        <Flex
+          mb={"2"}
+          p={"3"}
+          display={"flex"}
+          alignItems={"center"}
+          background={path === "Especialidades" ? menuPatchBackground : "none"}
+          color={path === "Especialidades" ? "white" : "gray.400"}
+          borderRadius={"10px"}
+          cursor={"pointer"}
+          _hover={{
+            background: menuPatchBackground,
+            color: "white",
+          }}
+        >
+          <ViewIcon w={"15"} pr={"3"} />
+          <Flex mr={"4"} ml={"2"}>
+            Especialidades
+          </Flex>
         </Flex>
-      </Flex>
+      </Link>
       <Link href={"/Edit"}>
         <Flex
           mb={"2"}
@@ -115,20 +122,28 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           </Flex>
         </Flex>
       </Link>
-      <Flex
-        mb={"2"}
-        p={"3"}
-        display={"flex"}
-        alignItems={"center"}
-        background={path === "Administrador" ? menuPatchBackground : "none"}
-        fontWeight={path === "Administrador" ? "bold" : "normal"}
-        color={path === "Administrador" ? "white" : "gray.400"}
-        borderRadius={"10px"}
-      >
-        <Flex mr={"4"} ml={"2"}>
-          Administrador
+
+      <Link href={"/Administration"}>
+        <Flex
+          mb={"2"}
+          p={"3"}
+          display={"flex"}
+          alignItems={"center"}
+          background={path === "Administrador" ? menuPatchBackground : "none"}
+          color={path === "Administrador" ? "white" : "gray.400"}
+          borderRadius={"10px"}
+          cursor={"pointer"}
+          _hover={{
+            background: menuPatchBackground,
+            color: "white",
+          }}
+        >
+          <Icon as={ImUserTie} w={8} pr={"3"} />
+          <Flex mr={"4"} ml={"2"}>
+            Administrador
+          </Flex>
         </Flex>
-      </Flex>
+      </Link>
     </Flex>
   );
 };
