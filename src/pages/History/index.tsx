@@ -1,7 +1,7 @@
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import AreaComposedChart from "components/Graphics/AreaComposedChart";
-import HistoryList from "components/HistoryList/HistoryList";
+import HistoryList from "components/Lists/HistoryList/HistoryList";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
