@@ -26,6 +26,7 @@
     "react-use": "^17.4.0",
     "recharts": "2.1.12",
     "styled-components": "^5.3.5",
+    "swiper": "^8.4.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

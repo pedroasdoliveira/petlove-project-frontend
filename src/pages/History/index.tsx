@@ -1,10 +1,26 @@
-import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Flex,
+  Heading,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
-import LineBarAreaComposedChart from "components/Graphics/LineBarAreaComposedChart";
+import LineBarAreaComposedChart from "components/Graphics/AreaComposedChart";
 import HistoryList from "components/HistoryList/HistoryList";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
+import AllRadarUser from "components/Graphics/AllRadarUser";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import OneLineUser from "components/Graphics/OneLineUser";
 
 const History: NextPage = () => {
   const background = useColorModeValue(
@@ -54,6 +70,31 @@ const History: NextPage = () => {
         </Flex>
 
         <Flex as="section" px={"3%"} w={"100%"} ml="20rem">
+          <Accordion w={"calc(100% - 20rem)"} defaultIndex={[0]} allowToggle>
+            <AccordionItem w={"100%"} border={"none"}>
+              <Flex
+                direction={"column"}
+                marginBottom={8}
+                p={8}
+                borderRadius={"15px"}
+                bg={background}
+                color={"white"}
+              >
+                <AccordionButton justifyContent={"space-between"}>
+                  <Flex direction={"column"} alignItems="start">
+                    <Heading as="h3">Histórico de evolução</Heading>
+                    <Text>Tabela com as suas evoluções</Text>
+                  </Flex>
+                  <AccordionIcon w={10} h={10} />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                  <HistoryList />
+                </AccordionPanel>
+              </Flex>
+            </AccordionItem>
+          </Accordion>
+        </Flex>
+        <Flex as="section" px={"3%"} w={"100%"} ml="20rem">
           <Flex
             direction={"column"}
             marginBottom={8}
@@ -62,14 +103,38 @@ const History: NextPage = () => {
             w={"calc(100% - 20rem)"}
             bg={background}
             color={"white"}
+            height={"25rem"}
           >
             <Heading as="h3">Histórico de evolução</Heading>
 
-            <HistoryList />
+            <Swiper
+              navigation={true}
+              modules={[Navigation]}
+              style={{ width: "100%", height: "100%" }}
+            >
+              <SwiperSlide>
+                <AllRadarUser />
+              </SwiperSlide>
+              <SwiperSlide>
+                <OneLineUser subject="Influence"/>
+              </SwiperSlide>
+              <SwiperSlide>
+              <OneLineUser subject="Person"/>
+              </SwiperSlide>
+              <SwiperSlide>
+              <OneLineUser subject="Process"/>
+              </SwiperSlide>
+              <SwiperSlide>
+              <OneLineUser subject="System"/>
+              </SwiperSlide>
+              <SwiperSlide >
+              <OneLineUser subject="Technology"/>
+              </SwiperSlide>
+            </Swiper>
           </Flex>
         </Flex>
       </Flex>
-      <AsideMenu direction="column"/>
+      <AsideMenu direction="column" />
     </Flex>
   );
 };

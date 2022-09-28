@@ -41,7 +41,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           display={"flex"}
           alignItems={"center"}
           background={path === "Perfil" ? menuPatchBackground : "none"}
-          fontWeight={"bold"}
+          fontWeight={path === "Perfil" ? "bold" : "normal"}
           color={path === "Perfil" ? "white" : "gray.400"}
           borderRadius={"10px"}
           cursor={"pointer"}
@@ -64,6 +64,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           alignItems={"center"}
           background={path === "Histórico" ? menuPatchBackground : "none"}
           color={path === "Histórico" ? "white" : "gray.400"}
+          fontWeight={path === "Histórico" ? "bold" : "normal"}
           borderRadius={"10px"}
           cursor={"pointer"}
           _hover={{
@@ -83,6 +84,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
         display={"flex"}
         alignItems={"center"}
         background={path === "Comparações" ? menuPatchBackground : "none"}
+        fontWeight={path === "Comparações" ? "bold" : "normal"}
         color={path === "Comparações" ? "white" : "gray.400"}
         borderRadius={"10px"}
       >
@@ -98,6 +100,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           display={"flex"}
           alignItems={"center"}
           background={path === "Mudar conta" ? menuPatchBackground : "none"}
+          fontWeight={path === "Mudar conta" ? "bold" : "normal"}
           color={path === "Mudar conta" ? "white" : "gray.400"}
           borderRadius={"10px"}
           cursor={"pointer"}
@@ -118,6 +121,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
         display={"flex"}
         alignItems={"center"}
         background={path === "Administrador" ? menuPatchBackground : "none"}
+        fontWeight={path === "Administrador" ? "bold" : "normal"}
         color={path === "Administrador" ? "white" : "gray.400"}
         borderRadius={"10px"}
       >

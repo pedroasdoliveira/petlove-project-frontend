@@ -14,17 +14,15 @@ import { dataApi } from "components/obj/obj";
 
 const HistoryList = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
-  const colorValided = useColorModeValue("#093c88", "#df0303");
 
   const isValideColor = (value: string) => {
-      if (value === "Sim") {
-        return "#00FF00";
-      } else if (value === "Não") {
-        return "#df0303";
-      } else {
-        return "#f1ee04";
-      }
-
+    if (value === "Sim") {
+      return "#00FF00";
+    } else if (value === "Não") {
+      return "#df0303";
+    } else {
+      return "#f1ee04";
+    }
   };
 
   const isValideIcon = (value: string) => {
