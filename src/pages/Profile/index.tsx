@@ -1,22 +1,14 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
-  Button,
   Flex,
   Heading,
-  Icon,
   Text,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
-import { dataApi, user } from "components/obj/obj";
+import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
-import Link from "next/link";
-import { AiFillHome, AiFillProfile } from 'react-icons/ai';
 import AsideMenu from "components/AsideMenu/AsideMenu";
 
 interface ProfileProps {
@@ -28,9 +20,6 @@ const Profile: NextPage<ProfileProps> = () => {
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
-
-  const { toggleColorMode } = useColorMode();
-  const { toggle, setToggle } = useToggle() as ToggleMode;
 
   return (
     <Flex
@@ -140,11 +129,6 @@ const Profile: NextPage<ProfileProps> = () => {
                 </Text>
               </Flex>
             </Flex>
-          </Flex>
-          <Flex py="50px" bg={background} borderRadius="15px" color={"white"}>
-            <Text fontSize="xl" mx="auto">
-              Outros
-            </Text>
           </Flex>
         </Flex>
       </Flex>

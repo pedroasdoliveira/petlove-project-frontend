@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const LineBarAreaComposedChart = () => {
+const AreaComposedChart = () => {
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -31,8 +31,6 @@ const LineBarAreaComposedChart = () => {
       }
     });
 
-    
-
     return dataToChart;
   };
 
@@ -41,7 +39,7 @@ const LineBarAreaComposedChart = () => {
     "Junior",
     "Pleno",
     "Senior",
-    "Especialista / Tech-Lead",
+    "Especialista /Tech-Lead",
     "Líder",
   ];
   const data = mountUserData();
@@ -67,7 +65,7 @@ const LineBarAreaComposedChart = () => {
           dataKey="nextRole"
           fill={"white"}
           stroke={"#ffffff"}
-          name={"função"}
+          name={"Função"}
         />
         <Tooltip contentStyle={{ background: background, borderRadius: "10px" }}/>
       </ComposedChart>
@@ -75,4 +73,4 @@ const LineBarAreaComposedChart = () => {
   );
 };
 
-export default LineBarAreaComposedChart;
+export default AreaComposedChart;
