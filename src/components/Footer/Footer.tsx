@@ -4,11 +4,7 @@ import Image from "next/image";
 import AboutImg from "../../../public/img/About_image.svg";
 import HorizontalBar from "../../../public/icon/horizontal_bar.svg";
 
-interface Prop {
-  color: string;
-}
-
-const Footer = ({color}: Prop) => {
+const Footer = () => {
   return (
     <Flex as="footer" direction={"row"} justifyContent={"space-evenly"} marginBottom={24}>
       <Flex
@@ -17,7 +13,7 @@ const Footer = ({color}: Prop) => {
         alignItems={"center"}
         justifyContent={"space-evenly"}
       >
-        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"}>
+        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"} mb="-3.5">
          Sobre
         </Heading>
 
@@ -26,7 +22,7 @@ const Footer = ({color}: Prop) => {
         <Text
           textAlign={"center"}
           lineHeight={"165%"}
-          color={color}
+          color={"white"}
         >
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
           Reprehenderit neque cupiditate ipsam, inventore minus non id corrupti

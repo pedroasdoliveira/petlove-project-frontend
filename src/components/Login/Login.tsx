@@ -34,8 +34,8 @@ const loginSchema = yup.object().shape({
 });
 
 const LoginComponent: NextPage = () => {
-  const buttonBackground = useColorModeValue("#472dba", "#5030dd");
-  const buttonHover = useColorModeValue("#000000", "#dee0e3");
+  const buttonBackground = useColorModeValue("#230d88", "#5030dd");
+  const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
   const {
@@ -67,9 +67,15 @@ const LoginComponent: NextPage = () => {
                 loginHandleSubmit(handleLogin)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
 
-          <ErrorMessage>{loginErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={useColorModeValue("#ffee00", "red")}
+          >{loginErrors.email?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -84,13 +90,19 @@ const LoginComponent: NextPage = () => {
                 loginHandleSubmit(handleLogin)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{loginErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage
+            color={useColorModeValue("#ffee00", "red")}
+          >{loginErrors.password?.message || ""}</ErrorMessage>
         </FormControl>
         <Button
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
-          color="#b2aec2"
+          color="white"
           variant="ghost"
           w={"100%"}
           onClick={loginHandleSubmit(handleLogin)}

@@ -12,7 +12,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useState } from "react";
 import LoginComponent from "components/Login/Login";
 import RegisterComponent from "components/RegisterComponent/RegisterComponent";
 import { useToggle } from "hooks/useToggle";
@@ -22,8 +21,12 @@ const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
 
-  const pageBackground = useColorModeValue("#7d54ce", "#1d1d31");
-  const formBackground = useColorModeValue("#ffffffa2", "#000000");
+  const formBackground = useColorModeValue(
+    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+  );
+  const formColor = useColorModeValue("whiteAlpha", "blue");
+  const formColorText = useColorModeValue("gray.600", "gray.200");
 
   return (
     <Flex
@@ -45,10 +48,10 @@ const Login: NextPage = () => {
         rounded={6}
         position={"relative"}
       >
-        <Tabs isFitted>
+        <Tabs isFitted variant={"soft-rounded"} colorScheme="blue" ringColor={"cyan"}>
           <TabList mb="2em" mt="-2em">
-            <Tab>Login</Tab>
-            <Tab>Registro</Tab>
+            <Tab color={"white"}>Login</Tab>
+            <Tab color={"white"}>Registro</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

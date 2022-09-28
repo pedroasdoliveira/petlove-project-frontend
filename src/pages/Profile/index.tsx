@@ -1,30 +1,29 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
-  Button,
   Flex,
   Heading,
   Text,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
+import { user } from "components/obj/obj";
+import LastRadarUser from "components/Graphics/LastRadarUser";
+import AsideMenu from "components/AsideMenu/AsideMenu";
 
-const Profile: NextPage = () => {
+interface ProfileProps {
+  name: string;
+}
+
+const Profile: NextPage<ProfileProps> = () => {
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const { toggleColorMode } = useColorMode();
-  const { toggle, setToggle } = useToggle() as ToggleMode;
-
   return (
     <Flex
-      as="section"
+      as="main"
       display={"flex"}
       h="100vh"
       w="100vw"
@@ -35,10 +34,13 @@ const Profile: NextPage = () => {
     >
       <Head>
         <title>Profile</title>
-        <meta name="description" content="Profile page" />
+        <meta
+          name="Pagina do perfil do usuário"
+          content="Primeira pagina do perfil"
+        />
       </Head>
 
-      <Flex w="100%">
+      <Flex w="100%" >
         {/* Column 1 - Menu */}
         <MenuProfile path="Perfil" />
 
@@ -54,38 +56,83 @@ const Profile: NextPage = () => {
             <Heading fontWeight="normal" letterSpacing="tight">
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
-                Nicolas Cage
+                {user.name.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
-          <Flex justifyContent="space-between" w="100%" py="50px" color={"white"}>
-            <Flex w="50%" p="30px" bg={background} borderRadius="20px" mr={4} h={"23rem"}>
-              <Text fontSize="xl" mx="auto">
-                Grafico
-              </Text>
+          <Flex
+            justifyContent="space-between"
+            w="100%"
+            py="50px"
+            color={"white"}
+          >
+            <Flex
+              w="50%"
+              p="30px"
+              bg={background}
+              borderRadius="20px"
+              mr={4}
+              h={"23rem"}
+            >
+              <LastRadarUser />
             </Flex>
-            <Flex w="50%" p="30px" bg={background} borderRadius="20px" h={"23rem"}>
-              <Text fontSize="xl" mx="auto">
-                Informação
+            <Flex
+              w="50%"
+              p="30px"
+              bg={background}
+              borderRadius="20px"
+              h={"23rem"}
+              direction="column"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Text fontSize="xl" mx="auto" mb={3}>
+                Informações
               </Text>
+
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Nome completo:
+                </Text>
+                <Text>{user.name}</Text>
+              </Flex>
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Email:
+                </Text>
+                <Text>{user.email}</Text>
+              </Flex>
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Chapter:
+                </Text>
+                <Text>{user.chapter}</Text>
+              </Flex>
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Time:
+                </Text>
+                <Text>{user.team}</Text>
+              </Flex>
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Função:
+                </Text>
+                <Text>{user.role}</Text>
+              </Flex>
+              <Flex alignItems={"center"}>
+                <Text fontSize="xl" mr={3} color={"gray.300"}>
+                  Data de contratação:
+                </Text>
+                <Text>
+                  {`${new Date(`${user.createdAt}`).toLocaleDateString()}`}
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex py="50px" bg={background} borderRadius="15px" color={"white"}>
-            <Text fontSize="xl" mx="auto">
-              Outros
-            </Text>
           </Flex>
         </Flex>
       </Flex>
-
-      <Button
-        onClick={() => {
-          toggleColorMode();
-          setToggle(!toggle);
-        }}
-      >
-        {toggle ? <SunIcon /> : <MoonIcon />}
-      </Button>
+      <AsideMenu direction="column"/>
     </Flex>
   );
 };
