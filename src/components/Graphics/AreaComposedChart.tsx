@@ -24,12 +24,16 @@ const AreaComposedChart = () => {
     });
 
     const dataToChart = data.map((item) => {
+      const role = item.nextRole === "Especialista" ? "Especialista /Tech-Lead" : item.nextRole === "Tech-Lead" ? "Especialista /Tech-Lead" : item.nextRole;
+
       return {
         ...item,
+        nextRole: role,
         questionsTotal: item.system + item.person + item.technology + item.process + item.influence,
         allSpecialities: [...speciality],
       }
     });
+    console.log(dataToChart);
 
     return dataToChart;
   };

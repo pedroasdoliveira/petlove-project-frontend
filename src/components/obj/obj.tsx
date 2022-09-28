@@ -111,7 +111,7 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 6,
     userId: "giovanne",
     nextRole: "Especialista",
     system: 1,
@@ -124,7 +124,7 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 7,
     userId: "giovanne",
     nextRole: "Especialista",
     system: 1,
@@ -137,7 +137,7 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 8,
     userId: "giovanne",
     nextRole: "Especialista",
     system: 1,
@@ -150,7 +150,7 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 9,
     userId: "giovanne",
     nextRole: "Especialista",
     system: 1,
@@ -163,7 +163,7 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 10,
     userId: "giovanne",
     nextRole: "Especialista",
     system: 1,
@@ -176,9 +176,22 @@ export const dataApi = [
     updatedAt: new Date("2022-09-26T00:00:00.000Z"),
   },
   {
-    id: 5,
+    id: 11,
     userId: "giovanne",
     nextRole: "Especialista",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    isValide: "null",
+    createdAt: "2022-09-27",
+    updatedAt: new Date("2022-09-26T00:00:00.000Z"),
+  },
+  {
+    id: 12,
+    userId: "giovanne",
+    nextRole: "Tech-Lead",
     system: 1,
     person: 5,
     technology: 3,
