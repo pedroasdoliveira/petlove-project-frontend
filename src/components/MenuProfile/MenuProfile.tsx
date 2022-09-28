@@ -1,5 +1,6 @@
 import { EditIcon, SettingsIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
+import { ImUserTie } from 'react-icons/im'
 import Link from "next/link";
 
 interface SettingsMenuProps {
@@ -119,19 +120,28 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           </Flex>
         </Flex>
       </Link>
-      <Flex
-        mb={"2"}
-        p={"3"}
-        display={"flex"}
-        alignItems={"center"}
-        background={path === "Administrador" ? menuPatchBackground : "none"}
-        color={path === "Administrador" ? "white" : "gray.400"}
-        borderRadius={"10px"}
-      >
-        <Flex mr={"4"} ml={"2"}>
-          Administrador
+
+      <Link href={"/Administration"}>
+        <Flex
+          mb={"2"}
+          p={"3"}
+          display={"flex"}
+          alignItems={"center"}
+          background={path === "Administrador" ? menuPatchBackground : "none"}
+          color={path === "Administrador" ? "white" : "gray.400"}
+          borderRadius={"10px"}
+          cursor={"pointer"}
+          _hover={{
+            background: menuPatchBackground,
+            color: "white",
+          }}
+        >
+          <Icon as={ImUserTie} w={8} pr={"3"} />
+          <Flex mr={"4"} ml={"2"}>
+            Administrador
+          </Flex>
         </Flex>
-      </Flex>
+      </Link>
     </Flex>
   );
 };
