@@ -3,13 +3,24 @@ import {
   TableContainer,
   Table,
   TableCaption,
+  Text,
   Thead,
   Tr,
   Th,
   Tbody,
   Td,
   useColorModeValue,
+  useDisclosure,
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
+import ModalUse from "components/Modal/Modal";
 import { dataApi } from "components/obj/obj";
 
 const HistoryList = () => {
@@ -42,6 +53,7 @@ const HistoryList = () => {
           <Tr>
             <Th color={"white"}>Data do teste</Th>
             <Th color={"white"}>Nivel de senioriedade</Th>
+            <Th color={"white"}>Mais detalhes</Th>
             <Th color={"white"}>Aprovação</Th>
           </Tr>
         </Thead>
@@ -51,6 +63,9 @@ const HistoryList = () => {
               <Tr key={item.id}>
                 <Td color={"white"}>{item.createdAt}</Td>
                 <Td color={"white"}>{item.nextRole}</Td>
+                <Td color={"white"}>
+                  <ModalUse value={item} />
+                </Td>
                 <Td
                   width="7.5rem"
                   color={isValideColor(item.isValide)}
