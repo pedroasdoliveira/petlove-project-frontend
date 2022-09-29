@@ -1,7 +1,11 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 
-const UserComparisons = () => {
+interface Prop {
+  search: string;
+}
+
+const UserComparisons = ({search}: Prop) => {
   const color = useColorModeValue("whiteAlpha", "facebook");
 
   return (
@@ -19,7 +23,7 @@ const UserComparisons = () => {
         </Thead>
         <Tbody>
           <Tr>
-            <Th>#1</Th>
+            <Td>#1</Td>
             <Td>Nicolas Kim Copolla</Td>
             <Td>Junior</Td>
             <Td>Black</Td>
@@ -28,7 +32,7 @@ const UserComparisons = () => {
             </Td>
           </Tr>
           <Tr>
-            <Th>#2</Th>
+            <Td>#2</Td>
             <Td>Keanu Reeves</Td>
             <Td>Tech Lead</Td>
             <Td>Red</Td>
@@ -37,7 +41,7 @@ const UserComparisons = () => {
             </Td>
           </Tr>
           <Tr>
-            <Th>#3</Th>
+            <Td>#3</Td>
             <Td>Pedro Pascal</Td>
             <Td>Pleno</Td>
             <Td>Blue</Td>
