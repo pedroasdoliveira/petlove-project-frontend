@@ -16,7 +16,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -48,9 +47,7 @@ const Specialties = () => {
             molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
 
-          <UnorderedList
-            marginTop={6}
-          >
+          <UnorderedList>
             <ListItem>Pessoas: 3</ListItem>
             <ListItem>Tecnologia: 3</ListItem>
             <ListItem>Sistema: 3</ListItem>
@@ -67,7 +64,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -78,13 +74,35 @@ const Specialties = () => {
         </Flex>
 
         {/* Informações*/}
-        <Flex w={"50%"}>
-          <Text>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
+          {/* Informações*/}
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList>
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
 
@@ -95,7 +113,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -106,13 +123,35 @@ const Specialties = () => {
         </Flex>
 
         {/* Informações*/}
-        <Flex w={"50%"}>
-          <Text>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
+          {/* Informações*/}
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList>
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
 
@@ -123,7 +162,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -134,13 +172,35 @@ const Specialties = () => {
         </Flex>
 
         {/* Informações*/}
-        <Flex w={"50%"}>
-          <Text>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
+          {/* Informações*/}
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList>
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
 
@@ -151,7 +211,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -162,13 +221,35 @@ const Specialties = () => {
         </Flex>
 
         {/* Informações*/}
-        <Flex w={"50%"}>
-          <Text>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
+          {/* Informações*/}
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList>
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
 
@@ -179,7 +260,6 @@ const Specialties = () => {
         p={8}
         borderRadius={"15px"}
         w={"100%"}
-        height={"25rem"}
         bg={background}
         color={"white"}
         mb={5}
@@ -190,13 +270,35 @@ const Specialties = () => {
         </Flex>
 
         {/* Informações*/}
-        <Flex w={"50%"}>
-          <Text>
+        <Flex 
+          direction={"column"}
+          w={"50%"} 
+        >
+          {/* Informações*/}
+          <Heading
+            as="h2"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={6}
+          >
+            Senior
+          </Heading>
+
+          <Text
+            fontSize={"lg"}
+            fontWeight="normal"
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit
-            beatae a excepturi, atque magni sapiente aliquid totam sunt saepe.
-            Asperiores, expedita. Nisi, beatae!
+            molestias inventore repellendus quo, quaerat illo reprehenderit.
           </Text>
+
+          <UnorderedList>
+            <ListItem>Pessoas: 3</ListItem>
+            <ListItem>Tecnologia: 3</ListItem>
+            <ListItem>Sistema: 3</ListItem>
+            <ListItem>Influência: 3</ListItem>
+            <ListItem>Processos: 2</ListItem>
+          </UnorderedList>
         </Flex>
       </Flex>
     </>

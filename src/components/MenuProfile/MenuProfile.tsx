@@ -26,14 +26,13 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
     <Flex
       as="aside"
       flexDir="column"
-      w="20rem"
+      w="100%"
       h="43.5rem"
       bg={pageBackground}
       borderRadius="10px"
-      p="40px"
+      p={{xl: '40px', lg: '25px'}}
       paddingY={"5"}
       fontSize="20px"
-      position={"fixed"}
     >
       <Link href={"/Profile"}>
         <Flex

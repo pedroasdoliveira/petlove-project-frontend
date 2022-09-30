@@ -36,6 +36,14 @@ const theme = extendTheme({
       },
     }),
   },
+  breakpoints: {
+      sm: '320px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1440px',
+      '2xl': '96em',
+      
+  }
 });
 
 function MyApp({ Component, pageProps }: AppProps) {

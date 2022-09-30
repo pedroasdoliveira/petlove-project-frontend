@@ -27,9 +27,9 @@ const Profile: NextPage<ProfileProps> = () => {
       display={"flex"}
       h="100vh"
       w="100vw"
-      px="50px"
+      px={{xl: "5rem", lg: "1.5rem"}}
       py="30px"
-      justifyContent="space-between"
+      justifyContent={{sm: 'center', md: 'space-between'}}
       position="relative"
     >
       <Head>
@@ -40,19 +40,23 @@ const Profile: NextPage<ProfileProps> = () => {
         />
       </Head>
 
-      <Flex w="100%" >
+      <Flex w="100%">
         {/* Column 1 - Menu */}
-        <MenuProfile path="Perfil" />
+        
+        <Flex w={{xl: '20rem', lg: '15rem'}} display={{lg: 'flex', sm: 'none'}} position="fixed">
+          <MenuProfile path="Perfil" />
+        </Flex>
 
         {/* Column 2 - Content */}
         <Flex
-          w={"calc(100% - 20rem)"}
+          ml={{xl: '350px', lg: "230px"}}
+          mr={{lg: '30px', md: '60px'} }
+          w={{xl: "calc(100% - 20rem)", lg: "80%", sm: '100%'}}
           flexDir="column"
           px="3%"
-          py="2%"
-          ml="20rem"
+          py={{sm: '20%', md: '2%'}}
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"}>
+          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} w="100%">
             <Heading fontWeight="normal" letterSpacing="tight">
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
@@ -61,23 +65,25 @@ const Profile: NextPage<ProfileProps> = () => {
             </Heading>
           </Flex>
           <Flex
+            flexDir={{sm: "column", md: "row"}}
             justifyContent="space-between"
             w="100%"
             py="50px"
             color={"white"}
           >
             <Flex
-              w="50%"
+              w={{sm: '100%', md: "50%"}}
               p="30px"
               bg={background}
               borderRadius="20px"
               mr={4}
               h={"23rem"}
+              mb={{sm: '2rem'}}
             >
               <LastRadarUser />
             </Flex>
             <Flex
-              w="50%"
+              w={{sm: '100%', md: "50%"}}
               p="30px"
               bg={background}
               borderRadius="20px"
@@ -132,7 +138,7 @@ const Profile: NextPage<ProfileProps> = () => {
           </Flex>
         </Flex>
       </Flex>
-      <AsideMenu direction="column"/>
+      <AsideMenu currentPage="Perfil" />
     </Flex>
   );
 };

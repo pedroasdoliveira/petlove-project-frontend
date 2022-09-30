@@ -34,10 +34,8 @@ const MenuFIlter = () => {
                     </MenuItem>
                     </Box>
                 </Fade>
-
             )}
-        
-
+            
             {/* CSSTransition - ActiveMenu - Senioridade */}
             {activeMenu === 'senioridade' && (
                 <Fade in={activeMenu === 'senioridade'} >

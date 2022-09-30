@@ -6,14 +6,13 @@ import HorizontalBar from "../../../public/icon/horizontal_bar.svg";
 
 const Footer = () => {
   return (
-    <Flex as="footer" direction={"row"} justifyContent={"space-evenly"} marginBottom={24}>
+    <Flex as="footer" direction={"row"} justifyContent={"space-evenly"} marginBottom={24} mt={10}>
       <Flex
-        width={"50%"}
+        width={{lg: "50%", sm: '80%'}}
         direction={"column"}
         alignItems={"center"}
-        justifyContent={"space-evenly"}
       >
-        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"} mb="-3.5">
+        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"} mb="3.5">
          Sobre
         </Heading>
 
@@ -31,7 +30,7 @@ const Footer = () => {
         </Text>
       </Flex>
 
-      <Flex alignItems={"center"} width={"300px"}>
+      <Flex display={{lg: 'flex', sm: 'none'}} alignItems={"center"} width={"300px"}>
         <Image src={AboutImg} width="300px" height="300px" />
       </Flex>
     </Flex>
