@@ -12,22 +12,22 @@ const Specialties = () => {
       {/* Row 1 - Specialtie Aprendiz */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           {/* Grafico*/}
           <LastRadarUser />
         </Flex>
 
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -36,7 +36,7 @@ const Specialties = () => {
             fontWeight={"bold"}
             marginBottom={6}
           >
-            Senior
+            Aprendiz
           </Heading>
 
           <Text
@@ -60,23 +60,23 @@ const Specialties = () => {
       {/* Row 2 - Specialtie Junior */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
         {/* Grafico*/}
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           <LastRadarUser />
         </Flex>
 
         {/* Informações*/}
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -85,7 +85,7 @@ const Specialties = () => {
             fontWeight={"bold"}
             marginBottom={6}
           >
-            Senior
+            Junior
           </Heading>
 
           <Text
@@ -109,23 +109,23 @@ const Specialties = () => {
       {/* Row 3 - Specialtie Pleno */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
         {/* Grafico*/}
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           <LastRadarUser />
         </Flex>
 
         {/* Informações*/}
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -134,7 +134,7 @@ const Specialties = () => {
             fontWeight={"bold"}
             marginBottom={6}
           >
-            Senior
+            Pleno
           </Heading>
 
           <Text
@@ -158,23 +158,23 @@ const Specialties = () => {
       {/* Row 4 - Specialtie Senior */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
         {/* Grafico*/}
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           <LastRadarUser />
         </Flex>
 
         {/* Informações*/}
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -207,23 +207,23 @@ const Specialties = () => {
       {/* Row 5 - Specialtie Especialista */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
         {/* Grafico*/}
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           <LastRadarUser />
         </Flex>
 
         {/* Informações*/}
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -232,7 +232,7 @@ const Specialties = () => {
             fontWeight={"bold"}
             marginBottom={6}
           >
-            Senior
+            Especialista
           </Heading>
 
           <Text
@@ -256,23 +256,23 @@ const Specialties = () => {
       {/* Row 6 - Specialtie Tech Lead */}
       <Flex
         justifyContent={"space-evenly"}
-        direction={"row"}
+        direction={{xl: "row", sm: "column"}}
         p={8}
         borderRadius={"15px"}
-        w={"100%"}
+        w={{xl: "100%", lg: "90%", sm: "100%"}}
         bg={background}
         color={"white"}
         mb={5}
       >
         {/* Grafico*/}
-        <Flex w={"50%"} h={"100%"}>
+        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
           <LastRadarUser />
         </Flex>
 
         {/* Informações*/}
         <Flex 
           direction={"column"}
-          w={"50%"} 
+          w={{xl: "50%", sm: "100%"}}
         >
           {/* Informações*/}
           <Heading
@@ -281,7 +281,7 @@ const Specialties = () => {
             fontWeight={"bold"}
             marginBottom={6}
           >
-            Senior
+            Tech Lead
           </Heading>
 
           <Text
