@@ -56,8 +56,8 @@ const Profile: NextPage<ProfileProps> = () => {
           px="3%"
           py={{sm: '20%', md: '2%'}}
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} w="100%">
-            <Heading fontWeight="normal" letterSpacing="tight">
+          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} w="100%" justify={{sm: 'center', md: 'initial'}}>
+            <Heading fontWeight="normal" letterSpacing="tight" fontSize={{sm: 'xl', md: '2xl'}}>
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name.split(" ")[0]}
@@ -84,7 +84,8 @@ const Profile: NextPage<ProfileProps> = () => {
             </Flex>
             <Flex
               w={{sm: '100%', md: "50%"}}
-              p="30px"
+              py="30px"
+              px={{sm: "30px", md: "20px", lg: "30px"}}
               bg={background}
               borderRadius="20px"
               h={"23rem"}
@@ -96,38 +97,38 @@ const Profile: NextPage<ProfileProps> = () => {
                 Informações
               </Text>
 
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify="space-between">
+                <Text  color={"gray.300"}>
                   Nome completo:
                 </Text>
                 <Text>{user.name}</Text>
               </Flex>
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify="space-between">
+                <Text  color={"gray.300"}>
                   Email:
                 </Text>
                 <Text>{user.email}</Text>
               </Flex>
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify="space-between">
+                <Text  color={"gray.300"}>
                   Chapter:
                 </Text>
                 <Text>{user.chapter}</Text>
               </Flex>
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify="space-between">
+                <Text  color={"gray.300"}>
                   Time:
                 </Text>
                 <Text>{user.team}</Text>
               </Flex>
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify="space-between">
+                <Text  color={"gray.300"}>
                   Função:
                 </Text>
                 <Text>{user.role}</Text>
               </Flex>
-              <Flex alignItems={"center"}>
-                <Text fontSize="xl" mr={3} color={"gray.300"}>
+              <Flex fontSize={{sm: 'md', md: 'lg'}}  alignItems={"center"} w="100%" justify="space-between">
+                <Text color={"gray.300"}>
                   Data de contratação:
                 </Text>
                 <Text>

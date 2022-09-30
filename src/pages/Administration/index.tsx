@@ -76,14 +76,15 @@ const Administration: NextPage = () => {
                 <Flex
                   direction={"column"}
                   marginBottom={8}
-                  p={8}
+                  py={8}
+                  px={{sm: 3, md: 8}}
                   borderRadius={"15px"}
                   bg={background}
                   color={"white"}
                 >
-                  <AccordionButton justifyContent={"space-between"}>
-                    <Flex direction={"column"} alignItems="start">
-                      <Heading as="h3">Testes dos usuários</Heading>
+                  <AccordionButton justifyContent={"space-between"} >
+                    <Flex direction={"column"} >
+                      <Heading as="h3" fontSize={{sm: 'lg', md: 'xl'}}>Testes dos usuários</Heading>
                     </Flex>
                     <AccordionIcon w={10} h={10} />
                   </AccordionButton>
@@ -102,14 +103,15 @@ const Administration: NextPage = () => {
                 <Flex
                   direction={"column"}
                   marginBottom={8}
-                  p={8}
+                  py={8}
+                  px={{sm: 3, md: 8}}
                   borderRadius={"15px"}
                   bg={background}
                   color={"white"}
                 >
                   <AccordionButton justifyContent={"space-between"}>
                     <Flex direction={"column"} alignItems="start">
-                      <Heading as="h3">
+                      <Heading as="h3" fontSize={{sm: 'lg', md: 'xl'}}>
                         Historico de avaliações dos usuários
                       </Heading>
                     </Flex>
@@ -130,14 +132,15 @@ const Administration: NextPage = () => {
                 <Flex
                   direction={"column"}
                   marginBottom={8}
-                  p={8}
+                  py={8}
+                  px={{sm: 3, md: 8}}
                   borderRadius={"15px"}
                   bg={background}
                   color={"white"}
                 >
                   <AccordionButton justifyContent={"space-between"}>
                     <Flex direction={"row"} alignItems="start">
-                      <Heading as="h3">Comparações entre usuários</Heading>
+                      <Heading fontSize={{sm: 'lg', md: 'xl'}} as="h3">Comparações entre usuários</Heading>
                     </Flex>
                     <AccordionIcon w={10} h={10} />
                   </AccordionButton>

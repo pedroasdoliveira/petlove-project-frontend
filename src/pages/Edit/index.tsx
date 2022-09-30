@@ -53,8 +53,8 @@ const Edit: NextPage<ProfileProps> = () => {
           px="3%"
           py={{sm: '20%', md: '2%'}}
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"}>
-            <Heading fontWeight="normal" letterSpacing="tight">
+          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} justify={{sm: 'center', md: 'initial'}}>
+            <Heading fontWeight="normal" letterSpacing="tight" fontSize={{sm: '2xl', md: '3xl'}}>
               Editar dados {" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name.split(" ")[0]}?
