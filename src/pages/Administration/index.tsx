@@ -58,7 +58,7 @@ const Administration: NextPage = () => {
           display={{ lg: "flex", sm: "none" }}
           position="fixed"
         >
-          <MenuProfile path="Perfil" />
+          <MenuProfile path="Administrador" />
         </Flex>
 
         <Flex

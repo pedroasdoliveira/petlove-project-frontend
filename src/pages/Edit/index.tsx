@@ -41,7 +41,7 @@ const Edit: NextPage<ProfileProps> = () => {
       <Flex w="100%">
         {/* Column 1 - Menu */}
         <Flex w={{xl: '20rem', lg: '15rem'}} display={{lg: 'flex', sm: 'none'}} position="fixed">
-          <MenuProfile path="Perfil" />
+          <MenuProfile path="Mudar conta" />
         </Flex>
 
         {/* Column 2 - Content */}
