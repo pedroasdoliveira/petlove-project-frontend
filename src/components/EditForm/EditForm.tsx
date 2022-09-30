@@ -94,8 +94,8 @@ const EditForm = () => {
         <>
           <Flex flexDir="column" justifyContent="center">
               {/* Input name + email */}
-              <Flex flexDir="row" alignItems="center" justifyContent="space-evenly" mb={8}>
-                <Flex alignItems="center" direction={"column"} w="20%">
+              <Flex flexDir={{md: "row", sm: "column"}} alignItems="center" justifyContent="space-evenly" mb={8}>
+                <Flex alignItems="center" direction={{sm: "row", md: "column"}} w={{md: "35%", sm: "85%"}}>
                   <Text mr={3}>nome:</Text>
                   <FormControl>
                     <Input
@@ -103,6 +103,7 @@ const EditForm = () => {
                       variant={"flushed"}
                       isInvalid={!!editErrors.name}
                       mb={3}
+                      textAlign="center"
                       {...edit("name")}
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
@@ -112,6 +113,7 @@ const EditForm = () => {
                       color="white"
                       _placeholder={{
                         color: "#bbbaba",
+                        textAlign: "center"
                       }}
                     />
                     <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
@@ -120,7 +122,7 @@ const EditForm = () => {
                   </FormControl>
                 </Flex>
 
-                <Flex alignItems="center" direction={"column"} w="20%">
+                <Flex alignItems="center" direction={{sm: "row", md: "column"}} w={{md: "35%", sm: "85%"}}>
                   <Text>email:</Text>
                   <FormControl>
                     <Input
@@ -128,6 +130,7 @@ const EditForm = () => {
                       variant={"flushed"}
                       isInvalid={!!editErrors.email}
                       mb={3}
+                      textAlign="center"
                       {...edit("email")}
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
@@ -145,9 +148,9 @@ const EditForm = () => {
                   </FormControl>
                 </Flex>
               </Flex>
+              {/* Input team + chapter + role */}
               <Flex alignItems="center" justifyContent="space-evenly" mb={8}>
-                {/* Input team + chapter + role */}
-                <Flex alignItems="center" direction={"column"} w="10%">
+                <Flex alignItems="center" direction={"column"} w={{md: "10%", sm: "20%"}}>
                   <Text>team:</Text>
                   <FormControl>
                     <Input
@@ -172,7 +175,7 @@ const EditForm = () => {
                     </ErrorMessage>
                   </FormControl>
                 </Flex>
-                <Flex alignItems="center" direction={"column"} w="10%">
+                <Flex alignItems="center" direction={"column"} w={{md: "10%", sm: "20%"}}>
                   <Text>chapter:</Text>
                   <FormControl>
                     <Input
@@ -197,7 +200,7 @@ const EditForm = () => {
                     </ErrorMessage>
                   </FormControl>
                 </Flex>
-                <Flex alignItems="center" direction={"column"} w="10%">
+                <Flex alignItems="center" direction={"column"} w={{md: "10%", sm: "20%"}}>
                   <Text>role:</Text>
                   <FormControl>
                     <Input
@@ -224,15 +227,11 @@ const EditForm = () => {
                 </Flex>
               </Flex>
 
+              {/* Input senha atual + nova senha + confirmar senha */}
               <Flex
-                flexDir="row"
-                gap="3.2rem"
-                justifyContent={"center"}
-                w="100%"
-              >
-                {/* Input senha atual + nova senha + confirmar senha */}
-                <Flex alignItems="center" direction={"column"} w="20%">
-                  <Text>senha atual:</Text>
+                flexDir={{md: "row", sm: "column"}} alignItems="center" justifyContent="space-evenly">
+                <Flex alignItems="center" justify={{sm: "space-between"}} direction={{sm: "row", md: "column"}} w={{md: "30%", sm: "85%"}}>
+                  <Text w={{sm: "250px", md: "auto"}}>senha atual:</Text>
                   <FormControl>
                     <Input
                       variant={"flushed"}
@@ -255,8 +254,8 @@ const EditForm = () => {
                     </ErrorMessage>
                   </FormControl>
                 </Flex>
-                <Flex alignItems="center" direction={"column"} w="20%">
-                  <Text>nova senha:</Text>
+                <Flex alignItems="center" direction={{sm: "row", md: "column"}} w={{md: "30%", sm: "85%"}}>
+                  <Text w={{sm: "250px", md: "auto"}}>nova senha:</Text>
                   <FormControl>
                     <Input
                       variant={"flushed"}
@@ -279,8 +278,8 @@ const EditForm = () => {
                     </ErrorMessage>
                   </FormControl>
                 </Flex>
-                <Flex alignItems="center" direction={"column"} w="20%">
-                  <Text>confirmar senha:</Text>
+                <Flex alignItems="center" direction={{sm: "row", md: "column"}} w={{md: "30%", sm: "85%"}}>
+                  <Text w={{sm: "250px", md: "auto"}}>confirmar senha:</Text>
                   <FormControl>
                     <Input
                       variant={"flushed"}
