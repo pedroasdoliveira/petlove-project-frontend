@@ -11,35 +11,58 @@ import {
   Tooltip,
 } from "recharts";
 
-const LastRadarUser = () => {
+const LastRadarUserAdm = ({ testUser, type }: any) => {
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
+  let testUserAdm = testUser;
+
   const mountLastData = () => {
-    const lastData = dataApi[dataApi.length - 1];
+
+    if (type === "review") {
+      testUserAdm = {
+        nextRole: "review",
+        system: testUser.Sistemas,
+        person: testUser.Pessoas,
+        technology: ((testUser.Ferramentarias + testUser.Design + testUser.Teste + testUser.Computacionais) * (5 / 12)).toFixed(2),
+        process: testUser.Processos,
+        influence: ((testUser.Sistemas + testUser.Processos + (2 * testUser.Pessoas)) / 4).toFixed(2),
+      }
+    }
+
+    if (type === "specialities") {
+      testUserAdm = {
+        nextRole: testUser.name,
+        system: testUser.system,
+        person: testUser.person,
+        technology: testUser.technology,
+        process: testUser.process,
+        influence: testUser.influence,
+      }
+    }
 
     const data = [
       {
         subject: "Influence",
-        A: lastData.influence,
+        A: testUserAdm.influence,
       },
       {
         subject: "Person",
-        A: lastData.person,
+        A: testUserAdm.person,
       },
       {
         subject: "Process",
-        A: lastData.process,
+        A: testUserAdm.process,
       },
       {
         subject: "System",
-        A: lastData.system,
+        A: testUserAdm.system,
       },
       {
         subject: "Technology",
-        A: lastData.technology,
+        A: testUserAdm.technology,
       },
     ];
 
@@ -47,7 +70,6 @@ const LastRadarUser = () => {
   };
 
   const data = mountLastData();
-  const lastData = dataApi[dataApi.length - 1];
 
   return (
     <ResponsiveContainer width="100%" height="100%" >
@@ -65,7 +87,7 @@ const LastRadarUser = () => {
           stroke="white"
         />
         <Radar
-          name={lastData.nextRole}
+          name={testUserAdm.nextRole}
           dataKey="A"
           stroke="cyan"
           strokeWidth={3}
@@ -92,4 +114,4 @@ const LastRadarUser = () => {
   );
 };
 
-export default LastRadarUser;
+export default LastRadarUserAdm;
