@@ -30,8 +30,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { CSSTransition } from 'react-transition-group';
+import { useAuth } from "contexts/Auth";
+import { useEffect } from "react";
 
 const Administration: NextPage = () => {
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  });
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -80,7 +87,7 @@ const Administration: NextPage = () => {
               >
                 <AccordionButton justifyContent={"space-between"}>
                   <Flex direction={"column"} alignItems="start">
-                    <Heading as="h3">Testes dos usuários</Heading>
+                    <Heading as="h3">Testes para validar</Heading>
                   </Flex>
                   <AccordionIcon w={10} h={10} />
                 </AccordionButton>

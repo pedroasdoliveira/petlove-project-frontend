@@ -44,9 +44,92 @@ export const obj = {
 
 // quando pegar a data da api, teremos que usar a conversao de data para formato pt-br
 
+export const dataAdm = [
+  {
+    id: 135,
+    name: "Giovanne Berteli Comba",
+    email: "joebcomba@gmail.com",
+    password: "123456",
+    team: "credito",
+    chapter: "backend",
+    role: "junior",
+    isAdmin: false,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+    results: [
+      {
+        id: 1745,
+        userId: "giovanne",
+        nextRole: "Junior",
+        system: 2,
+        person: 3,
+        technology: 1,
+        process: 2,
+        influence: 3,
+        isValide: "Sim",
+        createdAt: "2022-09-23",
+        updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+      },
+      {
+        id: 189,
+        userId: "giovanne",
+        nextRole: "Junior",
+        system: 2,
+        person: 3,
+        technology: 1,
+        process: 2,
+        influence: 3,
+        isValide: "Sim",
+        createdAt: "2022-09-23",
+        updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: "Giovanne Berteli Comba",
+    email: "joebcomba@gmail.com",
+    password: "123456",
+    team: "credito",
+    chapter: "backend",
+    role: null,
+    isAdmin: false,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+    results: [
+      {
+        id: 1000000000000000,
+        userId: "giovanne",
+        nextRole: "Senior",
+        system: 5,
+        person: 4,
+        technology: 5,
+        process: 2,
+        influence: 3,
+        isValide: "Sim",
+        createdAt: "2022-09-23",
+        updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+      },
+      {
+        id: 1,
+        userId: "giovanne",
+        nextRole: "Junior",
+        system: 2,
+        person: 3,
+        technology: 1,
+        process: 4,
+        influence: 3,
+        isValide: "null",
+        createdAt: "2022-09-23",
+        updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+      },
+    ],
+  },
+];
+
 export const dataApi = [
   {
-    id: 1,
+    id: 100000,
     userId: "giovanne",
     nextRole: "Junior",
     system: 2,
@@ -191,7 +274,7 @@ export const dataApi = [
   {
     id: 12,
     userId: "giovanne",
-    nextRole: "Tech-Lead",
+    nextRole: "Especialista",
     system: 1,
     person: 5,
     technology: 3,
@@ -204,7 +287,7 @@ export const dataApi = [
 ];
 
 export const user = {
-  id: 1,
+  id: 100,
   name: "Giovanne Berteli Comba",
   email: "joebcomba@gmail.com",
   password: "123456",
@@ -216,6 +299,73 @@ export const user = {
   updatedAt: new Date("2022-09-23T00:00:00.000Z"),
 };
 
+export const specialities = [
+  {
+    id: 1000,
+    name: "Trainee",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 2,
+    name: "Junior",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 3,
+    name: "Pleno",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 4,
+    name: "Senior",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 5,
+    name: "Especialista",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 5,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  },
+  {
+    id: 6,
+    name: "Tech Lead",
+    system: 1,
+    person: 5,
+    technology: 3,
+    process: 5,
+    influence: 1,
+    createdAt: new Date("2022-09-23T00:00:00.000Z"),
+    updatedAt: new Date("2022-09-23T00:00:00.000Z"),
+  }
+]
+
 // fazer for para transformar em um array que vai ser usado pelo recharts
-
-

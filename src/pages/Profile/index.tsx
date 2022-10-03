@@ -1,21 +1,23 @@
-import {
-  Flex,
-  Heading,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
+import { useAuth } from "contexts/Auth";
+import { useEffect } from "react";
 
 interface ProfileProps {
   name: string;
 }
 
 const Profile: NextPage<ProfileProps> = () => {
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  });
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -40,7 +42,7 @@ const Profile: NextPage<ProfileProps> = () => {
         />
       </Head>
 
-      <Flex w="100%" >
+      <Flex w="100%">
         {/* Column 1 - Menu */}
         <MenuProfile path="Perfil" />
 
@@ -73,7 +75,11 @@ const Profile: NextPage<ProfileProps> = () => {
               borderRadius="20px"
               mr={4}
               h={"23rem"}
+              direction="column"
             >
+              <Text fontSize="xl" mx="auto" mb={1}>
+                Ultimo teste
+              </Text>
               <LastRadarUser />
             </Flex>
             <Flex
@@ -132,7 +138,7 @@ const Profile: NextPage<ProfileProps> = () => {
           </Flex>
         </Flex>
       </Flex>
-      <AsideMenu direction="column"/>
+      <AsideMenu direction="column" />
     </Flex>
   );
 };
