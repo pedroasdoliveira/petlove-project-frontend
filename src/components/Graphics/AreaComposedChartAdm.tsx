@@ -12,18 +12,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const AreaComposedChart = () => {
+const AreaComposedChartAdm = ({ user }: any) => {
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   const mountUserData = () => {
-    const data = dataApi.sort((a, b) => {
+    const data = user.results.sort((a: any, b: any) => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((item) => {
+    const dataToChart = data.map((item: any) => {
       const role = item.nextRole === "Especialista" ? "Especialista /Tech-Lead" : item.nextRole === "Tech-Lead" ? "Especialista /Tech-Lead" : item.nextRole;
 
       return {
@@ -47,7 +47,7 @@ const AreaComposedChart = () => {
   ];
   const data = mountUserData();
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="85%" height="70%">
       <ComposedChart
         width={900}
         height={400}
@@ -76,4 +76,4 @@ const AreaComposedChart = () => {
   );
 };
 
-export default AreaComposedChart;
+export default AreaComposedChartAdm;
