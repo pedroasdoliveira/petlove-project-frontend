@@ -22,7 +22,8 @@ interface SettingsMenuProps {
     | "Histórico"
     | "Especialidades"
     | "Mudar conta"
-    | "Administrador";
+    | "Administrador"
+    | undefined
 }
 
 const DrawerMenu = ({ path }: SettingsMenuProps) => {

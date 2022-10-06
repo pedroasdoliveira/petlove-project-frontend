@@ -15,12 +15,13 @@ import DrawerMenu from "components/DrawerMenu/DrawerMenu";
 interface Prop {
   direction?: any;
   path?: "Interview";
-  currentPage: 
+  currentPage?:
   |"Perfil"
   | "Histórico"
   | "Especialidades"
   | "Mudar conta"
-  | "Administrador";
+  | "Administrador"
+  | undefined
 }
 
 const AsideMenu = ({ path, direction, currentPage }: Prop) => {
