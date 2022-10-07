@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Flex,
+  Text,
   Heading,
   Input,
   Menu,
@@ -21,9 +22,9 @@ import UserReviews from "components/Lists/UserReviews/UserReviews";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
+import AllUserList from "components/AllUserList/AllUserList";
 
 const Administration: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
@@ -84,7 +85,6 @@ const Administration: NextPage = () => {
           </Accordion>
         </Flex>
 
-        {/* #2 Accordion: Historico de avaliações dos usuários */}
         <Flex as="section" px={"3%"} w={"100%"} ml="20rem">
           <Accordion w={"calc(100% - 20rem)"} defaultIndex={[0]} allowToggle>
             <AccordionItem w={"100%"} border={"none"}>
@@ -98,14 +98,12 @@ const Administration: NextPage = () => {
               >
                 <AccordionButton justifyContent={"space-between"}>
                   <Flex direction={"column"} alignItems="start">
-                    <Heading as="h3">
-                      Historico de avaliações dos usuários
-                    </Heading>
+                    <Heading as="h3">Usuários</Heading>
                   </Flex>
                   <AccordionIcon w={10} h={10} />
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                  <UserReviews />
+                  <AllUserList />
                 </AccordionPanel>
               </Flex>
             </AccordionItem>
@@ -126,41 +124,12 @@ const Administration: NextPage = () => {
               >
                 <AccordionButton justifyContent={"space-between"}>
                   <Flex direction={"row"} alignItems="start">
-                    <Heading as="h3">Comparações entre usuários</Heading>
+                    <Heading as="h3">Comparações</Heading>
                   </Flex>
                   <AccordionIcon w={10} h={10} />
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                  <Flex direction={"column"}>
-                    <Flex
-                      marginTop={4}
-                      direction={"row"}
-                      alignItems={"center"}
-                      justifyContent={"space-evenly"}
-                    >
-                      <Input
-                        placeholder="Pesquisar..."
-                        w={"250px"}
-                        color="white"
-                        _placeholder={{
-                          color: "#bbbaba",
-                        }}
-                      />
-
-                      <Menu>
-                        <MenuButton>Filtrar</MenuButton>
-                        <MenuList>
-                          <MenuItem>Senioriedade</MenuItem>
-                          <MenuItem>Equipe</MenuItem>
-                        </MenuList>
-                      </Menu>
-
-                      {/* <OptionSelect>
-                        <Options value="default">Filtrar</Options>
-                        <Options>Senioriedade</Options>
-                        <Options>Equipe</Options>
-                      </OptionSelect> */}
-                    </Flex>
+                  <Flex direction={"column"} >
                     <UserComparisons />
                   </Flex>
                 </AccordionPanel>

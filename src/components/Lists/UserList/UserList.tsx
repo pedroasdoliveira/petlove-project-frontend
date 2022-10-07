@@ -26,7 +26,7 @@ const UserList = () => {
             <Th>Nome</Th>
             <Th>Data do teste</Th>
             <Th>Função atual</Th>
-            <Th>Função </Th>
+            <Th>Teste</Th>
             <Th w={"1rem"}>Validar</Th>
           </Tr>
         </Thead>

@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { CheckboxLeft, ErrorMessage } from "../../pages/style";
 import { api } from "services";
+import toast from "react-hot-toast";
 
 interface RegisterData {
   email: string;
@@ -69,6 +70,11 @@ const RegisterComponent: NextPage = () => {
     console.log("register", data);
     api.post("/User/create", data).then((response) => {
       console.log(response);
+      toast.success("Usuário criado com sucesso! Faça login para continuar");
+    }).catch((error) => {
+      console.log(error);
+      toast.error("Erro ao criar usuário");
+        
     });
   };
 
