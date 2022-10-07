@@ -13,6 +13,7 @@
     "page": "yarn plop --plopfile ./generators/plopfile_page.mjs"
   },
   "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
     "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
