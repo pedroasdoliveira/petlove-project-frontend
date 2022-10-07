@@ -12,16 +12,14 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { CheckboxLeft, ErrorMessage } from "../../pages/style";
+import { api } from "services";
+import toast from "react-hot-toast";
 
 interface RegisterData {
   email: string;
   name: string;
   password: string;
   confirmPassword: string;
-  team: string;
-  chapter: string;
-  role: string;
-  isAdmin: boolean;
   terms: boolean;
 }
 
@@ -52,14 +50,6 @@ const registerSchema = yup.object().shape({
     .max(40, "Nome deve ter no máximo 40 caracteres")
     .required("Nome é obrigatório"),
 
-  team: yup.string().required("Time é obrigatório"),
-
-  chapter: yup.string().required("Chapter é obrigatório"),
-
-  role: yup.string().required("Cargo é obrigatório"),
-
-  isAdmin: yup.boolean(),
-
   terms: yup.boolean().oneOf([true]),
 });
 
@@ -78,6 +68,14 @@ const RegisterComponent: NextPage = () => {
 
   const handleRegister = (data: RegisterData) => {
     console.log("register", data);
+    api.post("/User/create", data).then((response) => {
+      console.log(response);
+      toast.success("Usuário criado com sucesso! Faça login para continuar");
+    }).catch((error) => {
+      console.log(error);
+      toast.error("Erro ao criar usuário");
+        
+    });
   };
 
   return (
@@ -131,84 +129,6 @@ const RegisterComponent: NextPage = () => {
           <ErrorMessage
             color={errorColor}
           >{registerErrors.email?.message || ""}</ErrorMessage>
-        </FormControl>
-        <FormControl mt={2.45}>
-          <Input
-            placeholder="Nome do time que participa..."
-            variant={"flushed"}
-            isInvalid={!!registerErrors.team}
-            mb={3}
-            type="text"
-            {...register("team")}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                registerHandleSubmit(handleRegister)();
-              }
-            }}
-            color="white"
-            _placeholder={{
-              color: "#bbbaba",
-            }}
-          />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.team?.message || ""}</ErrorMessage>
-        </FormControl>
-        <CheckboxLeft>
-          <FormControl>
-            <Input
-              placeholder="Qual o seu chapter?"
-              variant={"flushed"}
-              isInvalid={!!registerErrors.chapter}
-              mb={3}
-              type="text"
-              {...register("chapter")}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  registerHandleSubmit(handleRegister)();
-                }
-              }}
-              color="white"
-              _placeholder={{
-                color: "#bbbaba",
-              }}
-            />
-            <ErrorMessage
-              color={errorColor}
-            >{registerErrors.chapter?.message || ""}</ErrorMessage>
-          </FormControl>
-          <FormControl>
-            <Checkbox
-              size="sm"
-              colorScheme={useColorModeValue("purple", "blue")}
-              {...register("isAdmin")}
-              color="white"
-            >
-              Sou gestor
-            </Checkbox>
-          </FormControl>
-        </CheckboxLeft>
-        <FormControl>
-          <Input
-            placeholder="Nível atual? (junior, pleno, sênior, etc)"
-            variant={"flushed"}
-            isInvalid={!!registerErrors.role}
-            mb={3}
-            type="text"
-            {...register("role")}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                registerHandleSubmit(handleRegister)();
-              }
-            }}
-            color="white"
-            _placeholder={{
-              color: "#bbbaba",
-            }}
-          />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.role?.message || ""}</ErrorMessage>
         </FormControl>
         <FormControl mt={2.45}>
           <Input

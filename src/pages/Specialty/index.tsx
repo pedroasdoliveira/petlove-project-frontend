@@ -2,10 +2,16 @@ import { Flex } from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import Specialties from "components/Specialties/Specialties";
+import { useAuth } from "contexts/Auth";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 
 const Specialty: NextPage = () => {
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  });
   return (
     <Flex
       as="main"

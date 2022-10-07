@@ -6,14 +6,21 @@ import AsideMenu from "components/AsideMenu/AsideMenu";
 import EditForm from "components/EditForm/EditForm";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import { user } from "components/obj/obj";
+import { useAuth } from "contexts/Auth";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
 
 interface ProfileProps {
   name: string;
 }
 
 const Edit: NextPage<ProfileProps> = () => {
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  });
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"

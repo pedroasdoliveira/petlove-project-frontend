@@ -87,6 +87,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           alignItems={"center"}
           background={path === "Especialidades" ? menuPatchBackground : "none"}
           color={path === "Especialidades" ? "white" : "gray.400"}
+          fontWeight={path === "Especialidades" ? "bold" : "normal"}
           borderRadius={"10px"}
           cursor={"pointer"}
           _hover={{
@@ -131,6 +132,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           alignItems={"center"}
           background={path === "Administrador" ? menuPatchBackground : "none"}
           color={path === "Administrador" ? "white" : "gray.400"}
+          fontWeight={path === "Administrador" ? "bold" : "normal"}
           borderRadius={"10px"}
           cursor={"pointer"}
           _hover={{

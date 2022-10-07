@@ -10,6 +10,10 @@ import { ErrorMessage } from "pages/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { api } from "services";
+import Router from 'next/router'
+import toast from 'react-hot-toast';
+import { useAuth } from "contexts/Auth";
 
 interface LoginData {
   email: string;
@@ -38,6 +42,8 @@ const LoginComponent: NextPage = () => {
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
+  const { login: loginAuth } = useAuth();
+
   const {
     register: login,
     handleSubmit: loginHandleSubmit,
@@ -45,7 +51,21 @@ const LoginComponent: NextPage = () => {
   } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
 
   const handleLogin = (data: LoginData) => {
-    console.log(data);
+    api.post("/auth", data).then((response) => {
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${response.data.token}`,
+        },
+      };
+
+      api.get(`User/${data.email}`, headers).then((res) => {
+        const user = res.data;
+        loginAuth!({token: response.data.token, user: user});
+        Router.push('/Homepage')
+      });
+    }).catch((error) => {
+      toast.error("Email ou senha incorretos")
+    });
   };
 
   return (
