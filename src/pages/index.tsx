@@ -16,6 +16,7 @@ import LoginComponent from "components/Login/Login";
 import RegisterComponent from "components/RegisterComponent/RegisterComponent";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
+import { useState } from "react";
 
 const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
@@ -27,6 +28,8 @@ const Login: NextPage = () => {
   );
   const formColor = useColorModeValue("whiteAlpha", "blue");
   const formColorText = useColorModeValue("gray.600", "gray.200");
+
+  const [tabIndex, setTabIndex] = useState<number>(0);
 
   return (
     <Flex
@@ -48,9 +51,17 @@ const Login: NextPage = () => {
         rounded={6}
         position={"relative"}
       >
-        <Tabs isFitted variant={"soft-rounded"} colorScheme="blue" ringColor={"cyan"}>
+        <Tabs
+          id='tab-index'
+          index={tabIndex}
+          onChange={(index: number) => setTabIndex(index)}
+          isFitted
+          variant={"soft-rounded"}
+          colorScheme="blue"
+          ringColor={"cyan"}
+        >
           <TabList mb="2em" mt="-2em">
-            <Tab id="login" color={"white"}>Login</Tab>
+            <Tab color={"white"}>Login</Tab>
             <Tab color={"white"}>Registro</Tab>
           </TabList>
           <TabPanels>
@@ -58,11 +69,13 @@ const Login: NextPage = () => {
               <LoginComponent />
             </TabPanel>
             <TabPanel p={0}>
-              <RegisterComponent />
+              <RegisterComponent setTabIndex={setTabIndex} />
             </TabPanel>
           </TabPanels>
         </Tabs>
+
         <Box
+          data-testid="icon"
           position={"absolute"}
           top={2}
           right={2}
