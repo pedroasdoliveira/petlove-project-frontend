@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Checkbox,
   Flex,
@@ -13,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { CheckboxLeft, ErrorMessage } from "../../pages/style";
 import { api } from "services";
+import { toast, Toaster } from "react-hot-toast";
 
 interface RegisterData {
   email: string;
@@ -52,7 +54,11 @@ const registerSchema = yup.object().shape({
   terms: yup.boolean().oneOf([true]),
 });
 
-const RegisterComponent: NextPage = () => {
+interface Prop {
+  setTabIndex: (value: number) => void
+}
+
+const RegisterComponent = ({setTabIndex}: Prop) => {
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
@@ -69,6 +75,8 @@ const RegisterComponent: NextPage = () => {
     console.log("register", data);
     api.post("/User/create", data).then((response) => {
       console.log(response);
+      toast.success("Perfil registrado com sucesso!");
+      setTabIndex(0);
     });
   };
 
@@ -81,6 +89,7 @@ const RegisterComponent: NextPage = () => {
       <form>
         <FormControl>
           <Input
+            data-testid="name-input"
             placeholder="Seu nome completo..."
             variant={"flushed"}
             isInvalid={!!registerErrors.name}
@@ -97,12 +106,13 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.name?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.name?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="email-input"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!registerErrors.email}
@@ -120,12 +130,13 @@ const RegisterComponent: NextPage = () => {
             }}
           />
 
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl mt={2.45}>
           <Input
+            data-testid="password-input"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.password}
@@ -142,12 +153,13 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.password?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="confirmedPassword-input"
             placeholder="Confirme sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.confirmPassword}
@@ -164,15 +176,14 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >
+          <ErrorMessage color={errorColor}>
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
         </FormControl>
         <FormControl>
           <Flex justifyContent="center" alignItems="center">
             <Checkbox
+              data-testid="checkbox-input"
               size="sm"
               colorScheme="red"
               color={registerErrors.terms ? `${errorColor}` : checkboxColor}
@@ -185,6 +196,7 @@ const RegisterComponent: NextPage = () => {
           </Flex>
         </FormControl>
         <Button
+          data-testid="button-submit"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"
