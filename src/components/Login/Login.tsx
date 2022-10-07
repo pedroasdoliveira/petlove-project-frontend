@@ -76,6 +76,7 @@ const LoginComponent: NextPage = () => {
       <form>
         <FormControl>
           <Input
+            data-testid="email-login"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!loginErrors.email}
@@ -99,6 +100,7 @@ const LoginComponent: NextPage = () => {
         </FormControl>
         <FormControl>
           <Input
+            data-testid="password-login"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!loginErrors.password}
@@ -120,6 +122,7 @@ const LoginComponent: NextPage = () => {
           >{loginErrors.password?.message || ""}</ErrorMessage>
         </FormControl>
         <Button
+          data-testid='submit-login'
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"
