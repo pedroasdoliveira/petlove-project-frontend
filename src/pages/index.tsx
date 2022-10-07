@@ -50,7 +50,7 @@ const Login: NextPage = () => {
       >
         <Tabs isFitted variant={"soft-rounded"} colorScheme="blue" ringColor={"cyan"}>
           <TabList mb="2em" mt="-2em">
-            <Tab id="login" color={"white"}>Login</Tab>
+            <Tab color={"white"}>Login</Tab>
             <Tab color={"white"}>Registro</Tab>
           </TabList>
           <TabPanels>

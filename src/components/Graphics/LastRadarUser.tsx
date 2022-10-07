@@ -42,6 +42,7 @@ const LastRadarUser = () => {
         A: lastData.technology,
       },
     ];
+    console.log(data);
 
     return data;
   };

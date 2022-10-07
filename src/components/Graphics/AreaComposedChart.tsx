@@ -33,6 +33,7 @@ const AreaComposedChart = () => {
         allSpecialities: [...speciality],
       }
     });
+    console.log(dataToChart);
 
     return dataToChart;
   };

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -17,14 +17,8 @@ import {
 import DefaultButton from "components/Button/Button";
 import Footer from "components/Footer/Footer";
 import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
-  useEffect(() => {
-    checkTokenExpiration!();
-  });
-
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
   const bgCardColor = useColorModeValue(

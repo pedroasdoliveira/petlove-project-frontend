@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { ToggleContextProvider } from "./ToggleModeStyles";
-import { AuthContextProvider } from "./Auth";
-import { UsersContextProvider } from "./Users";
+import { UserContextProvider } from "./User";
 
 interface ProviderProps {
   children: ReactNode;
@@ -10,11 +9,9 @@ interface ProviderProps {
 const Providers = ({ children }: ProviderProps) => {
   return (
     <ToggleContextProvider>
-      <AuthContextProvider>
-        <UsersContextProvider>
-          {children}
-        </UsersContextProvider>
-      </AuthContextProvider>
+      <UserContextProvider>
+        {children}
+      </UserContextProvider>
     </ToggleContextProvider>
   );
 };

@@ -4,7 +4,6 @@ import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import GlobalStyles from "styles/globals";
 import { mode } from "@chakra-ui/theme-tools";
 import Providers from "contexts";
-import { Toaster } from 'react-hot-toast';
 
 const theme = extendTheme({
   components: {
@@ -50,13 +49,6 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-        containerStyle={{
-          marginBottom: "1rem",
-        }}
-      />
       <Providers>
         <GlobalStyles />
         <Component {...pageProps} />
