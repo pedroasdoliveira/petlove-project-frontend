@@ -81,7 +81,7 @@ const AllRadarUserAdm = ({ user }: any) => {
           return (
             <Radar
               key={index}
-              name={item.nextRole}
+              name={index === user.results.length - 1 ? `Último teste - ${item.nextRole}` : item.nextRole}
               dataKey={index}
               stroke={handleColor(item.nextRole)}
               strokeWidth={3}

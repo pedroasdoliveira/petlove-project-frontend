@@ -2,6 +2,7 @@ import { EditIcon, SettingsIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
 import { ImUserTie } from 'react-icons/im'
 import Link from "next/link";
+import { useUsers } from "contexts/Users";
 
 interface SettingsMenuProps {
   path:
@@ -13,6 +14,8 @@ interface SettingsMenuProps {
 }
 
 const MenuProfile = ({ path }: SettingsMenuProps) => {
+  const { user } = useUsers();
+
   const menuPatchBackground = useColorModeValue(
     "rgba(255, 255, 255, 0.19)",
     "rgba(27, 28, 51, 0.71)"
@@ -124,7 +127,8 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
         </Flex>
       </Link>
 
-      <Link href={"/Administration"}>
+      {user?.isAdmin && (
+        <Link href={"/Administration"}>
         <Flex
           mb={"2"}
           p={"3"}
@@ -146,6 +150,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
           </Flex>
         </Flex>
       </Link>
+      )}
     </Flex>
   );
 };

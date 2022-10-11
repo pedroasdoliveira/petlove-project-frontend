@@ -1,8 +1,11 @@
 import { Flex, FormControl, Input, useColorModeValue, Button, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { user } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { api } from "services";
 import * as yup from "yup";
 
 interface EditData {
@@ -24,7 +27,7 @@ const editSchema = yup.object().shape(
       )
       .required("Senha é obrigatória"),
 
-    newPassword: yup.string().when("newPassword", {
+    newPassword: yup.string().required("Nova senha é obrigatória").when("newPassword", {
       is: (val: string) => (val ? true : false),
       then: yup
         .string()
@@ -36,7 +39,7 @@ const editSchema = yup.object().shape(
         ),
     }),
 
-    confirmPassword: yup.string().when("confirmPassword", {
+    confirmPassword: yup.string().required("Confirmar a nova senha é obrigatório").when("confirmPassword", {
       is: (val: string) => (val ? true : false),
       then: yup
         .string()
@@ -52,6 +55,7 @@ const editSchema = yup.object().shape(
 
 
 const EditForm = () => {
+  const { user, handleGetUsers } = useUsers();
 
   const {
     register: edit,
@@ -60,7 +64,20 @@ const EditForm = () => {
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
   const handleEdit = (data: EditData) => {
-    console.log(data);
+    const token = localStorage.getItem("token");
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    api.patch(`/User/${user.email}`, data, headers).then((response) => {
+      toast.success("Dados alterados com sucesso!");
+      handleGetUsers();
+    }).catch((error) => {
+      toast.error("Erro ao alterar dados!");
+    });
   };
 
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");

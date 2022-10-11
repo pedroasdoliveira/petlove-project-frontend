@@ -31,16 +31,12 @@ const PieAdm = ({ quantity, names }: PieAdmProps) => {
 
   // montar grafico de pizza separando por cargo e quantidade
 
-  const dataToChart = quantity.map((item, index) => {
+  const dataToChart = quantity?.map((item, index) => {
     return {
-      name: names[index],
+      name: names[index] ? names[index] : "Sem equipe",
       value: item.length,
     };
   });
-
-  console.log(names, "q");
-
-  console.log(dataToChart);
 
   return (
     <Flex w="100%" h="25rem">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -5,20 +6,12 @@ import {
   AccordionItem,
   AccordionPanel,
   Flex,
-  Text,
   Heading,
-  Input,
-  Menu,
-  MenuButton,
-  MenuIcon,
-  MenuItem,
-  MenuList,
   useColorModeValue,
 } from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import UserComparisons from "components/Lists/UserComparisons/UserComparisons";
 import UserList from "components/Lists/UserList/UserList";
-import UserReviews from "components/Lists/UserReviews/UserReviews";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -28,9 +21,10 @@ import AllUserList from "components/AllUserList/AllUserList";
 
 const Administration: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",

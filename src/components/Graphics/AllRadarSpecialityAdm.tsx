@@ -32,7 +32,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
     }
   };
 
-  const lastResult = user.results[user.results.length - 1];
+  const lastResult = user.results[user.results.length - 1] || {};
   const mountSpecialityData = () => {
 
     let data: any = [
@@ -60,7 +60,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
     });
 
     data = data.map((item: any) => {
-      item["A"] = lastResult[item.subject.toLowerCase()];
+      item["A"] = lastResult![item.subject.toLowerCase()];
       return item;
     });
 
@@ -100,7 +100,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         })}
 
         <Radar
-          name={lastResult.nextRole + " - " + "Teste recente"}
+          name={lastResult.nextRole ? lastResult.nextRole + " - " + "Teste recente": "Nenhum teste"}
           dataKey="A"
           stroke={"red"}
           strokeWidth={3}

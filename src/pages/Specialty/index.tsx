@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex } from "@chakra-ui/react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import MenuProfile from "components/MenuProfile/MenuProfile";
@@ -11,7 +12,8 @@ const Specialty: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
+
   return (
     <Flex
       as="main"

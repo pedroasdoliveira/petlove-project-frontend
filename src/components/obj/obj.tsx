@@ -534,7 +534,7 @@ export const specialities = [
   },
   {
     id: 6,
-    name: "Tech Lead",
+    name: "Tech-Lead",
     system: 1,
     person: 5,
     technology: 3,

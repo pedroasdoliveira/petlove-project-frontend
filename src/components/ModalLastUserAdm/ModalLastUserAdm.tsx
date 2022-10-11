@@ -38,26 +38,26 @@ import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
 import AreaComposedChartAdm from "components/Graphics/AreaComposedChartAdm";
 import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
 import toast from "react-hot-toast";
+import { api } from "services";
+import { useUsers } from "contexts/Users";
 
 const ModalLastUserAdm = ({ value, user }: any) => {
+  const { handleGetUsers } = useUsers();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const questions = [
-    { label: "Sistemas", Content: obj.sistemas },
-    { label: "Processos", Content: obj.processos },
-    { label: "Pessoas", Content: obj.pessoas },
-    { label: "Ferramentarias", Content: obj.ferramentarias },
-    { label: "Design", Content: obj.designs },
-    { label: "Teste", Content: obj.testes },
-    { label: "Computacionais", Content: obj.computacionais },
-  ];
-
-  const [userEspeciality, setUserEspeciality] = useState("");
+  const [userEspeciality, setUserEspeciality] = useState(value.nextRole);
   const [userValidate, setUserValidate] = useState("");
-  const [userTest, setUserTest] = useState("" as any);
+  const [userTest, setUserTest] = useState({} as any);
 
   useEffect(() => {
-    setUserTest(value);
+    setUserTest({
+      system: value.system,
+      technology: value.technology,
+      person: value.person,
+      influence: value.influence,
+      process: value.process,
+    });
+    setUserValidate("");
   }, [isOpen, value]);
 
   const handleUserEspeciality = (event: any) => {
@@ -69,12 +69,19 @@ const ModalLastUserAdm = ({ value, user }: any) => {
   };
 
   const handleUserTest = (event: any) => {
-
+    if (isNaN(event.target.value)) {
+      toast.error("Digite um número");
+      return
+    }
     if (event.target.value > 5 || event.target.value < 0) {
       toast.error("A nota deve ser entre 0 e 5");
       return;
     }
-    setUserTest(event.target.value);
+    const number = +event.target.value;
+    setUserTest({
+      ...userTest,
+      [event.target.name]: number,
+    });
   };
 
   const respostas = {
@@ -186,7 +193,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Todos os testes - Função - Linha
                           </Text>
-                          <Flex w={"100%"} h="100%" justifyContent={"center"}>
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
                             <AreaComposedChartAdm user={user} />
                           </Flex>
                         </SwiperSlide>
@@ -199,7 +211,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Evolução - Sistema
                           </Text>
-                          <Flex w={"100%"} h="100%" justifyContent={"center"}>
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
                             <OneLineUserAdm subject="System" user={user} />
                           </Flex>
                         </SwiperSlide>
@@ -212,7 +229,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Evolução - Processos
                           </Text>
-                          <OneLineUserAdm subject="Process" user={user} />
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
+                            <OneLineUserAdm subject="Process" user={user} />
+                          </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
                           <Text
@@ -223,7 +247,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Evolução - Pessoas
                           </Text>
-                          <OneLineUserAdm subject="Person" user={user} />
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
+                            <OneLineUserAdm subject="Person" user={user} />
+                          </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
                           <Text
@@ -234,7 +265,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Evolução - Tecnologia
                           </Text>
-                          <OneLineUserAdm subject="Technology" user={user} />
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
+                            <OneLineUserAdm subject="Technology" user={user} />
+                          </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
                           <Text
@@ -245,11 +283,18 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           >
                             Evolução - Influencia
                           </Text>
-                          <OneLineUserAdm subject="Influence" user={user} />
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            justifyContent={"center"}
+                            mt="1rem"
+                          >
+                            <OneLineUserAdm subject="Influence" user={user} />
+                          </Flex>
                         </SwiperSlide>
                       </Swiper>
                     </Flex>
-                    <Divider orientation="vertical" mx={"-2.4rem"} />
+                    <Divider orientation="vertical" mx={"-4rem"} />
                     <Flex
                       direction={"column"}
                       w={"40%"}
@@ -261,7 +306,8 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                       <Flex direction={"column"}>
                         <Text mb={"1rem"}>Testes realizados:</Text>
                         <TableContainer
-                          border="1px solid gray"
+                          borderTop="1px solid gray"
+                          borderBottom="1px solid gray"
                           borderRadius={"10px"}
                         >
                           <Table variant={"striped"}>
@@ -275,12 +321,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{result.createdAt}</Th>
+                                  <Th color={"white"}>{`${new Date(
+                                    result.createdAt
+                                  ).toLocaleDateString()}`}</Th>
                                   <Th color={"white"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
-                                    {result.isValide === "null"
+                                    {result.isValided === null
                                       ? "Aguardando"
-                                      : result.isValide}
+                                      : result.isValided}
                                   </Th>
                                 </Tr>
                               ))}
@@ -309,10 +357,10 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           <Select
                             isRequired={true}
                             onChange={handleUserValidate}
-                            defaultValue={"null"}
+                            defaultValue={""}
                             w={"35%"}
                           >
-                            <option disabled={true} value={"null"}>
+                            <option disabled={true} value={""}>
                               Aprovado?
                             </option>
                             <option value="Sim">Sim</option>
@@ -321,9 +369,34 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                           <Button
                             onClick={() => {
-                              // mostrar role que o usuario selecionou no select, no caso agora so conectar com api
-                              if (userValidate !== "null") {
-                                console.log(userEspeciality, value.userId);
+                              if (userValidate !== "") {
+                                const token = localStorage.getItem("token");
+
+                                const headers = {
+                                  headers: {
+                                    Authorization: `Bearer ${token}`,
+                                  },
+                                };
+
+                                const data = {
+                                  nextRole: userEspeciality,
+                                  isValided: userValidate,
+                                };
+
+                                api
+                                  .patch(`/Result/${value.id}`, data, headers)
+                                  .then((response) => {
+                                    toast.success(
+                                      "Função atualizada com sucesso!"
+                                    );
+                                    handleGetUsers();
+                                    onClose();
+                                  })
+                                  .catch((error) => {
+                                    toast.error("Erro ao atualizar função!");
+                                  });
+                              } else {
+                                toast.error("Selecione se foi aprovado ou não!");
                               }
                             }}
                           >
@@ -351,6 +424,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           position={"absolute"}
                           textAlign="center"
                           w={"100%"}
+                          fontSize="xl"
                         >
                           Teste recente e todas especialidades
                         </Text>
@@ -368,7 +442,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Teste recente - {value.nextRole}</Text>
+                                <Text fontSize="xl">Teste recente - {value.nextRole}</Text>
                                 <LastRadarUserAdm
                                   testUser={value}
                                   type="user"
@@ -382,7 +456,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Estimativa - {speciality.name}</Text>
+                                <Text fontSize="xl">
+                                  Estimativa - {speciality.name}
+                                </Text>
                                 <LastRadarUserAdm
                                   testUser={speciality}
                                   type="specialities"
@@ -418,10 +494,10 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <Select
                           isRequired={true}
                           onChange={handleUserValidate}
-                          defaultValue={"null"}
+                          defaultValue={""}
                           w={"12%"}
                         >
-                          <option disabled={true} value={"null"}>
+                          <option disabled={true} value={""}>
                             Aprovado?
                           </option>
                           <option value="Sim">Sim</option>
@@ -430,9 +506,34 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                         <Button
                           onClick={() => {
-                            // mostrar role que o usuario selecionou no select, no caso agora so conectar com api
-                            if (userValidate !== "null") {
-                              console.log(userEspeciality, value.userId);
+                            if (userValidate !== "") {
+                              const token = localStorage.getItem("token");
+
+                              const headers = {
+                                headers: {
+                                  Authorization: `Bearer ${token}`,
+                                },
+                              };
+
+                              const data = {
+                                nextRole: userEspeciality,
+                                isValided: userValidate,
+                              };
+
+                              api
+                                .patch(`/Result/${value.id}`, data, headers)
+                                .then((response) => {
+                                  toast.success(
+                                    "Função atualizada com sucesso!"
+                                  );
+                                  handleGetUsers();
+                                  onClose();
+                                })
+                                .catch((error) => {
+                                  toast.error("Erro ao atualizar função!");
+                                });
+                            } else {
+                              toast.error("Selecione se foi aprovado ou não!");
                             }
                           }}
                         >
@@ -442,115 +543,177 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     </Flex>
                   </Flex>
                 </TabPanel>
-                <TabPanel w={"100%"} h={"100%"} textAlign="center" display={"flex"}>
+                <TabPanel
+                  w={"100%"}
+                  h={"100%"}
+                  textAlign="center"
+                  display={"flex"}
+                >
                   <Flex flexDirection="column" gap={"1.5rem"} w="50%">
-                  <Text fontSize="1.5rem" fontWeight={"bold"}>Teste recente</Text>
-                  <Flex w={"100%"} alignItems="center" justifyContent={"center"} gap="0.5rem">
-                    <Text fontWeight={"bold"}>Sistema:</Text>
-                    <Input
-                      onChange={handleUserTest}
-                      value={userTest.system}
-                      type="number"
-                      w="20%"
-                    />
-                  </Flex>
-                  <Flex w={"100%"} alignItems="center" justifyContent={"center"} gap="0.5rem">
-                    <Text fontWeight={"bold"}>Pessoa:</Text>
+                    <Text fontSize="1.5rem" fontWeight={"bold"}>
+                      Teste recente
+                    </Text>
+                    <Flex
+                      w={"100%"}
+                      alignItems="center"
+                      justifyContent={"center"}
+                      gap="0.5rem"
+                    >
+                      <Text fontWeight={"bold"}>Sistema:</Text>
+                      <Input
+                        onChange={handleUserTest}
+                        name="system"
+                        value={userTest.system}
+                        w="20%"
+                      />
+                    </Flex>
+                    <Flex
+                      w={"100%"}
+                      alignItems="center"
+                      justifyContent={"center"}
+                      gap="0.5rem"
+                    >
+                      <Text fontWeight={"bold"}>Pessoa:</Text>
 
-                    <Input
-                      onChange={handleUserTest}
-                      value={userTest.person}
-                      type="number"
-                      w="20%"
-                    />
-                  </Flex>
-                  <Flex w={"100%"} alignItems="center" justifyContent={"center"} gap="0.5rem">
-                    <Text fontWeight={"bold"}>Tecnologia:</Text>
+                      <Input
+                        onChange={handleUserTest}
+                        value={userTest.person}
+                        name="person"
+                        w="20%"
+                      />
+                    </Flex>
+                    <Flex
+                      w={"100%"}
+                      alignItems="center"
+                      justifyContent={"center"}
+                      gap="0.5rem"
+                    >
+                      <Text fontWeight={"bold"}>Tecnologia:</Text>
 
-                    <Input
-                      onChange={handleUserTest}
-                      value={userTest.technology}
-                      type="number"
-                      w="20%"
-                    />
-                  </Flex>
-                  <Flex w={"100%"} alignItems="center" justifyContent={"center"} gap="0.5rem">
-                    <Text fontWeight={"bold"}>Processos:</Text>
+                      <Input
+                        onChange={handleUserTest}
+                        name="technology"
+                        value={userTest.technology}
+                        w="20%"
+                      />
+                    </Flex>
+                    <Flex
+                      w={"100%"}
+                      alignItems="center"
+                      justifyContent={"center"}
+                      gap="0.5rem"
+                    >
+                      <Text fontWeight={"bold"}>Processos:</Text>
 
-                    <Input
-                      onChange={handleUserTest}
-                      value={userTest.process}
-                      type="number"
-                      w="20%"
-                    />
-                  </Flex>
-                  <Flex w={"100%"} alignItems="center" justifyContent={"center"} gap="0.5rem">
-                    <Text fontWeight={"bold"}>Influencia:</Text>
+                      <Input
+                        onChange={handleUserTest}
+                        name="process"
+                        value={userTest.process}
+                        w="20%"
+                      />
+                    </Flex>
+                    <Flex
+                      w={"100%"}
+                      alignItems="center"
+                      justifyContent={"center"}
+                      gap="0.5rem"
+                    >
+                      <Text fontWeight={"bold"}>Influencia:</Text>
 
-                    <Input
-                      onChange={handleUserTest}
-                      value={userTest.influence}
-                      type="number"
-                      w="20%"
-                    />
-                  </Flex>
+                      <Input
+                        onChange={handleUserTest}
+                        name="influence"
+                        value={userTest.influence}
+                        w="20%"
+                      />
+                    </Flex>
                   </Flex>
 
                   <Divider orientation="vertical" />
-                  
-                  <Flex w={"50%"} h="10%" direction="column">
-                      <Flex
-                        gap={"1rem"}
-                        w="100%"
-                        justifyContent="end"
-                        textAlign={"center"}
-                        alignItems="center"
-                        direction="column"
-                      >
-                        <Text fontSize="1.5rem" fontWeight={"bold"}>Nova função:</Text>
-                        <Select
-                          isRequired={true}
-                          onChange={handleUserEspeciality}
-                          defaultValue={value.nextRole}
-                          w={"60%"}
-                        >
-                          {specialities.map((speciality) => (
-                            <option key={speciality.id} value={speciality.name}>
-                              {speciality.name}
-                            </option>
-                          ))}
-                        </Select>
-                        <Select
-                          isRequired={true}
-                          onChange={handleUserValidate}
-                          defaultValue={"null"}
-                          w={"60%"}
-                        >
-                          <option disabled={true} value={"null"}>
-                            Aprovado?
-                          </option>
-                          <option value="Sim">Sim</option>
-                          <option value="Não">Não</option>
-                        </Select>
 
-                        <Button
-                          onClick={() => {
-                            // mostrar role que o usuario selecionou no select, no caso agora so conectar com api
-                            if (userValidate !== "null") {
-                              console.log(userEspeciality, value.userId);
-                            }
-                          }}
-                        >
-                          Validar
-                        </Button>
-                      </Flex>
+                  <Flex w={"50%"} h="10%" direction="column">
+                    <Flex
+                      gap={"1rem"}
+                      w="100%"
+                      justifyContent="end"
+                      textAlign={"center"}
+                      alignItems="center"
+                      direction="column"
+                    >
+                      <Text fontSize="1.5rem" fontWeight={"bold"}>
+                        Nova função:
+                      </Text>
+                      <Select
+                        isRequired={true}
+                        onChange={handleUserEspeciality}
+                        defaultValue={value.nextRole}
+
+                        w={"60%"}
+                      >
+                        {specialities.map((speciality) => (
+                          <option key={speciality.id} value={speciality.name}>
+                            {speciality.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <Select
+                        isRequired={true}
+                        onChange={handleUserValidate}
+                        defaultValue={""}
+                        w={"60%"}
+                      >
+                        <option disabled={true} value={""}>
+                          Aprovado?
+                        </option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                      </Select>
+
+                      <Button
+                        onClick={() => {
+                          if (userValidate !== "") {
+                            const token = localStorage.getItem("token");
+
+                            const headers = {
+                              headers: {
+                                Authorization: `Bearer ${token}`,
+                              },
+                            };
+
+                            const data = {
+                              nextRole: userEspeciality,
+                              isValided: userValidate,
+                              ...userTest,
+                            };
+
+                            api
+                              .patch(`/Result/${value.id}`, data, headers)
+                              .then((response) => {
+                                toast.success(
+                                  "Função atualizada com sucesso!"
+                                );
+                                handleGetUsers();
+                                onClose();
+                              })
+                              .catch((error) => {
+                                toast.error("Erro ao atualizar função!");
+                              });
+                          } else {
+                            toast.error("Selecione se foi aprovado ou não!");
+                          }
+                        }}
+                      >
+                        Validar
+                      </Button>
                     </Flex>
+                  </Flex>
                 </TabPanel>
                 <TabPanel w={"100%"} h={"100%"} overflowY="auto">
                   <StepsAdmForm
                     lastTest={value}
                     respostas={respostas}
                     handleResetRespostas={handleResetRespostas}
+                    onClose={onClose}
                   />
                 </TabPanel>
               </TabPanels>

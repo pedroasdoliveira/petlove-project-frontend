@@ -25,9 +25,11 @@ import {
 import ModalLastUserAdm from "components/ModalLastUserAdm/ModalLastUserAdm";
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
 import { dataAdm, specialities } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import { useState } from "react";
 
 const AllUserList = () => {
+  const { users } = useUsers();
   const color = useColorModeValue("whiteAlpha", "facebook");
 
   const [search, setSearch] = useState("");
@@ -39,16 +41,14 @@ const AllUserList = () => {
   };
 
   const handleFilter = (event: any) => {
-    console.log(event);
     setFilter(event);
   };
 
   const handleOrder = (event: any) => {
-    console.log(event);
     setOrder(event);
   };
 
-  const filteredData = dataAdm.filter((item) => {
+  const filteredData = users?.filter((item) => {
     const speciality = specialities.map((item) => item.name);
 
     if (filter === "all") {
@@ -81,12 +81,8 @@ const AllUserList = () => {
     }
   });
 
-  const filterOrder = filteredData.sort((a, b) => {
-    if (order === "new") {
-    }
-
+  const filterOrder = filteredData?.sort((a, b) => {
     if (order === "asc") {
-      console.log(a, b);
       return a.name.localeCompare(b.name);
     } else {
       return b.name.localeCompare(a.name);
@@ -163,7 +159,7 @@ const AllUserList = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {filterOrder.map((user) => {
+            {filterOrder?.map((user) => {
               const lastResult = user.results[user.results.length - 1];
 
               const roleAtual = user.role;

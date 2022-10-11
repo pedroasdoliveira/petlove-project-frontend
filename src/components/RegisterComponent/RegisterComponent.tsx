@@ -67,14 +67,10 @@ const RegisterComponent: NextPage = () => {
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
-    console.log("register", data);
     api.post("/User/create", data).then((response) => {
-      console.log(response);
       toast.success("Usuário criado com sucesso! Faça login para continuar");
     }).catch((error) => {
-      console.log(error);
       toast.error("Erro ao criar usuário");
-        
     });
   };
 

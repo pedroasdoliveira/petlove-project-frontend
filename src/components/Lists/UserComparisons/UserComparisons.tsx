@@ -13,6 +13,7 @@ import {
   useColorModeValue,
   Divider,
   Flex,
+  Tooltip,
 } from "@chakra-ui/react";
 import PieAdm from "components/Graphics/PieAdm";
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
@@ -23,61 +24,58 @@ import "swiper/css";
 import "swiper/css/navigation";
 import ComparisonBarAdm from "components/Graphics/ComparisonBarAdm";
 import ComparisonBarAdmTeams from "components/Graphics/ComparisonBarAdmTeams";
+import { useUsers } from "contexts/Users";
 
 const UserComparisons = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
+  const { handleGetUsers, users } = useUsers();
 
-  const dataAdmFiltered = dataAdm.sort((item, item2) => {
+  const dataAdmFiltered = users?.sort((item, item2) => {
     const lastResult = item.results[item.results.length - 1];
-    const lastResult2 = item2.results[item2.results.length - 1];
+    const lastResult2: any = item2.results[item2.results.length - 1];
     const plus =
-      lastResult.system +
-      lastResult.person +
-      lastResult.technology +
-      lastResult.process +
-      lastResult.influence;
+      lastResult?.system +
+      lastResult?.person +
+      lastResult?.technology +
+      lastResult?.process +
+      lastResult?.influence;
 
-    const plus2 =
-      lastResult2.system +
-      lastResult2.person +
-      lastResult2.technology +
-      lastResult2.process +
-      lastResult2.influence;
+    const plus2: any =
+      lastResult2?.system +
+      lastResult2?.person +
+      lastResult2?.technology +
+      lastResult2?.process +
+      lastResult2?.influence;
 
     return plus2 - plus;
   });
 
-  const teamMap = dataAdm.map((item) => {
+  const removedNull = dataAdmFiltered?.filter((item, index) => {
+    const lastResult = item.results[item.results.length - 1];
+    return lastResult !== null && lastResult !== undefined;
+  });
+
+  const teamMap = users?.map((item) => {
     //separar cada usuario por team
 
     return item.team;
   });
 
-  console.log(teamMap, "teamMap");
-
   // remover duplicados
 
-  const teamMapFiltered = teamMap.filter((item, index) => {
-    return teamMap.indexOf(item) === index;
+  const teamMapFiltered = teamMap?.filter((item, index) => {
+    return teamMap?.indexOf(item) === index;
   });
-
-  console.log(teamMapFiltered);
 
   // filtrar por team
 
-  const teamMapFiltered2 = teamMapFiltered.map((item) => {
-    const teamFiltered = dataAdm.filter((item2) => {
+  const teamMapFiltered2 = teamMapFiltered?.map((item) => {
+    const teamFiltered = users?.filter((item2) => {
       return item2.team === item;
     });
 
     return teamFiltered;
   });
-
-  console.log(teamMapFiltered2);
-  console.log(dataAdm, "oi");
-
-  console.log(dataAdmFiltered, "isso");
-  console.log(teamMapFiltered2, "isso");
 
   return (
     <>
@@ -88,7 +86,7 @@ const UserComparisons = () => {
           marginBottom={4}
           textAlign="center"
         >
-          Ranking de usuários - Total de usuários: {dataAdm.length}
+          Ranking de usuários - Total de usuários: {removedNull?.length}
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
@@ -100,20 +98,20 @@ const UserComparisons = () => {
               <Th>Nome</Th>
               <Th>Chapter</Th>
               <Th>Função</Th>
-              <Th>Função</Th>
+              <Th>Equipe</Th>
               <Th>Detalhes</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {dataAdmFiltered.map((user) => {
+            {removedNull?.map((user) => {
               const lastResult = user.results[user.results.length - 1];
 
               const plus =
-                lastResult.system +
-                lastResult.person +
-                lastResult.technology +
-                lastResult.process +
-                lastResult.influence;
+                lastResult?.system +
+                lastResult?.person +
+                lastResult?.technology +
+                lastResult?.process +
+                lastResult?.influence;
               const roleAtual = user.role;
               const chapterAtual = user.chapter;
               const teamAtual = user.team;
@@ -159,7 +157,7 @@ const UserComparisons = () => {
           marginBottom={4}
           textAlign="center"
         >
-          Ranking de equipes - Total de equipes: {teamMapFiltered.length}
+          Ranking de equipes - Total de equipes: {teamMapFiltered?.length}
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
@@ -178,37 +176,45 @@ const UserComparisons = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {teamMapFiltered2.map((item) => {
+            {teamMapFiltered2?.map((item) => {
+              let teamLength: number = 0;
               //fazer a media de cada team
-              const plus = item.reduce((acc, item2) => {
+              const plus = item?.reduce((acc, item2) => {
                 const lastResult = item2.results[item2.results.length - 1];
-                const plus2 =
-                  lastResult.system +
-                  lastResult.person +
-                  lastResult.technology +
-                  lastResult.process +
-                  lastResult.influence;
 
-                return acc + plus2;
+                if (lastResult !== null && lastResult !== undefined) {
+                  const plus =
+                    lastResult?.system +
+                    lastResult?.person +
+                    lastResult?.technology +
+                    lastResult?.process +
+                    lastResult?.influence;
+
+                  teamLength++;
+
+                  return acc + plus;
+                }
+
+                return acc;
               }, 0);
 
-              const media = plus / item.length;
+              const media = plus / (teamLength === 0 ? 1 : teamLength);
 
               //quantidade de devs backend
 
-              const back = item.filter((item2) => {
+              const back = item?.filter((item2) => {
                 return item2.chapter === "backend";
               });
 
               //quantidade de devs frontend
 
-              const front = item.filter((item2) => {
+              const front = item?.filter((item2) => {
                 return item2.chapter === "frontend";
               });
 
               // ver qual função é mais presente (Especialista, Tech Lead, Senior, Pleno, Junior, Trainee)
 
-              const speciality = item.reduce(
+              const speciality = item?.reduce(
                 (acc, item2) => {
                   const role = item2.role;
                   if (role === "Especialista") {
@@ -245,22 +251,34 @@ const UserComparisons = () => {
               const specialityFiltered = specialityArray.filter((item) => {
                 return (
                   item[1] ===
-                  Math.max(...specialityArray.map((item) => item[1]))
+                  Math.max(
+                    ...(specialityArray.map(
+                      (item) => item[1]
+                    ) as unknown as any)
+                  )
                 );
               });
 
               return (
-                <Tr key={item[0].id}>
-                  <Th p="1rem">{media.toFixed(2)}</Th>
-                  <Td>{item[0].team ? item[0].team : "Sem equipe"}</Td>
-                  <Td>{item.length}</Td>
-                  <Td>{back.length}</Td>
-                  <Td>{front.length}</Td>
+                <Tr key={item![0].id}>
+                  <Th p="1rem">{media?.toFixed(2)}</Th>
+                  <Td>{item![0].team ? item![0].team : "Sem equipe"}</Td>
+                  <Td>{item?.length}</Td>
+                  <Td>{back?.length}</Td>
+                  <Td>{front?.length}</Td>
                   <Td>
-                    {specialityFiltered[0][0] === "null"
-                      ? "Contratados"
-                      : specialityFiltered[0][0]}{" "}
-                    ({specialityFiltered[0][1]})
+                    <Tooltip
+                      label={`Função com mais devs na equipe (quantidade geral de devs) | (devs que fizeram pelo menos um teste).`}
+                      aria-label=""
+                      hasArrow
+
+                    >
+                      {`${
+                        specialityFiltered[0][0] === "null"
+                          ? "Contratados"
+                          : specialityFiltered[0][0]
+                      } (${specialityFiltered[0][1]}) | (${teamLength})`}
+                    </Tooltip>
                   </Td>
                 </Tr>
               );
@@ -291,20 +309,22 @@ const UserComparisons = () => {
         keyboard={true}
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         simulateTouch={false}
+        allowTouchMove={false}
         style={{ width: "100%", height: "100%" }}
       >
         <SwiperSlide>
-            <Text
+          <Text
             fontSize="xl"
             fontWeight="bold"
             marginBottom={4}
             textAlign="center"
           >
-              Comparação de usuários por total - Total de devs: {dataAdm.length}
-              </Text>
+            Comparação de usuários por total - Total de devs:{" "}
+            {removedNull?.length}
+          </Text>
 
           <Flex w={"100%"} h="100%">
-            <ComparisonBarAdm value={dataAdmFiltered} />
+            <ComparisonBarAdm value={removedNull!} />
           </Flex>
         </SwiperSlide>
         <SwiperSlide>
@@ -324,29 +344,30 @@ const UserComparisons = () => {
             mb={6}
           >
             <Text textAlign="center" fontSize="md" fontWeight="bold">
-              Total de equipes: {teamMapFiltered.length}
+              Total de equipes: {teamMapFiltered?.length}
             </Text>
 
             <Text textAlign="center" fontSize="md" fontWeight="bold">
-              Total de devs: {dataAdmFiltered.length}
+              Total de devs: {removedNull?.length}
             </Text>
           </Flex>
           <Flex w={"100%"} h="100%">
-            <PieAdm names={teamMapFiltered} quantity={teamMapFiltered2} />
+            <PieAdm names={teamMapFiltered!} quantity={teamMapFiltered2!} />
           </Flex>
         </SwiperSlide>
         <SwiperSlide>
-            <Text
+          <Text
             fontSize="xl"
             fontWeight="bold"
             marginBottom={4}
             textAlign="center"
           >
-              Comparação de equipes pela media - Total de equipes: {teamMapFiltered.length}
-              </Text>
+            Comparação de equipes pela media - Total de equipes:{" "}
+            {teamMapFiltered?.length}
+          </Text>
 
           <Flex w={"100%"} h="100%">
-            <ComparisonBarAdmTeams value={teamMapFiltered} teamMapFiltered2={teamMapFiltered2} />
+            <ComparisonBarAdmTeams teamMapFiltered={teamMapFiltered2!} />
           </Flex>
         </SwiperSlide>
       </Swiper>

@@ -46,23 +46,23 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
     const data = [
       {
         subject: "Influence",
-        A: testUserAdm.influence,
+        A: testUserAdm?.influence,
       },
       {
         subject: "Person",
-        A: testUserAdm.person,
+        A: testUserAdm?.person,
       },
       {
         subject: "Process",
-        A: testUserAdm.process,
+        A: testUserAdm?.process,
       },
       {
         subject: "System",
-        A: testUserAdm.system,
+        A: testUserAdm?.system,
       },
       {
         subject: "Technology",
-        A: testUserAdm.technology,
+        A: testUserAdm?.technology,
       },
     ];
 
@@ -87,7 +87,7 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
           stroke="white"
         />
         <Radar
-          name={testUserAdm.nextRole}
+          name={testUserAdm?.nextRole}
           dataKey="A"
           stroke="cyan"
           strokeWidth={3}

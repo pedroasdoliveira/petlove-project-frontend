@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import type { NextPage } from "next";
@@ -23,7 +24,7 @@ const Homepage: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
@@ -83,7 +84,7 @@ const Homepage: NextPage = () => {
         direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        marginTop={"5rem"}
+        marginTop={"7rem"}
         marginBottom={"5rem"}
       >
         <Heading as="h1" fontSize={"4xl"} fontWeight="bold">

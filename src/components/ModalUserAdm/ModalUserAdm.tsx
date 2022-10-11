@@ -50,6 +50,9 @@ import { ErrorMessage } from "pages/style";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { api } from "services";
+import toast from "react-hot-toast";
+import { useUsers } from "contexts/Users";
 
 interface EditData {
   email: string;
@@ -81,6 +84,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userRole, setUserRole] = useState(user.role);
   const [userChapter, setUserChapter] = useState(user.chapter);
+  const { handleGetUsers } = useUsers();
 
   const {
     register: edit,
@@ -100,7 +104,19 @@ const ModalLastUserAdm = ({ value, user }: any) => {
     data.role = userRole;
     data.chapter = userChapter;
 
-    console.log(data);
+    const token = localStorage.getItem("token");
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    api.patch(`/User/${user.email}`, data, headers).then((response) => {
+      toast.success("Usuário editado com sucesso!");
+      handleGetUsers();
+      onClose();
+    });
   };
 
   return (
@@ -181,7 +197,6 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           <Text
                             fontSize="xl"
                             mx="auto"
-                            mb={1}
                             textAlign="center"
                           >
                             Todos os testes - Radar
@@ -260,7 +275,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         </SwiperSlide>
                       </Swiper>
                     </Flex>
-                    <Divider orientation="vertical" mx={"-2.4rem"} />
+                    <Divider orientation="vertical" mx={"-4rem"} />
                     <Flex
                       direction={"column"}
                       w={"40%"}
@@ -272,7 +287,8 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                       <Flex direction={"column"}>
                         <Text mb={"1rem"}>Testes realizados:</Text>
                         <TableContainer
-                          border="1px solid gray"
+                          borderTop="1px solid gray"
+                          borderBottom="1px solid gray"
                           borderRadius={"10px"}
                         >
                           <Table variant={"striped"}>
@@ -286,12 +302,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{result.createdAt}</Th>
+                                  <Th color={"white"}>{
+                                    `${new Date(result.createdAt).toLocaleDateString()}`
+                                  }</Th>
                                   <Th color={"white"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
-                                    {result.isValide === "null"
+                                    {result.isValided === null
                                       ? "Aguardando"
-                                      : result.isValide}
+                                      : result.isValided}
                                   </Th>
                                 </Tr>
                               ))}
@@ -336,7 +354,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Último teste - {value.nextRole}</Text>
+                                <Text>Último teste - {value?.nextRole ? value?.nextRole : "Nenhum teste"}</Text>
                                 <LastRadarUserAdm
                                   testUser={value}
                                   type="user"

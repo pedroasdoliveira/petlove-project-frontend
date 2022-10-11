@@ -1,5 +1,6 @@
 import { useColorModeValue } from "@chakra-ui/react";
 import { dataApi, user } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
@@ -12,6 +13,7 @@ import {
 } from "recharts";
 
 const AllRadarUser = () => {
+  const { user } = useUsers();
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -51,7 +53,7 @@ const AllRadarUser = () => {
       },
     ];
 
-    dataApi.forEach((item: any, index: number) => {
+    user.results?.forEach((item: any, index: number) => {
       data.forEach((item2: any) => {
         item2[index] = item[item2.subject.toLowerCase()];
       });
@@ -63,7 +65,7 @@ const AllRadarUser = () => {
   const data1 = mountLastData();
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="94%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
@@ -77,11 +79,11 @@ const AllRadarUser = () => {
           angle={60}
           stroke="white"
         />
-        {dataApi.map((item, index) => {
+        {user.results?.map((item: any, index: number) => {
           return (
             <Radar
               key={index}
-              name={item.nextRole}
+              name={index === user.results.length - 1 ? `Último teste - ${item.nextRole}` : item.nextRole}
               dataKey={index}
               stroke={handleColor(item.nextRole)}
               strokeWidth={3}

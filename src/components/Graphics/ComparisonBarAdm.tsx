@@ -27,33 +27,42 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const comparisonData = value.map((item) => {
+  const comparisonData = value?.map((item) => {
     const lastResult = item.results[item.results.length - 1];
-    const nameSplit =
+    const nameSplit = 
       item.name.split(" ")[0] +
       " " +
-      item.name.split(" ")[1][0] +
-      ".";
+      (item.name?.split(" ")[1]?.at(0) ? item.name?.split(" ")[1]?.at(0) + "." : "")
 
-    return {
+    const data = {
       name: nameSplit,
       total:
-        lastResult.system +
-        lastResult.person +
-        lastResult.technology +
-        lastResult.process +
-        lastResult.influence,
+        lastResult?.system +
+        lastResult?.person +
+        lastResult?.technology +
+        lastResult?.process +
+        lastResult?.influence,
     };
+
+    if (isNaN(data.total)) {
+      return data.total = null;
+    }
+
+    return data;
   });
 
-  const sortedData = comparisonData.sort((a, b) => {
-    return b.total - a.total;
+  const sortedData = comparisonData?.sort((a, b) => {
+    return b?.total - a?.total ;
+  });
+
+  const removedNull = sortedData?.filter((item) => {
+    return item?.total !== null && item?.total !== undefined;
   });
 
   return (
     <Flex w="100%" h="35rem" ml="1rem">
       <ResponsiveContainer width="95%" height="90%">
-        <BarChart data={sortedData}>
+        <BarChart data={removedNull}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" stroke={"white"} />
           <YAxis
@@ -70,7 +79,7 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
               fill: "white",
             }}
           />
-          <Bar dataKey="total" fill={"#8884d8"} barSize={30} label/>
+          <Bar dataKey="total" fill={"#8884d8"} barSize={40} label/>
 
           <Tooltip
             cursor={{ fill: "transparent" }}
