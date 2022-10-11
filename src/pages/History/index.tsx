@@ -21,8 +21,15 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import OneLineUser from "components/Graphics/OneLineUser";
+import { useAuth } from "contexts/Auth";
+import { useEffect } from "react";
 
 const History: NextPage = () => {
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  });
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -69,14 +76,16 @@ const History: NextPage = () => {
           <Flex
             direction={"column"}
             py={8}
-            px={{sm: 3, md: 8}}
+            px={{ sm: 3, md: 8 }}
             borderRadius={"15px"}
             w={"100%"}
             bg={background}
             color={"white"}
             mb={8}
           >
-            <Heading as="h3" mb={4} fontSize={{sm: 'lg', md: 'xl'}}>Sua evolução</Heading>
+            <Heading as="h3" mb={4} fontSize={{ sm: "lg", md: "xl" }}>
+              Sua evolução
+            </Heading>
             <Text>Veja como você está evoluindo em relação a sua função:</Text>
 
             <Flex marginTop={12} h="15rem">
@@ -90,14 +99,17 @@ const History: NextPage = () => {
                 <Flex
                   direction={"column"}
                   marginBottom={8}
-                  p={8}
+                  py={8}
+                  px={{ sm: 3, md: 8 }}
                   borderRadius={"15px"}
                   bg={background}
                   color={"white"}
                 >
                   <AccordionButton justifyContent={"space-between"}>
                     <Flex direction={"column"} alignItems="start">
-                      <Heading as="h3" fontSize={{sm: 'lg', md: 'xl'}}>Histórico de evolução</Heading>
+                      <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
+                        Histórico de evolução
+                      </Heading>
                       <Text>Tabela com as suas evoluções</Text>
                     </Flex>
                     <AccordionIcon w={10} h={10} />
@@ -115,14 +127,16 @@ const History: NextPage = () => {
               direction={"column"}
               marginBottom={8}
               py={8}
-              px={{sm: 3, md: 8}}
+              px={{ sm: 3, md: 8 }}
               borderRadius={"15px"}
               w="100%"
               bg={background}
               color={"white"}
               height={"25rem"}
             >
-              <Heading as="h3" fontSize={{sm: 'lg', md: 'xl'}}>Histórico de evolução</Heading>
+              <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
+                Histórico de evolução
+              </Heading>
 
               <Swiper
                 navigation={true}
@@ -152,7 +166,7 @@ const History: NextPage = () => {
           </Flex>
         </Flex>
       </Flex>
-      <AsideMenu currentPage="Histórico"/>
+      <AsideMenu currentPage="Histórico" />
     </Flex>
   );
 };
