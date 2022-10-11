@@ -55,7 +55,7 @@ const registerSchema = yup.object().shape({
 });
 
 interface Prop {
-  setTabIndex: (value: number) => void
+  setTabIndex: (value: number) => void;
 }
 
 const RegisterComponent = ({setTabIndex}: Prop) => {
