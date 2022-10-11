@@ -74,177 +74,24 @@ const EditForm = () => {
   return (
     <>
       <Flex flexDir="column" justifyContent="center">
-        {/* Input name + email */}
+        {/* Input name  */}
         <Flex
-          flexDir={{ md: "row", sm: "column" }}
+          flexDir="row"
           alignItems="center"
           justifyContent="space-evenly"
           mb={8}
-        >
-          <Flex
-            alignItems="center"
-            direction={{ sm: "row", md: "column" }}
-            w={{ md: "35%", sm: "85%" }}
-          >
-            <Text mr={3}>nome:</Text>
-            <FormControl>
-              <Input
-                defaultValue={user.name}
-                variant={"flushed"}
-                isInvalid={!!editErrors.name}
-                mb={3}
-                textAlign="center"
-                {...edit("name")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                  textAlign: "center",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.name?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
+        ></Flex>
+        <Flex alignItems="center" justifyContent="space-evenly" mb={8}></Flex>
 
-          <Flex
-            alignItems="center"
-            direction={{ sm: "row", md: "column" }}
-            w={{ md: "35%", sm: "85%" }}
-          >
-            <Text>email:</Text>
-            <FormControl>
-              <Input
-                defaultValue={user.email}
-                variant={"flushed"}
-                isInvalid={!!editErrors.email}
-                mb={3}
-                textAlign="center"
-                {...edit("email")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.email?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-        </Flex>
-        {/* Input team + chapter + role */}
-        <Flex alignItems="center" justifyContent="space-evenly" mb={8}>
-          <Flex
-            alignItems="center"
-            direction={"column"}
-            w={{ md: "10%", sm: "20%" }}
-          >
-            <Text>team:</Text>
-            <FormControl>
-              <Input
-                textAlign="center"
-                defaultValue={user.team}
-                variant={"flushed"}
-                isInvalid={!!editErrors.team}
-                mb={3}
-                {...edit("team")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.team?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-          <Flex
-            alignItems="center"
-            direction={"column"}
-            w={{ md: "10%", sm: "20%" }}
-          >
-            <Text>chapter:</Text>
-            <FormControl>
-              <Input
-                defaultValue={user.chapter}
-                textAlign="center"
-                variant={"flushed"}
-                isInvalid={!!editErrors.chapter}
-                mb={3}
-                {...edit("chapter")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.chapter?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-          <Flex
-            alignItems="center"
-            direction={"column"}
-            w={{ md: "10%", sm: "20%" }}
-          >
-            <Text>role:</Text>
-            <FormControl>
-              <Input
-                textAlign="center"
-                defaultValue={user.role}
-                variant={"flushed"}
-                isInvalid={!!editErrors.role}
-                mb={3}
-                {...edit("role")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.role?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-        </Flex>
-
-        {/* Input senha atual + nova senha + confirmar senha */}
-        <Flex
-          flexDir={{ md: "row", sm: "column" }}
+        <Flex  flexDir={{ md: "row", sm: "column" }}
           alignItems="center"
-          justifyContent="space-evenly"
-        >
-          <Flex
-            alignItems="center"
+          justifyContent="space-evenly">
+          
+          {/* Input senha atual + nova senha + confirmar senha */}
+          <Flex alignItems="center"
             justify={{ sm: "space-between" }}
             direction={{ sm: "row", md: "column" }}
-            w={{ md: "30%", sm: "85%" }}
-          >
+            w={{ md: "30%", sm: "85%" }}>
             <Text w={{ sm: "250px", md: "auto" }}>senha atual:</Text>
             <FormControl>
               <Input
@@ -268,11 +115,10 @@ const EditForm = () => {
               </ErrorMessage>
             </FormControl>
           </Flex>
-          <Flex
-            alignItems="center"
+          <Flex alignItems="center"
+            justify={{ sm: "space-between" }}
             direction={{ sm: "row", md: "column" }}
-            w={{ md: "30%", sm: "85%" }}
-          >
+            w={{ md: "30%", sm: "85%" }}>
             <Text w={{ sm: "250px", md: "auto" }}>nova senha:</Text>
             <FormControl>
               <Input
@@ -296,11 +142,10 @@ const EditForm = () => {
               </ErrorMessage>
             </FormControl>
           </Flex>
-          <Flex
-            alignItems="center"
+          <Flex alignItems="center"
+            justify={{ sm: "space-between" }}
             direction={{ sm: "row", md: "column" }}
-            w={{ md: "30%", sm: "85%" }}
-          >
+            w={{ md: "30%", sm: "85%" }}>
             <Text w={{ sm: "250px", md: "auto" }}>confirmar senha:</Text>
             <FormControl>
               <Input

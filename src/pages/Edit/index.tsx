@@ -16,10 +16,10 @@ interface ProfileProps {
 }
 
 const Edit: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
-  useEffect(() => {
-    checkTokenExpiration!();
-  });
+  // const { checkTokenExpiration } = useAuth();
+  // useEffect(() => {
+  //   checkTokenExpiration!();
+  // });
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
