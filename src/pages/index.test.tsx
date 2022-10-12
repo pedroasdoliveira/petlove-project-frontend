@@ -1,23 +1,16 @@
 import Login from "./index";
 import "@testing-library/jest-dom";
 import { fireEvent, render, renderHook, screen } from "@testing-library/react";
-import { Component, useState } from "react";
 
 describe("Login page", () => {
+  render(<Login />);
+
   it("Render tabs lists", () => {
-    render(<Login />);
-  
     expect(screen.getByTestId('icon')).toBeInTheDocument();
   });
 
   it("Confirmed informations in Register component", async () => {
-    render(<Login />)
-
-    const {result} = renderHook(() => {
-      const [tabIndex, setTabIndex] = useState<number>(1);
-
-      return tabIndex
-    })
+    render(<Login />);
 
     const nameInput = screen.getByTestId('name-input');
     const emailInput = screen.getByTestId('email-input');
@@ -32,8 +25,19 @@ describe("Login page", () => {
     fireEvent.change(confirmedPasswordInput, {target: {value: 'Px43568090*'}});
     fireEvent.click(checkboxInput);
     fireEvent.click(buttonSubmit);
-    
+    const tabLogin = screen.getByTestId('tab-login');
+
+    expect(tabLogin).toHaveAttribute('tabindex', '0');
   });
+
+  it('Confirmed value from register tab index', () => {
+    render(<Login />);
+
+    const tabRegister = screen.getByTestId('tab-register');
+    fireEvent.click(tabRegister)
+
+    expect(tabRegister).toHaveAttribute('tabindex', '0');
+  })
 
   // it("Confirmed information's in Login component", () => {
   //   render(<Login />);
