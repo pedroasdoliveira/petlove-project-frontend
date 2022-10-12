@@ -13,6 +13,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import ComparisonBarUser from "components/Graphics/ComparisonBarUser";
@@ -32,7 +33,7 @@ const ModalUser = ({ value }: any) => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent w={"100%"} h={"70%"}>
-          <ModalHeader>Comparação</ModalHeader>
+          <ModalHeader>Comparação em gráficos</ModalHeader>
           <ModalCloseButton />
           <ModalBody w={"100%"} h={"100%"}>
             <Tabs variant="enclosed" mt={"-1rem"} w={"100%"} h={"93%"}>
@@ -42,7 +43,17 @@ const ModalUser = ({ value }: any) => {
               </TabList>
               <TabPanels w={"100%"} h={"100%"}>
                 <TabPanel w={"100%"} h={"100%"}>
-                  <ComparisonRadarUser valueId={value.id} />
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Radar
+                </Text>
+                  <ComparisonRadarUser value={value} />
                 </TabPanel>
                 <TabPanel w={"100%"} h={"100%"}>
                   <Swiper
@@ -52,42 +63,27 @@ const ModalUser = ({ value }: any) => {
                   >
                     <SwiperSlide>
                       <Flex justifyContent={"center"} w="90%" h="100%">
-                        <ComparisonBarUser
-                          valueId={value.id}
-                          subject="Influence"
-                        />
+                        <ComparisonBarUser value={value} subject="Influence" />
                       </Flex>
                     </SwiperSlide>
                     <SwiperSlide>
                       <Flex justifyContent={"center"} w="90%" h="100%">
-                        <ComparisonBarUser
-                          valueId={value.id}
-                          subject="Person"
-                        />
+                        <ComparisonBarUser value={value} subject="Person" />
                       </Flex>
                     </SwiperSlide>
                     <SwiperSlide>
                       <Flex justifyContent={"center"} w="90%" h="100%">
-                        <ComparisonBarUser
-                          valueId={value.id}
-                          subject="Process"
-                        />
+                        <ComparisonBarUser value={value} subject="Process" />
                       </Flex>
                     </SwiperSlide>
                     <SwiperSlide>
                       <Flex justifyContent={"center"} w="90%" h="100%">
-                        <ComparisonBarUser
-                          valueId={value.id}
-                          subject="System"
-                        />
+                        <ComparisonBarUser value={value} subject="System" />
                       </Flex>
                     </SwiperSlide>
                     <SwiperSlide>
                       <Flex justifyContent={"center"} w="90%" h="100%">
-                        <ComparisonBarUser
-                          valueId={value.id}
-                          subject="Technology"
-                        />
+                        <ComparisonBarUser value={value} subject="Technology" />
                       </Flex>
                     </SwiperSlide>
                   </Swiper>
@@ -95,12 +91,6 @@ const ModalUser = ({ value }: any) => {
               </TabPanels>
             </Tabs>
           </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

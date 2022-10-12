@@ -27,9 +27,8 @@ const AreaComposedChartAdm = ({ user }: any) => {
       const role = item.nextRole === "Especialista" ? "Especialista /Tech-Lead" : item.nextRole === "Tech-Lead" ? "Especialista /Tech-Lead" : item.nextRole;
 
       return {
-        ...item,
+        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
         nextRole: role,
-        questionsTotal: item.system + item.person + item.technology + item.process + item.influence,
         allSpecialities: [...speciality],
       }
     });

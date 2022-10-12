@@ -72,7 +72,6 @@ const RegisterComponent = ({setTabIndex}: Prop) => {
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
-    console.log("register", data);
     api.post("/User/create", data).then((response) => {
       console.log(response);
       toast.success("Perfil registrado com sucesso!");

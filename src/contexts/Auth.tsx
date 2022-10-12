@@ -8,7 +8,7 @@ import {
 import { api } from "services";
 import toast from "react-hot-toast";
 
-import Router, { withRouter } from "next/router";
+import Router from "next/router";
 
 interface Props {
   children: ReactNode;

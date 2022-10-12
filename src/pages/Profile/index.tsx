@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
@@ -6,7 +7,8 @@ import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useUsers } from "contexts/Users";
 
 interface ProfileProps {
   name: string;
@@ -14,9 +16,10 @@ interface ProfileProps {
 
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
+  const { user } = useUsers();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -58,7 +61,7 @@ const Profile: NextPage<ProfileProps> = () => {
             <Heading fontWeight="normal" letterSpacing="tight">
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
-                {user.name.split(" ")[0]}
+                {user.name?.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
@@ -77,8 +80,8 @@ const Profile: NextPage<ProfileProps> = () => {
               h={"23rem"}
               direction="column"
             >
-              <Text fontSize="xl" mx="auto" mb={1}>
-                Ultimo teste
+              <Text fontSize="xl" mx="auto" mb={1} fontWeight="bold">
+                Último teste
               </Text>
               <LastRadarUser />
             </Flex>
@@ -92,7 +95,7 @@ const Profile: NextPage<ProfileProps> = () => {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Text fontSize="xl" mx="auto" mb={3}>
+              <Text fontSize="xl" mx="auto" mb={3} fontWeight="bold">
                 Informações
               </Text>
 
@@ -112,26 +115,26 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
                   Chapter:
                 </Text>
-                <Text>{user.chapter}</Text>
+                <Text>{user.chapter ? user.chapter : `...`}</Text>
               </Flex>
               <Flex alignItems={"center"}>
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
                   Time:
                 </Text>
-                <Text>{user.team}</Text>
+                <Text>{user.team ? user.team : `...`}</Text>
               </Flex>
               <Flex alignItems={"center"}>
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
                   Função:
                 </Text>
-                <Text>{user.role}</Text>
+                <Text>{user.role ? user.role : `...`}</Text>
               </Flex>
               <Flex alignItems={"center"}>
                 <Text fontSize="xl" mr={3} color={"gray.300"}>
                   Data de contratação:
                 </Text>
                 <Text>
-                  {`${new Date(`${user.createdAt}`).toLocaleDateString()}`}
+                  {`${new Date(user.createdAt).toLocaleDateString()}`}
                 </Text>
               </Flex>
             </Flex>

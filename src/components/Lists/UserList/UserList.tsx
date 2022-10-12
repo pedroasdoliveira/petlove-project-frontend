@@ -6,6 +6,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -13,8 +14,11 @@ import {
 } from "@chakra-ui/react";
 import ModalLastUserAdm from "components/ModalLastUserAdm/ModalLastUserAdm";
 import { dataAdm } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
+import { useState } from "react";
 
 const UserList = () => {
+  const { users } = useUsers();
   const color = useColorModeValue("whiteAlpha", "facebook");
 
   return (
@@ -26,21 +30,21 @@ const UserList = () => {
             <Th>Nome</Th>
             <Th>Data do teste</Th>
             <Th>Função atual</Th>
-            <Th>Função </Th>
+            <Th>Teste</Th>
             <Th w={"1rem"}>Validar</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {dataAdm.map((user) => {
-            const lastResult = user.results[user.results.length - 1];
+          {users?.map((user, index) => {
+            const lastResult = user.results.at(-1);
 
             const roleAtual = user.role;
 
-            if (lastResult.isValide === "null") {
+            if (lastResult?.isValided === null) {
               return (
                 <Tr key={user.id}>
                   <Td>{user.name}</Td>
-                  <Td>{lastResult.createdAt}</Td>
+                  <Td>{`${new Date(lastResult.createdAt).toLocaleDateString()}`}</Td>
                   {roleAtual === null ? (
                     <Td>Contratado</Td>
                   ) : (

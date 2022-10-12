@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
@@ -12,47 +12,49 @@ import {
 } from "recharts";
 
 const LastRadarUser = () => {
+  const { user } = useUsers();
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const mountLastData = () => {
-    const lastData = dataApi[dataApi.length - 1];
+  const mountLastData = (value: any) => {
+    const lastData = value?.at(-1);
 
     const data = [
       {
         subject: "Influence",
-        A: lastData.influence,
+        A: lastData?.influence,
       },
       {
         subject: "Person",
-        A: lastData.person,
+        A: lastData?.person,
       },
       {
         subject: "Process",
-        A: lastData.process,
+        A: lastData?.process,
       },
       {
         subject: "System",
-        A: lastData.system,
+        A: lastData?.system,
       },
       {
         subject: "Technology",
-        A: lastData.technology,
+        A: lastData?.technology,
       },
     ];
 
     return data;
   };
 
-  const data = mountLastData();
-  const lastData = dataApi[dataApi.length - 1];
+  const data = mountLastData(user?.results);
+  const lastData = user.results?.at(-1);
 
   return (
-    <ResponsiveContainer width="100%" height="100%" >
+    <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-        <PolarGrid gridType="circle"/>
+        <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"
           stroke="white"
@@ -65,7 +67,7 @@ const LastRadarUser = () => {
           stroke="white"
         />
         <Radar
-          name={lastData.nextRole}
+          name={lastData?.nextRole}
           dataKey="A"
           stroke="cyan"
           strokeWidth={3}

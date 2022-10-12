@@ -1,28 +1,22 @@
 import { Flex, FormControl, Input, useColorModeValue, Button, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { user } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { api } from "services";
 import * as yup from "yup";
 
 interface EditData {
-  email: string;
   name: string;
   password: string;
   newPassword?: string;
   confirmPassword?: string;
-  team: string;
-  chapter: string;
-  role: string;
 }
 
 const editSchema = yup.object().shape(
   {
-    email: yup
-      .string()
-      .email("Entre com um email válido")
-      .required("Email é obrigatório"),
-
     password: yup
       .string()
       .min(6, "A senha deve ter no mínimo 6 caracteres")
@@ -33,7 +27,7 @@ const editSchema = yup.object().shape(
       )
       .required("Senha é obrigatória"),
 
-    newPassword: yup.string().when("newPassword", {
+    newPassword: yup.string().required("Nova senha é obrigatória").when("newPassword", {
       is: (val: string) => (val ? true : false),
       then: yup
         .string()
@@ -45,24 +39,12 @@ const editSchema = yup.object().shape(
         ),
     }),
 
-    confirmPassword: yup.string().when("confirmPassword", {
+    confirmPassword: yup.string().required("Confirmar a nova senha é obrigatório").when("confirmPassword", {
       is: (val: string) => (val ? true : false),
       then: yup
         .string()
         .oneOf([yup.ref("newPassword"), null], "Senhas não conferem"),
     }),
-
-    name: yup
-      .string()
-      .min(3, "Nome deve ter no mínimo 3 caracteres")
-      .max(40, "Nome deve ter no máximo 40 caracteres")
-      .required("Nome é obrigatório"),
-
-    team: yup.string().required("Time é obrigatório"),
-
-    chapter: yup.string().required("Chapter é obrigatório"),
-
-    role: yup.string().required("Cargo é obrigatório"),
   },
   [
     ["newPassword", "newPassword"],
@@ -73,6 +55,7 @@ const editSchema = yup.object().shape(
 
 
 const EditForm = () => {
+  const { user, handleGetUsers } = useUsers();
 
   const {
     register: edit,
@@ -81,147 +64,33 @@ const EditForm = () => {
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
   const handleEdit = (data: EditData) => {
-    console.log(data);
+    const token = localStorage.getItem("token");
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    api.patch(`/User/${user.email}`, data, headers).then((response) => {
+      toast.success("Dados alterados com sucesso!");
+      handleGetUsers();
+    }).catch((error) => {
+      toast.error("Erro ao alterar dados!");
+    });
   };
 
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
-  const data = user;
-
     return (
         <>
           <Flex flexDir="column" justifyContent="center">
-              {/* Input name + email */}
+              {/* Input name  */}
               <Flex flexDir="row" alignItems="center" justifyContent="space-evenly" mb={8}>
-                <Flex alignItems="center" direction={"column"} w="20%">
-                  <Text mr={3}>nome:</Text>
-                  <FormControl>
-                    <Input
-                      defaultValue={data.name}
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.name}
-                      mb={3}
-                      {...edit("name")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.name?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
-
-                <Flex alignItems="center" direction={"column"} w="20%">
-                  <Text>email:</Text>
-                  <FormControl>
-                    <Input
-                      defaultValue={data.email}
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.email}
-                      mb={3}
-                      {...edit("email")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.email?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
               </Flex>
               <Flex alignItems="center" justifyContent="space-evenly" mb={8}>
-                {/* Input team + chapter + role */}
-                <Flex alignItems="center" direction={"column"} w="10%">
-                  <Text>team:</Text>
-                  <FormControl>
-                    <Input
-                      textAlign="center"
-                      defaultValue={data.team}
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.team}
-                      mb={3}
-                      {...edit("team")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.team?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
-                <Flex alignItems="center" direction={"column"} w="10%">
-                  <Text>chapter:</Text>
-                  <FormControl>
-                    <Input
-                      defaultValue={data.chapter}
-                      textAlign="center"
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.chapter}
-                      mb={3}
-                      {...edit("chapter")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.chapter?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
-                <Flex alignItems="center" direction={"column"} w="10%">
-                  <Text>role:</Text>
-                  <FormControl>
-                    <Input
-                      textAlign="center"
-                      defaultValue={data.role}
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.role}
-                      mb={3}
-                      {...edit("role")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.role?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
               </Flex>
 
               <Flex
