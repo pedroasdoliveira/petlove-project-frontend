@@ -52,17 +52,17 @@ const Login: NextPage = () => {
         position={"relative"}
       >
         <Tabs
-          id='tab-index'
+          data-testid='tab-index'
+          onChange={(index) => setTabIndex(index)}
           index={tabIndex}
-          onChange={(index: number) => setTabIndex(index)}
           isFitted
           variant={"soft-rounded"}
           colorScheme="blue"
           ringColor={"cyan"}
         >
           <TabList mb="2em" mt="-2em">
-            <Tab color={"white"}>Login</Tab>
-            <Tab color={"white"}>Registro</Tab>
+            <Tab data-testid='tab-login' color={"white"}>Login</Tab>
+            <Tab data-testid='tab-register' color={"white"}>Registro</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
