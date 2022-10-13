@@ -36,8 +36,6 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { obj, specialities } from "components/obj/obj";
-import StepsAdmForm from "components/StepsAdm/StepsAdm";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -53,6 +51,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "services";
 import toast from "react-hot-toast";
 import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
 
 interface EditData {
   email: string;
@@ -81,6 +80,8 @@ const editSchema = yup.object().shape({
 });
 
 const ModalLastUserAdm = ({ value, user }: any) => {
+  const { specialtys } = useSpecialtys();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userRole, setUserRole] = useState(user.role);
   const [userChapter, setUserChapter] = useState(user.chapter);
@@ -344,7 +345,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <AllRadarSpecialityAdm user={user} />
                       </SwiperSlide>
 
-                      {specialities.map((speciality) => (
+                      {specialtys?.map((speciality) => (
                         <SwiperSlide key={speciality.id}>
                           <Flex w={"100%"} h="90%" justifyContent="center">
                             <Flex w={"50%"} h="100%">
@@ -368,7 +369,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Estimativa - {speciality.name}</Text>
+                                <Text>Estimativa - {speciality.performance}</Text>
                                 <LastRadarUserAdm
                                   testUser={speciality}
                                   type="specialities"
@@ -533,12 +534,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   defaultValue={userRole}
                                   onChange={setUserRole}
                                 >
-                                  {specialities.map((speciality) => (
+                                  {specialtys?.map((speciality) => (
                                     <MenuItemOption
                                       key={speciality.id}
-                                      value={speciality.name}
+                                      value={speciality.performance}
                                     >
-                                      {speciality.name}
+                                      {speciality.performance}
                                     </MenuItemOption>
                                   ))}
                                 </MenuOptionGroup>

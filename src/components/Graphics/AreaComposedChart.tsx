@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
+import { useSpecialtys } from "contexts/specialtys";
 import { useUsers } from "contexts/Users";
 import {
   ComposedChart,
@@ -15,6 +15,7 @@ import {
 
 const AreaComposedChart = () => {
   const { user } = useUsers();
+  const { specialtys } = useSpecialtys();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -27,26 +28,21 @@ const AreaComposedChart = () => {
     });
 
     const dataToChart = data?.map((item: any) => {
-      const role = item.nextRole === "Especialista" ? "Especialista /Tech-Lead" : item.nextRole === "Tech-Lead" ? "Especialista /Tech-Lead" : item.nextRole;
 
       return {
-        nextRole: role,
+        nextRole: item.nextRole,
         createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
-        allSpecialities: [...speciality],
+        allSpecialities: [...speciality!],
       }
     });
 
     return dataToChart;
   };
 
-  const speciality = [
-    "Aprendiz",
-    "Junior",
-    "Pleno",
-    "Senior",
-    "Especialista /Tech-Lead",
-    "Líder",
-  ];
+  const speciality = specialtys?.map((item: any) => {
+    return item.performance;
+  });
+
   const data = mountUserData();
   return (
     <ResponsiveContainer width="100%" height="100%">

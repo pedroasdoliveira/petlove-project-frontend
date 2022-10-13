@@ -18,6 +18,8 @@ import RadioCard from "components/RadioCard/RadioCard";
 import { obj } from "components/obj/obj";
 import React from "react";
 import Link from "next/link";
+import { api } from "services";
+import toast from "react-hot-toast";
 
 const steps = [
   { label: "Sistemas", Content: obj.sistemas },
@@ -56,13 +58,10 @@ const StepsForm = () => {
 
   const changeValueRadio = (value: string) => {
     setValueButton(true);
-    console.log(value);
 
     if (value === "Sim") {
-      console.log("proxima questao");
       setQuestionaryVerify("question");
     } else {
-      console.log("proximo step");
       setQuestionaryVerify("step");
     }
   };
@@ -215,8 +214,32 @@ const StepsForm = () => {
               mt={6}
               size="sm"
               onClick={() => {
-                console.log(respostas);
-                setQuantity(0);
+                const token = localStorage.getItem("token");
+
+                const headers = {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                };
+
+                const data = {
+                  toolshop: respostas.Ferramentarias,
+                  design: respostas.Design,
+                  test: respostas.Teste,
+                  computationalFundamentals: respostas.Computacionais,
+                  person: respostas.Pessoas,
+                  process: respostas.Processos,
+                  system: respostas.Sistemas,
+                };
+
+                api.post("/Result", data, headers).then((response) => {
+                  console.log(response);
+                  setQuantity(0);
+                  toast.success("Resultado enviado com sucesso!");          
+                }).catch((error) => {
+                  console.log(error);
+                  toast.error("Erro ao enviar resultado!");
+                });
               }}
             >
               Ir para o perfil

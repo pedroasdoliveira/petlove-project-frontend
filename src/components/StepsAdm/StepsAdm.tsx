@@ -17,13 +17,14 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
-import { obj, specialities } from "components/obj/obj";
+import { obj } from "components/obj/obj";
 import React from "react";
 import Link from "next/link";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
 
 const steps = [
   { label: "Sistemas", Content: obj.sistemas },
@@ -36,6 +37,8 @@ const steps = [
 ];
 
 const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
+  const { specialtys } = useSpecialtys();
+
   const { handleGetUsers } = useUsers();
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
@@ -267,15 +270,15 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
           </Button>
           <Flex gap={"1rem"}>
             <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
-              {specialities.map((speciality) => (
+              {specialtys?.map((speciality) => (
                 <option
                   key={speciality.id}
                   selected={
                     lastTest.nextRole === speciality.name ? true : false
                   }
-                  value={speciality.name}
+                  value={speciality.performance}
                 >
-                  {speciality.name}
+                  {speciality.performance}
                 </option>
               ))}
             </Select>

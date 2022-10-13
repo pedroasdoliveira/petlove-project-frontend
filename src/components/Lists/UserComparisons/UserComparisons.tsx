@@ -17,7 +17,6 @@ import {
 } from "@chakra-ui/react";
 import PieAdm from "components/Graphics/PieAdm";
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
-import { dataAdm } from "components/obj/obj";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Mousewheel, Navigation, Pagination } from "swiper";
 import "swiper/css";
@@ -28,9 +27,14 @@ import { useUsers } from "contexts/Users";
 
 const UserComparisons = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
-  const { handleGetUsers, users } = useUsers();
+  const { users } = useUsers();
 
-  const dataAdmFiltered = users?.sort((item, item2) => {
+  const removedNull = users?.filter((item, index) => {
+    const lastResult = item.results[item.results.length - 1];
+    return lastResult !== null && lastResult !== undefined;
+  });
+
+  const dataAdmFiltered = removedNull?.sort((item, item2) => {
     const lastResult = item.results[item.results.length - 1];
     const lastResult2: any = item2.results[item2.results.length - 1];
     const plus =
@@ -50,13 +54,9 @@ const UserComparisons = () => {
     return plus2 - plus;
   });
 
-  const removedNull = dataAdmFiltered?.filter((item, index) => {
-    const lastResult = item.results[item.results.length - 1];
-    return lastResult !== null && lastResult !== undefined;
-  });
+  //separar cada usuario por team
 
   const teamMap = users?.map((item) => {
-    //separar cada usuario por team
 
     return item.team;
   });
@@ -86,7 +86,7 @@ const UserComparisons = () => {
           marginBottom={4}
           textAlign="center"
         >
-          Ranking de usuários - Total de usuários: {removedNull?.length}
+          Ranking de usuários - {removedNull?.length} usuários validados
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
@@ -103,7 +103,7 @@ const UserComparisons = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {removedNull?.map((user) => {
+            {dataAdmFiltered?.map((user) => {
               const lastResult = user.results[user.results.length - 1];
 
               const plus =

@@ -27,7 +27,6 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { obj, specialities } from "components/obj/obj";
 import StepsAdmForm from "components/StepsAdm/StepsAdm";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import { useEffect, useState } from "react";
@@ -40,8 +39,11 @@ import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
 import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
 
 const ModalLastUserAdm = ({ value, user }: any) => {
+  const { specialtys } = useSpecialtys();
+
   const { handleGetUsers } = useUsers();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -345,12 +347,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             onChange={handleUserEspeciality}
                             w={"35%"}
                           >
-                            {specialities.map((speciality) => (
+                            {specialtys?.map((speciality) => (
                               <option
                                 key={speciality.id}
-                                value={speciality.name}
+                                value={speciality.performance}
                               >
-                                {speciality.name}
+                                {speciality.performance}
                               </option>
                             ))}
                           </Select>
@@ -432,7 +434,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <AllRadarSpecialityAdm user={user} />
                       </SwiperSlide>
 
-                      {specialities.map((speciality) => (
+                      {specialtys?.map((speciality) => (
                         <SwiperSlide key={speciality.id}>
                           <Flex w={"100%"} h="90%" justifyContent="center">
                             <Flex w={"50%"} h="100%">
@@ -457,7 +459,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 alignItems="center"
                               >
                                 <Text fontSize="xl">
-                                  Estimativa - {speciality.name}
+                                  Estimativa - {speciality.performance}
                                 </Text>
                                 <LastRadarUserAdm
                                   testUser={speciality}
@@ -485,9 +487,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           defaultValue={value.nextRole}
                           w={"12%"}
                         >
-                          {specialities.map((speciality) => (
-                            <option key={speciality.id} value={speciality.name}>
-                              {speciality.name}
+                          {specialtys?.map((speciality) => (
+                            <option key={speciality.id} value={speciality.performance}>
+                              {speciality.performance}
                             </option>
                           ))}
                         </Select>
@@ -650,9 +652,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                         w={"60%"}
                       >
-                        {specialities.map((speciality) => (
-                          <option key={speciality.id} value={speciality.name}>
-                            {speciality.name}
+                        {specialtys?.map((speciality) => (
+                          <option key={speciality.id} value={speciality.performance}>
+                            {speciality.performance}
                           </option>
                         ))}
                       </Select>
