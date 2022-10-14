@@ -113,11 +113,16 @@ const ModalLastUserAdm = ({ value, user }: any) => {
       },
     };
 
-    api.patch(`/User/${user.email}`, data, headers).then((response) => {
-      toast.success("Usuário editado com sucesso!");
-      handleGetUsers();
-      onClose();
-    });
+    api
+      .patch(`/User/${user.email}`, data, headers)
+      .then((response) => {
+        toast.success("Usuário editado com sucesso!");
+        handleGetUsers();
+        onClose();
+      })
+      .catch((error) => {
+        toast.error("Erro ao editar usuário!");
+      });
   };
 
   return (
@@ -195,11 +200,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            textAlign="center"
-                          >
+                          <Text fontSize="xl" mx="auto" textAlign="center">
                             Todos os testes - Radar
                           </Text>
                           <AllRadarUserAdm user={user} />
@@ -303,9 +304,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{
-                                    `${new Date(result.createdAt).toLocaleDateString()}`
-                                  }</Th>
+                                  <Th color={"white"}>{`${new Date(
+                                    result.createdAt
+                                  ).toLocaleDateString()}`}</Th>
                                   <Th color={"white"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
@@ -355,7 +356,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Último teste - {value?.nextRole ? value?.nextRole : "Nenhum teste"}</Text>
+                                <Text>
+                                  Último teste -{" "}
+                                  {value?.nextRole
+                                    ? value?.nextRole
+                                    : "Nenhum teste"}
+                                </Text>
                                 <LastRadarUserAdm
                                   testUser={value}
                                   type="user"
@@ -369,7 +375,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Estimativa - {speciality.performance}</Text>
+                                <Text>
+                                  Estimativa - {speciality.performance}
+                                </Text>
                                 <LastRadarUserAdm
                                   testUser={speciality}
                                   type="specialities"
@@ -496,9 +504,11 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <Flex direction={"column"} w="10%">
                           <Text>Chapter:</Text>
                           <FormControl>
-                          <Menu>
+                            <Menu>
                               <MenuButton as={Button} colorScheme="blue">
-                                {userChapter !== null ? userChapter : "Selecione"}
+                                {userChapter !== null
+                                  ? userChapter
+                                  : "Selecione"}
                               </MenuButton>
                               <MenuList minWidth="240px">
                                 <MenuOptionGroup
@@ -506,16 +516,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   defaultValue={userChapter}
                                   onChange={setUserChapter}
                                 >
-                                  <MenuItemOption
-                                      value={"backend"}
-                                    >
-                                      Backend
-                                    </MenuItemOption>
-                                    <MenuItemOption
-                                      value={"frontend"}
-                                    >
-                                      Frontend
-                                    </MenuItemOption>
+                                  <MenuItemOption value={"backend"}>
+                                    Backend
+                                  </MenuItemOption>
+                                  <MenuItemOption value={"frontend"}>
+                                    Frontend
+                                  </MenuItemOption>
                                 </MenuOptionGroup>
                               </MenuList>
                             </Menu>

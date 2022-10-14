@@ -21,6 +21,7 @@ import Link from "next/link";
 import { api } from "services";
 import toast from "react-hot-toast";
 import { useTest } from "contexts/test";
+import { useUsers } from "contexts/Users";
 
 const respostas = {
   Sistemas: 0,
@@ -38,6 +39,7 @@ const StepsForm = () => {
   });
 
   const { test }: any = useTest();
+  const { handleGetUsers } = useUsers();
 
   const steps = [
     { label: "Sistemas", Content: test?.system },
@@ -253,6 +255,7 @@ const StepsForm = () => {
                   .then((response) => {
                     setQuantity(0);
                     handleReset();
+                    handleGetUsers();
                     toast.success("Resultado enviado com sucesso!");
                   })
                   .catch((error) => {

@@ -32,11 +32,11 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     const data = {
       name: nameSplit,
       total:
-        lastResult?.system +
+        (lastResult?.system +
         lastResult?.person +
         lastResult?.technology +
         lastResult?.process +
-        lastResult?.influence,
+        lastResult?.influence).toFixed(2),
     };
 
     if (isNaN(data.total)) {

@@ -42,7 +42,7 @@ const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
                 return acc;
               }, 0);
 
-              const media = plus / (teamLength === 0 ? 1 : teamLength);
+              const media = (plus / (teamLength === 0 ? 1 : teamLength)).toFixed(2);
 
     return {
       name: item![0].team ? item![0].team : "Sem equipe",
