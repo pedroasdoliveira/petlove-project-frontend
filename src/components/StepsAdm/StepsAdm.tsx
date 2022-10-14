@@ -193,7 +193,6 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
                       );
                       nextStep();
                     }
-                    console.log(respostas)
                     setValue("none");
                     setValueButton(false);
                     setQuestionaryVerify("false");

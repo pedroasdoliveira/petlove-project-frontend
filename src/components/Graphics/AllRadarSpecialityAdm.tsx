@@ -95,7 +95,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
               name={item.performance}
               dataKey={index}
               stroke={handleColor(item.performance)}
-              strokeWidth={3}
+              strokeWidth={2}
               fill="none"
               fillOpacity={0.6}
               dot={{ stroke: "white", strokeWidth: 0.5 }}

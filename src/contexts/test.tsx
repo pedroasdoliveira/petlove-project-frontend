@@ -45,8 +45,6 @@ export const TestContextProvider = ({ children }: TestContextProps) => {
       .catch((err) => console.log(err));
   };
 
-  console.log(test);
-
   useEffect(() => {
     if (logged) handleGetTest();
   }, [logged]);
