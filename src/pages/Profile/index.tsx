@@ -15,9 +15,10 @@ interface ProfileProps {
 
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
-  const { user } = useUsers();
+  const { user, handleGetUsers } = useUsers();
   useEffect(() => {
     checkTokenExpiration!();
+    handleGetUsers!();
   }, []);
 
   const background = useColorModeValue(
