@@ -5,7 +5,6 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
 import { ErrorMessage } from "pages/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,7 +36,7 @@ const loginSchema = yup.object().shape({
     .required("Senha é obrigatória"),
 });
 
-const LoginComponent: NextPage = () => {
+const LoginComponent = () => {
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
