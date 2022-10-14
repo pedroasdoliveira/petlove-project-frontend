@@ -33,7 +33,7 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
 
     if (type === "specialities") {
       testUserAdm = {
-        nextRole: testUser.name,
+        nextRole: testUser.performance,
         system: testUser.system,
         person: testUser.person,
         technology: testUser.technology,

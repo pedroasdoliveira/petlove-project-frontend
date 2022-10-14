@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import {
   Flex,
@@ -15,21 +16,11 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
-import { obj } from "components/obj/obj";
 import React from "react";
 import Link from "next/link";
 import { api } from "services";
 import toast from "react-hot-toast";
-
-const steps = [
-  { label: "Sistemas", Content: obj.sistemas },
-  { label: "Processos", Content: obj.processos },
-  { label: "Pessoas", Content: obj.pessoas },
-  { label: "Ferramentarias", Content: obj.ferramentarias },
-  { label: "Design", Content: obj.designs },
-  { label: "Teste", Content: obj.testes },
-  { label: "Computacionais", Content: obj.computacionais },
-];
+import { useTest } from "contexts/test";
 
 const respostas = {
   Sistemas: 0,
@@ -45,6 +36,33 @@ const StepsForm = () => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+
+  const { test }: any = useTest();
+
+  const steps = [
+    { label: "Sistemas", Content: test?.system },
+    { label: "Processos", Content: test?.process },
+    { label: "Pessoas", Content: test?.person },
+    { label: "Ferramentarias", Content: test?.toolshop },
+    { label: "Design", Content: test?.design },
+    { label: "Teste", Content: test?.test },
+    { label: "Computacionais", Content: test?.computationalFundamentals },
+  ];
+
+  const handleReset = () => {
+    respostas.Sistemas = 0;
+    respostas.Processos = 0;
+    respostas.Pessoas = 0;
+    respostas.Ferramentarias = 0;
+    respostas.Design = 0;
+    respostas.Teste = 0;
+    respostas.Computacionais = 0;
+    reset();
+  };
+
+  useEffect(() => {
+    handleReset();
+  }, []);
 
   const colorButtonSend = useColorModeValue("#3d1194", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
@@ -89,13 +107,13 @@ const StepsForm = () => {
         size="sm"
         value={quantity}
         max={
-          obj.computacionais.length +
-          obj.designs.length +
-          obj.ferramentarias.length +
-          obj.pessoas.length +
-          obj.processos.length +
-          obj.sistemas.length +
-          obj.testes.length
+          test?.system?.length +
+          test?.person?.length +
+          test?.toolshop?.length +
+          test?.design?.length +
+          test?.test?.length +
+          test?.computationalFundamentals?.length +
+          test?.process?.length
         }
         marginBottom={12}
       />
@@ -114,7 +132,7 @@ const StepsForm = () => {
           fontSize: "1.2rem",
         }}
       >
-        {steps.map(({ label, Content }, index) => (
+        {steps.map(({ label, Content }) => (
           <Step label={label} key={label} height={"1%"}>
             <Flex
               display={"flex"}
@@ -134,18 +152,18 @@ const StepsForm = () => {
                   justifyContent={"center"}
                   flexDir={"column"}
                 >
-                  {Content[eval(`respostas.${label}`)] &&
-                  Content[eval(`respostas.${label}`)].match(
+                  {Content?.[eval(`respostas.${label}`)] &&
+                  Content?.[eval(`respostas.${label}`)].match(
                     /https?:\/\/[^\s]+|www.?[^\s]+/g
                   ) ? (
                     <>
-                      {Content[eval(`respostas.${label}`)].replace(
+                      {Content?.[eval(`respostas.${label}`)].replace(
                         /https?:\/\/[^\s]+|www.?[^\s]+/g,
                         ""
                       )}
                       <ChakraLink
                         href={
-                          Content[eval(`respostas.${label}`)].match(
+                          Content?.[eval(`respostas.${label}`)].match(
                             /https?:\/\/[^\s]+|www.?[^\s]+/g
                           ) as unknown as string
                         }
@@ -159,7 +177,7 @@ const StepsForm = () => {
                       </ChakraLink>
                     </>
                   ) : (
-                    Content[eval(`respostas.${label}`)]
+                    Content?.[eval(`respostas.${label}`)]
                   )}
                 </Heading>
               </FormLabel>
@@ -188,10 +206,8 @@ const StepsForm = () => {
                     setQuantity(
                       quantity + Content.length - eval(`respostas.${label}`)
                     );
-                    console.log("mandando pro proximo step!");
                     nextStep();
                   }
-                  console.log("clicaram");
                   setValue("none");
                   setValueButton(false);
                   setQuestionaryVerify("false");
@@ -232,14 +248,17 @@ const StepsForm = () => {
                   system: respostas.Sistemas,
                 };
 
-                api.post("/Result", data, headers).then((response) => {
-                  console.log(response);
-                  setQuantity(0);
-                  toast.success("Resultado enviado com sucesso!");          
-                }).catch((error) => {
-                  console.log(error);
-                  toast.error("Erro ao enviar resultado!");
-                });
+                api
+                  .post("/Result", data, headers)
+                  .then((response) => {
+                    setQuantity(0);
+                    handleReset();
+                    toast.success("Resultado enviado com sucesso!");
+                  })
+                  .catch((error) => {
+                    handleReset();
+                    toast.error("Erro ao enviar resultado!");
+                  });
               }}
             >
               Ir para o perfil
@@ -252,6 +271,7 @@ const StepsForm = () => {
 
       {
         //aq em baixo são os botao sim ou não
+
       }
       {activeStep !== steps.length ? (
         <FormControl

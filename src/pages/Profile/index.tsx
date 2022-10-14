@@ -26,6 +26,16 @@ const Profile: NextPage<ProfileProps> = () => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
+  const handleVerify = () => {
+    if (user?.results?.at(-1).isValided === "Sim") {
+      return "Aprovado";
+    } else if (user?.results?.at(-1).isValided === null) {
+      return "Aguardando";
+    } else {
+      return "Reprovado";
+    }
+  };
+
   return (
     <Flex
       as="main"
@@ -81,7 +91,7 @@ const Profile: NextPage<ProfileProps> = () => {
               direction="column"
             >
               <Text fontSize="xl" mx="auto" mb={1} fontWeight="bold">
-                Último teste
+                Último teste - {handleVerify()}
               </Text>
               <LastRadarUser />
             </Flex>

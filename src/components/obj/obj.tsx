@@ -21,7 +21,7 @@ export const obj = {
     "Você gerencia carreiras, expectativas, performances e nível de engajamento do seu time?",
   ],
   ferramentarias: [
-    "Você conhece o conceito de código limpo (link)? Aplica o conceito em pelo menos 50% do seu código? Conhece e desenvolve seguindo os nossos processos de 					CI/CD?https://petlove.atlassian.net/wiki/spaces/TEC/pages/351666200/Playbook",
+    "Você conhece o conceito de código limpo (link)? Aplica o conceito em pelo menos 50% do seu código? Conhece e desenvolve seguindo os nossos processos de CI/CD?https://petlove.atlassian.net/wiki/spaces/TEC/pages/351666200/Playbook",
     "Você Constrói códigos modulares e segue os conceitos de código limpo em 80% do seu código?",
     "Você ajuda a definir processos de CI/CD do seu time e da sua área? Ensina seus colegas a importância de um código limpo e cobra isso nos PRs que revisa?",
   ],
