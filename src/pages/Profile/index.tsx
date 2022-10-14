@@ -27,12 +27,14 @@ const Profile: NextPage<ProfileProps> = () => {
   );
 
   const handleVerify = () => {
-    if (user?.results?.at(-1).isValided === "Sim") {
+    if (user?.results?.at(-1)?.isValided === "Sim") {
       return "Aprovado";
-    } else if (user?.results?.at(-1).isValided === null) {
+    } else if (user?.results?.at(-1)?.isValided === null) {
       return "Aguardando";
-    } else {
+    } else if (user?.results?.at(-1)?.isValided === "Não") {
       return "Reprovado";
+    } else {
+      return "Não realizado";
     }
   };
 

@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { CheckboxLeft, ErrorMessage } from "../../pages/style";
 import { api } from "services";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 interface RegisterData {
   email: string;
@@ -59,6 +60,8 @@ const RegisterComponent: NextPage = () => {
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
   const errorColor = useColorModeValue("#ffee00", "red");
+
+  const [viewPasswordRegister, setViewPasswordRegister] = useState(false);
 
   const {
     register: register,
@@ -126,13 +129,13 @@ const RegisterComponent: NextPage = () => {
             color={errorColor}
           >{registerErrors.email?.message || ""}</ErrorMessage>
         </FormControl>
-        <FormControl mt={2.45}>
+        <FormControl mt={"1.45rem"}>
           <Input
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.password}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -154,7 +157,7 @@ const RegisterComponent: NextPage = () => {
             variant={"flushed"}
             isInvalid={!!registerErrors.confirmPassword}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("confirmPassword")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -171,6 +174,25 @@ const RegisterComponent: NextPage = () => {
           >
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
+
+          <Flex
+            justifyContent="end"
+            width="100%"
+            mt={3}
+            
+          >
+          <Checkbox
+            colorScheme="purple"
+            color={useColorModeValue("#230d88", "#5030dd")}
+            mb={4}
+            onChange={() => {
+              setViewPasswordRegister(!viewPasswordRegister);
+            }}
+            
+          >
+            Mostrar senha
+          </Checkbox>
+          </Flex>
         </FormControl>
         <FormControl>
           <Flex justifyContent="center" alignItems="center">

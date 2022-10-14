@@ -1,5 +1,7 @@
 import {
   Button,
+  Checkbox,
+  Flex,
   FormControl,
   Heading,
   Input,
@@ -14,6 +16,7 @@ import { api } from "services";
 import Router from "next/router";
 import toast from "react-hot-toast";
 import { useAuth } from "contexts/Auth";
+import { useState } from "react";
 
 interface LoginData {
   email: string;
@@ -43,6 +46,8 @@ const LoginComponent: NextPage = () => {
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
   const { login: loginAuth } = useAuth();
+
+  const [viewPassword, setViewPassword] = useState(false);
 
   const {
     register: login,
@@ -110,7 +115,7 @@ const LoginComponent: NextPage = () => {
             variant={"flushed"}
             isInvalid={!!loginErrors.password}
             mb={3}
-            type="password"
+            type={viewPassword ? "text" : "password"}
             {...login("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -125,6 +130,24 @@ const LoginComponent: NextPage = () => {
           <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
             {loginErrors.password?.message || ""}
           </ErrorMessage>
+          <Flex
+            justifyContent="end"
+            width="100%"
+            mt={2}
+            
+          >
+          <Checkbox
+            colorScheme="purple"
+            color={useColorModeValue("#230d88", "#5030dd")}
+            mb={2}
+            onChange={() => {
+              setViewPassword(!viewPassword);
+            }}
+            
+          >
+            Mostrar senha
+          </Checkbox>
+          </Flex>
         </FormControl>
         <Button
           background={buttonBackground}

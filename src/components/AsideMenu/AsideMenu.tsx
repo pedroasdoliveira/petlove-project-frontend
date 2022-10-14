@@ -9,7 +9,8 @@ import Link from "next/link";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { AiFillHome, AiFillProfile } from "react-icons/ai";
+import { AiFillHome, AiFillProfile, AiOutlineLogout } from "react-icons/ai";
+import { useAuth } from "contexts/Auth";
 
 interface Prop {
   direction: "column" | "row";
@@ -17,6 +18,8 @@ interface Prop {
 }
 
 const AsideMenu = ({ direction, path }: Prop) => {
+  const { logout } = useAuth();
+
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
@@ -28,7 +31,7 @@ const AsideMenu = ({ direction, path }: Prop) => {
       border={`1px solid ${borderColor}`}
       p="3px"
       borderRadius="10px"
-      h={direction === "column" ? (path === "Interview" ? "6%" : "25%") : "75%"}
+      h={direction === "column" ? (path === "Interview" ? "6%" : "35%") : "75%"}
       alignItems="center"
       direction={direction}
       justifyContent="space-between"
@@ -61,6 +64,12 @@ const AsideMenu = ({ direction, path }: Prop) => {
               <Icon as={AiFillProfile} />
             </Button>
           </Link>
+          <Button
+            m={direction === "column" ? "1.5rem 0 0 0" : "0 0 0 1.5rem"}
+            onClick={logout}
+          >
+            <Icon as={AiOutlineLogout} />
+          </Button>
         </>
       )}
     </Flex>
