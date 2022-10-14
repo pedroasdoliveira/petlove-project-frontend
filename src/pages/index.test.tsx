@@ -48,7 +48,7 @@ describe("Login page", () => {
     expect(tabRegister).toHaveAttribute("tabindex", "0");
   });
 
-  it("Confirmed information's in Login component", () => {
+  it("Should confirmed information's in Login component", () => {
     render(<LoginComponent />)
     render(<Login />);
 
