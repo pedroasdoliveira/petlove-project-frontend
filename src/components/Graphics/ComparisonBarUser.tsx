@@ -1,14 +1,8 @@
 import { useColorModeValue, Text, Flex } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
   Tooltip,
   BarChart,
   CartesianGrid,

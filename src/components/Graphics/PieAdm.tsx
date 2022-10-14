@@ -1,22 +1,5 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
-import { dataAdm, dataApi } from "components/obj/obj";
-import {
-  Legend,
-  ResponsiveContainer,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
-  Tooltip,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Bar,
-  Pie,
-  PieChart,
-} from "recharts";
+import { Legend, ResponsiveContainer, Tooltip, Pie, PieChart } from "recharts";
 
 interface PieAdmProps {
   quantity: any[];
@@ -53,7 +36,7 @@ const PieAdm = ({ quantity, names }: PieAdmProps) => {
             label={(entry) => entry.name}
             legendType="circle"
             labelLine={false}
-            innerRadius={30}            
+            innerRadius={30}
           />
           <Tooltip
             cursor={{ fill: "transparent" }}

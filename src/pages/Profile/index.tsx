@@ -3,11 +3,10 @@ import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUsers } from "contexts/Users";
 
 interface ProfileProps {

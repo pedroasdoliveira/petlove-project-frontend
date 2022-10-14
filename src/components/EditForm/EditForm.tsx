@@ -1,6 +1,5 @@
 import { Flex, FormControl, Input, useColorModeValue, Button, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { user } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
 import { useForm } from "react-hook-form";

@@ -1,5 +1,4 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi, user } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
 import {
   Legend,

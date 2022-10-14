@@ -1,5 +1,4 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
 import { useSpecialtys } from "contexts/specialtys";
 import {
   ComposedChart,
