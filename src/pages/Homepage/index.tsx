@@ -46,7 +46,6 @@ const Homepage: NextPage = () => {
       <Head>
         <title>Homepage</title>
         <meta name="description" content="Homepage" />
-        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <Flex
