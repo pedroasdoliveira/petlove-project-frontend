@@ -11,8 +11,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { api } from "services";
-import Router from 'next/router'
-import toast from 'react-hot-toast';
+import Router from "next/router";
+import toast from "react-hot-toast";
 import { useAuth } from "contexts/Auth";
 
 interface LoginData {
@@ -51,21 +51,28 @@ const LoginComponent: NextPage = () => {
   } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
 
   const handleLogin = (data: LoginData) => {
-    api.post("/auth", data).then((response) => {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${response.data.token}`,
-        },
-      };
+    api
+      .post("/auth", data)
+      .then((response) => {
+        const headers = {
+          headers: {
+            Authorization: `Bearer ${response.data.token}`,
+          },
+        };
 
-      api.get(`User/${data.email}`, headers).then((res) => {
-        const user = res.data;
-        loginAuth!({token: response.data.token, user: user});
-        Router.push('/Homepage')
+        api.get(`User/${data.email}`, headers).then((res) => {
+          const user = res.data;
+          loginAuth!({ token: response.data.token, user: user });
+          Router.push("/Homepage");
+        });
+      })
+      .catch((error) => {
+        if (error.response.data.message === "User not verified") {
+          toast.error("Usuário não verificado");
+        } else {
+          toast.error("Email ou senha incorretos");
+        }
       });
-    }).catch((error) => {
-      toast.error("Email ou senha incorretos")
-    });
   };
 
   return (
@@ -93,9 +100,9 @@ const LoginComponent: NextPage = () => {
             }}
           />
 
-          <ErrorMessage
-            color={useColorModeValue("#ffee00", "red")}
-          >{loginErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+            {loginErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -115,9 +122,9 @@ const LoginComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={useColorModeValue("#ffee00", "red")}
-          >{loginErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+            {loginErrors.password?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <Button
           background={buttonBackground}
