@@ -4,14 +4,18 @@ import AsideMenu from "components/AsideMenu/AsideMenu";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import Specialties from "components/Specialties/Specialties";
 import { useAuth } from "contexts/Auth";
+import { useTest } from "contexts/test";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
 
 const Specialty: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { handleGetTest } = useTest();
+
   useEffect(() => {
     checkTokenExpiration!();
+    handleGetTest!();
   }, []);
 
   return (

@@ -25,12 +25,15 @@ import Head from "next/head";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
 import AllUserList from "components/AllUserList/AllUserList";
+import { useUsers } from "contexts/Users";
 
 const Administration: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { handleGetUsers } = useUsers();
 
   useEffect(() => {
     checkTokenExpiration!();
+    handleGetUsers!();
   }, []);
 
   const background = useColorModeValue(

@@ -1,13 +1,6 @@
 import { Flex, useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
 import {
-  Legend,
   ResponsiveContainer,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
   Tooltip,
   BarChart,
   CartesianGrid,
@@ -29,30 +22,32 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
 
   const comparisonData = value?.map((item) => {
     const lastResult = item.results[item.results.length - 1];
-    const nameSplit = 
+    const nameSplit =
       item.name.split(" ")[0] +
       " " +
-      (item.name?.split(" ")[1]?.at(0) ? item.name?.split(" ")[1]?.at(0) + "." : "")
+      (item.name?.split(" ")[1]?.at(0)
+        ? item.name?.split(" ")[1]?.at(0) + "."
+        : "");
 
     const data = {
       name: nameSplit,
       total:
-        lastResult?.system +
+        (lastResult?.system +
         lastResult?.person +
         lastResult?.technology +
         lastResult?.process +
-        lastResult?.influence,
+        lastResult?.influence).toFixed(2),
     };
 
     if (isNaN(data.total)) {
-      return data.total = null;
+      return (data.total = null);
     }
 
     return data;
   });
 
   const sortedData = comparisonData?.sort((a, b) => {
-    return b?.total - a?.total ;
+    return b?.total - a?.total;
   });
 
   const removedNull = sortedData?.filter((item) => {
@@ -79,7 +74,7 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
               fill: "white",
             }}
           />
-          <Bar dataKey="total" fill={"#8884d8"} barSize={40} label/>
+          <Bar dataKey="total" fill={"#8884d8"} barSize={40} label />
 
           <Tooltip
             cursor={{ fill: "transparent" }}

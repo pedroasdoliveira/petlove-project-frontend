@@ -1,21 +1,16 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
-  Flex,
   Table,
   TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
 import ModalLastUserAdm from "components/ModalLastUserAdm/ModalLastUserAdm";
-import { dataAdm } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
-import { useState } from "react";
 
 const UserList = () => {
   const { users } = useUsers();

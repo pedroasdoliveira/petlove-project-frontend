@@ -68,6 +68,7 @@ export const AuthContextProvider: any = ({ children }: Props) => {
           setLogged(true);
         })
         .catch((error) => {
+          toast.error("Sessão expirada, faça login novamente!");
           logout();
         });
     } catch (error) {

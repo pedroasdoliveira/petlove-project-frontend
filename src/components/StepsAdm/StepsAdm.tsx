@@ -17,30 +17,24 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
-import { obj, specialities } from "components/obj/obj";
 import React from "react";
-import Link from "next/link";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
+import { useTest } from "contexts/test";
 
-const steps = [
-  { label: "Sistemas", Content: obj.sistemas },
-  { label: "Processos", Content: obj.processos },
-  { label: "Pessoas", Content: obj.pessoas },
-  { label: "Ferramentarias", Content: obj.ferramentarias },
-  { label: "Design", Content: obj.designs },
-  { label: "Teste", Content: obj.testes },
-  { label: "Computacionais", Content: obj.computacionais },
-];
 
 const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
+  const { specialtys } = useSpecialtys();
+  const { test }: any = useTest();
+  
   const { handleGetUsers } = useUsers();
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
-
+  
   const colorButtonSend = useColorModeValue("#3d1194", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
@@ -48,6 +42,16 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
   const linkColor = useColorModeValue("#3f3f3f", "#adadad");
   const stepsColor = useColorModeValue("#cc1010", "#1d1d31");
   const stepsColorText = useColorModeValue("#10cc19", "#1d1d31");
+  
+  const steps = [
+    { label: "Sistemas", Content: test?.system },
+    { label: "Processos", Content: test?.process },
+    { label: "Pessoas", Content: test?.person },
+    { label: "Ferramentarias", Content: test?.toolshop },
+    { label: "Design", Content: test?.design },
+    { label: "Teste", Content: test?.test },
+    { label: "Computacionais", Content: test?.computationalFundamentals },
+  ];
 
   const [valueButton, setValueButton] = useState(false);
   const [questionaryVerify, setQuestionaryVerify] = useState("false");
@@ -267,15 +271,15 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
           </Button>
           <Flex gap={"1rem"}>
             <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
-              {specialities.map((speciality) => (
+              {specialtys?.map((speciality) => (
                 <option
                   key={speciality.id}
                   selected={
                     lastTest.nextRole === speciality.name ? true : false
                   }
-                  value={speciality.name}
+                  value={speciality.performance}
                 >
-                  {speciality.name}
+                  {speciality.performance}
                 </option>
               ))}
             </Select>

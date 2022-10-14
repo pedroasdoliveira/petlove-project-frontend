@@ -1,5 +1,7 @@
 import {
   Button,
+  Checkbox,
+  Flex,
   FormControl,
   Heading,
   Input,
@@ -10,9 +12,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { api } from "services";
-import Router from 'next/router'
-import toast from 'react-hot-toast';
+import Router from "next/router";
+import toast from "react-hot-toast";
 import { useAuth } from "contexts/Auth";
+import { useState } from "react";
 
 interface LoginData {
   email: string;
@@ -43,6 +46,8 @@ const LoginComponent = () => {
 
   const { login: loginAuth } = useAuth();
 
+  const [viewPassword, setViewPassword] = useState(false);
+
   const {
     register: login,
     handleSubmit: loginHandleSubmit,
@@ -50,21 +55,28 @@ const LoginComponent = () => {
   } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
 
   const handleLogin = (data: LoginData) => {
-    api.post("/auth", data).then((response) => {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${response.data.token}`,
-        },
-      };
+    api
+      .post("/auth", data)
+      .then((response) => {
+        const headers = {
+          headers: {
+            Authorization: `Bearer ${response.data.token}`,
+          },
+        };
 
-      api.get(`User/${data.email}`, headers).then((res) => {
-        const user = res.data;
-        loginAuth!({token: response.data.token, user: user});
-        Router.push('/Homepage')
+        api.get(`User/${data.email}`, headers).then((res) => {
+          const user = res.data;
+          loginAuth!({ token: response.data.token, user: user });
+          Router.push("/Homepage");
+        });
+      })
+      .catch((error) => {
+        if (error.response.data.message === "User not verified") {
+          toast.error("Usuário não verificado");
+        } else {
+          toast.error("Email ou senha incorretos");
+        }
       });
-    }).catch((error) => {
-      toast.error("Email ou senha incorretos")
-    });
   };
 
   return (
@@ -93,9 +105,9 @@ const LoginComponent = () => {
             }}
           />
 
-          <ErrorMessage
-            color={useColorModeValue("#ffee00", "red")}
-          >{loginErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+            {loginErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -104,7 +116,7 @@ const LoginComponent = () => {
             variant={"flushed"}
             isInvalid={!!loginErrors.password}
             mb={3}
-            type="password"
+            type={viewPassword ? "text" : "password"}
             {...login("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -116,9 +128,27 @@ const LoginComponent = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={useColorModeValue("#ffee00", "red")}
-          >{loginErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+            {loginErrors.password?.message || ""}
+          </ErrorMessage>
+          <Flex
+            justifyContent="end"
+            width="100%"
+            mt={2}
+            
+          >
+          <Checkbox
+            colorScheme="purple"
+            color={useColorModeValue("#230d88", "#5030dd")}
+            mb={2}
+            onChange={() => {
+              setViewPassword(!viewPassword);
+            }}
+            
+          >
+            Mostrar senha
+          </Checkbox>
+          </Flex>
         </FormControl>
         <Button
           data-testid='submit-login'

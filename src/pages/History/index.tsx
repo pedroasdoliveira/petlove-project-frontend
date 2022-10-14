@@ -24,11 +24,15 @@ import "swiper/css/navigation";
 import OneLineUser from "components/Graphics/OneLineUser";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
+import { useUsers } from "contexts/Users";
 
 const History: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { handleGetUsers } = useUsers();
+
   useEffect(() => {
     checkTokenExpiration!();
+    handleGetUsers!();
   }, []);
 
   const background = useColorModeValue(

@@ -1,14 +1,8 @@
 import { useColorModeValue, Text, Flex } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
   Tooltip,
   BarChart,
   CartesianGrid,
@@ -31,14 +25,16 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
 
   const handleColor = (value: string) => {
     switch (value) {
-      case "Aprendiz":
-        return "#FF0000";
+      case "Trainee":
+        return "#7700ff";
       case "Junior":
         return "#FFA500";
       case "Pleno":
         return "#FFFF00";
       case "Senior":
         return "#008000";
+        case "Tech-Lead":
+        return "cyan";
       case "Especialista":
         return "#0000FF";
     }

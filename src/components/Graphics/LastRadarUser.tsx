@@ -51,6 +51,16 @@ const LastRadarUser = () => {
   const data = mountLastData(user?.results);
   const lastData = user.results?.at(-1);
 
+  const handleColor = () => {
+    if (lastData?.isValided === "Sim") {
+      return "#00FF00";
+    } else if (lastData?.isValided === null) {
+      return "#FFFF00";
+    } else {
+      return "#FF0000";
+    }
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
@@ -69,9 +79,9 @@ const LastRadarUser = () => {
         <Radar
           name={lastData?.nextRole}
           dataKey="A"
-          stroke="cyan"
+          stroke={handleColor()}
           strokeWidth={3}
-          fill="cyan"
+          fill={handleColor()}
           fillOpacity={0.6}
           dot={{ stroke: "white", strokeWidth: 0.5 }}
         />

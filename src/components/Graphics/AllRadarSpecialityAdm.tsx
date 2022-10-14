@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi, specialities, user } from "components/obj/obj";
+import { useSpecialtys } from "contexts/specialtys";
 import {
   Legend,
   ResponsiveContainer,
@@ -12,6 +12,8 @@ import {
 } from "recharts";
 
 const AllRadarSpecialityAdm = ({ user }: any) => {
+  const { specialtys } = useSpecialtys();
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -19,14 +21,16 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
 
   const handleColor = (value: string) => {
     switch (value) {
-      case "Aprendiz":
-        return "#FF0000";
+      case "Trainee":
+        return "#7700ff";
       case "Junior":
         return "#FFA500";
       case "Pleno":
         return "#FFFF00";
       case "Senior":
         return "#008000";
+        case "Tech-Lead":
+        return "cyan";
       case "Especialista":
         return "#0000FF";
     }
@@ -53,7 +57,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
       },
     ];
 
-    specialities.forEach((item: any, index: number) => {
+    specialtys?.forEach((item: any, index: number) => {
       data.forEach((item2: any) => {
         item2[index] = item[item2.subject.toLowerCase()];
       });
@@ -84,14 +88,14 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {specialities.map((item: any, index: any) => {
+        {specialtys?.map((item: any, index: any) => {
           return (
             <Radar
               key={index}
-              name={item.name}
+              name={item.performance}
               dataKey={index}
-              stroke={"cyan"}
-              strokeWidth={3}
+              stroke={handleColor(item.performance)}
+              strokeWidth={2}
               fill="none"
               fillOpacity={0.6}
               dot={{ stroke: "white", strokeWidth: 0.5 }}

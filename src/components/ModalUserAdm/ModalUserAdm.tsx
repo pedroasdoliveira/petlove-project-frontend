@@ -36,8 +36,6 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { obj, specialities } from "components/obj/obj";
-import StepsAdmForm from "components/StepsAdm/StepsAdm";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -53,6 +51,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "services";
 import toast from "react-hot-toast";
 import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
 
 interface EditData {
   email: string;
@@ -81,6 +80,8 @@ const editSchema = yup.object().shape({
 });
 
 const ModalLastUserAdm = ({ value, user }: any) => {
+  const { specialtys } = useSpecialtys();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userRole, setUserRole] = useState(user.role);
   const [userChapter, setUserChapter] = useState(user.chapter);
@@ -112,11 +113,16 @@ const ModalLastUserAdm = ({ value, user }: any) => {
       },
     };
 
-    api.patch(`/User/${user.email}`, data, headers).then((response) => {
-      toast.success("Usuário editado com sucesso!");
-      handleGetUsers();
-      onClose();
-    });
+    api
+      .patch(`/User/${user.email}`, data, headers)
+      .then((response) => {
+        toast.success("Usuário editado com sucesso!");
+        handleGetUsers();
+        onClose();
+      })
+      .catch((error) => {
+        toast.error("Erro ao editar usuário!");
+      });
   };
 
   return (
@@ -194,11 +200,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            textAlign="center"
-                          >
+                          <Text fontSize="xl" mx="auto" textAlign="center">
                             Todos os testes - Radar
                           </Text>
                           <AllRadarUserAdm user={user} />
@@ -302,9 +304,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{
-                                    `${new Date(result.createdAt).toLocaleDateString()}`
-                                  }</Th>
+                                  <Th color={"white"}>{`${new Date(
+                                    result.createdAt
+                                  ).toLocaleDateString()}`}</Th>
                                   <Th color={"white"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
@@ -344,7 +346,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <AllRadarSpecialityAdm user={user} />
                       </SwiperSlide>
 
-                      {specialities.map((speciality) => (
+                      {specialtys?.map((speciality) => (
                         <SwiperSlide key={speciality.id}>
                           <Flex w={"100%"} h="90%" justifyContent="center">
                             <Flex w={"50%"} h="100%">
@@ -354,7 +356,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Último teste - {value?.nextRole ? value?.nextRole : "Nenhum teste"}</Text>
+                                <Text>
+                                  Último teste -{" "}
+                                  {value?.nextRole
+                                    ? value?.nextRole
+                                    : "Nenhum teste"}
+                                </Text>
                                 <LastRadarUserAdm
                                   testUser={value}
                                   type="user"
@@ -368,7 +375,9 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 direction={"column"}
                                 alignItems="center"
                               >
-                                <Text>Estimativa - {speciality.name}</Text>
+                                <Text>
+                                  Estimativa - {speciality.performance}
+                                </Text>
                                 <LastRadarUserAdm
                                   testUser={speciality}
                                   type="specialities"
@@ -495,9 +504,11 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         <Flex direction={"column"} w="10%">
                           <Text>Chapter:</Text>
                           <FormControl>
-                          <Menu>
+                            <Menu>
                               <MenuButton as={Button} colorScheme="blue">
-                                {userChapter !== null ? userChapter : "Selecione"}
+                                {userChapter !== null
+                                  ? userChapter
+                                  : "Selecione"}
                               </MenuButton>
                               <MenuList minWidth="240px">
                                 <MenuOptionGroup
@@ -505,16 +516,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   defaultValue={userChapter}
                                   onChange={setUserChapter}
                                 >
-                                  <MenuItemOption
-                                      value={"backend"}
-                                    >
-                                      Backend
-                                    </MenuItemOption>
-                                    <MenuItemOption
-                                      value={"frontend"}
-                                    >
-                                      Frontend
-                                    </MenuItemOption>
+                                  <MenuItemOption value={"backend"}>
+                                    Backend
+                                  </MenuItemOption>
+                                  <MenuItemOption value={"frontend"}>
+                                    Frontend
+                                  </MenuItemOption>
                                 </MenuOptionGroup>
                               </MenuList>
                             </Menu>
@@ -533,12 +540,12 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   defaultValue={userRole}
                                   onChange={setUserRole}
                                 >
-                                  {specialities.map((speciality) => (
+                                  {specialtys?.map((speciality) => (
                                     <MenuItemOption
                                       key={speciality.id}
-                                      value={speciality.name}
+                                      value={speciality.performance}
                                     >
-                                      {speciality.name}
+                                      {speciality.performance}
                                     </MenuItemOption>
                                   ))}
                                 </MenuOptionGroup>

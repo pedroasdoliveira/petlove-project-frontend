@@ -1,5 +1,4 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi, user } from "components/obj/obj";
 import { useUsers } from "contexts/Users";
 import {
   Legend,
@@ -21,14 +20,16 @@ const AllRadarUser = () => {
 
   const handleColor = (value: string) => {
     switch (value) {
-      case "Aprendiz":
-        return "#FF0000";
+      case "Trainee":
+        return "#7700ff";
       case "Junior":
         return "#FFA500";
       case "Pleno":
         return "#FFFF00";
       case "Senior":
         return "#008000";
+        case "Tech-Lead":
+        return "cyan";
       case "Especialista":
         return "#0000FF";
     }

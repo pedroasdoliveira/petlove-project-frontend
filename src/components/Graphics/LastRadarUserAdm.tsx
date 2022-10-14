@@ -1,5 +1,4 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
 import {
   Legend,
   ResponsiveContainer,
@@ -19,6 +18,23 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
 
   let testUserAdm = testUser;
 
+  const handleColor = (value: string) => {
+    switch (value) {
+      case "Trainee":
+        return "#7700ff";
+      case "Junior":
+        return "#FFA500";
+      case "Pleno":
+        return "#FFFF00";
+      case "Senior":
+        return "#008000";
+        case "Tech-Lead":
+        return "cyan";
+      case "Especialista":
+        return "#0000FF";
+    }
+  };
+
   const mountLastData = () => {
 
     if (type === "review") {
@@ -34,7 +50,7 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
 
     if (type === "specialities") {
       testUserAdm = {
-        nextRole: testUser.name,
+        nextRole: testUser.performance,
         system: testUser.system,
         person: testUser.person,
         technology: testUser.technology,
@@ -89,9 +105,9 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
         <Radar
           name={testUserAdm?.nextRole}
           dataKey="A"
-          stroke="cyan"
+          stroke={handleColor(testUserAdm?.nextRole)}
           strokeWidth={3}
-          fill="cyan"
+          fill={handleColor(testUserAdm?.nextRole)}
           fillOpacity={0.6}
           dot={{ stroke: "white", strokeWidth: 0.5 }}
         />

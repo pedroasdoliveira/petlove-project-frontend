@@ -3,11 +3,10 @@ import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUsers } from "contexts/Users";
 
 interface ProfileProps {
@@ -16,15 +15,28 @@ interface ProfileProps {
 
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
-  const { user } = useUsers();
+  const { user, handleGetUsers } = useUsers();
   useEffect(() => {
     checkTokenExpiration!();
+    handleGetUsers!();
   }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
+
+  const handleVerify = () => {
+    if (user?.results?.at(-1)?.isValided === "Sim") {
+      return "Aprovado";
+    } else if (user?.results?.at(-1)?.isValided === null) {
+      return "Aguardando";
+    } else if (user?.results?.at(-1)?.isValided === "Não") {
+      return "Reprovado";
+    } else {
+      return "Não realizado";
+    }
+  };
 
   return (
     <Flex
@@ -81,7 +93,7 @@ const Profile: NextPage<ProfileProps> = () => {
               direction="column"
             >
               <Text fontSize="xl" mx="auto" mb={1} fontWeight="bold">
-                Último teste
+                Último teste - {handleVerify()}
               </Text>
               <LastRadarUser />
             </Flex>
