@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,29 +8,30 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
-  Box,
   Flex,
   Grid,
   GridItem,
   Heading,
   Text,
-  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
 import DefaultButton from "components/Button/Button";
 import Footer from "components/Footer/Footer";
+import AsideMenu from "components/AsideMenu/AsideMenu";
+import { useAuth } from "contexts/Auth";
 
 const Homepage: NextPage = () => {
-  const { toggleColorMode } = useColorMode();
-  const { toggle, setToggle } = useToggle() as ToggleMode;
+  const { checkTokenExpiration } = useAuth();
+  useEffect(() => {
+    checkTokenExpiration!();
+  }, []);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
-  const textColor = useColorModeValue("#2D3748", "#CBD5E0");
-  const textColorFooter = useColorModeValue("#fcfcfc", "#CBD5E0");
-  const bgCardColor = useColorModeValue("#f4f5f9", "#000");
+  const textColor = "white";
+  const bgCardColor = useColorModeValue(
+    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+  );
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
   return (
@@ -44,14 +46,13 @@ const Homepage: NextPage = () => {
       <Head>
         <title>Homepage</title>
         <meta name="description" content="Homepage" />
-        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <Flex
         as="nav"
         alignItems={"center"}
         w={"90%"}
-        h={"60px"}
+        h={"4rem"}
         py={2}
         position={"fixed"}
         zIndex={1}
@@ -63,25 +64,17 @@ const Homepage: NextPage = () => {
         <Flex
           direction={"row"}
           w={"100%"}
-          justifyContent={"space-between"}
+          h={"100%"}
+          justifyContent={{md: 'space-between', sm: 'center'}}
           alignItems={"center"}
           mx={8}
           color={"white"}
         >
-          <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
+          <Heading display={{md: 'block', sm: 'none'}} as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
-          <Flex alignItems={"center"} marginRight={12}>
-            <Box
-              cursor={"pointer"}
-              onClick={() => {
-                toggleColorMode();
-                setToggle(!toggle);
-              }}
-            >
-              {toggle ? <SunIcon /> : <MoonIcon />}
-            </Box>
-          </Flex>
+
+          <AsideMenu direction="row"/>
         </Flex>
       </Flex>
 
@@ -90,10 +83,10 @@ const Homepage: NextPage = () => {
         direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        marginTop={"5rem"}
+        marginTop={"8rem"}
         marginBottom={"5rem"}
       >
-        <Heading as="h1" fontSize={"4xl"} fontWeight="bold">
+        <Heading as="h1" fontSize={"4xl"} fontWeight="bold" textAlign="center">
           Avalie suas capacidades!
         </Heading>
 
@@ -105,11 +98,12 @@ const Homepage: NextPage = () => {
         >
           Faça um teste agora mesmo
         </Text>
+      </Flex>
 
-        <Grid templateColumns="repeat(3, 1fr)" gap={8} my={12}>
+        <Grid templateColumns={{lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)"}} gap={8} my={12}>
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
             boxShadow={`10px 5px 15px ${shadowColor}`}
@@ -136,10 +130,10 @@ const Homepage: NextPage = () => {
 
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
-            boxShadow={`10px 5px 15px ${shadowColor}`}
+            boxShadow={`9px 5px 15px ${shadowColor}`}
           >
             <Flex
               direction={"column"}
@@ -163,7 +157,7 @@ const Homepage: NextPage = () => {
 
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
             boxShadow={`10px 5px 15px ${shadowColor}`}
@@ -190,9 +184,8 @@ const Homepage: NextPage = () => {
         </Grid>
 
         <DefaultButton valueButton="Realizar teste" />
-      </Flex>
 
-      <Footer color={textColorFooter} />
+      <Footer />
     </Flex>
   );
 };

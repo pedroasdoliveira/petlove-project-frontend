@@ -1,0 +1,346 @@
+import { useState } from "react";
+import { Step, Steps, useSteps } from "chakra-ui-steps";
+import {
+  Flex,
+  Heading,
+  Button,
+  FormControl,
+  RadioGroup,
+  HStack,
+  useRadioGroup,
+  useColorModeValue,
+  FormLabel,
+  Link as ChakraLink,
+  Input,
+  InputLeftAddon,
+  Select,
+} from "@chakra-ui/react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import RadioCard from "components/RadioCard/RadioCard";
+import React from "react";
+import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
+import toast from "react-hot-toast";
+import { api } from "services";
+import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
+import { useTest } from "contexts/test";
+
+
+const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
+  const { specialtys } = useSpecialtys();
+  const { test }: any = useTest();
+  
+  const { handleGetUsers } = useUsers();
+  const { nextStep, prevStep, reset, activeStep } = useSteps({
+    initialStep: 0,
+  });
+  
+  const colorButtonSend = useColorModeValue("#3d1194", "#fff");
+  const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
+  const buttonSendHover = useColorModeValue("#000000", "#fff");
+  const buttonColorHover = useColorModeValue("#fff", "#000000");
+  const linkColor = useColorModeValue("#3f3f3f", "#adadad");
+  const stepsColor = useColorModeValue("#cc1010", "#1d1d31");
+  const stepsColorText = useColorModeValue("#10cc19", "#1d1d31");
+  
+  const steps = [
+    { label: "Sistemas", Content: test?.system },
+    { label: "Processos", Content: test?.process },
+    { label: "Pessoas", Content: test?.person },
+    { label: "Ferramentarias", Content: test?.toolshop },
+    { label: "Design", Content: test?.design },
+    { label: "Teste", Content: test?.test },
+    { label: "Computacionais", Content: test?.computationalFundamentals },
+  ];
+
+  const [valueButton, setValueButton] = useState(false);
+  const [questionaryVerify, setQuestionaryVerify] = useState("false");
+  const [quantity, setQuantity] = useState(0);
+  const [hidden, setHidden] = useState(true);
+
+  const [userEspeciality, setUserEspeciality] = useState(lastTest.nextRole);
+  const [userValidate, setUserValidate] = useState("");
+
+  const handleUserEspeciality = (event: any) => {
+    setUserEspeciality(event.target.value);
+  };
+
+  const handleUserValidate = (event: any) => {
+    setUserValidate(event.target.value);
+  };
+
+  const changeValueRadio = (value: string) => {
+    setValueButton(true);
+
+    if (value === "Sim") {
+      setQuestionaryVerify("question");
+    } else {
+      setQuestionaryVerify("step");
+    }
+  };
+
+  const handleHidden = () => {
+    setHidden(!hidden);
+  };
+
+  const { value, getRootProps, getRadioProps, setValue } = useRadioGroup({
+    name: "option",
+    defaultValue: "none",
+    onChange: changeValueRadio,
+  });
+
+  const group = getRootProps();
+
+  if (hidden) {
+    return (
+      <Flex
+        as="section"
+        display={"flex"}
+        flexDir={"column"}
+        width="100%"
+        justify={"space-evenly"}
+        align={"center"}
+      >
+        <Steps
+          activeStep={activeStep}
+          height={"1%"}
+          colorScheme="green"
+          mb={"4rem"}
+          borderRadius="10px"
+          textColor={"#10cc19"}
+          color={stepsColor}
+          borderColor={stepsColorText}
+          borderBlockEndColor={stepsColorText}
+          textStyle={{
+            color: stepsColorText,
+            fontWeight: "bold",
+            fontSize: "1.2rem",
+          }}
+        >
+          {steps.map(({ label, Content }, index) => (
+            <Step label={label} key={label} height={"1%"}>
+              <Flex
+                flexDir={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                width={"100%"}
+                height={"40%"}
+              >
+                <FormLabel display={"flex"} justifyContent={"center"}>
+                  <Heading
+                    as="h2"
+                    size="lg"
+                    marginBottom={4}
+                    textAlign={"center"}
+                    width={"90%"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    flexDir={"column"}
+                  >
+                    {Content[eval(`respostas.${label}`)] &&
+                    Content[eval(`respostas.${label}`)].match(
+                      /https?:\/\/[^\s]+|www.?[^\s]+/g
+                    ) ? (
+                      <>
+                        {Content[eval(`respostas.${label}`)].replace(
+                          /https?:\/\/[^\s]+|www.?[^\s]+/g,
+                          ""
+                        )}
+                        <ChakraLink
+                          href={
+                            Content[eval(`respostas.${label}`)].match(
+                              /https?:\/\/[^\s]+|www.?[^\s]+/g
+                            ) as unknown as string
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                          mt={5}
+                          color={linkColor}
+                          textDecoration={"underline"}
+                        >
+                          Link
+                        </ChakraLink>
+                      </>
+                    ) : (
+                      Content[eval(`respostas.${label}`)]
+                    )}
+                  </Heading>
+                </FormLabel>
+                <Button
+                  bgColor={buttonSendColorMode}
+                  color={colorButtonSend}
+                  letterSpacing="tight"
+                  _hover={{
+                    background: buttonSendHover,
+                    color: buttonColorHover,
+                  }}
+                  hidden={!valueButton}
+                  my={"1rem"}
+                  ml={"1"}
+                  onClick={() => {
+                    if (questionaryVerify === "question") {
+                      setQuantity(quantity + 1);
+                      setValueButton(false);
+                      if (eval(`respostas.${label}`) < Content.length - 1) {
+                        eval(`respostas.${label}++`);
+                      } else {
+                        eval(`respostas.${label}++`);
+                        nextStep();
+                      }
+                    } else if (questionaryVerify === "step") {
+                      setQuantity(
+                        quantity + Content.length - eval(`respostas.${label}`)
+                      );
+                      nextStep();
+                    }
+                    setValue("none");
+                    setValueButton(false);
+                    setQuestionaryVerify("false");
+                  }}
+                >
+                  Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+                </Button>
+              </Flex>
+            </Step>
+          ))}
+        </Steps>
+        {activeStep === steps.length ? (
+          <Flex px={4} py={4} width="100%" flexDir="column">
+            <Heading fontSize="xl" textAlign="center">
+              Validação concluída!
+            </Heading>
+
+            <Button
+              mx="auto"
+              mt={6}
+              size="sm"
+              onClick={() => {
+                setQuantity(0);
+                handleHidden();
+              }}
+            >
+              Mostrar teste
+            </Button>
+          </Flex>
+        ) : (
+          ""
+        )}
+
+        {
+          //aq em baixo são os botao sim ou não
+        }
+        {activeStep !== steps.length ? (
+          <FormControl
+            as="fieldset"
+            display="flex"
+            alignItems="center"
+            flexDir="column"
+          >
+            <RadioGroup defaultValue="none" mb={10} display="flex">
+              <HStack color="#fff" spacing="80px" {...group}>
+                <RadioCard {...getRadioProps({ value: "Sim" })}>Sim</RadioCard>
+                <RadioCard {...getRadioProps({ value: "Não" })}>Não</RadioCard>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
+        ) : (
+          ""
+        )}
+      </Flex>
+    );
+  } else {
+    return (
+      <Flex w={"100%"} h="100%" direction={"column"} alignItems="center">
+        <Flex w={"100%"} h="90%" justifyContent="center">
+          <Flex w={"50%"} h="100%">
+            <LastRadarUserAdm testUser={lastTest} type="user" />
+          </Flex>
+          <Flex w={"50%"} h="100%">
+            <LastRadarUserAdm testUser={respostas} type="review" />
+          </Flex>
+        </Flex>
+        <Flex w={"100%"} h="10%" justifyContent={"space-evenly"}>
+          <Button
+            onClick={() => {
+              handleResetRespostas();
+              reset();
+              handleHidden();
+            }}
+          >
+            Voltar
+          </Button>
+          <Flex gap={"1rem"}>
+            <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
+              {specialtys?.map((speciality) => (
+                <option
+                  key={speciality.id}
+                  selected={
+                    lastTest.nextRole === speciality.name ? true : false
+                  }
+                  value={speciality.performance}
+                >
+                  {speciality.performance}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              isRequired={true}
+              onChange={handleUserValidate}
+              defaultValue={""}
+              w={"80%"}
+            >
+              <option disabled={true} value={""}>
+                Aprovado?
+              </option>
+              <option value="Sim">Sim</option>
+              <option value="Não">Não</option>
+            </Select>
+
+            <Button
+              w="40%"
+              onClick={() => {
+                if (userValidate !== "") {
+                  const token = localStorage.getItem("token");
+
+                  const headers = {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  };
+
+                  const data = {
+                    nextRole: userEspeciality,
+                    isValided: userValidate,
+                    system: respostas.Sistemas,
+                    technology: +((respostas.Ferramentarias + respostas.Design + respostas.Teste + respostas.Computacionais) * (5 / 12)).toFixed(2),
+                    person: respostas.Pessoas,
+                    influence: +((respostas.Sistemas + respostas.Processos + (2 * respostas.Pessoas)) / 4).toFixed(2),
+                    process: respostas.Processos,
+                  };
+
+                  api
+                    .patch(`/Result/${lastTest.id}`, data, headers)
+                    .then((response) => {
+                      toast.success("Função atualizada com sucesso!");
+                      handleGetUsers();
+                      onClose();
+                    })
+                    .catch((error) => {
+                      toast.error("Erro ao atualizar função!");
+                    });
+                } else {
+                  toast.error("Selecione se foi aprovado ou não!");
+                }
+              }}
+            >
+              Validar
+            </Button>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  }
+};
+
+export default StepsAdmForm;

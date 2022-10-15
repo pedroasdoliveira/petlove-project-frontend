@@ -5,23 +5,21 @@ import {
   FormControl,
   Heading,
   Input,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CheckboxLeft, ErrorMessage } from "../../pages/style";
+import toast from "react-hot-toast";
+import { api } from "services";
+import * as yup from "yup";
+import { ErrorMessage } from "../../pages/style";
 
 interface RegisterData {
   email: string;
   name: string;
   password: string;
   confirmPassword: string;
-  team: string;
-  chapter: string;
-  role: string;
-  isAdmin: boolean;
   terms: boolean;
 }
 
@@ -52,22 +50,21 @@ const registerSchema = yup.object().shape({
     .max(40, "Nome deve ter no máximo 40 caracteres")
     .required("Nome é obrigatório"),
 
-  team: yup.string().required("Time é obrigatório"),
-
-  chapter: yup.string().required("Chapter é obrigatório"),
-
-  role: yup.string().required("Cargo é obrigatório"),
-
-  isAdmin: yup.boolean(),
-
   terms: yup.boolean().oneOf([true]),
 });
 
-const RegisterComponent: NextPage = () => {
-  const buttonBackground = useColorModeValue("#472dba", "#5030dd");
-  const buttonHover = useColorModeValue("#000000", "#dee0e3");
+interface Prop {
+  setTabIndex: (value: number) => void;
+}
+
+const RegisterComponent = ({setTabIndex}: Prop) => {
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
+  const buttonBackground = useColorModeValue("#230d88", "#5030dd");
+  const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
+  const errorColor = useColorModeValue("#ffee00", "red");
+
+  const [viewPasswordRegister, setViewPasswordRegister] = useState(false);
 
   const {
     register: register,
@@ -76,7 +73,11 @@ const RegisterComponent: NextPage = () => {
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
-    console.log("register", data);
+    api.post("/User/create", data).then((response) => {
+      console.log(response);
+      toast.success("Perfil registrado com sucesso!");
+      setTabIndex(0);
+    });
   };
 
   return (
@@ -88,6 +89,7 @@ const RegisterComponent: NextPage = () => {
       <form>
         <FormControl>
           <Input
+            data-testid="name-input"
             placeholder="Seu nome completo..."
             variant={"flushed"}
             isInvalid={!!registerErrors.name}
@@ -99,11 +101,18 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.name?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.name?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="email-input"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!registerErrors.email}
@@ -115,109 +124,88 @@ const RegisterComponent: NextPage = () => {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
 
-          <ErrorMessage>{registerErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
-        <FormControl mt={2.45}>
+        <FormControl mt={"1.45rem"}>
           <Input
-            placeholder="Nome do time que participa..."
-            variant={"flushed"}
-            isInvalid={!!registerErrors.team}
-            mb={3}
-            type="text"
-            {...register("team")}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                registerHandleSubmit(handleRegister)();
-              }
-            }}
-          />
-          <ErrorMessage>{registerErrors.team?.message || ""}</ErrorMessage>
-        </FormControl>
-        <CheckboxLeft>
-          <FormControl>
-            <Input
-              placeholder="Qual o seu chapter?"
-              variant={"flushed"}
-              isInvalid={!!registerErrors.chapter}
-              mb={3}
-              type="text"
-              {...register("chapter")}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  registerHandleSubmit(handleRegister)();
-                }
-              }}
-            />
-            <ErrorMessage>{registerErrors.chapter?.message || ""}</ErrorMessage>
-          </FormControl>
-          <FormControl>
-            <Checkbox
-              size="sm"
-              colorScheme={useColorModeValue("purple", "blue")}
-              {...register("isAdmin")}
-            >
-              Sou gestor
-            </Checkbox>
-          </FormControl>
-        </CheckboxLeft>
-        <FormControl>
-          <Input
-            placeholder="Nível atual? (junior, pleno, sênior, etc)"
-            variant={"flushed"}
-            isInvalid={!!registerErrors.role}
-            mb={3}
-            type="text"
-            {...register("role")}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                registerHandleSubmit(handleRegister)();
-              }
-            }}
-          />
-          <ErrorMessage>{registerErrors.role?.message || ""}</ErrorMessage>
-        </FormControl>
-        <FormControl mt={2.45}>
-          <Input
+            data-testid="password-input"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.password}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>{registerErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.password?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="confirmedPassword-input"
             placeholder="Confirme sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.confirmPassword}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("confirmPassword")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 registerHandleSubmit(handleRegister)();
               }
             }}
+            color="white"
+            _placeholder={{
+              color: "#bbbaba",
+            }}
           />
-          <ErrorMessage>
+          <ErrorMessage color={errorColor}>
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
+
+          <Flex
+            justifyContent="end"
+            width="100%"
+            mt={3}
+            
+          >
+          <Checkbox
+            colorScheme="purple"
+            color={useColorModeValue("#230d88", "#5030dd")}
+            mb={4}
+            onChange={() => {
+              setViewPasswordRegister(!viewPasswordRegister);
+            }}
+            
+          >
+            Mostrar senha
+          </Checkbox>
+          </Flex>
         </FormControl>
         <FormControl>
           <Flex justifyContent="center" alignItems="center">
             <Checkbox
+              data-testid="checkbox-input"
               size="sm"
               colorScheme="red"
-              color={registerErrors.terms ? "red" : checkboxColor}
+              color={registerErrors.terms ? `${errorColor}` : checkboxColor}
               fontWeight="bold"
               mt={3}
               {...register("terms")}
@@ -227,9 +215,10 @@ const RegisterComponent: NextPage = () => {
           </Flex>
         </FormControl>
         <Button
+          data-testid="button-submit"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
-          color="#b2aec2"
+          color="white"
           variant="ghost"
           w={"100%"}
           onClick={registerHandleSubmit(handleRegister)}
