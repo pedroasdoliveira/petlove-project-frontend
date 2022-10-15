@@ -17,26 +17,24 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import RadioCard from "components/RadioCard/RadioCard";
-import { obj, specialities } from "components/obj/obj";
 import React from "react";
-import Link from "next/link";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
+import toast from "react-hot-toast";
+import { api } from "services";
+import { useUsers } from "contexts/Users";
+import { useSpecialtys } from "contexts/specialtys";
+import { useTest } from "contexts/test";
 
-const steps = [
-  { label: "Sistemas", Content: obj.sistemas },
-  { label: "Processos", Content: obj.processos },
-  { label: "Pessoas", Content: obj.pessoas },
-  { label: "Ferramentarias", Content: obj.ferramentarias },
-  { label: "Design", Content: obj.designs },
-  { label: "Teste", Content: obj.testes },
-  { label: "Computacionais", Content: obj.computacionais },
-];
 
-const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
+const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
+  const { specialtys } = useSpecialtys();
+  const { test }: any = useTest();
+  
+  const { handleGetUsers } = useUsers();
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
-
+  
   const colorButtonSend = useColorModeValue("#3d1194", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
@@ -44,13 +42,23 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
   const linkColor = useColorModeValue("#3f3f3f", "#adadad");
   const stepsColor = useColorModeValue("#cc1010", "#1d1d31");
   const stepsColorText = useColorModeValue("#10cc19", "#1d1d31");
+  
+  const steps = [
+    { label: "Sistemas", Content: test?.system },
+    { label: "Processos", Content: test?.process },
+    { label: "Pessoas", Content: test?.person },
+    { label: "Ferramentarias", Content: test?.toolshop },
+    { label: "Design", Content: test?.design },
+    { label: "Teste", Content: test?.test },
+    { label: "Computacionais", Content: test?.computationalFundamentals },
+  ];
 
   const [valueButton, setValueButton] = useState(false);
   const [questionaryVerify, setQuestionaryVerify] = useState("false");
   const [quantity, setQuantity] = useState(0);
   const [hidden, setHidden] = useState(true);
 
-  const [userEspeciality, setUserEspeciality] = useState("");
+  const [userEspeciality, setUserEspeciality] = useState(lastTest.nextRole);
   const [userValidate, setUserValidate] = useState("");
 
   const handleUserEspeciality = (event: any) => {
@@ -63,13 +71,10 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
 
   const changeValueRadio = (value: string) => {
     setValueButton(true);
-    console.log(value);
 
     if (value === "Sim") {
-      console.log("proxima questao");
       setQuestionaryVerify("question");
     } else {
-      console.log("proximo step");
       setQuestionaryVerify("step");
     }
   };
@@ -186,10 +191,8 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
                       setQuantity(
                         quantity + Content.length - eval(`respostas.${label}`)
                       );
-                      console.log("mandando pro proximo step!");
                       nextStep();
                     }
-                    console.log("clicaram");
                     setValue("none");
                     setValueButton(false);
                     setQuestionaryVerify("false");
@@ -212,7 +215,6 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
               mt={6}
               size="sm"
               onClick={() => {
-                console.log(respostas);
                 setQuantity(0);
                 handleHidden();
               }}
@@ -268,16 +270,16 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
             Voltar
           </Button>
           <Flex gap={"1rem"}>
-            <Select isRequired={true} onChange={handleUserEspeciality}>
-              {specialities.map((speciality) => (
+            <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
+              {specialtys?.map((speciality) => (
                 <option
                   key={speciality.id}
                   selected={
                     lastTest.nextRole === speciality.name ? true : false
                   }
-                  value={speciality.name}
+                  value={speciality.performance}
                 >
-                  {speciality.name}
+                  {speciality.performance}
                 </option>
               ))}
             </Select>
@@ -285,10 +287,10 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
             <Select
               isRequired={true}
               onChange={handleUserValidate}
-              defaultValue={"null"}
-              w={"12%"}
+              defaultValue={""}
+              w={"80%"}
             >
-              <option disabled={true} value={"null"}>
+              <option disabled={true} value={""}>
                 Aprovado?
               </option>
               <option value="Sim">Sim</option>
@@ -296,9 +298,40 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas }: any) => {
             </Select>
 
             <Button
+              w="40%"
               onClick={() => {
-                // mostrar role que o usuario selecionou no select, no caso agora so conectar com api
-                console.log(userEspeciality, lastTest.userId);
+                if (userValidate !== "") {
+                  const token = localStorage.getItem("token");
+
+                  const headers = {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  };
+
+                  const data = {
+                    nextRole: userEspeciality,
+                    isValided: userValidate,
+                    system: respostas.Sistemas,
+                    technology: +((respostas.Ferramentarias + respostas.Design + respostas.Teste + respostas.Computacionais) * (5 / 12)).toFixed(2),
+                    person: respostas.Pessoas,
+                    influence: +((respostas.Sistemas + respostas.Processos + (2 * respostas.Pessoas)) / 4).toFixed(2),
+                    process: respostas.Processos,
+                  };
+
+                  api
+                    .patch(`/Result/${lastTest.id}`, data, headers)
+                    .then((response) => {
+                      toast.success("Função atualizada com sucesso!");
+                      handleGetUsers();
+                      onClose();
+                    })
+                    .catch((error) => {
+                      toast.error("Erro ao atualizar função!");
+                    });
+                } else {
+                  toast.error("Selecione se foi aprovado ou não!");
+                }
               }}
             >
               Validar

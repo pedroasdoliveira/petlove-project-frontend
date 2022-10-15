@@ -1,7 +1,17 @@
-import { Flex, Heading, ListItem, Text, UnorderedList, useColorModeValue } from "@chakra-ui/react";
-import LastRadarUser from "components/Graphics/LastRadarUser";
+import {
+  Flex,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
+import { useSpecialtys } from "contexts/specialtys";
 
 const Specialties = () => {
+  const { specialtys } = useSpecialtys();
+
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -9,298 +19,48 @@ const Specialties = () => {
 
   return (
     <>
-      {/* Row 1 - Specialtie Aprendiz */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          {/* Grafico*/}
-          <LastRadarUser />
-        </Flex>
-
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
+      {specialtys?.map((specialty) => (
+        <Flex
+          key={specialty.id}
+          justifyContent={"space-evenly"}
+          direction={{ xl: "row", sm: "column" }}
+          p={8}
+          borderRadius={"15px"}
+          w={{ xl: "100%", lg: "90%", sm: "100%" }}
+          bg={background}
+          color={"white"}
+          mb={5}
         >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Aprendiz
-          </Heading>
+          <Flex w={{ xl: "50%", sm: "100%" }} h={"100%"}>
+            {/* Grafico*/}
+            <LastRadarUserAdm testUser={specialty} type={"specialities"} />
+          </Flex>
 
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
+          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }}>
+            {/* Informações*/}
+            <Heading
+              as="h2"
+              textAlign={"center"}
+              fontWeight={"bold"}
+              marginBottom={6}
+            >
+              {specialty.performance}
+            </Heading>
 
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
+            <Text fontSize={"lg"} fontWeight="normal">
+              {specialty.description}
+            </Text>
+
+            <UnorderedList marginTop={6}>
+              <ListItem>Pessoas: {specialty.person}</ListItem>
+              <ListItem>Tecnologia: {specialty.technology}</ListItem>
+              <ListItem>Sistema: {specialty.system}</ListItem>
+              <ListItem>Influência: {specialty.influence}</ListItem>
+              <ListItem>Processos: {specialty.process}</ListItem>
+            </UnorderedList>
+          </Flex>
         </Flex>
-      </Flex>
-
-      {/* Row 2 - Specialtie Junior */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        {/* Grafico*/}
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          <LastRadarUser />
-        </Flex>
-
-        {/* Informações*/}
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
-        >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Junior
-          </Heading>
-
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
-
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
-        </Flex>
-      </Flex>
-
-      {/* Row 3 - Specialtie Pleno */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        {/* Grafico*/}
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          <LastRadarUser />
-        </Flex>
-
-        {/* Informações*/}
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
-        >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Pleno
-          </Heading>
-
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
-
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
-        </Flex>
-      </Flex>
-
-      {/* Row 4 - Specialtie Senior */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        {/* Grafico*/}
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          <LastRadarUser />
-        </Flex>
-
-        {/* Informações*/}
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
-        >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Senior
-          </Heading>
-
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
-
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
-        </Flex>
-      </Flex>
-
-      {/* Row 5 - Specialtie Especialista */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        {/* Grafico*/}
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          <LastRadarUser />
-        </Flex>
-
-        {/* Informações*/}
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
-        >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Especialista
-          </Heading>
-
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
-
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
-        </Flex>
-      </Flex>
-
-      {/* Row 6 - Specialtie Tech Lead */}
-      <Flex
-        justifyContent={"space-evenly"}
-        direction={{xl: "row", sm: "column"}}
-        p={8}
-        borderRadius={"15px"}
-        w={{xl: "100%", lg: "90%", sm: "100%"}}
-        bg={background}
-        color={"white"}
-        mb={5}
-      >
-        {/* Grafico*/}
-        <Flex w={{xl: "50%", sm: "100%"}} h={"100%"}>
-          <LastRadarUser />
-        </Flex>
-
-        {/* Informações*/}
-        <Flex 
-          direction={"column"}
-          w={{xl: "50%", sm: "100%"}}
-        >
-          {/* Informações*/}
-          <Heading
-            as="h2"
-            textAlign={"center"}
-            fontWeight={"bold"}
-            marginBottom={6}
-          >
-            Tech Lead
-          </Heading>
-
-          <Text
-            fontSize={"lg"}
-            fontWeight="normal"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt
-            molestias inventore repellendus quo, quaerat illo reprehenderit.
-          </Text>
-
-          <UnorderedList>
-            <ListItem>Pessoas: 3</ListItem>
-            <ListItem>Tecnologia: 3</ListItem>
-            <ListItem>Sistema: 3</ListItem>
-            <ListItem>Influência: 3</ListItem>
-            <ListItem>Processos: 2</ListItem>
-          </UnorderedList>
-        </Flex>
-      </Flex>
+      ))}
     </>
   );
 };

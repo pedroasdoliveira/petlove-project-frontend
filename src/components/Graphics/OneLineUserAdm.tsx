@@ -33,7 +33,7 @@ const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
 
     const dataToChart = data.map((item: any) => {
       return {
-        createdAt: item.createdAt,
+        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
         A: item[subName.toLowerCase()],
       };
     });

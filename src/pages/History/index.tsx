@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -23,12 +24,16 @@ import "swiper/css/navigation";
 import OneLineUser from "components/Graphics/OneLineUser";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
+import { useUsers } from "contexts/Users";
 
 const History: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { handleGetUsers } = useUsers();
+
   useEffect(() => {
     checkTokenExpiration!();
-  });
+    handleGetUsers!();
+  }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -122,6 +127,7 @@ const History: NextPage = () => {
             </Accordion>
           </Flex>
 
+
           <Flex as="section" w={"100%"}>
             <Flex
               direction={"column"}
@@ -134,8 +140,9 @@ const History: NextPage = () => {
               color={"white"}
               height={"25rem"}
             >
+
               <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
-                Histórico de evolução
+                Histórico de evolução em gráficos
               </Heading>
 
               <Swiper
@@ -143,30 +150,92 @@ const History: NextPage = () => {
                 modules={[Navigation]}
                 style={{ width: "100%", height: "100%" }}
               >
-                <SwiperSlide>
-                  <AllRadarUser />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <OneLineUser subject="Influence" />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <OneLineUser subject="Person" />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <OneLineUser subject="Process" />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <OneLineUser subject="System" />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <OneLineUser subject="Technology" />
-                </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Radar - Todos os testes
+                </Text>
+                <AllRadarUser />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Linha - Todos os testes - Influencia
+                </Text>
+                <OneLineUser subject="Influence" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Linha - Todos os testes - Pessoas
+                </Text>
+                <OneLineUser subject="Person" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Linha - Todos os testes - Processos
+                </Text>
+                <OneLineUser subject="Process" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Linha - Todos os testes - Sistema
+                </Text>
+                <OneLineUser subject="System" />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Text
+                  fontSize={"1.5rem"}
+                  fontWeight={"bold"}
+                  color={"white"}
+                  textAlign={"center"}
+                  mt={"1rem"}
+                  mb={"-1rem"}
+                >
+                  Linha - Todos os testes - Tecnologia
+                </Text>
+                <OneLineUser subject="Technology" />
+              </SwiperSlide>
+                
               </Swiper>
             </Flex>
+
           </Flex>
         </Flex>
+        <AsideMenu currentPage="Histórico" />
       </Flex>
-      <AsideMenu currentPage="Histórico" />
     </Flex>
   );
 };

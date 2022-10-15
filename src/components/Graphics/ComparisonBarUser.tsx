@@ -1,13 +1,8 @@
-import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi } from "components/obj/obj";
+import { useColorModeValue, Text, Flex } from "@chakra-ui/react";
+import { useUsers } from "contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
   Tooltip,
   BarChart,
   CartesianGrid,
@@ -17,11 +12,12 @@ import {
 } from "recharts";
 
 interface ComparisonBarUserProps {
-  valueId: number;
+  value: any;
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
 }
 
-const ComparisonBarUser = ({ valueId, subject }: ComparisonBarUserProps) => {
+const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
+  const { user } = useUsers();
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
@@ -29,31 +25,32 @@ const ComparisonBarUser = ({ valueId, subject }: ComparisonBarUserProps) => {
 
   const handleColor = (value: string) => {
     switch (value) {
-      case "Aprendiz":
-        return "#FF0000";
+      case "Trainee":
+        return "#7700ff";
       case "Junior":
         return "#FFA500";
       case "Pleno":
         return "#FFFF00";
       case "Senior":
         return "#008000";
+        case "Tech-Lead":
+        return "cyan";
       case "Especialista":
         return "#0000FF";
     }
   };
 
-  const lastData = dataApi[dataApi.length - 1];
-  const comparison = dataApi[valueId];
+  const lastData = user.results![user.results?.length - 1];
 
   const mountComparisonData = (subName: string) => {
     const dataToChart = [
       {
-        createdAt: comparison.createdAt,
-        A: comparison[subName.toLowerCase() as keyof typeof comparison],
+        createdAt: `${new Date(value.createdAt).toLocaleDateString()}`,
+        A: value![subName.toLowerCase() as keyof typeof value],
       },
       {
-        createdAt: lastData.createdAt,
-        B: lastData[subName.toLowerCase() as keyof typeof lastData],
+        createdAt: `${new Date(lastData.createdAt).toLocaleDateString()}`,
+        B: lastData![subName?.toLowerCase() as keyof typeof lastData],
       },
     ];
 
@@ -63,19 +60,34 @@ const ComparisonBarUser = ({ valueId, subject }: ComparisonBarUserProps) => {
   const data = mountComparisonData(subject);
 
   return (
+    <Flex
+      w="100%"
+      h="100%"
+      flexDir="column"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+    <Text
+      fontSize="2xl"
+      fontWeight="bold"
+      textAlign="center"
+      mb="2"
+    >
+      {subject}
+    </Text>
     <ResponsiveContainer width="60%" height="100%">
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3"/>
         <XAxis dataKey="createdAt" stroke={"white"}/>
         <YAxis domain={[0, 5]} tickCount={6} stroke={"white"}/>
         <Bar
-          name={comparison.nextRole}
+          name={"Este teste - " + value.nextRole}
           dataKey="A"
           stackId="a"
-          fill={handleColor(comparison.nextRole)}
+          fill={handleColor(value.nextRole)}
         />
         <Bar
-          name={lastData.nextRole}
+          name={"Último teste - " + lastData.nextRole}
           dataKey="B"
           stackId="a"
           fill={handleColor(lastData.nextRole)}
@@ -93,6 +105,7 @@ const ComparisonBarUser = ({ valueId, subject }: ComparisonBarUserProps) => {
         />
       </BarChart>
     </ResponsiveContainer>
+    </Flex>
   );
 };
 

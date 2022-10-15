@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import type { NextPage } from "next";
@@ -23,7 +24,7 @@ const Homepage: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
@@ -45,7 +46,6 @@ const Homepage: NextPage = () => {
       <Head>
         <title>Homepage</title>
         <meta name="description" content="Homepage" />
-        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <Flex

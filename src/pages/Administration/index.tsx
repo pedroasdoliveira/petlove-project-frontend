@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -5,16 +6,13 @@ import {
   AccordionItem,
   AccordionPanel,
   Flex,
-  Text,
   Heading,
-  Input,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import UserComparisons from "components/Lists/UserComparisons/UserComparisons";
 import UserList from "components/Lists/UserList/UserList";
-import UserReviews from "components/Lists/UserReviews/UserReviews";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import MenuFilter from "components/MenuFilter/MenuFilter";
 import type { NextPage } from "next";
@@ -22,12 +20,16 @@ import Head from "next/head";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
 import AllUserList from "components/AllUserList/AllUserList";
+import { useUsers } from "contexts/Users";
 
 const Administration: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { handleGetUsers } = useUsers();
+
   useEffect(() => {
     checkTokenExpiration!();
-  });
+    handleGetUsers!();
+  }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -156,7 +158,7 @@ const Administration: NextPage = () => {
                   </AccordionButton>
                   <AccordionPanel pb={4}>
                     <Flex direction={"column"}>
-                      <UserComparisons search="search" />
+                      <UserComparisons />
                     </Flex>
                   </AccordionPanel>
                 </Flex>

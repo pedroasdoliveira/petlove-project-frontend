@@ -5,11 +5,15 @@ import {
   useColorModeValue,
   Button,
   Text,
+  Checkbox
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { user } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { api } from "services";
 import * as yup from "yup";
 
 interface EditData {
@@ -31,24 +35,30 @@ const editSchema = yup.object().shape(
       )
       .required("Senha é obrigatória"),
 
-    newPassword: yup.string().when("newPassword", {
-      is: (val: string) => (val ? true : false),
-      then: yup
-        .string()
-        .min(6, "A senha deve ter no mínimo 6 caracteres")
-        .matches(
-          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-          `Necessário ao menos:
+    newPassword: yup
+      .string()
+      .required("Nova senha é obrigatória")
+      .when("newPassword", {
+        is: (val: string) => (val ? true : false),
+        then: yup
+          .string()
+          .min(6, "A senha deve ter no mínimo 6 caracteres")
+          .matches(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
+            `Necessário ao menos:
         1 letra maiúscula, 1 número e 1 caractere especial`
-        ),
-    }),
+          ),
+      }),
 
-    confirmPassword: yup.string().when("confirmPassword", {
-      is: (val: string) => (val ? true : false),
-      then: yup
-        .string()
-        .oneOf([yup.ref("newPassword"), null], "Senhas não conferem"),
-    }),
+    confirmPassword: yup
+      .string()
+      .required("Confirmar a nova senha é obrigatório")
+      .when("confirmPassword", {
+        is: (val: string) => (val ? true : false),
+        then: yup
+          .string()
+          .oneOf([yup.ref("newPassword"), null], "Senhas não conferem"),
+      }),
   },
   [
     ["newPassword", "newPassword"],
@@ -57,6 +67,10 @@ const editSchema = yup.object().shape(
 );
 
 const EditForm = () => {
+
+  const { user, handleGetUsers } = useUsers();
+  const [viewPassword, setViewPassword] = useState(false);
+
   const {
     register: edit,
     handleSubmit: editHandleSubmit,
@@ -64,7 +78,23 @@ const EditForm = () => {
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
   const handleEdit = (data: EditData) => {
-    console.log(data);
+    const token = localStorage.getItem("token");
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    api
+      .patch(`/User/${user.email}`, data, headers)
+      .then((response) => {
+        toast.success("Dados alterados com sucesso!");
+        handleGetUsers();
+      })
+      .catch((error) => {
+        toast.error("Erro ao alterar dados!");
+      });
   };
 
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
@@ -83,6 +113,7 @@ const EditForm = () => {
         ></Flex>
         <Flex alignItems="center" justifyContent="space-evenly" mb={8}></Flex>
 
+
         <Flex  flexDir={{ md: "row", sm: "column" }}
           alignItems="center"
           justifyContent="space-evenly">
@@ -99,7 +130,7 @@ const EditForm = () => {
                 isInvalid={!!editErrors.password}
                 mb={3}
                 {...edit("password")}
-                type="password"
+                type={viewPassword ? "text" : "password"}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     editHandleSubmit(handleEdit)();
@@ -126,7 +157,7 @@ const EditForm = () => {
                 isInvalid={!!editErrors.newPassword}
                 mb={3}
                 {...edit("newPassword")}
-                type="password"
+                type={viewPassword ? "text" : "password"}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
                     editHandleSubmit(handleEdit)();
@@ -159,7 +190,7 @@ const EditForm = () => {
                   }
                 }}
                 color="white"
-                type="password"
+                type={viewPassword ? "text" : "password"}
                 _placeholder={{
                   color: "#bbbaba",
                 }}
@@ -168,6 +199,19 @@ const EditForm = () => {
                 {editErrors.confirmPassword?.message || ""}
               </ErrorMessage>
             </FormControl>
+            <Flex justifyContent="end" width="100%" mt={2}>
+              <Checkbox
+                colorScheme="purple"
+                color={useColorModeValue("#230d88", "#5030dd")}
+                mb={2}
+                mt={3}
+                onChange={() => {
+                  setViewPassword(!viewPassword);
+                }}
+              >
+                Mostrar senha
+              </Checkbox>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

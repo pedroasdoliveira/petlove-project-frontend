@@ -5,15 +5,15 @@ import {
   FormControl,
   Heading,
   Input,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CheckboxLeft, ErrorMessage } from "../../pages/style";
-import { api } from "services";
 import toast from "react-hot-toast";
+import { api } from "services";
+import * as yup from "yup";
+import { ErrorMessage } from "../../pages/style";
 
 interface RegisterData {
   email: string;
@@ -53,12 +53,18 @@ const registerSchema = yup.object().shape({
   terms: yup.boolean().oneOf([true]),
 });
 
-const RegisterComponent: NextPage = () => {
+interface Prop {
+  setTabIndex: (value: number) => void;
+}
+
+const RegisterComponent = ({setTabIndex}: Prop) => {
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
   const errorColor = useColorModeValue("#ffee00", "red");
+
+  const [viewPasswordRegister, setViewPasswordRegister] = useState(false);
 
   const {
     register: register,
@@ -67,14 +73,10 @@ const RegisterComponent: NextPage = () => {
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
-    console.log("register", data);
     api.post("/User/create", data).then((response) => {
       console.log(response);
-      toast.success("Usuário criado com sucesso! Faça login para continuar");
-    }).catch((error) => {
-      console.log(error);
-      toast.error("Erro ao criar usuário");
-        
+      toast.success("Perfil registrado com sucesso!");
+      setTabIndex(0);
     });
   };
 
@@ -87,6 +89,7 @@ const RegisterComponent: NextPage = () => {
       <form>
         <FormControl>
           <Input
+            data-testid="name-input"
             placeholder="Seu nome completo..."
             variant={"flushed"}
             isInvalid={!!registerErrors.name}
@@ -103,12 +106,13 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.name?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.name?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="email-input"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!registerErrors.email}
@@ -126,17 +130,18 @@ const RegisterComponent: NextPage = () => {
             }}
           />
 
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
-        <FormControl mt={2.45}>
+        <FormControl mt={"1.45rem"}>
           <Input
+            data-testid="password-input"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.password}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -148,17 +153,18 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.password?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
+            data-testid="confirmedPassword-input"
             placeholder="Confirme sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.confirmPassword}
             mb={3}
-            type="password"
+            type={viewPasswordRegister ? "text" : "password"}
             {...register("confirmPassword")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -170,15 +176,33 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >
+          <ErrorMessage color={errorColor}>
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
+
+          <Flex
+            justifyContent="end"
+            width="100%"
+            mt={3}
+            
+          >
+          <Checkbox
+            colorScheme="purple"
+            color={useColorModeValue("#230d88", "#5030dd")}
+            mb={4}
+            onChange={() => {
+              setViewPasswordRegister(!viewPasswordRegister);
+            }}
+            
+          >
+            Mostrar senha
+          </Checkbox>
+          </Flex>
         </FormControl>
         <FormControl>
           <Flex justifyContent="center" alignItems="center">
             <Checkbox
+              data-testid="checkbox-input"
               size="sm"
               colorScheme="red"
               color={registerErrors.terms ? `${errorColor}` : checkboxColor}
@@ -191,6 +215,7 @@ const RegisterComponent: NextPage = () => {
           </Flex>
         </FormControl>
         <Button
+          data-testid="button-submit"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"

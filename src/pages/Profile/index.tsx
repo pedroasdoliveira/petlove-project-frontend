@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { user } from "components/obj/obj";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
 import { useEffect } from "react";
+import { useUsers } from "contexts/Users";
 
 interface ProfileProps {
   name: string;
@@ -14,14 +15,28 @@ interface ProfileProps {
 
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
+  const { user, handleGetUsers } = useUsers();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+    handleGetUsers!();
+  }, []);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
+
+  const handleVerify = () => {
+    if (user?.results?.at(-1)?.isValided === "Sim") {
+      return "Aprovado";
+    } else if (user?.results?.at(-1)?.isValided === null) {
+      return "Aguardando";
+    } else if (user?.results?.at(-1)?.isValided === "Não") {
+      return "Reprovado";
+    } else {
+      return "Não realizado";
+    }
+  };
 
   return (
     <Flex
@@ -62,7 +77,7 @@ const Profile: NextPage<ProfileProps> = () => {
             <Heading fontWeight="normal" letterSpacing="tight" fontSize={{sm: 'xl', md: '2xl'}}>
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
-                {user.name.split(" ")[0]}
+                {user.name?.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
@@ -83,8 +98,8 @@ const Profile: NextPage<ProfileProps> = () => {
               mb={{sm: '2rem'}}
               direction="column"
             >
-              <Text fontSize="xl" mx="auto" mb={1}>
-                Ultimo teste
+              <Text fontSize="xl" mx="auto" mb={1} fontWeight="bold">
+                Último teste - {handleVerify()}
               </Text>
               <LastRadarUser />
             </Flex>
@@ -99,7 +114,7 @@ const Profile: NextPage<ProfileProps> = () => {
               alignItems="center"
               justifyContent="space-between"
             >
-              <Text fontSize="xl" mx="auto" mb={3}>
+              <Text fontSize="xl" mx="auto" mb={3} fontWeight="bold">
                 Informações
               </Text>
 
@@ -119,26 +134,26 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text  color={"gray.300"} mr={{md: 4, sm: "0"}}>
                   Chapter:
                 </Text>
-                <Text>{user.chapter}</Text>
+                <Text>{user.chapter ? user.chapter : `...`}</Text>
               </Flex>
               <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify={{sm: "space-between", md: "center"}}>
                 <Text  color={"gray.300"} mr={{md: 4, sm: "0"}}>
                   Time:
                 </Text>
-                <Text>{user.team}</Text>
+                <Text>{user.team ? user.team : `...`}</Text>
               </Flex>
               <Flex fontSize={{sm: 'md', md: 'lg'}} alignItems={"center"} w="100%" justify={{sm: "space-between", md: "center"}}>
                 <Text  color={"gray.300"} mr={{md: 4, sm: "0"}}>
                   Função:
                 </Text>
-                <Text>{user.role}</Text>
+                <Text>{user.role ? user.role : `...`}</Text>
               </Flex>
               <Flex fontSize={{sm: 'md', md: 'lg'}}  alignItems={"center"} w="100%" justify={{sm: "space-between", md: "center"}}>
                 <Text color={"gray.300"} mr={{md: 4, sm: "0"}}>
                   Data de contratação:
                 </Text>
                 <Text>
-                  {`${new Date(`${user.createdAt}`).toLocaleDateString()}`}
+                  {`${new Date(user.createdAt).toLocaleDateString()}`}
                 </Text>
               </Flex>
             </Flex>

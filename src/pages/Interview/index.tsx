@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -10,7 +11,7 @@ const Interview: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   return (
     <Flex
