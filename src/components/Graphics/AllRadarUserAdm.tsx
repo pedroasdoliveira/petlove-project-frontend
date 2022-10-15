@@ -1,5 +1,4 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { dataApi, user } from "components/obj/obj";
 import {
   Legend,
   ResponsiveContainer,
@@ -19,14 +18,16 @@ const AllRadarUserAdm = ({ user }: any) => {
 
   const handleColor = (value: string) => {
     switch (value) {
-      case "Aprendiz":
-        return "#FF0000";
+      case "Trainee":
+        return "#7700ff";
       case "Junior":
         return "#FFA500";
       case "Pleno":
         return "#FFFF00";
       case "Senior":
         return "#008000";
+        case "Tech-Lead":
+        return "cyan";
       case "Especialista":
         return "#0000FF";
     }
@@ -81,7 +82,7 @@ const AllRadarUserAdm = ({ user }: any) => {
           return (
             <Radar
               key={index}
-              name={item.nextRole}
+              name={index === user.results.length - 1 ? `Último teste - ${item.nextRole}` : item.nextRole}
               dataKey={index}
               stroke={handleColor(item.nextRole)}
               strokeWidth={3}

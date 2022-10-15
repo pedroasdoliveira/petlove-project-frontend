@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import type { NextPage } from "next";
@@ -23,7 +24,7 @@ const Homepage: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
   useEffect(() => {
     checkTokenExpiration!();
-  });
+  }, []);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
@@ -45,7 +46,6 @@ const Homepage: NextPage = () => {
       <Head>
         <title>Homepage</title>
         <meta name="description" content="Homepage" />
-        <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
       <Flex
@@ -65,16 +65,16 @@ const Homepage: NextPage = () => {
           direction={"row"}
           w={"100%"}
           h={"100%"}
-          justifyContent={"space-between"}
+          justifyContent={{md: 'space-between', sm: 'center'}}
           alignItems={"center"}
           mx={8}
           color={"white"}
         >
-          <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
+          <Heading display={{md: 'block', sm: 'none'}} as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
 
-          <AsideMenu direction="row" />
+          <AsideMenu direction="row"/>
         </Flex>
       </Flex>
 
@@ -83,10 +83,10 @@ const Homepage: NextPage = () => {
         direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        marginTop={"5rem"}
+        marginTop={"8rem"}
         marginBottom={"5rem"}
       >
-        <Heading as="h1" fontSize={"4xl"} fontWeight="bold">
+        <Heading as="h1" fontSize={"4xl"} fontWeight="bold" textAlign="center">
           Avalie suas capacidades!
         </Heading>
 
@@ -98,11 +98,12 @@ const Homepage: NextPage = () => {
         >
           Faça um teste agora mesmo
         </Text>
+      </Flex>
 
-        <Grid templateColumns="repeat(3, 1fr)" gap={8} my={12}>
+        <Grid templateColumns={{lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)"}} gap={8} my={12}>
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
             boxShadow={`10px 5px 15px ${shadowColor}`}
@@ -129,7 +130,7 @@ const Homepage: NextPage = () => {
 
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
             boxShadow={`9px 5px 15px ${shadowColor}`}
@@ -156,7 +157,7 @@ const Homepage: NextPage = () => {
 
           <GridItem
             bg={bgCardColor}
-            w={"285px"}
+            w={{lg: "285px", md: '500px', sm:'285px'}}
             h={"340px"}
             borderRadius={"15px"}
             boxShadow={`10px 5px 15px ${shadowColor}`}
@@ -183,7 +184,6 @@ const Homepage: NextPage = () => {
         </Grid>
 
         <DefaultButton valueButton="Realizar teste" />
-      </Flex>
 
       <Footer />
     </Flex>

@@ -11,9 +11,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import ModalUser from "components/ModalUser/ModalUser";
-import { dataApi } from "components/obj/obj";
+import { useUsers } from "contexts/Users";
 
 const HistoryList = () => {
+  const { user } = useUsers();
+
   const color = useColorModeValue("whiteAlpha", "facebook");
 
   const isValideColor = (value: string) => {
@@ -25,7 +27,7 @@ const HistoryList = () => {
       return "#f1ee04";
     }
   };
-
+  
   const isValideIcon = (value: string) => {
     if (value === "Sim") {
       return <CheckIcon />;
@@ -48,21 +50,21 @@ const HistoryList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {dataApi.map((item) => {
+          {user.results?.map((item: any) => {
             return (
               <Tr key={item.id}>
-                <Td color={"white"}>{item.createdAt}</Td>
+                <Td color={"white"}>{new Date(item.createdAt).toLocaleDateString()}</Td>
                 <Td color={"white"}>{item.nextRole}</Td>
                 <Td color={"white"}>
                   <ModalUser value={item} />
                 </Td>
                 <Td
                   width="7.5rem"
-                  color={isValideColor(item.isValide)}
+                  color={isValideColor(item.isValided)}
                   fontSize="1.5rem"
                   textAlign="center"
                 >
-                  {isValideIcon(item.isValide)}
+                  {isValideIcon(item.isValided)}
                 </Td>
               </Tr>
             );

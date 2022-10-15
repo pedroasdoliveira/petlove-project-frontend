@@ -28,7 +28,7 @@ interface LoginParams {
 
 export const AuthContext = createContext<AuthData>({} as AuthData);
 
-export const AuthContextProvider = ({ children }: Props) => {
+export const AuthContextProvider: any = ({ children }: Props) => {
   const [logged, setLogged] = useState<boolean>(false);
 
   const login = ({ token, user }: LoginParams) => {
@@ -68,6 +68,7 @@ export const AuthContextProvider = ({ children }: Props) => {
           setLogged(true);
         })
         .catch((error) => {
+          toast.error("Sessão expirada, faça login novamente!");
           logout();
         });
     } catch (error) {

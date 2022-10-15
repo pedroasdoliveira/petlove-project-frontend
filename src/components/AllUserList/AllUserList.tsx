@@ -1,4 +1,3 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
@@ -22,12 +21,14 @@ import {
   useColorModeValue,
   Badge,
 } from "@chakra-ui/react";
-import ModalLastUserAdm from "components/ModalLastUserAdm/ModalLastUserAdm";
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
-import { dataAdm, specialities } from "components/obj/obj";
+import { useSpecialtys } from "contexts/specialtys";
+import { useUsers } from "contexts/Users";
 import { useState } from "react";
 
 const AllUserList = () => {
+  const { users } = useUsers();
+  const { specialtys } = useSpecialtys();
   const color = useColorModeValue("whiteAlpha", "facebook");
 
   const [search, setSearch] = useState("");
@@ -39,17 +40,15 @@ const AllUserList = () => {
   };
 
   const handleFilter = (event: any) => {
-    console.log(event);
     setFilter(event);
   };
 
   const handleOrder = (event: any) => {
-    console.log(event);
     setOrder(event);
   };
 
-  const filteredData = dataAdm.filter((item) => {
-    const speciality = specialities.map((item) => item.name);
+  const filteredData = users?.filter((item) => {
+    const speciality = specialtys?.map((item) => item.name);
 
     if (filter === "all") {
       return (
@@ -69,7 +68,7 @@ const AllUserList = () => {
       );
     }
 
-    if (filter === speciality.find((item) => item === filter)) {
+    if (filter === speciality?.find((item) => item === filter)) {
       return (
         item.role?.includes(filter) &&
         (item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -81,12 +80,8 @@ const AllUserList = () => {
     }
   });
 
-  const filterOrder = filteredData.sort((a, b) => {
-    if (order === "new") {
-    }
-
+  const filterOrder = filteredData?.sort((a, b) => {
     if (order === "asc") {
-      console.log(a, b);
       return a.name.localeCompare(b.name);
     } else {
       return b.name.localeCompare(a.name);
@@ -140,9 +135,9 @@ const AllUserList = () => {
               <Text m={"0.5rem"} fontWeight="500">
                 Função:
               </Text>
-              {specialities.map((item) => (
-                <MenuItemOption value={item.name} key={item.id}>
-                  {item.name}
+              {specialtys?.map((item) => (
+                <MenuItemOption value={item.performance} key={item.id}>
+                  {item.performance}
                 </MenuItemOption>
               ))}
             </MenuOptionGroup>
@@ -163,7 +158,7 @@ const AllUserList = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {filterOrder.map((user) => {
+            {filterOrder?.map((user) => {
               const lastResult = user.results[user.results.length - 1];
 
               const roleAtual = user.role;
