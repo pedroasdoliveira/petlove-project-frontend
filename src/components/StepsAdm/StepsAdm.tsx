@@ -24,11 +24,13 @@ import { api } from "services";
 import { useUsers } from "contexts/Users";
 import { useSpecialtys } from "contexts/specialtys";
 import { useTest } from "contexts/test";
+import { useAuth } from "contexts/Auth";
 
 
 const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
   const { specialtys } = useSpecialtys();
   const { test }: any = useTest();
+  const { requisition, setRequisition } = useAuth();
   
   const { handleGetUsers } = useUsers();
   const { nextStep, prevStep, reset, activeStep } = useSteps({
@@ -299,8 +301,11 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
 
             <Button
               w="40%"
+              isLoading={requisition}
               onClick={() => {
                 if (userValidate !== "") {
+                  setRequisition(true);
+
                   const token = localStorage.getItem("token");
 
                   const headers = {
@@ -308,6 +313,7 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
                       Authorization: `Bearer ${token}`,
                     },
                   };
+
 
                   const data = {
                     nextRole: userEspeciality,
@@ -324,10 +330,12 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
                     .then((response) => {
                       toast.success("Função atualizada com sucesso!");
                       handleGetUsers();
+                      setRequisition(false);
                       onClose();
                     })
                     .catch((error) => {
                       toast.error("Erro ao atualizar função!");
+                      setRequisition(false);
                     });
                 } else {
                   toast.error("Selecione se foi aprovado ou não!");

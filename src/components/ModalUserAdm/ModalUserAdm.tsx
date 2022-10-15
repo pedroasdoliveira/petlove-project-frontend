@@ -52,6 +52,7 @@ import { api } from "services";
 import toast from "react-hot-toast";
 import { useUsers } from "contexts/Users";
 import { useSpecialtys } from "contexts/specialtys";
+import { useAuth } from "contexts/Auth";
 
 interface EditData {
   email: string;
@@ -81,6 +82,7 @@ const editSchema = yup.object().shape({
 
 const ModalLastUserAdm = ({ value, user }: any) => {
   const { specialtys } = useSpecialtys();
+  const { requisition, setRequisition } = useAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userRole, setUserRole] = useState(user.role);
@@ -91,6 +93,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
     register: edit,
     handleSubmit: editHandleSubmit,
     formState: { errors: editErrors },
+    reset,
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
   const handleEdit = (data: EditData) => {
@@ -101,6 +104,8 @@ const ModalLastUserAdm = ({ value, user }: any) => {
     if (userChapter === null) {
       return alert("Selecione um chapter");
     }
+
+    setRequisition(true);
 
     data.role = userRole;
     data.chapter = userChapter;
@@ -118,10 +123,13 @@ const ModalLastUserAdm = ({ value, user }: any) => {
       .then((response) => {
         toast.success("Usuário editado com sucesso!");
         handleGetUsers();
+        setRequisition(false);
+        reset();
         onClose();
       })
       .catch((error) => {
         toast.error("Erro ao editar usuário!");
+        setRequisition(false);
       });
   };
 
@@ -563,6 +571,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                       mt={"3rem"}
                     >
                       <Button
+                        isLoading={requisition}
                         color="white"
                         variant="solid"
                         w={"80%"}

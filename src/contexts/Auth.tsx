@@ -16,9 +16,11 @@ interface Props {
 
 interface AuthData {
   logged: boolean;
+  requisition: boolean;
   login?: (params: any) => void;
   logout?: () => void;
   checkTokenExpiration?: () => void;
+  setRequisition: (params: any) => void;
 }
 
 interface LoginParams {
@@ -30,6 +32,7 @@ export const AuthContext = createContext<AuthData>({} as AuthData);
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [logged, setLogged] = useState<boolean>(false);
+  const [requisition, setRequisition] = useState<boolean>(false);
 
   const login = ({ token, user }: LoginParams) => {
     localStorage.setItem("token", token);
@@ -87,7 +90,7 @@ export const AuthContextProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ logged, login, logout, checkTokenExpiration }}
+      value={{ logged, login, logout, checkTokenExpiration, requisition, setRequisition }}
     >
       {children}
     </AuthContext.Provider>

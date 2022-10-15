@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  CircularProgress,
   Flex,
   FormControl,
   Heading,
@@ -45,7 +46,7 @@ const LoginComponent: NextPage = () => {
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
-  const { login: loginAuth } = useAuth();
+  const { login: loginAuth, requisition, setRequisition } = useAuth();
 
   const [viewPassword, setViewPassword] = useState(false);
 
@@ -53,9 +54,11 @@ const LoginComponent: NextPage = () => {
     register: login,
     handleSubmit: loginHandleSubmit,
     formState: { errors: loginErrors },
+    reset,
   } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
 
   const handleLogin = (data: LoginData) => {
+    setRequisition(true);
     api
       .post("/auth", data)
       .then((response) => {
@@ -68,6 +71,8 @@ const LoginComponent: NextPage = () => {
         api.get(`User/${data.email}`, headers).then((res) => {
           const user = res.data;
           loginAuth!({ token: response.data.token, user: user });
+          setRequisition(false);
+          reset();
           Router.push("/Homepage");
         });
       })
@@ -77,6 +82,7 @@ const LoginComponent: NextPage = () => {
         } else {
           toast.error("Email ou senha incorretos");
         }
+        setRequisition(false);
       });
   };
 
@@ -130,23 +136,17 @@ const LoginComponent: NextPage = () => {
           <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
             {loginErrors.password?.message || ""}
           </ErrorMessage>
-          <Flex
-            justifyContent="end"
-            width="100%"
-            mt={2}
-            
-          >
-          <Checkbox
-            colorScheme="purple"
-            color={useColorModeValue("#230d88", "#5030dd")}
-            mb={2}
-            onChange={() => {
-              setViewPassword(!viewPassword);
-            }}
-            
-          >
-            Mostrar senha
-          </Checkbox>
+          <Flex justifyContent="end" width="100%" mt={2}>
+            <Checkbox
+              colorScheme="purple"
+              color={useColorModeValue("#230d88", "#5030dd")}
+              mb={2}
+              onChange={() => {
+                setViewPassword(!viewPassword);
+              }}
+            >
+              Mostrar senha
+            </Checkbox>
           </Flex>
         </FormControl>
         <Button
@@ -154,6 +154,7 @@ const LoginComponent: NextPage = () => {
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"
           variant="ghost"
+          isLoading={requisition}
           w={"100%"}
           onClick={loginHandleSubmit(handleLogin)}
           mt={7}

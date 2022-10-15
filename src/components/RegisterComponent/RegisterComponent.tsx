@@ -15,6 +15,7 @@ import { CheckboxLeft, ErrorMessage } from "../../pages/style";
 import { api } from "services";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useAuth } from "contexts/Auth";
 
 interface RegisterData {
   email: string;
@@ -62,18 +63,24 @@ const RegisterComponent: NextPage = () => {
   const errorColor = useColorModeValue("#ffee00", "red");
 
   const [viewPasswordRegister, setViewPasswordRegister] = useState(false);
+  const { requisition, setRequisition } = useAuth();
 
   const {
     register: register,
     handleSubmit: registerHandleSubmit,
     formState: { errors: registerErrors },
+    reset,
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
+    setRequisition(true);
     api.post("/User/create", data).then((response) => {
       toast.success("Usuário criado com sucesso! Faça login para continuar");
+      setRequisition(false);
+      reset();
     }).catch((error) => {
       toast.error("Erro ao criar usuário");
+      setRequisition(false);
     });
   };
 
@@ -214,6 +221,7 @@ const RegisterComponent: NextPage = () => {
           color="white"
           variant="ghost"
           w={"100%"}
+          isLoading={requisition}
           onClick={registerHandleSubmit(handleRegister)}
           mt={3}
         >

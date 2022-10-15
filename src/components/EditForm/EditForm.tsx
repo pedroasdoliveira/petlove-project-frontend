@@ -8,6 +8,7 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth } from "contexts/Auth";
 import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
 import { useState } from "react";
@@ -68,15 +69,18 @@ const editSchema = yup.object().shape(
 
 const EditForm = () => {
   const { user, handleGetUsers } = useUsers();
+  const { requisition, setRequisition } = useAuth();
   const [viewPassword, setViewPassword] = useState(false);
 
   const {
     register: edit,
     handleSubmit: editHandleSubmit,
     formState: { errors: editErrors },
+    reset,
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
   const handleEdit = (data: EditData) => {
+    setRequisition(true);
     const token = localStorage.getItem("token");
 
     const headers = {
@@ -90,9 +94,12 @@ const EditForm = () => {
       .then((response) => {
         toast.success("Dados alterados com sucesso!");
         handleGetUsers();
+        setRequisition(false);
+        reset();
       })
       .catch((error) => {
         toast.error("Erro ao alterar dados!");
+        setRequisition(false);
       });
   };
 
@@ -208,6 +215,7 @@ const EditForm = () => {
         _hover={{ background: buttonHover, color: buttonColor }}
         color="white"
         variant="ghost"
+        isLoading={requisition}
         w={"100%"}
         onClick={editHandleSubmit(handleEdit)}
         mt={7}
