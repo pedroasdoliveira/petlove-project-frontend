@@ -149,19 +149,13 @@ const LoginComponent: NextPage = () => {
             </Checkbox>
           </Flex>
         </FormControl>
-        <Flex
-          justifyContent="end"
-          width="100%"
-        >
+        <Flex justifyContent="end" width="100%">
           <Button
-          variant={"link"}
-          color={useColorModeValue("#000000", "#ffffff")}
+            variant={"link"}
+            color={useColorModeValue("#000000", "#ffffff")}
           >
             <Link
-              href={'/ForgotPassword'}
-            >
-              esqueci a senha
-            </Link>
+             href={"/ForgotPassword"}>esqueci a senha</Link>
           </Button>
         </Flex>
         <Button

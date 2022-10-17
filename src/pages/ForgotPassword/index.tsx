@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  Checkbox,
-  CircularProgress,
   Flex,
   FormControl,
   Heading,
@@ -19,10 +17,8 @@ import { api } from "services";
 import Router from "next/router";
 import toast from "react-hot-toast";
 import { useAuth } from "contexts/Auth";
-import { useState } from "react";
 import { useToggle } from "hooks/useToggle";
 import { ToggleMode } from "types/interfaces";
-import { useRouter } from "next/router";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import Head from "next/head";
 
@@ -38,7 +34,6 @@ const forgotPasswordSchema = yup.object().shape({
 });
 
 const ForgotPassword: NextPage = () => {
-  const router = useRouter();
 
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
@@ -51,9 +46,7 @@ const ForgotPassword: NextPage = () => {
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
-  const { login: loginAuth, requisition, setRequisition } = useAuth();
-
-  const [viewPassword, setViewPassword] = useState(false);
+  const { requisition, setRequisition } = useAuth();
 
   const {
     register: forgotPassword,
@@ -91,7 +84,7 @@ const ForgotPassword: NextPage = () => {
     >
       <Head>
         <title>Enviar email</title>
-        <meta name="Page for changing password" content="Change Password" />
+        <meta name="Page for sending email forgot password" content="Send email forgot password" />
       </Head>
 
       <Flex
