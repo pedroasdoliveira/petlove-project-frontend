@@ -190,7 +190,6 @@ const RegisterComponent: NextPage = () => {
           >
           <Checkbox
             colorScheme="purple"
-            color={useColorModeValue("#230d88", "#5030dd")}
             mb={4}
             onChange={() => {
               setViewPasswordRegister(!viewPasswordRegister);

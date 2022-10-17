@@ -14,14 +14,6 @@ const nextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: '/:any*',
-        destination: '/Homepage',
-      },
-    ];
-  },
 }
 
 module.exports = nextConfig

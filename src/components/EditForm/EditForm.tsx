@@ -195,7 +195,6 @@ const EditForm = () => {
             <Flex justifyContent="end" width="100%" mt={2}>
               <Checkbox
                 colorScheme="purple"
-                color={useColorModeValue("#230d88", "#5030dd")}
                 mb={2}
                 mt={3}
                 onChange={() => {

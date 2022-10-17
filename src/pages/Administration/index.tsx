@@ -21,13 +21,16 @@ import AllUserList from "components/AllUserList/AllUserList";
 import { useUsers } from "contexts/Users";
 
 const Administration: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { handleGetUsers } = useUsers();
 
   useEffect(() => {
     checkTokenExpiration!();
-    handleGetUsers!();
   }, []);
+
+  useEffect(() => {
+    if (logged) handleGetUsers!();
+  }, [logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
