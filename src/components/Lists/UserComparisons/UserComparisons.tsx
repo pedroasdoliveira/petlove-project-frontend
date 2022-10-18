@@ -77,6 +77,48 @@ const UserComparisons = () => {
     return teamFiltered;
   });
 
+  // ranking por team da maior media para a menor
+
+  const teamOrdered = teamMapFiltered2?.map((item) => {
+    let teamLength: number = 0;
+    //fazer a media de cada team
+    const plus = item?.reduce((acc, item2) => {
+      const lastResult = item2.results[item2.results.length - 1];
+
+      if (lastResult !== null && lastResult !== undefined) {
+        const plus =
+          lastResult?.system +
+          lastResult?.person +
+          lastResult?.technology +
+          lastResult?.process +
+          lastResult?.influence;
+
+        teamLength++;
+        return acc + plus;
+      }
+
+      return acc;
+    }, 0);
+
+    const media = plus / (teamLength === 0 ? 1 : teamLength);
+
+    return {media: media, team: item?.[0].team};
+  });
+
+  // ordenar por media
+
+  const teamOrderedFiltered = teamOrdered?.sort((item, item2) => {
+    return item2.media - item.media;
+  });
+
+  const teamOrderedFilteredMedia = teamOrderedFiltered?.map((item) => {
+    const teamFiltered = users?.filter((item2) => {
+      return item2.team === item.team;
+    });
+
+    return teamFiltered;
+  });
+
   return (
     <>
       <TableContainer marginTop={6}>
@@ -161,7 +203,7 @@ const UserComparisons = () => {
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
-            Ranking de usuários com base no último resultado
+            Ranking de equipes com base na média do último resultado dos usuários
           </TableCaption>
           <Thead>
             <Tr>
@@ -176,7 +218,7 @@ const UserComparisons = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {teamMapFiltered2?.map((item) => {
+            {teamOrderedFilteredMedia?.map((item) => {
               let teamLength: number = 0;
               //fazer a media de cada team
               const plus = item?.reduce((acc, item2) => {
