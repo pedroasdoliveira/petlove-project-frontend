@@ -13,7 +13,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "contexts/Auth";
 import { useUsers } from "contexts/Users";
-import { ErrorMessage } from "pages/style";
+import { ErrorMessage } from "style/style";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -39,28 +39,24 @@ const editSchema = yup.object().shape(
       )
       .required("Senha é obrigatória"),
 
-    newPassword: yup
-      .string()
-      .when("newPassword", {
-        is: (val: string) => (val ? true : false),
-        then: yup
-          .string()
-          .min(6, "A senha deve ter no mínimo 6 caracteres")
-          .matches(
-            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-            `Necessário ao menos:
+    newPassword: yup.string().when("newPassword", {
+      is: (val: string) => (val ? true : false),
+      then: yup
+        .string()
+        .min(6, "A senha deve ter no mínimo 6 caracteres")
+        .matches(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
+          `Necessário ao menos:
         1 letra maiúscula, 1 número e 1 caractere especial`
-          ),
-      }),
+        ),
+    }),
 
-    confirmPassword: yup
-      .string()
-      .when("confirmPassword", {
-        is: (val: string) => (val ? true : false),
-        then: yup
-          .string()
-          .oneOf([yup.ref("newPassword"), null], "Senhas não conferem"),
-      }),
+    confirmPassword: yup.string().when("confirmPassword", {
+      is: (val: string) => (val ? true : false),
+      then: yup
+        .string()
+        .oneOf([yup.ref("newPassword"), null], "Senhas não conferem"),
+    }),
   },
   [
     ["newPassword", "newPassword"],
@@ -228,7 +224,10 @@ const EditForm = () => {
           {user?.isAdmin && (
             <>
               <Text textAlign="center">Receber emails:</Text>
-              <RadioGroup onChange={setEmailNotification} value={emailNotification}>
+              <RadioGroup
+                onChange={setEmailNotification}
+                value={emailNotification}
+              >
                 <Stack>
                   <Radio value="all">Todos</Radio>
                   <Radio value="team">Somente do meu time</Radio>

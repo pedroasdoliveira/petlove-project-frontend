@@ -11,7 +11,7 @@ import type { NextPage } from "next";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { CheckboxLeft, ErrorMessage } from "../../pages/style";
+import { CheckboxLeft, ErrorMessage } from "../../style/style";
 import { api } from "services";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -74,14 +74,17 @@ const RegisterComponent: NextPage = () => {
 
   const handleRegister = (data: RegisterData) => {
     setRequisition(true);
-    api.post("/User/create", data).then((response) => {
-      toast.success("Usuário criado com sucesso! Faça login para continuar");
-      setRequisition(false);
-      reset();
-    }).catch((error) => {
-      toast.error("Erro ao criar usuário");
-      setRequisition(false);
-    });
+    api
+      .post("/User/create", data)
+      .then((response) => {
+        toast.success("Usuário criado com sucesso! Faça login para continuar");
+        setRequisition(false);
+        reset();
+      })
+      .catch((error) => {
+        toast.error("Erro ao criar usuário");
+        setRequisition(false);
+      });
   };
 
   return (
@@ -109,9 +112,9 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.name?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.name?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -132,9 +135,9 @@ const RegisterComponent: NextPage = () => {
             }}
           />
 
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.email?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.email?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl mt={"1.45rem"}>
           <Input
@@ -154,9 +157,9 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >{registerErrors.password?.message || ""}</ErrorMessage>
+          <ErrorMessage color={errorColor}>
+            {registerErrors.password?.message || ""}
+          </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
@@ -176,28 +179,20 @@ const RegisterComponent: NextPage = () => {
               color: "#bbbaba",
             }}
           />
-          <ErrorMessage
-            color={errorColor}
-          >
+          <ErrorMessage color={errorColor}>
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
 
-          <Flex
-            justifyContent="end"
-            width="100%"
-            mt={3}
-            
-          >
-          <Checkbox
-            colorScheme="purple"
-            mb={4}
-            onChange={() => {
-              setViewPasswordRegister(!viewPasswordRegister);
-            }}
-            
-          >
-            Mostrar senha
-          </Checkbox>
+          <Flex justifyContent="end" width="100%" mt={3}>
+            <Checkbox
+              colorScheme="purple"
+              mb={4}
+              onChange={() => {
+                setViewPasswordRegister(!viewPasswordRegister);
+              }}
+            >
+              Mostrar senha
+            </Checkbox>
           </Flex>
         </FormControl>
         <FormControl>

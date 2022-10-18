@@ -44,7 +44,7 @@ import AllRadarUserAdm from "components/Graphics/AllRadarUserAdm";
 import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
 import AreaComposedChartAdm from "components/Graphics/AreaComposedChartAdm";
 import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
-import { ErrorMessage } from "pages/style";
+import { ErrorMessage } from "style/style";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

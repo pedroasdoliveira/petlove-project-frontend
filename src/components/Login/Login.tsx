@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { ErrorMessage } from "pages/style";
+import { ErrorMessage } from "style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -154,8 +154,7 @@ const LoginComponent: NextPage = () => {
             variant={"link"}
             color={useColorModeValue("#000000", "#ffffff")}
           >
-            <Link
-             href={"/ForgotPassword"}>esqueci a senha</Link>
+            <Link href={"/ForgotPassword"}>esqueci a senha</Link>
           </Button>
         </Flex>
         <Button

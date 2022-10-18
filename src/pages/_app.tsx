@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import GlobalStyles from "styles/globals";
 import { mode } from "@chakra-ui/theme-tools";
 import Providers from "contexts";
 import { Toaster } from 'react-hot-toast';
@@ -50,7 +49,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Providers>
-        <GlobalStyles />
         <Component {...pageProps} />
       </Providers>
     </ChakraProvider>

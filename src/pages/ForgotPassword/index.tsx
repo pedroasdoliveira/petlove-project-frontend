@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { ErrorMessage } from "pages/style";
+import { ErrorMessage } from "style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -34,7 +34,6 @@ const forgotPasswordSchema = yup.object().shape({
 });
 
 const ForgotPassword: NextPage = () => {
-
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
 
@@ -84,7 +83,10 @@ const ForgotPassword: NextPage = () => {
     >
       <Head>
         <title>Enviar email</title>
-        <meta name="Page for sending email forgot password" content="Send email forgot password" />
+        <meta
+          name="Page for sending email forgot password"
+          content="Send email forgot password"
+        />
       </Head>
 
       <Flex
