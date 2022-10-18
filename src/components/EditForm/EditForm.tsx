@@ -6,12 +6,15 @@ import {
   Button,
   Text,
   Checkbox,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "contexts/Auth";
 import { useUsers } from "contexts/Users";
 import { ErrorMessage } from "pages/style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "services";
@@ -38,7 +41,6 @@ const editSchema = yup.object().shape(
 
     newPassword: yup
       .string()
-      .required("Nova senha é obrigatória")
       .when("newPassword", {
         is: (val: string) => (val ? true : false),
         then: yup
@@ -53,7 +55,6 @@ const editSchema = yup.object().shape(
 
     confirmPassword: yup
       .string()
-      .required("Confirmar a nova senha é obrigatório")
       .when("confirmPassword", {
         is: (val: string) => (val ? true : false),
         then: yup
@@ -71,6 +72,11 @@ const EditForm = () => {
   const { user, handleGetUsers } = useUsers();
   const { requisition, setRequisition } = useAuth();
   const [viewPassword, setViewPassword] = useState(false);
+  const [emailNotification, setEmailNotification] = useState("");
+
+  useEffect(() => {
+    setEmailNotification(user?.emailNotification);
+  }, [user]);
 
   const {
     register: edit,
@@ -89,8 +95,18 @@ const EditForm = () => {
       },
     };
 
+    if (!data.newPassword) {
+      delete data.newPassword;
+      delete data.confirmPassword;
+    }
+
+    const dataToSend = {
+      ...data,
+      emailNotification,
+    };
+
     api
-      .patch(`/User/${user.email}`, data, headers)
+      .patch(`/User/${user.email}`, dataToSend, headers)
       .then((response) => {
         toast.success("Dados alterados com sucesso!");
         handleGetUsers();
@@ -99,6 +115,8 @@ const EditForm = () => {
       })
       .catch((error) => {
         toast.error("Erro ao alterar dados!");
+        console.log(error);
+        console.log(dataToSend);
         setRequisition(false);
       });
   };
@@ -205,6 +223,20 @@ const EditForm = () => {
               </Checkbox>
             </Flex>
           </Flex>
+        </Flex>
+        <Flex ml={"2rem"} gap="1rem" direction={"column"} w="23%">
+          {user?.isAdmin && (
+            <>
+              <Text textAlign="center">Receber emails:</Text>
+              <RadioGroup onChange={setEmailNotification} value={emailNotification}>
+                <Stack>
+                  <Radio value="all">Todos</Radio>
+                  <Radio value="team">Somente do meu time</Radio>
+                  <Radio value="none">Nenhum</Radio>
+                </Stack>
+              </RadioGroup>
+            </>
+          )}
         </Flex>
       </Flex>
 
