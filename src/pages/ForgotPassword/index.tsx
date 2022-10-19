@@ -100,7 +100,6 @@ const ForgotPassword: NextPage = () => {
         <Heading mb={"5rem"} textAlign={"center"} cursor="default" size={"lg"}>
           Enviar email para alteração de senha
         </Heading>
-        <form>
           <FormControl>
             <Input
               placeholder="Seu email..."
@@ -135,7 +134,6 @@ const ForgotPassword: NextPage = () => {
           >
             Enviar
           </Button>
-        </form>
 
         <Box
           position={"absolute"}

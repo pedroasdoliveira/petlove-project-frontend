@@ -19,7 +19,6 @@ import { useRouter } from "next/router";
 import ChangePasswordComponent from "components/ChangePassword/ChangePassword";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const pathsWithParams = [{ params: { index: [] } }];
 
   return {
     paths: [],

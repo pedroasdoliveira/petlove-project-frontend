@@ -3,7 +3,7 @@ import { ToggleContextProvider } from "./ToggleModeStyles";
 import { AuthContextProvider } from "./Auth";
 import { UsersContextProvider } from "./Users";
 import { SpecialtysContextProvider } from "./specialtys";
-import { TestContextProvider } from "./test";
+import { TestContextProvider } from "./testQuests";
 
 interface ProviderProps {
   children: ReactNode;
