@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
 import { useSpecialtys } from "contexts/specialtys";
-import { useTest } from "contexts/test";
+import { useTest } from "contexts/testQuests";
 
 
 const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
