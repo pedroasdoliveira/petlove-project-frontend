@@ -25,6 +25,8 @@ import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
 import { useSpecialtys } from "contexts/specialtys";
 import { useUsers } from "contexts/Users";
 import { useState } from "react";
+import Image from "next/image";
+import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 
 const AllUserList = () => {
   const { users } = useUsers();
@@ -149,6 +151,7 @@ const AllUserList = () => {
           <TableCaption>Detalhes dos usuários</TableCaption>
           <Thead>
             <Tr>
+              <Th>#</Th>
               <Th>Nome</Th>
               <Th>Chapter</Th>
               <Th>Função</Th>
@@ -166,22 +169,45 @@ const AllUserList = () => {
               const teamAtual = user.team;
               return (
                 <Tr key={user.id}>
+                  <Td position="relative">
+                    <Flex
+                      w={"3rem"}
+                      h={"3rem"}
+                      ml={"-1.5rem"}
+                      position={"absolute"}
+                      top={"3"}
+                      left={"10"}
+                    >
+                      <Image
+                        src={
+                          user?.profilePicture
+                            ? user.profilePicture
+                            : ProfileIcon
+                        }
+                        alt="Imagem de perfil"
+                        width={"98%"}
+                        height={"98%"}
+                        objectFit={"cover"}
+                        style={{ borderRadius: "50%", background: "#dee0e3" }}
+                      />
+                    </Flex>
+                  </Td>
                   <Td>
                     {user.name}{" "}
                     {roleAtual === null &&
                       chapterAtual === null &&
-                      teamAtual === null && <Badge colorScheme="green" variant='solid'>Novo</Badge>}
+                      teamAtual === null && (
+                        <Badge colorScheme="green" variant="solid">
+                          Novo
+                        </Badge>
+                      )}
                   </Td>
                   {chapterAtual === null ? (
                     <Td>...</Td>
                   ) : (
                     <Td>{chapterAtual}</Td>
                   )}
-                  {roleAtual === null ? (
-                    <Td>...</Td>
-                  ) : (
-                    <Td>{roleAtual}</Td>
-                  )}
+                  {roleAtual === null ? <Td>...</Td> : <Td>{roleAtual}</Td>}
                   {teamAtual === null ? <Td>...</Td> : <Td>{teamAtual}</Td>}
                   <Td>{user.results.length} </Td>
                   <Td>

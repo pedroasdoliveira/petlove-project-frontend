@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     formats: ["image/webp", "image/avif"],
+    domains: ["i.imgur.com"],
   },
   async redirects() {
     return [

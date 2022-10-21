@@ -6,8 +6,10 @@ import Head from "next/head";
 import LastRadarUser from "components/Graphics/LastRadarUser";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUsers } from "contexts/Users";
+import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
+import Image from "next/image";
 
 interface ProfileProps {
   name: string;
@@ -16,13 +18,15 @@ interface ProfileProps {
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration, logged } = useAuth();
   const { user, handleGetUsers } = useUsers();
+  const [image, setImage] = useState("");
+
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
 
   useEffect(() => {
-    if (logged) handleGetUsers!();
-  }, [logged]);
+    setImage(user?.profilePicture ?? "");
+  }, [user]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -72,13 +76,27 @@ const Profile: NextPage<ProfileProps> = () => {
           py="2%"
           ml="20rem"
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"}>
+          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} position="relative">
             <Heading fontWeight="normal" letterSpacing="tight">
               Welcome back,{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name?.split(" ")[0]}
               </Flex>
             </Heading>
+            <Flex
+              position="absolute"
+              right="20"
+              top="-4"
+            >
+              <Image
+                src={image ? image : ProfileIcon}
+                alt="Imagem de perfil"
+                width={"95%"}
+                height={"100%"}
+                objectFit={"cover"}
+                style={{ borderRadius: "50%", background: "#dee0e3" }}
+              />
+            </Flex>
           </Flex>
           <Flex
             justifyContent="space-between"

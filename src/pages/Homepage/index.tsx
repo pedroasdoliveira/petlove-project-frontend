@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
+  Badge,
   Flex,
   Grid,
   GridItem,
@@ -19,12 +20,27 @@ import DefaultButton from "components/Button/Button";
 import Footer from "components/Footer/Footer";
 import AsideMenu from "components/AsideMenu/AsideMenu";
 import { useAuth } from "contexts/Auth";
+import { useUsers } from "contexts/Users";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
+  const { user, users } = useUsers();
+  const [image, setImage] = useState("");
+  const [newTest, setNewTest] = useState(false);
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
+
+  useEffect(() => {
+    setImage(user?.profilePicture ?? "");
+    if(user?.isAdmin) {
+      users?.map((user, index) => {
+        if(user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+        }
+      })
+    }
+  }, [user]);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
@@ -74,6 +90,39 @@ const Homepage: NextPage = () => {
           <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
+          <Flex
+              position="absolute"
+              right="300"
+              top="0.2"
+            >
+              <Image
+                src={image ? image : ProfileIcon}
+                alt="Imagem de perfil"
+                width={"60%"}
+                height={"60%"}
+                objectFit={"cover"}
+                style={{ borderRadius: "50%", background: "#dee0e3" }}
+              />
+              
+            </Flex>
+            {
+              newTest && (
+
+<Badge ml='1' colorScheme='green'
+                style={{
+                  position: "absolute",
+                  top: "2.5rem",
+                  right: "6.5rem",
+                  width: "13px",
+                  height: "13px",
+                  borderRadius: "50%",
+                  background: "red",
+                  border: "1px solid #fff",
+                }}
+              />
+              )
+            }
+
 
           <AsideMenu direction="row" />
         </Flex>

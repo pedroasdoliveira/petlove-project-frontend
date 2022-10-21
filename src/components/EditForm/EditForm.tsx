@@ -9,6 +9,8 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Icon,
+  Divider,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "contexts/Auth";
@@ -19,6 +21,11 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "services";
 import * as yup from "yup";
+import Image from "next/image";
+import axios from "axios";
+import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
+import { MdAddAPhoto } from "react-icons/md";
+import Infinity from "../../../public/icon/Infinity.svg";
 
 interface EditData {
   name: string;
@@ -69,9 +76,12 @@ const EditForm = () => {
   const { requisition, setRequisition } = useAuth();
   const [viewPassword, setViewPassword] = useState(false);
   const [emailNotification, setEmailNotification] = useState("");
+  const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setEmailNotification(user?.emailNotification);
+    setImage(user?.profilePicture ?? ProfileIcon);
   }, [user]);
 
   const {
@@ -99,6 +109,7 @@ const EditForm = () => {
     const dataToSend = {
       ...data,
       emailNotification,
+      profilePicture: image,
     };
 
     api
@@ -123,119 +134,253 @@ const EditForm = () => {
 
   return (
     <>
-      <Flex flexDir="column" justifyContent="center">
-        {/* Input name  */}
+      <Flex flexDir="column" justifyContent="center" overflow="auto">
         <Flex
+          direction={"column"}
+          w="100%"
           flexDir="row"
-          alignItems="center"
           justifyContent="space-evenly"
-          mb={8}
-        ></Flex>
-        <Flex alignItems="center" justifyContent="space-evenly" mb={8}></Flex>
+          mt={5}
+          mb={9}
+        >
+          <Flex gap="1rem" direction={"column"} w="23%">
+            {user?.isAdmin && (
+              <>
+                <Text textAlign="center">Receber emails:</Text>
+                <RadioGroup
+                  onChange={setEmailNotification}
+                  value={emailNotification}
+                >
+                  <Stack>
+                    <Radio value="all">Todos</Radio>
+                    <Radio value="team">Somente do meu time</Radio>
+                    <Radio value="none">Nenhum</Radio>
+                  </Stack>
+                </RadioGroup>
+              </>
+            )}
+          </Flex>
 
-        <Flex flexDir="row" gap="3.2rem" justifyContent={"center"} w="100%">
-          {/* Input senha atual + nova senha + confirmar senha */}
-          <Flex alignItems="center" direction={"column"} w="20%">
-            <Text>senha atual:</Text>
-            <FormControl>
-              <Input
-                variant={"flushed"}
-                isInvalid={!!editErrors.password}
-                mb={3}
-                {...edit("password")}
-                type={viewPassword ? "text" : "password"}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
+          <Flex
+            flexDir="column"
+            alignItems="center"
+            w="8rem"
+            h="8rem"
+            position="relative"
+          >
+            <Text textAlign="center" mb={"1rem"} w="10rem">
+              Trocar foto de perfil:
+            </Text>
+
+            <Input
+              type="file"
+              w="20%"
+              isDisabled={loading}
+              style={{ display: "none" }}
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                //verifica se o file não é imagem
+                if (!file?.type.match(/image.*/)) {
+                  toast.error("Arquivo não é uma imagem");
+                  return;
+                }
+
+                //verifica se o tamanho do arquivo é maior que 5mb
+                if (file.size > 5 * 1024 * 1024) {
+                  toast.error("Arquivo muito grande");
+                  return;
+                }
+
+                if (file) {
+                  setLoading(true);
+                  const formData = new FormData();
+                  formData.append("image", file);
+                  formData.append("album", process.env.NEXT_PUBLIC_CLIENT_ALBUM as string);
+
+                  axios
+                    .post("https://api.imgur.com/3/image", formData, {
+                      headers: {
+                        Authorization: process.env.NEXT_PUBLIC_CLIENT_ID as string,
+                      },
+                    })
+                    .then((response) => {
+                      setImage(response.data.data.link);
+                      setLoading(false);
+                    })
+                    .catch((error) => {
+                      toast.error("Erro ao enviar imagem");
+                      setLoading(false);
+                    });
+                }
+              }}
+            />
+
+            <Flex
+              position="absolute"
+              zIndex={1}
+              minW="20%"
+              minH="20%"
+              p="0.4rem"
+              borderRadius="full"
+              bg={buttonBackground}
+              bottom="1"
+              right="3"
+            >
+              <Icon
+                as={MdAddAPhoto}
+                width={"1.2rem"}
+                height={"1.2rem"}
+                cursor={loading ? "not-allowed" : "pointer"}
+                onClick={() => {
+                  const input = document.querySelector(
+                    'input[type="file"]'
+                  ) as HTMLInputElement;
+                  if (loading) {
+                    return;
                   }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
+
+                  input.click();
                 }}
               />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.password?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-          <Flex alignItems="center" direction={"column"} w="20%">
-            <Text>nova senha:</Text>
-            <FormControl>
-              <Input
-                variant={"flushed"}
-                isInvalid={!!editErrors.newPassword}
-                mb={3}
-                {...edit("newPassword")}
-                type={viewPassword ? "text" : "password"}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.newPassword?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-          </Flex>
-          <Flex alignItems="center" direction={"column"} w="20%">
-            <Text>confirmar senha:</Text>
-            <FormControl>
-              <Input
-                variant={"flushed"}
-                isInvalid={!!editErrors.confirmPassword}
-                mb={3}
-                {...edit("confirmPassword")}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    editHandleSubmit(handleEdit)();
-                  }
-                }}
-                color="white"
-                type={viewPassword ? "text" : "password"}
-                _placeholder={{
-                  color: "#bbbaba",
-                }}
-              />
-              <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                {editErrors.confirmPassword?.message || ""}
-              </ErrorMessage>
-            </FormControl>
-            <Flex justifyContent="end" width="100%" mt={2}>
-              <Checkbox
-                colorScheme="purple"
-                mb={2}
-                mt={3}
-                onChange={() => {
-                  setViewPassword(!viewPassword);
-                }}
-              >
-                Mostrar senha
-              </Checkbox>
             </Flex>
+
+            <Image
+              src={loading ? Infinity : image}
+              alt="Imagem de perfil"
+              width={"89%"}
+              height={"89%"}
+              objectFit={"cover"}
+              style={{ borderRadius: "50%", background: "#dee0e3" }}
+            />
           </Flex>
         </Flex>
-        <Flex ml={"2rem"} gap="1rem" direction={"column"} w="23%">
-          {user?.isAdmin && (
-            <>
-              <Text textAlign="center">Receber emails:</Text>
-              <RadioGroup
-                onChange={setEmailNotification}
-                value={emailNotification}
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          w="100%"
+          h="100%"
+        >
+          <Flex
+            flexDir="row"
+            gap="3.2rem"
+            justifyContent={"center"}
+            w="100%"
+            mb="2"
+          >
+            {/* Input senha atual + nova senha + confirmar senha */}
+            <Flex
+              alignItems="center"
+              direction={"column"}
+              w="20%"
+              justifyContent={"center"}
+            >
+              <Text>senha atual:</Text>
+              <FormControl>
+                <Input
+                  variant={"flushed"}
+                  isInvalid={!!editErrors.password}
+                  mb={3}
+                  {...edit("password")}
+                  type={viewPassword ? "text" : "password"}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      editHandleSubmit(handleEdit)();
+                    }
+                  }}
+                  color="white"
+                  _placeholder={{
+                    color: "#bbbaba",
+                  }}
+                />
+                <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                  {editErrors.password?.message || ""}
+                </ErrorMessage>
+              </FormControl>
+            </Flex>
+            <Flex
+              flexDir="column"
+              alignItems="center"
+              justifyContent="center"
+              w="60%"
+              border="1px"
+              borderColor={
+                editErrors.newPassword || editErrors.confirmPassword
+                  ? "red"
+                  : buttonBackground
+              }
+              borderRadius="1rem"
+            >
+              <Text>Alterar senha</Text>
+              <Flex
+                flexDir="row"
+                justifyContent="center"
+                w="100%"
+                gap="1rem"
+                mt="1rem"
               >
-                <Stack>
-                  <Radio value="all">Todos</Radio>
-                  <Radio value="team">Somente do meu time</Radio>
-                  <Radio value="none">Nenhum</Radio>
-                </Stack>
-              </RadioGroup>
-            </>
-          )}
+                <Flex alignItems="center" direction={"column"} w="40%">
+                  <Text>nova senha:</Text>
+                  <FormControl>
+                    <Input
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.newPassword}
+                      mb={3}
+                      {...edit("newPassword")}
+                      type={viewPassword ? "text" : "password"}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.newPassword?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                </Flex>
+                <Flex alignItems="center" direction={"column"} w="40%">
+                  <Text>confirmar senha:</Text>
+                  <FormControl>
+                    <Input
+                      variant={"flushed"}
+                      isInvalid={!!editErrors.confirmPassword}
+                      mb={3}
+                      {...edit("confirmPassword")}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editHandleSubmit(handleEdit)();
+                        }
+                      }}
+                      color="white"
+                      type={viewPassword ? "text" : "password"}
+                      _placeholder={{
+                        color: "#bbbaba",
+                      }}
+                    />
+                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                      {editErrors.confirmPassword?.message || ""}
+                    </ErrorMessage>
+                  </FormControl>
+                  <Flex justifyContent="end" width="100%" mt={2}>
+                    <Checkbox
+                      colorScheme="purple"
+                      mt={1}
+                      onChange={() => {
+                        setViewPassword(!viewPassword);
+                      }}
+                    >
+                      Mostrar senha
+                    </Checkbox>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
 
@@ -245,7 +390,7 @@ const EditForm = () => {
         _hover={{ background: buttonHover, color: buttonColor }}
         color="white"
         variant="ghost"
-        isLoading={requisition}
+        isLoading={requisition || loading}
         w={"100%"}
         onClick={editHandleSubmit(handleEdit)}
         mt={7}
