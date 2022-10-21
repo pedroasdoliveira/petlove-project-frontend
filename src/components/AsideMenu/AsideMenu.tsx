@@ -43,6 +43,7 @@ const AsideMenu = ({ direction, path }: Prop) => {
       {...(path === "Interview" ? { top: "10rem" } : { right: "1rem" })}
     >
       <Button
+        data-testid='toggle-button'
         onClick={() => {
           toggleColorMode();
           setToggle(!toggle);
