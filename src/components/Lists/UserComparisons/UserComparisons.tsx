@@ -57,7 +57,6 @@ const UserComparisons = () => {
   //separar cada usuario por team
 
   const teamMap = users?.map((item) => {
-
     return item.team;
   });
 
@@ -102,7 +101,7 @@ const UserComparisons = () => {
 
     const media = plus / (teamLength === 0 ? 1 : teamLength);
 
-    return {media: media, team: item?.[0].team};
+    return { media: media, team: item?.[0].team };
   });
 
   // ordenar por media
@@ -203,7 +202,8 @@ const UserComparisons = () => {
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
-            Ranking de equipes com base na média do último resultado dos usuários
+            Ranking de equipes com base na média do último resultado dos
+            usuários
           </TableCaption>
           <Thead>
             <Tr>
@@ -260,17 +260,17 @@ const UserComparisons = () => {
                 (acc, item2) => {
                   const role = item2.role;
                   if (role === "Especialista") {
-                    acc.specialist += 1;
+                    acc.Especialista += 1;
                   } else if (role === "Tech Lead") {
-                    acc.techLead += 1;
+                    acc.TechLead += 1;
                   } else if (role === "Senior") {
-                    acc.senior += 1;
+                    acc.Senior += 1;
                   } else if (role === "Pleno") {
-                    acc.pleno += 1;
+                    acc.Pleno += 1;
                   } else if (role === "Junior") {
-                    acc.junior += 1;
+                    acc.Junior += 1;
                   } else if (role === "Trainee") {
-                    acc.trainee += 1;
+                    acc.Trainee += 1;
                   } else {
                     acc.null += 1;
                   }
@@ -278,12 +278,12 @@ const UserComparisons = () => {
                   return acc;
                 },
                 {
-                  specialist: 0,
-                  techLead: 0,
-                  senior: 0,
-                  pleno: 0,
-                  junior: 0,
-                  trainee: 0,
+                  Especialista: 0,
+                  TechLead: 0,
+                  Senior: 0,
+                  Pleno: 0,
+                  Junior: 0,
+                  Trainee: 0,
                   null: 0,
                 }
               );
@@ -308,18 +308,39 @@ const UserComparisons = () => {
                   <Td>{item?.length}</Td>
                   <Td>{back?.length}</Td>
                   <Td>{front?.length}</Td>
-                  <Td>
+                  <Td
+                    display={"flex"}
+                    flexDirection={"column"}
+                    p="0.2rem"
+                    gap="0.2rem"
+                    pr="3.5rem"
+                    alignItems="center"
+                  >
                     <Tooltip
-                      label={`Função com mais devs na equipe (quantidade geral de devs) | (devs que fizeram pelo menos um teste).`}
+                      label={`Função com mais devs na equipe`}
                       aria-label=""
                       hasArrow
-
                     >
                       {`${
                         specialityFiltered[0][0] === "null"
                           ? "Contratados"
                           : specialityFiltered[0][0]
-                      } (${specialityFiltered[0][1]}) | (${teamLength})`}
+                      }`}
+                    </Tooltip>
+
+                    <Tooltip
+                      label={`quantidade de devs na função majoritária`}
+                      aria-label=""
+                      hasArrow
+                    >
+                      {`(${specialityFiltered[0][1]})`}
+                    </Tooltip>
+                    <Tooltip
+                      label={`devs que fizeram pelo menos um teste`}
+                      aria-label=""
+                      hasArrow
+                    >
+                      {`(${teamLength})`}
                     </Tooltip>
                   </Td>
                 </Tr>
