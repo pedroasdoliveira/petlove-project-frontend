@@ -24,21 +24,23 @@ import { useUsers } from "contexts/Users";
 
 const Homepage: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
-  const { user, users } = useUsers();
+  const { user, users, handleGetUsers } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
-    if(user?.isAdmin) {
+    if (user?.isAdmin) {
       users?.map((user, index) => {
-        if(user?.results?.at(-1)?.isValided === null) {
+        if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
+          setContTest(contTest + 1);
         }
-      })
+      });
     }
   }, [user]);
 
@@ -60,7 +62,11 @@ const Homepage: NextPage = () => {
       alignItems={"center"}
     >
       <Head>
-        <title>Homepage</title>
+        {newTest ? (
+          <title>({contTest}) Homepage</title>
+        ) : (
+          <title>Homepage</title>
+        )}
         <meta name="description" content="Homepage" />
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
@@ -90,39 +96,42 @@ const Homepage: NextPage = () => {
           <Heading as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
-          <Flex
-              position="absolute"
-              right="300"
-              top="0.2"
+          <Flex position="absolute" right="300" top="0.2">
+            <Image
+              src={image ? image : ProfileIcon}
+              alt="Imagem de perfil"
+              width={"60%"}
+              height={"60%"}
+              objectFit={"cover"}
+              style={{ borderRadius: "50%", background: "#dee0e3" }}
+            />
+          </Flex>
+          {newTest && (
+            <Badge
+              ml="1"
+              colorScheme="green"
+              style={{
+                position: "absolute",
+                top: "2.5rem",
+                right: "6.5rem",
+                zIndex: 2,
+                width: "22px",
+                height: "21px",
+                borderRadius: "50%",
+                background: "red",
+                border: "1px solid #fff",
+                fontSize: "11px",
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#fff",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <Image
-                src={image ? image : ProfileIcon}
-                alt="Imagem de perfil"
-                width={"60%"}
-                height={"60%"}
-                objectFit={"cover"}
-                style={{ borderRadius: "50%", background: "#dee0e3" }}
-              />
-              
-            </Flex>
-            {
-              newTest && (
-
-<Badge ml='1' colorScheme='green'
-                style={{
-                  position: "absolute",
-                  top: "2.5rem",
-                  right: "6.5rem",
-                  width: "13px",
-                  height: "13px",
-                  borderRadius: "50%",
-                  background: "red",
-                  border: "1px solid #fff",
-                }}
-              />
-              )
-            }
-
+              {contTest > 9 ? "9+" : contTest}
+            </Badge>
+          )}
 
           <AsideMenu direction="row" />
         </Flex>

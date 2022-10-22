@@ -17,8 +17,10 @@ interface ProfileProps {
 
 const Profile: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration, logged } = useAuth();
-  const { user, handleGetUsers } = useUsers();
+  const { user, handleGetUsers, users } = useUsers();
   const [image, setImage] = useState("");
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
     checkTokenExpiration!();
@@ -26,6 +28,14 @@ const Profile: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
+    if(user?.isAdmin) {
+      users?.map((user, index) => {
+        if(user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          setContTest(contTest + 1);
+        }
+      })
+    }
   }, [user]);
 
   const background = useColorModeValue(
@@ -57,7 +67,11 @@ const Profile: NextPage<ProfileProps> = () => {
       position="relative"
     >
       <Head>
+        {newTest ?
+          <title>({contTest}) Profile</title>
+        :
         <title>Profile</title>
+        }
         <meta
           name="Pagina do perfil do usuário"
           content="Primeira pagina do perfil"

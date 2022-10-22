@@ -23,12 +23,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import OneLineUser from "components/Graphics/OneLineUser";
 import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUsers } from "contexts/Users";
 
 const History: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
-  const { handleGetUsers } = useUsers();
+  const { handleGetUsers, users, user } = useUsers();
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
     checkTokenExpiration!();
@@ -37,6 +39,22 @@ const History: NextPage = () => {
   useEffect(() => {
     if (logged) handleGetUsers!();
   }, [logged]);
+
+  useEffect(() => {
+    if(user?.isAdmin) {
+      handleContTest();
+    }
+  }, [user && user.isAdmin]);
+
+  const handleContTest = () => {
+    setContTest(0);
+    users?.map((user, index) => {
+      if(user?.results?.at(-1)?.isValided === null) {
+        setNewTest(true);
+        setContTest(contTest + 1);
+      }
+    })
+  }
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -55,7 +73,11 @@ const History: NextPage = () => {
       position="relative"
     >
       <Head>
+        {newTest ?
+          <title>({contTest}) Histórico do usuário</title>
+        :
         <title>Histórico do usuário</title>
+        }
         <meta
           name="Pagina do histórico do usuário"
           content="Pagina contendo gráficos e informações para o usuário"

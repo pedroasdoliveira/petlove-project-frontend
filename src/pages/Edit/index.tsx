@@ -10,7 +10,7 @@ import { useAuth } from "contexts/Auth";
 import { useUsers } from "contexts/Users";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface ProfileProps {
   name: string;
@@ -18,10 +18,24 @@ interface ProfileProps {
 
 const Edit: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
-  const { user } = useUsers();
+  const { handleGetUsers, users, user } = useUsers();
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
+
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
+
+  useEffect(() => {
+    if(user?.isAdmin) {
+      users?.map((user, index) => {
+        if(user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          setContTest(contTest + 1);
+        }
+      })
+    }
+  }, [user]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -40,7 +54,11 @@ const Edit: NextPage<ProfileProps> = () => {
       position="relative"
     >
       <Head>
+        {newTest ?
+          <title>({contTest}) Editar</title>
+        :
         <title>Editar</title>
+        }
         <meta
           name="Pagina de edição de dados do usuário"
           content="Pagina de edição de dados do usuário"
