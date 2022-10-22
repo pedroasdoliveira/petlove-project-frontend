@@ -23,11 +23,12 @@ import { useAuth } from "contexts/Auth";
 import { useUsers } from "contexts/Users";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration, logged } = useAuth();
-  const { user, users, handleGetUsers } = useUsers();
+  const { checkTokenExpiration } = useAuth();
+  const { user, users } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
   const [contTest, setContTest] = useState(0);
+
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
