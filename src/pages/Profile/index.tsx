@@ -68,9 +68,9 @@ const Profile: NextPage<ProfileProps> = () => {
     >
       <Head>
         {newTest ?
-          <title>({contTest}) Profile</title>
+          <title>({contTest}) Profile - Self Awareness</title>
         :
-        <title>Profile</title>
+        <title>Profile - Self Awareness</title>
         }
         <meta
           name="Pagina do perfil do usuário"

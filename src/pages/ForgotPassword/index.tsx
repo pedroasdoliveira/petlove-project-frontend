@@ -82,7 +82,7 @@ const ForgotPassword: NextPage = () => {
       justifyContent={"center"}
     >
       <Head>
-        <title>Enviar email</title>
+        <title>Enviar email - Self Awareness</title>
         <meta
           name="Page for sending email forgot password"
           content="Send email forgot password"

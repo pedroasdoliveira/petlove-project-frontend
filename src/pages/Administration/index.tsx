@@ -49,7 +49,7 @@ const Administration: NextPage = () => {
       cursor={"default"}
     >
       <Head>
-        <title>Admin</title>
+        <title>Admin - Self Awareness</title>
         <meta
           name="Página do administrador"
           content="Página do administrador"

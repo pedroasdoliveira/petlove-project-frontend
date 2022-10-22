@@ -25,7 +25,7 @@ const Interview: NextPage = () => {
       position="relative"
     >
       <Head>
-        <title>Interview</title>
+        <title>Teste - Self Awareness</title>
         <meta name="description" content="Questions to answer" />
         <link rel="icon" href="./public/favicon.ico" />
       </Head>

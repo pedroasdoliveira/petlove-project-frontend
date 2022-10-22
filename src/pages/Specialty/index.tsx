@@ -46,9 +46,9 @@ const Specialty: NextPage = () => {
     >
       <Head>
         {newTest ?
-          <title>({contTest}) Especialidades</title>
+          <title>({contTest}) Especialidades - Self Awareness</title>
         :
-        <title>Especialidades</title>
+        <title>Especialidades - Self Awareness</title>
         }
         <meta name="Specialties" content="Página de especialidades" />
       </Head>

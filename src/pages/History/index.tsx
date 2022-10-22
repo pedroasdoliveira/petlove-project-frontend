@@ -74,9 +74,9 @@ const History: NextPage = () => {
     >
       <Head>
         {newTest ?
-          <title>({contTest}) Histórico do usuário</title>
+          <title>({contTest}) Histórico do usuário - Self Awareness</title>
         :
-        <title>Histórico do usuário</title>
+        <title>Histórico do usuário - Self Awareness</title>
         }
         <meta
           name="Pagina do histórico do usuário"

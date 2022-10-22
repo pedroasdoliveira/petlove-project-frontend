@@ -55,7 +55,7 @@ const ChangePassword: NextPage = () => {
       justifyContent={"center"}
     >
       <Head>
-        <title>Change Password</title>
+        <title>Trocar senha - Self Awareness</title>
         <meta name="Page for changing password" content="Change Password" />
       </Head>
 

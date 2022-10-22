@@ -63,9 +63,9 @@ const Homepage: NextPage = () => {
     >
       <Head>
         {newTest ? (
-          <title>({contTest}) Homepage</title>
+          <title>({contTest}) Homepage - Self Awareness</title>
         ) : (
-          <title>Homepage</title>
+          <title>Homepage - Self Awareness</title>
         )}
         <meta name="description" content="Homepage" />
         <link rel="icon" href="/public/favicon.ico" />

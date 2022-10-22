@@ -55,9 +55,9 @@ const Edit: NextPage<ProfileProps> = () => {
     >
       <Head>
         {newTest ?
-          <title>({contTest}) Editar</title>
+          <title>({contTest}) Editar - Self Awareness</title>
         :
-        <title>Editar</title>
+        <title>Editar - Self Awareness</title>
         }
         <meta
           name="Pagina de edição de dados do usuário"
