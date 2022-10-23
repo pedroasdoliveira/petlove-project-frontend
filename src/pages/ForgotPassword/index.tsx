@@ -9,16 +9,16 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { ErrorMessage } from "style/style";
+import { ErrorMessage } from "../../style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { api } from "services";
+import { api } from "../../services";
 import Router from "next/router";
 import toast from "react-hot-toast";
-import { useAuth } from "contexts/Auth";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
+import { useAuth } from "../../contexts/Auth";
+import { useToggle } from "../../hooks/useToggle";
+import { ToggleMode } from "../../types/interfaces";
 import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import Head from "next/head";
 
@@ -39,7 +39,7 @@ const ForgotPassword: NextPage = () => {
 
   const formBackground = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
@@ -64,7 +64,7 @@ const ForgotPassword: NextPage = () => {
         setRequisition(false);
         reset();
         toast.success(
-          "Email para redefinição de senha enviado com sucesso! Verifique sua caixa de entrada."
+          "Email para redefinição de senha enviado com sucesso! Verifique sua caixa de entrada.",
         );
         Router.push("/");
       })
@@ -87,6 +87,7 @@ const ForgotPassword: NextPage = () => {
           name="Page for sending email forgot password"
           content="Send email forgot password"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex
@@ -100,40 +101,40 @@ const ForgotPassword: NextPage = () => {
         <Heading mb={"5rem"} textAlign={"center"} cursor="default" size={"lg"}>
           Enviar email para alteração de senha
         </Heading>
-          <FormControl>
-            <Input
-              placeholder="Seu email..."
-              variant={"flushed"}
-              isInvalid={!!forgotPasswordErrors.email}
-              mb={3}
-              type="text"
-              {...forgotPassword("email")}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  forgotPasswordHandleSubmit(handleForgotPassword)();
-                }
-              }}
-              color="white"
-              _placeholder={{
-                color: "#bbbaba",
-              }}
-            />
-            <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-              {forgotPasswordErrors.email?.message || ""}
-            </ErrorMessage>
-          </FormControl>
-          <Button
-            background={buttonBackground}
-            _hover={{ background: buttonHover, color: buttonColor }}
+        <FormControl>
+          <Input
+            placeholder="Seu email..."
+            variant={"flushed"}
+            isInvalid={!!forgotPasswordErrors.email}
+            mb={3}
+            type="text"
+            {...forgotPassword("email")}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                forgotPasswordHandleSubmit(handleForgotPassword)();
+              }
+            }}
             color="white"
-            variant="ghost"
-            isLoading={requisition}
-            w={"100%"}
-            onClick={forgotPasswordHandleSubmit(handleForgotPassword)}
-            mt={7}
-          >
-            Enviar
-          </Button>
+            _placeholder={{
+              color: "#bbbaba",
+            }}
+          />
+          <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+            {forgotPasswordErrors.email?.message || ""}
+          </ErrorMessage>
+        </FormControl>
+        <Button
+          background={buttonBackground}
+          _hover={{ background: buttonHover, color: buttonColor }}
+          color="white"
+          variant="ghost"
+          isLoading={requisition}
+          w={"100%"}
+          onClick={forgotPasswordHandleSubmit(handleForgotPassword)}
+          mt={7}
+        >
+          Enviar
+        </Button>
 
         <Box
           position={"absolute"}

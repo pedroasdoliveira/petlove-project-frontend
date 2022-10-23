@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -16,11 +14,11 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import DefaultButton from "components/Button/Button";
-import Footer from "components/Footer/Footer";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
-import { useUsers } from "contexts/Users";
+import DefaultButton from "../../components/Button/Button";
+import Footer from "../../components/Footer/Footer";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import { useAuth } from "../../contexts/Auth";
+import { useUsers } from "../../contexts/Users";
 
 const Homepage: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
@@ -49,7 +47,7 @@ const Homepage: NextPage = () => {
   const textColor = "white";
   const bgCardColor = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
@@ -69,7 +67,7 @@ const Homepage: NextPage = () => {
           <title>Homepage - Self Awareness</title>
         )}
         <meta name="description" content="Homepage" />
-        <link rel="icon" href="/public/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex

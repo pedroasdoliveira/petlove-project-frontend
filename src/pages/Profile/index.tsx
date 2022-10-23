@@ -1,13 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
-import MenuProfile from "components/MenuProfile/MenuProfile";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import LastRadarUser from "components/Graphics/LastRadarUser";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
+import LastRadarUser from "../../components/Graphics/LastRadarUser";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import { useAuth } from "../../contexts/Auth";
 import { useEffect, useState } from "react";
-import { useUsers } from "contexts/Users";
+import { useUsers } from "../../contexts/Users";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import Image from "next/image";
 
@@ -28,19 +27,19 @@ const Profile: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
-    if(user?.isAdmin) {
+    if (user?.isAdmin) {
       users?.map((user, index) => {
-        if(user?.results?.at(-1)?.isValided === null) {
+        if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           setContTest(contTest + 1);
         }
-      })
+      });
     }
   }, [user]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   const handleVerify = () => {
@@ -67,15 +66,16 @@ const Profile: NextPage<ProfileProps> = () => {
       position="relative"
     >
       <Head>
-        {newTest ?
+        {newTest ? (
           <title>({contTest}) Profile - Self Awareness</title>
-        :
-        <title>Profile - Self Awareness</title>
-        }
+        ) : (
+          <title>Profile - Self Awareness</title>
+        )}
         <meta
           name="Pagina do perfil do usuário"
           content="Primeira pagina do perfil"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex w="100%">
@@ -90,18 +90,20 @@ const Profile: NextPage<ProfileProps> = () => {
           py="2%"
           ml="20rem"
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} position="relative">
+          <Flex
+            p="15px"
+            borderRadius="15px"
+            bg={background}
+            color={"white"}
+            position="relative"
+          >
             <Heading fontWeight="normal" letterSpacing="tight">
-              Welcome back,{" "}
+              {"<"}Welcome back{"/>"}{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name?.split(" ")[0]}
               </Flex>
             </Heading>
-            <Flex
-              position="absolute"
-              right="20"
-              top="-4"
-            >
+            <Flex position="absolute" right="20" top="-4">
               <Image
                 src={image ? image : ProfileIcon}
                 alt="Imagem de perfil"

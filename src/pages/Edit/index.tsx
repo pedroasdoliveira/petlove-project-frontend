@@ -1,13 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Flex, Heading, Text,
-  useColorModeValue
-} from "@chakra-ui/react";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import EditForm from "components/EditForm/EditForm";
-import MenuProfile from "components/MenuProfile/MenuProfile";
-import { useAuth } from "contexts/Auth";
-import { useUsers } from "contexts/Users";
+import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import EditForm from "../../components/EditForm/EditForm";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
+import { useAuth } from "../../contexts/Auth";
+import { useUsers } from "../../contexts/Users";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -27,19 +23,19 @@ const Edit: NextPage<ProfileProps> = () => {
   }, []);
 
   useEffect(() => {
-    if(user?.isAdmin) {
+    if (user?.isAdmin) {
       users?.map((user, index) => {
-        if(user?.results?.at(-1)?.isValided === null) {
+        if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           setContTest(contTest + 1);
         }
-      })
+      });
     }
   }, [user]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   return (
@@ -54,15 +50,16 @@ const Edit: NextPage<ProfileProps> = () => {
       position="relative"
     >
       <Head>
-        {newTest ?
+        {newTest ? (
           <title>({contTest}) Editar - Self Awareness</title>
-        :
-        <title>Editar - Self Awareness</title>
-        }
+        ) : (
+          <title>Editar - Self Awareness</title>
+        )}
         <meta
           name="Pagina de edição de dados do usuário"
           content="Pagina de edição de dados do usuário"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex w="100%">
@@ -79,7 +76,7 @@ const Edit: NextPage<ProfileProps> = () => {
         >
           <Flex p="15px" borderRadius="15px" bg={background} color={"white"}>
             <Heading fontWeight="normal" letterSpacing="tight">
-              Editar dados {" "}
+              Editar dados{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name?.split(" ")[0]}?
               </Flex>
@@ -103,14 +100,13 @@ const Edit: NextPage<ProfileProps> = () => {
             </Text>
 
             {/* Form */}
-          
+
             <EditForm />
-            
           </Flex>
         </Flex>
       </Flex>
 
-      <AsideMenu direction="column"/>
+      <AsideMenu direction="column" />
     </Flex>
   );
 };

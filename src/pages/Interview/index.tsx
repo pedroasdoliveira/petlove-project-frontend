@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import StepsForm from "components/Steps/Steps";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
+import StepsForm from "../../components/Steps/Steps";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import { useAuth } from "../../contexts/Auth";
 import { useEffect } from "react";
 
 const Interview: NextPage = () => {
@@ -27,7 +26,7 @@ const Interview: NextPage = () => {
       <Head>
         <title>Teste - Self Awareness</title>
         <meta name="description" content="Questions to answer" />
-        <link rel="icon" href="./public/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <StepsForm />
