@@ -1,4 +1,11 @@
-import { Flex, Heading, ListItem, Text, UnorderedList, useColorModeValue } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import { useSpecialtys } from "contexts/specialtys";
 
@@ -12,29 +19,24 @@ const Specialties = () => {
 
   return (
     <>
-
       {specialtys?.map((specialty) => (
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}
-          direction={"row"}
+          direction={{ xl: "row", sm: "column" }}
           p={8}
           borderRadius={"15px"}
-          w={"100%"}
-          height={"25rem"}
+          w={{ xl: "100%", lg: "90%", sm: "100%" }}
           bg={background}
           color={"white"}
           mb={5}
         >
-          <Flex w={"50%"} h={"100%"}>
+          <Flex w={{ xl: "50%", sm: "100%" }} h={"100%"}>
             {/* Grafico*/}
-            <LastRadarUserAdm testUser={specialty} type={'specialities'} />
+            <LastRadarUserAdm testUser={specialty} type={"specialities"} />
           </Flex>
 
-          <Flex
-            direction={"column"}
-            w={"50%"}
-          >
+          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }}>
             {/* Informações*/}
             <Heading
               as="h2"
@@ -44,17 +46,12 @@ const Specialties = () => {
             >
               {specialty.performance}
             </Heading>
-            
-            <Text
-              fontSize={"lg"}
-              fontWeight="normal"
-            >
+
+            <Text fontSize={"lg"} fontWeight="normal">
               {specialty.description}
             </Text>
 
-            <UnorderedList
-              marginTop={6}
-            >
+            <UnorderedList marginTop={6}>
               <ListItem>Pessoas: {specialty.person}</ListItem>
               <ListItem>Tecnologia: {specialty.technology}</ListItem>
               <ListItem>Sistema: {specialty.system}</ListItem>
@@ -64,7 +61,6 @@ const Specialties = () => {
           </Flex>
         </Flex>
       ))}
-
     </>
   );
 };

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -10,34 +9,55 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import AreaComposedChart from "components/Graphics/AreaComposedChart";
-import HistoryList from "components/Lists/HistoryList/HistoryList";
-import MenuProfile from "components/MenuProfile/MenuProfile";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import AreaComposedChart from "../../components/Graphics/AreaComposedChart";
+import HistoryList from "../../components/Lists/HistoryList/HistoryList";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import AllRadarUser from "components/Graphics/AllRadarUser";
+import AllRadarUser from "../../components/Graphics/AllRadarUser";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import OneLineUser from "components/Graphics/OneLineUser";
-import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
-import { useUsers } from "contexts/Users";
+import OneLineUser from "../../components/Graphics/OneLineUser";
+import { useAuth } from "../../contexts/Auth";
+import { useEffect, useState } from "react";
+import { useUsers } from "../../contexts/Users";
 
 const History: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
-  const { handleGetUsers } = useUsers();
+  const { checkTokenExpiration, logged } = useAuth();
+  const { handleGetUsers, users, user } = useUsers();
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
     checkTokenExpiration!();
-    handleGetUsers!();
   }, []);
+
+  useEffect(() => {
+    if (logged) handleGetUsers!();
+  }, [logged]);
+
+  useEffect(() => {
+    if (user?.isAdmin) {
+      handleContTest();
+    }
+  }, [user && user.isAdmin]);
+
+  const handleContTest = () => {
+    setContTest(0);
+    users?.map((user) => {
+      if (user?.results?.at(-1)?.isValided === null) {
+        setNewTest(true);
+        setContTest(contTest + 1);
+      }
+    });
+  };
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   return (
@@ -46,84 +66,115 @@ const History: NextPage = () => {
       display={"flex"}
       h="100vh"
       w="100vw"
-      px="50px"
+      px={{ xl: "5rem", lg: "1.5rem" }}
       py="30px"
-      justifyContent="space-between"
+      justifyContent={{ sm: "center", md: "space-between" }}
       position="relative"
     >
       <Head>
-        <title>Histórico do usuário</title>
+        {newTest ? (
+          <title>({contTest}) Histórico do usuário - Self Awareness</title>
+        ) : (
+          <title>Histórico do usuário - Self Awareness</title>
+        )}
         <meta
           name="Pagina do histórico do usuário"
           content="Pagina contendo gráficos e informações para o usuário"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
-      <Flex w="100%" direction={"column"}>
-        <MenuProfile path="Histórico" />
+      <Flex w="100%">
+        {/* Menu User */}
+        <Flex
+          w={{ xl: "20rem", lg: "15rem" }}
+          display={{ lg: "flex", sm: "none" }}
+          position="fixed"
+        >
+          <MenuProfile path="Histórico" />
+        </Flex>
 
-        <Flex w={"calc(100% - 20rem)"} h="100%" px="3%" py="2%" ml="20rem">
+        {/* Content */}
+        <Flex
+          ml={{ xl: "350px", lg: "230px" }}
+          mr={{ lg: "30px", md: "60px" }}
+          w={{ xl: "calc(100% - 20rem)", lg: "80%", sm: "100%" }}
+          flexDir="column"
+          px="3%"
+          py={{ sm: "20%", md: "2%" }}
+        >
           <Flex
             direction={"column"}
-            p={8}
+            py={8}
+            px={{ sm: 3, md: 8 }}
             borderRadius={"15px"}
             w={"100%"}
-            height={"25rem"}
             bg={background}
             color={"white"}
+            mb={8}
           >
-            <Heading as="h3">Sua evolução</Heading>
+            <Heading as="h3" mb={4} fontSize={{ sm: "lg", md: "xl" }}>
+              Sua evolução
+            </Heading>
             <Text>Veja como você está evoluindo em relação a sua função:</Text>
 
-            <Flex w={"100%"} h={"80%"} marginTop={8}>
+            <Flex marginTop={12} h="15rem">
               <AreaComposedChart />
             </Flex>
           </Flex>
-        </Flex>
 
-        <Flex as="section" px={"3%"} w={"100%"} ml="20rem">
-          <Accordion w={"calc(100% - 20rem)"} defaultIndex={[0]} allowToggle>
-            <AccordionItem w={"100%"} border={"none"}>
-              <Flex
-                direction={"column"}
-                marginBottom={8}
-                p={8}
-                borderRadius={"15px"}
-                bg={background}
-                color={"white"}
-              >
-                <AccordionButton justifyContent={"space-between"}>
-                  <Flex direction={"column"} alignItems="start">
-                    <Heading as="h3">Histórico de evolução</Heading>
-                    <Text>Tabela com as suas evoluções</Text>
-                  </Flex>
-                  <AccordionIcon w={10} h={10} />
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  <HistoryList />
-                </AccordionPanel>
-              </Flex>
-            </AccordionItem>
-          </Accordion>
-        </Flex>
-        <Flex as="section" px={"3%"} w={"100%"} ml="20rem">
-          <Flex
-            direction={"column"}
-            marginBottom={8}
-            p={8}
-            borderRadius={"15px"}
-            w={"calc(100% - 20rem)"}
-            bg={background}
-            color={"white"}
-            height={"35rem"}
-          >
-            <Heading as="h3">Histórico de evolução em gráfico</Heading>
+          <Flex as="section" w={"100%"}>
+            <Accordion w="100%" defaultIndex={[0]} allowToggle>
+              <AccordionItem w={"100%"} border={"none"}>
+                <Flex
+                  direction={"column"}
+                  marginBottom={8}
+                  py={8}
+                  px={{ sm: 3, md: 8 }}
+                  borderRadius={"15px"}
+                  bg={background}
+                  color={"white"}
+                >
+                  <AccordionButton justifyContent={"space-between"}>
+                    <Flex direction={"column"} alignItems="start">
+                      <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
+                        Histórico de evolução
+                      </Heading>
+                      <Text>Tabela com as suas evoluções</Text>
+                    </Flex>
+                    <AccordionIcon w={10} h={10} />
+                  </AccordionButton>
+                  <AccordionPanel pb={4}>
+                    <HistoryList />
+                  </AccordionPanel>
+                </Flex>
+              </AccordionItem>
+            </Accordion>
+          </Flex>
 
-            <Swiper
-              navigation={true}
-              modules={[Navigation]}
-              style={{ width: "100%", height: "100%" }}
+
+          <Flex as="section" w={"100%"}>
+            <Flex
+              direction={"column"}
+              marginBottom={8}
+              py={8}
+              px={{ sm: 3, md: 8 }}
+              borderRadius={"15px"}
+              w="100%"
+              bg={background}
+              color={"white"}
+              height={"25rem"}
             >
+
+              <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
+                Histórico de evolução em gráficos
+              </Heading>
+
+              <Swiper
+                navigation={true}
+                modules={[Navigation]}
+                style={{ width: "100%", height: "100%" }}
+              >
               <SwiperSlide>
                 <Text
                   fontSize={"1.5rem"}
@@ -131,7 +182,7 @@ const History: NextPage = () => {
                   color={"white"}
                   textAlign={"center"}
                   mt={"1rem"}
-                  mb={"-1rem"}
+                  mb={"0rem"}
                 >
                   Radar - Todos os testes
                 </Text>
@@ -202,11 +253,14 @@ const History: NextPage = () => {
                 </Text>
                 <OneLineUser subject="Technology" />
               </SwiperSlide>
-            </Swiper>
+                
+              </Swiper>
+            </Flex>
+
           </Flex>
         </Flex>
+        <AsideMenu currentPage="Histórico" />
       </Flex>
-      <AsideMenu direction="column" />
     </Flex>
   );
 };

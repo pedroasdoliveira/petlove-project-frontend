@@ -22,6 +22,7 @@ import { api } from "services";
 import toast from "react-hot-toast";
 import { useTest } from "contexts/testQuests";
 import { useUsers } from "contexts/Users";
+import { useAuth } from "contexts/Auth";
 
 const respostas = {
   Sistemas: 0,
@@ -34,12 +35,13 @@ const respostas = {
 };
 
 const StepsForm = () => {
-  const { nextStep, prevStep, reset, activeStep } = useSteps({
+  const { nextStep, activeStep, reset } = useSteps({
     initialStep: 0,
   });
 
   const { test }: any = useTest();
   const { handleGetUsers } = useUsers();
+  const { requisition, setRequisition } = useAuth();
 
   const steps = [
     { label: "Sistemas", Content: test?.system },
@@ -95,14 +97,7 @@ const StepsForm = () => {
   const group = getRootProps();
 
   return (
-    <Flex
-      as="section"
-      display={"flex"}
-      flexDir={"column"}
-      width="100%"
-      minHeight="100%"
-      justify={"space-evenly"}
-    >
+    <>
       <Progress
         colorScheme="green"
         borderRadius="10px"
@@ -117,39 +112,39 @@ const StepsForm = () => {
           test?.computationalFundamentals?.length +
           test?.process?.length
         }
-        marginBottom={12}
+        
       />
-      <Steps
-        activeStep={activeStep}
-        height={"1%"}
-        colorScheme="green"
-        borderRadius="10px"
-        textColor={"#10cc19"}
-        color={useColorModeValue("#cc1010", "#1d1d31")}
-        borderColor={useColorModeValue("#10cc19", "#1d1d31")}
-        borderBlockEndColor={useColorModeValue("#10cc19", "#1d1d31")}
-        textStyle={{
-          color: useColorModeValue("#10cc19", "#1d1d31"),
-          fontWeight: "bold",
-          fontSize: "1.2rem",
-        }}
-      >
-        {steps.map(({ label, Content }) => (
-          <Step label={label} key={label} height={"1%"}>
-            <Flex
-              display={"flex"}
-              flexDir={"column"}
-              alignItems={"center"}
-              mt={"10"}
-              height={"60%"}
-            >
-              <FormLabel display={"flex"} justifyContent={"center"}>
+      <Flex flexDirection="column" w="100%" h="30rem" alignItems="center" justifyContent="space-between">
+        <Steps
+          activeStep={activeStep}
+          colorScheme="green"
+          borderRadius="10px"
+          textColor={"#10cc19"}
+          color={useColorModeValue("#cc1010", "#1d1d31")}
+          borderColor={useColorModeValue("#10cc19", "#1d1d31")}
+          borderBlockEndColor={useColorModeValue("#10cc19", "#1d1d31")}
+          textStyle={{
+            color: useColorModeValue("#10cc19", "#1d1d31"),
+            fontWeight: "bold",
+            fontSize: "1.2rem",
+          }}
+          responsive={false}
+        >
+          {steps.map(({ label, Content }, index) => (
+            <Step label={label} key={index} position="relative" w="200px">
+              <Flex
+                display={"flex"}
+                flexDir={"column"}
+                alignItems={"center"}
+                py="5rem"
+                
+              >
                 <Heading
                   as="h2"
                   size="lg"
-                  marginBottom={4}
+                  marginBottom={12}
                   textAlign={"center"}
-                  width={"60%"}
+                  fontSize={{sm: 'xl', md: '2xl', lg: '3xl'}}
                   display={"flex"}
                   justifyContent={"center"}
                   flexDir={"column"}
@@ -182,45 +177,49 @@ const StepsForm = () => {
                     Content?.[eval(`respostas.${label}`)]
                   )}
                 </Heading>
-              </FormLabel>
-              <Button
-                bgColor={buttonSendColorMode}
-                color={colorButtonSend}
-                letterSpacing="tight"
-                _hover={{
-                  background: buttonSendHover,
-                  color: buttonColorHover,
-                }}
-                hidden={!valueButton}
-                mt={"100"}
-                ml={"1"}
-                onClick={() => {
-                  if (questionaryVerify === "question") {
-                    setQuantity(quantity + 1);
-                    setValueButton(false);
-                    if (eval(`respostas.${label}`) < Content.length - 1) {
-                      eval(`respostas.${label}++`);
-                    } else {
-                      eval(`respostas.${label}++`);
+                
+                <Button
+                  bgColor={buttonSendColorMode}
+                  color={colorButtonSend}
+                  letterSpacing="tight"
+                  _hover={{
+                    background: buttonSendHover,
+                    color: buttonColorHover,
+                  }}
+                  hidden={!valueButton}
+                  
+                  ml={"1"}
+                  onClick={() => {
+                    if (questionaryVerify === "question") {
+                      setQuantity(quantity + 1);
+                      setValueButton(false);
+                      if (eval(`respostas.${label}`) < Content.length - 1) {
+                        eval(`respostas.${label}++`);
+                      } else {
+                        eval(`respostas.${label}++`);
+                        nextStep();
+                        
+                      }
+                    } else if (questionaryVerify === "step") {
+                      setQuantity(
+                        quantity + Content.length - eval(`respostas.${label}`)
+                      );
+                      console.log("mandando pro proximo step!");
                       nextStep();
                     }
-                  } else if (questionaryVerify === "step") {
-                    setQuantity(
-                      quantity + Content.length - eval(`respostas.${label}`)
-                    );
-                    nextStep();
-                  }
-                  setValue("none");
-                  setValueButton(false);
-                  setQuestionaryVerify("false");
-                }}
-              >
-                Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
-              </Button>
-            </Flex>
-          </Step>
-        ))}
-      </Steps>
+                    console.log("clicaram");
+                    setValue("none");
+                    setValueButton(false);
+                    setQuestionaryVerify("false");
+                  }}
+                >
+                  Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+                </Button>
+              </Flex>
+            </Step>
+          ))}
+        </Steps>
+        
       {activeStep === steps.length ? (
         <Flex px={4} py={4} width="100%" flexDir="column">
           <Heading fontSize="xl" textAlign="center">
@@ -231,7 +230,9 @@ const StepsForm = () => {
               mx="auto"
               mt={6}
               size="sm"
+              isLoading={requisition}
               onClick={() => {
+                setRequisition(true);
                 const token = localStorage.getItem("token");
 
                 const headers = {
@@ -256,10 +257,12 @@ const StepsForm = () => {
                     setQuantity(0);
                     handleReset();
                     handleGetUsers();
+                    setRequisition(false);
                     toast.success("Resultado enviado com sucesso!");
                   })
                   .catch((error) => {
                     handleReset();
+                    setRequisition(false);
                     toast.error("Erro ao enviar resultado!");
                   });
               }}
@@ -274,7 +277,6 @@ const StepsForm = () => {
 
       {
         //aq em baixo são os botao sim ou não
-
       }
       {activeStep !== steps.length ? (
         <FormControl
@@ -293,7 +295,8 @@ const StepsForm = () => {
       ) : (
         ""
       )}
-    </Flex>
+      </Flex>
+    </>
   );
 };
 

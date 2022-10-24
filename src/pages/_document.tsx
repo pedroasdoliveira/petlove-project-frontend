@@ -7,11 +7,10 @@ import Document, {
   NextScript,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-import GlobalStyles from "styles/globals";
 
 export default class MyDocument extends Document {
   static async getInitialProps(
-    ctx: DocumentContext
+    ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -43,12 +42,13 @@ export default class MyDocument extends Document {
       <Html lang="pt-br">
         <Head>
           <meta charSet="utf-8" />
-          <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet"></link>
-          <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300;1,400;1,700&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />
-          <GlobalStyles />
           <NextScript />
         </body>
       </Html>

@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     formats: ["image/webp", "image/avif"],
+    domains: ["i.imgur.com"],
   },
   async redirects() {
     return [
@@ -11,14 +12,6 @@ const nextConfig = {
         source: "/",
         destination: "/Homepage",
         permanent: true,
-      },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/:any*',
-        destination: '/Homepage',
       },
     ];
   },
