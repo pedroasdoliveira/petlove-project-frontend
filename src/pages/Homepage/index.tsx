@@ -101,6 +101,7 @@ const Homepage: NextPage = () => {
 
         <Grid templateColumns="repeat(3, 1fr)" gap={8} my={12}>
           <GridItem
+            data-testid='card'
             bg={bgCardColor}
             w={"285px"}
             h={"340px"}
@@ -128,6 +129,7 @@ const Homepage: NextPage = () => {
           </GridItem>
 
           <GridItem
+            data-testid='card'
             bg={bgCardColor}
             w={"285px"}
             h={"340px"}
@@ -155,6 +157,7 @@ const Homepage: NextPage = () => {
           </GridItem>
 
           <GridItem
+            data-testid='card'
             bg={bgCardColor}
             w={"285px"}
             h={"340px"}

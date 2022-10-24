@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 
 describe("Login page", () => {
   render(<Login />);
-  const route = useRouter()
 
   it("Render tabs lists", () => {
     expect(screen.getByTestId("icon")).toBeInTheDocument();
@@ -51,6 +50,7 @@ describe("Login page", () => {
   });
 
   it("Should confirmed information's in Login component", async () => {
+    const route = useRouter()
     const {debug} = render(<LoginComponent />)
     render(<Login />);
 
