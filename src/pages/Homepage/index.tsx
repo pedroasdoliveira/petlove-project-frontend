@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -8,6 +6,7 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
+  Badge,
   Flex,
   Grid,
   GridItem,
@@ -15,22 +14,40 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import DefaultButton from "components/Button/Button";
-import Footer from "components/Footer/Footer";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
+import DefaultButton from "../../components/Button/Button";
+import Footer from "../../components/Footer/Footer";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import { useAuth } from "../../contexts/Auth";
+import { useUsers } from "../../contexts/Users";
 
 const Homepage: NextPage = () => {
   const { checkTokenExpiration } = useAuth();
+  const { user, users } = useUsers();
+  const [image, setImage] = useState("");
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
+
   useEffect(() => {
     checkTokenExpiration!();
   }, []);
+
+  useEffect(() => {
+    setImage(user?.profilePicture ?? "");
+    if (user?.isAdmin) {
+      users?.map((user, index) => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          setContTest(contTest + 1);
+        }
+      });
+    }
+  }, [user]);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
   const bgCardColor = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
@@ -44,8 +61,13 @@ const Homepage: NextPage = () => {
       alignItems={"center"}
     >
       <Head>
-        <title>Homepage</title>
+        {newTest ? (
+          <title>({contTest}) Homepage - Self Awareness</title>
+        ) : (
+          <title>Homepage - Self Awareness</title>
+        )}
         <meta name="description" content="Homepage" />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex
@@ -73,6 +95,42 @@ const Homepage: NextPage = () => {
           <Heading display={{md: 'block', sm: 'none'}} as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
             Questionário
           </Heading>
+          <Flex position="absolute" right="300" top="0.2">
+            <Image
+              src={image ? image : ProfileIcon}
+              alt="Imagem de perfil"
+              width={"60%"}
+              height={"60%"}
+              objectFit={"cover"}
+              style={{ borderRadius: "50%", background: "#dee0e3" }}
+            />
+          </Flex>
+          {newTest && (
+            <Badge
+              ml="1"
+              colorScheme="green"
+              style={{
+                position: "absolute",
+                top: "2.5rem",
+                right: "6.5rem",
+                zIndex: 2,
+                width: "22px",
+                height: "21px",
+                borderRadius: "50%",
+                background: "red",
+                border: "1px solid #fff",
+                fontSize: "11px",
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#fff",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {contTest > 9 ? "9+" : contTest}
+            </Badge>
+          )}
 
           <AsideMenu direction="row"/>
         </Flex>

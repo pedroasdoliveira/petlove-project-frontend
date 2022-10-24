@@ -1,29 +1,45 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
-import MenuProfile from "components/MenuProfile/MenuProfile";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import LastRadarUser from "components/Graphics/LastRadarUser";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
-import { useUsers } from "contexts/Users";
+import LastRadarUser from "../../components/Graphics/LastRadarUser";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import { useAuth } from "../../contexts/Auth";
+import { useEffect, useState } from "react";
+import { useUsers } from "../../contexts/Users";
+import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
+import Image from "next/image";
 
 interface ProfileProps {
   name: string;
 }
 
 const Profile: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
-  const { user, handleGetUsers } = useUsers();
+  const { checkTokenExpiration, logged } = useAuth();
+  const { user, handleGetUsers, users } = useUsers();
+  const [image, setImage] = useState("");
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
+
   useEffect(() => {
     checkTokenExpiration!();
-    handleGetUsers!();
   }, []);
+
+  useEffect(() => {
+    setImage(user?.profilePicture ?? "");
+    if (user?.isAdmin) {
+      users?.map((user, index) => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          setContTest(contTest + 1);
+        }
+      });
+    }
+  }, [user]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   const handleVerify = () => {
@@ -50,11 +66,16 @@ const Profile: NextPage<ProfileProps> = () => {
       position="relative"
     >
       <Head>
-        <title>Profile</title>
+        {newTest ? (
+          <title>({contTest}) Profile - Self Awareness</title>
+        ) : (
+          <title>Profile - Self Awareness</title>
+        )}
         <meta
           name="Pagina do perfil do usuário"
           content="Primeira pagina do perfil"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex w="100%">
@@ -73,13 +94,29 @@ const Profile: NextPage<ProfileProps> = () => {
           px="3%"
           py={{sm: '20%', md: '2%'}}
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} w="100%" justify={{sm: 'center', md: 'initial'}}>
+          <Flex
+            p="15px"
+            borderRadius="15px"
+            bg={background}
+            color={"white"} w="100%" justify={{sm: 'center', md: 'initial'}}
+            position="relative"
+          >
             <Heading fontWeight="normal" letterSpacing="tight" fontSize={{sm: 'xl', md: '2xl'}}>
-              Welcome back,{" "}
+              {"<"}Welcome back{"/>"}{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name?.split(" ")[0]}
               </Flex>
             </Heading>
+            <Flex position="absolute" right="20" top="-4">
+              <Image
+                src={image ? image : ProfileIcon}
+                alt="Imagem de perfil"
+                width={"95%"}
+                height={"100%"}
+                objectFit={"cover"}
+                style={{ borderRadius: "50%", background: "#dee0e3" }}
+              />
+            </Flex>
           </Flex>
           <Flex
             flexDir={{sm: "column", md: "row"}}
