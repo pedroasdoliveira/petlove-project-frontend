@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -10,34 +9,55 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import AreaComposedChart from "components/Graphics/AreaComposedChart";
-import HistoryList from "components/Lists/HistoryList/HistoryList";
-import MenuProfile from "components/MenuProfile/MenuProfile";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import AreaComposedChart from "../../components/Graphics/AreaComposedChart";
+import HistoryList from "../../components/Lists/HistoryList/HistoryList";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import AllRadarUser from "components/Graphics/AllRadarUser";
+import AllRadarUser from "../../components/Graphics/AllRadarUser";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import OneLineUser from "components/Graphics/OneLineUser";
-import { useAuth } from "contexts/Auth";
-import { useEffect } from "react";
-import { useUsers } from "contexts/Users";
+import OneLineUser from "../../components/Graphics/OneLineUser";
+import { useAuth } from "../../contexts/Auth";
+import { useEffect, useState } from "react";
+import { useUsers } from "../../contexts/Users";
 
 const History: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
-  const { handleGetUsers } = useUsers();
+  const { checkTokenExpiration, logged } = useAuth();
+  const { handleGetUsers, users, user } = useUsers();
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
     checkTokenExpiration!();
-    handleGetUsers!();
   }, []);
+
+  useEffect(() => {
+    if (logged) handleGetUsers!();
+  }, [logged]);
+
+  useEffect(() => {
+    if (user?.isAdmin) {
+      handleContTest();
+    }
+  }, [user && user.isAdmin]);
+
+  const handleContTest = () => {
+    setContTest(0);
+    users?.map((user) => {
+      if (user?.results?.at(-1)?.isValided === null) {
+        setNewTest(true);
+        setContTest(contTest + 1);
+      }
+    });
+  };
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   return (
@@ -52,11 +72,16 @@ const History: NextPage = () => {
       position="relative"
     >
       <Head>
-        <title>Histórico do usuário</title>
+        {newTest ? (
+          <title>({contTest}) Histórico do usuário - Self Awareness</title>
+        ) : (
+          <title>Histórico do usuário - Self Awareness</title>
+        )}
         <meta
           name="Pagina do histórico do usuário"
           content="Pagina contendo gráficos e informações para o usuário"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex w="100%">
@@ -157,7 +182,7 @@ const History: NextPage = () => {
                   color={"white"}
                   textAlign={"center"}
                   mt={"1rem"}
-                  mb={"-1rem"}
+                  mb={"0rem"}
                 >
                   Radar - Todos os testes
                 </Text>

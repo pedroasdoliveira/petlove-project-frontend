@@ -56,6 +56,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
       right={1}
     >
       <Button
+        data-testid='toggle-button'
         onClick={() => {
           toggleColorMode();
           setToggle(!toggle);

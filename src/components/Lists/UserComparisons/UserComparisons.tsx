@@ -57,7 +57,6 @@ const UserComparisons = () => {
   //separar cada usuario por team
 
   const teamMap = users?.map((item) => {
-
     return item.team;
   });
 
@@ -72,6 +71,48 @@ const UserComparisons = () => {
   const teamMapFiltered2 = teamMapFiltered?.map((item) => {
     const teamFiltered = users?.filter((item2) => {
       return item2.team === item;
+    });
+
+    return teamFiltered;
+  });
+
+  // ranking por team da maior media para a menor
+
+  const teamOrdered = teamMapFiltered2?.map((item) => {
+    let teamLength: number = 0;
+    //fazer a media de cada team
+    const plus = item?.reduce((acc, item2) => {
+      const lastResult = item2.results[item2.results.length - 1];
+
+      if (lastResult !== null && lastResult !== undefined) {
+        const plus =
+          lastResult?.system +
+          lastResult?.person +
+          lastResult?.technology +
+          lastResult?.process +
+          lastResult?.influence;
+
+        teamLength++;
+        return acc + plus;
+      }
+
+      return acc;
+    }, 0);
+
+    const media = plus / (teamLength === 0 ? 1 : teamLength);
+
+    return { media: media, team: item?.[0].team };
+  });
+
+  // ordenar por media
+
+  const teamOrderedFiltered = teamOrdered?.sort((item, item2) => {
+    return item2.media - item.media;
+  });
+
+  const teamOrderedFilteredMedia = teamOrderedFiltered?.map((item) => {
+    const teamFiltered = users?.filter((item2) => {
+      return item2.team === item.team;
     });
 
     return teamFiltered;
@@ -161,7 +202,8 @@ const UserComparisons = () => {
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
           <TableCaption>
-            Ranking de usuários com base no último resultado
+            Ranking de equipes com base na média do último resultado dos
+            usuários
           </TableCaption>
           <Thead>
             <Tr>
@@ -176,7 +218,7 @@ const UserComparisons = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {teamMapFiltered2?.map((item) => {
+            {teamOrderedFilteredMedia?.map((item) => {
               let teamLength: number = 0;
               //fazer a media de cada team
               const plus = item?.reduce((acc, item2) => {
@@ -218,17 +260,17 @@ const UserComparisons = () => {
                 (acc, item2) => {
                   const role = item2.role;
                   if (role === "Especialista") {
-                    acc.specialist += 1;
+                    acc.Especialista += 1;
                   } else if (role === "Tech Lead") {
-                    acc.techLead += 1;
+                    acc.TechLead += 1;
                   } else if (role === "Senior") {
-                    acc.senior += 1;
+                    acc.Senior += 1;
                   } else if (role === "Pleno") {
-                    acc.pleno += 1;
+                    acc.Pleno += 1;
                   } else if (role === "Junior") {
-                    acc.junior += 1;
+                    acc.Junior += 1;
                   } else if (role === "Trainee") {
-                    acc.trainee += 1;
+                    acc.Trainee += 1;
                   } else {
                     acc.null += 1;
                   }
@@ -236,12 +278,12 @@ const UserComparisons = () => {
                   return acc;
                 },
                 {
-                  specialist: 0,
-                  techLead: 0,
-                  senior: 0,
-                  pleno: 0,
-                  junior: 0,
-                  trainee: 0,
+                  Especialista: 0,
+                  TechLead: 0,
+                  Senior: 0,
+                  Pleno: 0,
+                  Junior: 0,
+                  Trainee: 0,
                   null: 0,
                 }
               );
@@ -266,18 +308,39 @@ const UserComparisons = () => {
                   <Td>{item?.length}</Td>
                   <Td>{back?.length}</Td>
                   <Td>{front?.length}</Td>
-                  <Td>
+                  <Td
+                    display={"flex"}
+                    flexDirection={"column"}
+                    p="0.2rem"
+                    gap="0.2rem"
+                    pr="3.5rem"
+                    alignItems="center"
+                  >
                     <Tooltip
-                      label={`Função com mais devs na equipe (quantidade geral de devs) | (devs que fizeram pelo menos um teste).`}
+                      label={`Função com mais devs na equipe`}
                       aria-label=""
                       hasArrow
-
                     >
                       {`${
                         specialityFiltered[0][0] === "null"
                           ? "Contratados"
                           : specialityFiltered[0][0]
-                      } (${specialityFiltered[0][1]}) | (${teamLength})`}
+                      }`}
+                    </Tooltip>
+
+                    <Tooltip
+                      label={`quantidade de devs na função majoritária`}
+                      aria-label=""
+                      hasArrow
+                    >
+                      {`(${specialityFiltered[0][1]})`}
+                    </Tooltip>
+                    <Tooltip
+                      label={`devs que fizeram pelo menos um teste`}
+                      aria-label=""
+                      hasArrow
+                    >
+                      {`(${teamLength})`}
                     </Tooltip>
                   </Td>
                 </Tr>

@@ -2,6 +2,7 @@ import Login from "./index";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import LoginComponent from "components/Login/Login";
+import { useRouter } from "next/router";
 
 describe("Login page", () => {
   render(<Login />);
@@ -48,8 +49,9 @@ describe("Login page", () => {
     expect(tabRegister).toHaveAttribute("tabindex", "0");
   });
 
-  it("Should confirmed information's in Login component", () => {
-    render(<LoginComponent />)
+  it("Should confirmed information's in Login component", async () => {
+    const route = useRouter()
+    const {debug} = render(<LoginComponent />)
     render(<Login />);
 
     const emailLogin = screen.getByTestId('email-login');
@@ -59,5 +61,11 @@ describe("Login page", () => {
     fireEvent.change(emailLogin, {target: {value: 'pedroa@gmail.com'}});
     fireEvent.change(passwordLogin, {target: {value: 'Px43568090*'}});
     fireEvent.click(buttonSubmit);
+
+    await waitFor(() => route.push('/homepage'))
+    const page = await waitFor(() => screen.findByRole('heading', {description: /Questionário/i}))
+    debug()
+   
+    expect(page).toBeCalled()
   });
 });

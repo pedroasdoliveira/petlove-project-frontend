@@ -8,6 +8,7 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
+import type { NextPage } from "next";
 import { ErrorMessage } from "style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,19 +18,13 @@ import Router from "next/router";
 import toast from "react-hot-toast";
 import { useAuth } from "contexts/Auth";
 import { useState } from "react";
-import Link from "next/link";
 
-interface LoginData {
-  email: string;
+interface ChangePasswordData {
   password: string;
+  confirmPassword: string;
 }
 
-const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Entre com um email válido")
-    .required("Email é obrigatório"),
-
+const changePasswordSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, "A senha deve ter no mínimo 6 caracteres")
@@ -39,9 +34,14 @@ const loginSchema = yup.object().shape({
       1 letra maiúscula, 1 número e 1 caractere especial`
     )
     .required("Senha é obrigatória"),
+
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Senhas não conferem")
+    .required("Confirmação de senha é obrigatória"),
 });
 
-const LoginComponent = () => {
+const ChangePasswordComponent = ({ query }: any) => {
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
@@ -51,37 +51,26 @@ const LoginComponent = () => {
   const [viewPassword, setViewPassword] = useState(false);
 
   const {
-    register: login,
-    handleSubmit: loginHandleSubmit,
-    formState: { errors: loginErrors },
+    register: changePassword,
+    handleSubmit: changePasswordHandleSubmit,
+    formState: { errors: changePasswordErrors },
     reset,
-  } = useForm<LoginData>({ resolver: yupResolver(loginSchema) });
+  } = useForm<ChangePasswordData>({
+    resolver: yupResolver(changePasswordSchema),
+  });
 
-  const handleLogin = (data: LoginData) => {
+  const handleChangePassword = (data: ChangePasswordData) => {
     setRequisition(true);
     api
-      .post("/auth", data)
+      .patch(`User/change/password/${query?.[0]}/${query?.[1]}`, data)
       .then((response) => {
-        const headers = {
-          headers: {
-            Authorization: `Bearer ${response.data.token}`,
-          },
-        };
-
-        api.get(`User/${data.email}`, headers).then((res) => {
-          const user = res.data;
-          loginAuth!({ token: response.data.token, user: user });
-          setRequisition(false);
-          reset();
-          Router.push("/Homepage");
-        });
+        setRequisition(false);
+        reset();
+        toast.success("Senha alterada com sucesso! Faça login para continuar");
+        Router.push("/");
       })
       .catch((error) => {
-        if (error.response.data.message === "User not verified") {
-          toast.error("Usuário não verificado");
-        } else {
-          toast.error("Email ou senha incorretos");
-        }
+        toast.error("Erro ao alterar senha");
         setRequisition(false);
       });
   };
@@ -89,21 +78,20 @@ const LoginComponent = () => {
   return (
     <>
       <Heading mb={6} textAlign={"center"} cursor="default">
-        Login
+        Alterar senha
       </Heading>
       <form>
         <FormControl>
           <Input
-            data-testid="email-login"
-            placeholder="Seu email..."
+            placeholder="Nova senha..."
             variant={"flushed"}
-            isInvalid={!!loginErrors.email}
+            isInvalid={!!changePasswordErrors.password}
             mb={3}
-            type="email"
-            {...login("email")}
+            type={viewPassword ? "text" : "password"}
+            {...changePassword("password")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
-                loginHandleSubmit(handleLogin)();
+                changePasswordHandleSubmit(handleChangePassword)();
               }
             }}
             color="white"
@@ -111,23 +99,21 @@ const LoginComponent = () => {
               color: "#bbbaba",
             }}
           />
-
           <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-            {loginErrors.email?.message || ""}
+            {changePasswordErrors.password?.message || ""}
           </ErrorMessage>
         </FormControl>
         <FormControl>
           <Input
-            data-testid="password-login"
-            placeholder="Sua senha..."
+            placeholder="Confirme a senha..."
             variant={"flushed"}
-            isInvalid={!!loginErrors.password}
+            isInvalid={!!changePasswordErrors.confirmPassword}
             mb={3}
             type={viewPassword ? "text" : "password"}
-            {...login("password")}
+            {...changePassword("confirmPassword")}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
-                loginHandleSubmit(handleLogin)();
+                changePasswordHandleSubmit(handleChangePassword)();
               }
             }}
             color="white"
@@ -136,11 +122,12 @@ const LoginComponent = () => {
             }}
           />
           <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-            {loginErrors.password?.message || ""}
+            {changePasswordErrors.confirmPassword?.message || ""}
           </ErrorMessage>
           <Flex justifyContent="end" width="100%" mt={2}>
             <Checkbox
               colorScheme="purple"
+              color={useColorModeValue("#230d88", "#5030dd")}
               mb={2}
               onChange={() => {
                 setViewPassword(!viewPassword);
@@ -151,21 +138,20 @@ const LoginComponent = () => {
           </Flex>
         </FormControl>
         <Button
-          data-testid="submit-login"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"
           variant="ghost"
           isLoading={requisition}
           w={"100%"}
-          onClick={loginHandleSubmit(handleLogin)}
+          onClick={changePasswordHandleSubmit(handleChangePassword)}
           mt={7}
         >
-          Log In
+          Enviar
         </Button>
       </form>
     </>
   );
 };
 
-export default LoginComponent;
+export default ChangePasswordComponent;

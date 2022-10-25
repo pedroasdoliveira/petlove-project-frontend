@@ -4,7 +4,7 @@ import AsideMenu from "components/AsideMenu/AsideMenu";
 import MenuProfile from "components/MenuProfile/MenuProfile";
 import Specialties from "components/Specialties/Specialties";
 import { useAuth } from "contexts/Auth";
-import { useTest } from "contexts/test";
+import { useTest } from "contexts/testQuests";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
@@ -24,9 +24,9 @@ const Specialty: NextPage = () => {
       display={"flex"}
       h="100vh"
       w="100vw"
-      px={{xl: "5rem", lg: "1.5rem"}}
+      px="50px"
       py="30px"
-      justifyContent={{sm: 'center', md: 'space-between'}}
+      justifyContent="space-between"
       position="relative"
     >
       <Head>
@@ -34,26 +34,23 @@ const Specialty: NextPage = () => {
         <meta name="Specialties" content="Página de especialidades" />
       </Head>
 
-      <Flex w="100%">
+      <Flex w="100%" direction={"column"}>
         {/* Column 1 - Menu */}
-
-        <Flex w={{xl: '20rem', lg: '15rem'}} display={{lg: 'flex', sm: 'none'}} position="fixed">
-          <MenuProfile path="Especialidades" />
-        </Flex>
+        <MenuProfile path="Especialidades" />
 
         {/* Column 2 - Content */}
         <Flex
-          ml={{xl: '350px', lg: "230px"}}
-          mr={{lg: '30px', md: '60px'} }
-          w={{xl: "calc(100% - 20rem)", lg: "80%", sm: '100%'}}
-          flexDir="column"
+          w={"calc(100% - 20rem)"}
+          h="auto"
           px="3%"
-          py={{sm: '20%', md: '2%'}}
+          py="2%"
+          ml="20rem"
+          direction={"column"}
         >
           <Specialties />
         </Flex>
       </Flex>
-      <AsideMenu currentPage="Especialidades"/>
+      <AsideMenu direction="column" />
     </Flex>
   );
 };

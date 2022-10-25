@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { EditIcon, SettingsIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
-import { ImUserTie } from 'react-icons/im'
+import { Badge, Flex, Icon, useColorModeValue } from "@chakra-ui/react";
+import { ImUserTie } from "react-icons/im";
 import Link from "next/link";
 import { useUsers } from "contexts/Users";
+import { useState, useEffect } from "react";
 
 interface SettingsMenuProps {
   path:
@@ -14,7 +16,18 @@ interface SettingsMenuProps {
 }
 
 const MenuProfile = ({ path }: SettingsMenuProps) => {
-  const { user } = useUsers();
+  const { user, users, handleGetUsers } = useUsers();
+  const [newTest, setNewTest] = useState(false);
+
+  useEffect(() => {
+    if (user?.isAdmin) {
+      users?.map((user, index) => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+        }
+      });
+    }
+  }, [user]);
 
   const menuPatchBackground = useColorModeValue(
     "rgba(255, 255, 255, 0.19)",
@@ -128,27 +141,43 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
 
       {user?.isAdmin && (
         <Link href={"/Administration"}>
-        <Flex
-          mb={"2"}
-          p={"3"}
-          display={"flex"}
-          alignItems={"center"}
-          background={path === "Administrador" ? menuPatchBackground : "none"}
-          color={path === "Administrador" ? "white" : "gray.400"}
-          fontWeight={path === "Administrador" ? "bold" : "normal"}
-          borderRadius={"10px"}
-          cursor={"pointer"}
-          _hover={{
-            background: menuPatchBackground,
-            color: "white",
-          }}
-        >
-          <Icon as={ImUserTie} w={8} pr={"3"} />
-          <Flex mr={"4"} ml={"2"}>
-            Administrador
+          <Flex
+            mb={"2"}
+            p={"3"}
+            display={"flex"}
+            alignItems={"center"}
+            background={path === "Administrador" ? menuPatchBackground : "none"}
+            color={path === "Administrador" ? "white" : "gray.400"}
+            fontWeight={path === "Administrador" ? "bold" : "normal"}
+            borderRadius={"10px"}
+            cursor={"pointer"}
+            _hover={{
+              background: menuPatchBackground,
+              color: "white",
+            }}
+          >
+            <Icon as={ImUserTie} w={8} pr={"3"} />
+            <Flex mr={"4"} ml={"2"} position="relative">
+              Administrador
+              {newTest && path !== "Administrador" && (
+                <Badge
+                  ml="1"
+                  colorScheme="green"
+                  style={{
+                    position: "absolute",
+                    top: "1.1rem",
+                    right: "9.8rem",
+                    width: "13px",
+                    height: "13px",
+                    borderRadius: "50%",
+                    background: "red",
+                    border: "1px solid #fff",
+                  }}
+                />
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-      </Link>
+        </Link>
       )}
     </Flex>
   );

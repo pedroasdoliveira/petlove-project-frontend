@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -9,31 +8,32 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import AsideMenu from "components/AsideMenu/AsideMenu";
-import UserComparisons from "components/Lists/UserComparisons/UserComparisons";
-import UserList from "components/Lists/UserList/UserList";
-import MenuProfile from "components/MenuProfile/MenuProfile";
-import MenuFilter from "components/MenuFilter/MenuFilter";
+import AsideMenu from "../../components/AsideMenu/AsideMenu";
+import UserComparisons from "../../components/Lists/UserComparisons/UserComparisons";
+import UserList from "../../components/Lists/UserList/UserList";
+import MenuProfile from "../../components/MenuProfile/MenuProfile";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useAuth } from "contexts/Auth";
+import { useAuth } from "../../contexts/Auth";
 import { useEffect } from "react";
-import AllUserList from "components/AllUserList/AllUserList";
-import { useUsers } from "contexts/Users";
+import AllUserList from "../../components/AllUserList/AllUserList";
+import { useUsers } from "../../contexts/Users";
 
 const Administration: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { handleGetUsers } = useUsers();
 
   useEffect(() => {
     checkTokenExpiration!();
-    handleGetUsers!();
   }, []);
+
+  useEffect(() => {
+    if (logged) handleGetUsers!();
+  }, [logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   const [search, setSearch] = useState<string>("");
@@ -55,11 +55,12 @@ const Administration: NextPage = () => {
       cursor="default"
     >
       <Head>
-        <title>Admin</title>
+        <title>Admin - Self Awareness</title>
         <meta
           name="Página do administrador"
           content="Página do administrador"
         />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex w={"100%"}>
