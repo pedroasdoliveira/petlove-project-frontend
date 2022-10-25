@@ -23,18 +23,24 @@ import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
 import { useSpecialtys } from "contexts/specialtys";
-import { useTest } from "contexts/test";
+import { useTest } from "contexts/testQuests";
+import { useAuth } from "contexts/Auth";
 
-
-const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: any) => {
+const StepsAdmForm = ({
+  lastTest,
+  respostas,
+  handleResetRespostas,
+  onClose,
+}: any) => {
   const { specialtys } = useSpecialtys();
   const { test }: any = useTest();
-  
+  const { requisition, setRequisition } = useAuth();
+
   const { handleGetUsers } = useUsers();
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
-  
+
   const colorButtonSend = useColorModeValue("#3d1194", "#fff");
   const buttonSendColorMode = useColorModeValue("#fff", "#5030DD");
   const buttonSendHover = useColorModeValue("#000000", "#fff");
@@ -42,7 +48,7 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
   const linkColor = useColorModeValue("#3f3f3f", "#adadad");
   const stepsColor = useColorModeValue("#cc1010", "#1d1d31");
   const stepsColorText = useColorModeValue("#10cc19", "#1d1d31");
-  
+
   const steps = [
     { label: "Sistemas", Content: test?.system },
     { label: "Processos", Content: test?.process },
@@ -299,8 +305,11 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
 
             <Button
               w="40%"
+              isLoading={requisition}
               onClick={() => {
                 if (userValidate !== "") {
+                  setRequisition(true);
+
                   const token = localStorage.getItem("token");
 
                   const headers = {
@@ -313,9 +322,20 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
                     nextRole: userEspeciality,
                     isValided: userValidate,
                     system: respostas.Sistemas,
-                    technology: +((respostas.Ferramentarias + respostas.Design + respostas.Teste + respostas.Computacionais) * (5 / 12)).toFixed(2),
+                    technology: +(
+                      (respostas.Ferramentarias +
+                        respostas.Design +
+                        respostas.Teste +
+                        respostas.Computacionais) *
+                      (5 / 12)
+                    ).toFixed(2),
                     person: respostas.Pessoas,
-                    influence: +((respostas.Sistemas + respostas.Processos + (2 * respostas.Pessoas)) / 4).toFixed(2),
+                    influence: +(
+                      (respostas.Sistemas +
+                        respostas.Processos +
+                        2 * respostas.Pessoas) /
+                      4
+                    ).toFixed(2),
                     process: respostas.Processos,
                   };
 
@@ -324,10 +344,12 @@ const StepsAdmForm = ({ lastTest, respostas, handleResetRespostas, onClose }: an
                     .then((response) => {
                       toast.success("Função atualizada com sucesso!");
                       handleGetUsers();
+                      setRequisition(false);
                       onClose();
                     })
                     .catch((error) => {
                       toast.error("Erro ao atualizar função!");
+                      setRequisition(false);
                     });
                 } else {
                   toast.error("Selecione se foi aprovado ou não!");

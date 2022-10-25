@@ -40,11 +40,13 @@ import toast from "react-hot-toast";
 import { api } from "services";
 import { useUsers } from "contexts/Users";
 import { useSpecialtys } from "contexts/specialtys";
+import { useAuth } from "contexts/Auth";
 
 const ModalLastUserAdm = ({ value, user }: any) => {
   const { specialtys } = useSpecialtys();
-
   const { handleGetUsers } = useUsers();
+  const { requisition, setRequisition } = useAuth();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [userEspeciality, setUserEspeciality] = useState(value.nextRole);
@@ -370,8 +372,10 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           </Select>
 
                           <Button
+                            isLoading={requisition}
                             onClick={() => {
                               if (userValidate !== "") {
+                                setRequisition(true);
                                 const token = localStorage.getItem("token");
 
                                 const headers = {
@@ -391,11 +395,13 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                     toast.success(
                                       "Função atualizada com sucesso!"
                                     );
+                                    setRequisition(false);
                                     handleGetUsers();
                                     onClose();
                                   })
                                   .catch((error) => {
                                     toast.error("Erro ao atualizar função!");
+                                    setRequisition(false);
                                   });
                               } else {
                                 toast.error("Selecione se foi aprovado ou não!");
@@ -507,8 +513,10 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         </Select>
 
                         <Button
+                          isLoading={requisition}
                           onClick={() => {
                             if (userValidate !== "") {
+                              setRequisition(true);
                               const token = localStorage.getItem("token");
 
                               const headers = {
@@ -528,11 +536,13 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   toast.success(
                                     "Função atualizada com sucesso!"
                                   );
+                                  setRequisition(false);
                                   handleGetUsers();
                                   onClose();
                                 })
                                 .catch((error) => {
                                   toast.error("Erro ao atualizar função!");
+                                  setRequisition(false);
                                 });
                             } else {
                               toast.error("Selecione se foi aprovado ou não!");
@@ -672,6 +682,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                       </Select>
 
                       <Button
+                        isLoading={requisition}
                         onClick={() => {
                           if (userValidate !== "") {
                             const token = localStorage.getItem("token");
@@ -694,11 +705,13 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 toast.success(
                                   "Função atualizada com sucesso!"
                                 );
+                                setRequisition(false);
                                 handleGetUsers();
                                 onClose();
                               })
                               .catch((error) => {
                                 toast.error("Erro ao atualizar função!");
+                                setRequisition(false);
                               });
                           } else {
                             toast.error("Selecione se foi aprovado ou não!");

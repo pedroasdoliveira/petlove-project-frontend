@@ -1,10 +1,9 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { StepsStyleConfig as Steps } from "chakra-ui-steps";
-import GlobalStyles from "styles/globals";
 import { mode } from "@chakra-ui/theme-tools";
-import Providers from "contexts";
-import { Toaster } from 'react-hot-toast';
+import Providers from "../contexts";
+import { Toaster } from "react-hot-toast";
 
 const theme = extendTheme({
   components: {
@@ -13,7 +12,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bgImage: mode("b.png", "/a.png")(props),
+        bgImage: mode("/b.png", "/a.png")(props),
         bgSize: "cover",
         bgPosition: "center center",
         bgRepeat: "no-repeat",
@@ -58,7 +57,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <Providers>
-        <GlobalStyles />
         <Component {...pageProps} />
       </Providers>
     </ChakraProvider>

@@ -1,5 +1,4 @@
-import type { NextPage } from "next";
-import Head from "next/head";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -9,18 +8,26 @@ import {
   TabPanels,
   Tabs,
   useColorMode,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import LoginComponent from "components/Login/Login";
-import RegisterComponent from "components/RegisterComponent/RegisterComponent";
-import { useToggle } from "hooks/useToggle";
-import { ToggleMode } from "types/interfaces";
-import { useState } from "react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import Router from "next/router";
+import { useEffect, useState } from "react";
+import LoginComponent from "../components/Login/Login";
+import RegisterComponent from "../components/RegisterComponent/RegisterComponent";
+import { useAuth } from "../contexts/Auth";
+import { useToggle } from "../hooks/useToggle";
+import { ToggleMode } from "../types/interfaces";
 
 const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
+  const { checkTokenExpiration, logged } = useAuth();
+
+  useEffect(() => {
+    if (logged) Router.push("/Homepage");
+  }, [logged]);
 
   const formBackground = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
@@ -39,6 +46,7 @@ const Login: NextPage = () => {
       <Head>
         <title>Login </title>
         <meta name="pagina inicial e de login" content="Pagina de Login" />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
       <Flex
@@ -50,7 +58,7 @@ const Login: NextPage = () => {
         position={"relative"}
       >
         <Tabs
-          data-testid='tab-index'
+          data-testid="tab-index"
           onChange={(index) => setTabIndex(index)}
           index={tabIndex}
           isFitted
@@ -59,8 +67,12 @@ const Login: NextPage = () => {
           ringColor={"cyan"}
         >
           <TabList mb="2em" mt="-2em">
-            <Tab data-testid='tab-login' color={"white"}>Login</Tab>
-            <Tab data-testid='tab-register' color={"white"}>Registro</Tab>
+            <Tab data-testid="tab-login" color={"white"}>
+              Login
+            </Tab>
+            <Tab data-testid="tab-register" color={"white"}>
+              Registro
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

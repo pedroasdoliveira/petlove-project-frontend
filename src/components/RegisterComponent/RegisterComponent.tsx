@@ -5,15 +5,17 @@ import {
   FormControl,
   Heading,
   Input,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { CheckboxLeft, ErrorMessage } from "../../pages/style";
 import { api } from "services";
+import toast from "react-hot-toast";
 import * as yup from "yup";
 import { ErrorMessage } from "../../pages/style";
+import { useAuth } from "contexts/Auth";
 
 interface RegisterData {
   email: string;
@@ -46,7 +48,7 @@ const registerSchema = yup.object().shape({
 
   name: yup
     .string()
-    .min(3, "Nome deve ter no mínimo 3 caracteres")
+    .min(15, "Nome deve ter no mínimo 15 caracteres")
     .max(40, "Nome deve ter no máximo 40 caracteres")
     .required("Nome é obrigatório"),
 
@@ -57,7 +59,7 @@ interface Prop {
   setTabIndex: (value: number) => void;
 }
 
-const RegisterComponent = ({setTabIndex}: Prop) => {
+const RegisterComponent = ({ setTabIndex }: Prop) => {
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
@@ -65,19 +67,29 @@ const RegisterComponent = ({setTabIndex}: Prop) => {
   const errorColor = useColorModeValue("#ffee00", "red");
 
   const [viewPasswordRegister, setViewPasswordRegister] = useState(false);
+  const { requisition, setRequisition } = useAuth();
 
   const {
     register: register,
     handleSubmit: registerHandleSubmit,
     formState: { errors: registerErrors },
+    reset,
   } = useForm<RegisterData>({ resolver: yupResolver(registerSchema) });
 
   const handleRegister = (data: RegisterData) => {
-    api.post("/User/create", data).then((response) => {
-      console.log(response);
-      toast.success("Perfil registrado com sucesso!");
-      setTabIndex(0);
-    });
+    setRequisition(true);
+    api
+      .post("/User/create", data)
+      .then((response) => {
+        toast.success("Usuário criado com sucesso! Faça login para continuar");
+        setTabIndex(0);
+        setRequisition(false);
+        reset();
+      })
+      .catch((error) => {
+        toast.error("Erro ao criar usuário");
+        setRequisition(false);
+      });
   };
 
   return (
@@ -180,23 +192,16 @@ const RegisterComponent = ({setTabIndex}: Prop) => {
             {registerErrors.confirmPassword?.message || ""}
           </ErrorMessage>
 
-          <Flex
-            justifyContent="end"
-            width="100%"
-            mt={3}
-            
-          >
-          <Checkbox
-            colorScheme="purple"
-            color={useColorModeValue("#230d88", "#5030dd")}
-            mb={4}
-            onChange={() => {
-              setViewPasswordRegister(!viewPasswordRegister);
-            }}
-            
-          >
-            Mostrar senha
-          </Checkbox>
+          <Flex justifyContent="end" width="100%" mt={3}>
+            <Checkbox
+              colorScheme="purple"
+              mb={4}
+              onChange={() => {
+                setViewPasswordRegister(!viewPasswordRegister);
+              }}
+            >
+              Mostrar senha
+            </Checkbox>
           </Flex>
         </FormControl>
         <FormControl>
@@ -221,6 +226,7 @@ const RegisterComponent = ({setTabIndex}: Prop) => {
           color="white"
           variant="ghost"
           w={"100%"}
+          isLoading={requisition}
           onClick={registerHandleSubmit(handleRegister)}
           mt={3}
         >

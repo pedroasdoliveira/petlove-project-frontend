@@ -20,8 +20,9 @@ import React from "react";
 import Link from "next/link";
 import { api } from "services";
 import toast from "react-hot-toast";
-import { useTest } from "contexts/test";
+import { useTest } from "contexts/testQuests";
 import { useUsers } from "contexts/Users";
+import { useAuth } from "contexts/Auth";
 
 const respostas = {
   Sistemas: 0,
@@ -40,6 +41,7 @@ const StepsForm = () => {
 
   const { test }: any = useTest();
   const { handleGetUsers } = useUsers();
+  const { requisition, setRequisition } = useAuth();
 
   const steps = [
     { label: "Sistemas", Content: test?.system },
@@ -228,7 +230,9 @@ const StepsForm = () => {
               mx="auto"
               mt={6}
               size="sm"
+              isLoading={requisition}
               onClick={() => {
+                setRequisition(true);
                 const token = localStorage.getItem("token");
 
                 const headers = {
@@ -253,10 +257,12 @@ const StepsForm = () => {
                     setQuantity(0);
                     handleReset();
                     handleGetUsers();
+                    setRequisition(false);
                     toast.success("Resultado enviado com sucesso!");
                   })
                   .catch((error) => {
                     handleReset();
+                    setRequisition(false);
                     toast.error("Erro ao enviar resultado!");
                   });
               }}
@@ -271,7 +277,6 @@ const StepsForm = () => {
 
       {
         //aq em baixo são os botao sim ou não
-
       }
       {activeStep !== steps.length ? (
         <FormControl
