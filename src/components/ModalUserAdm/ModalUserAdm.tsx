@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   FormControl,
-  Heading,
   Input,
   Menu,
   MenuButton,
@@ -17,7 +16,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   Tab,
   Table,
   TableContainer,
@@ -36,23 +34,23 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
-import { useEffect, useState } from "react";
+import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-import AllRadarUserAdm from "components/Graphics/AllRadarUserAdm";
-import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
-import AreaComposedChartAdm from "components/Graphics/AreaComposedChartAdm";
-import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
-import { ErrorMessage } from "style/style";
+import AllRadarUserAdm from "../../components/Graphics/AllRadarUserAdm";
+import OneLineUserAdm from "../../components/Graphics/OneLineUserAdm";
+import AreaComposedChartAdm from "../../components/Graphics/AreaComposedChartAdm";
+import AllRadarSpecialityAdm from "../../components/Graphics/AllRadarSpecialityAdm";
+import { ErrorMessage } from "../../style/style";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { api } from "services";
+import { api } from "../../services";
 import toast from "react-hot-toast";
-import { useUsers } from "contexts/Users";
-import { useSpecialtys } from "contexts/specialtys";
-import { useAuth } from "contexts/Auth";
+import { useUsers } from "../../contexts/Users";
+import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useAuth } from "../../contexts/Auth";
 
 interface EditData {
   email: string;
@@ -81,13 +79,36 @@ const editSchema = yup.object().shape({
 });
 
 const ModalLastUserAdm = ({ value, user }: any) => {
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
   const { requisition, setRequisition } = useAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userRole, setUserRole] = useState(user.role);
   const [userChapter, setUserChapter] = useState(user.chapter);
   const { handleGetUsers } = useUsers();
+
+  const buttonColor = useColorModeValue(
+    "linear-gradient(111.58deg, #313baf 21.73%, rgba(45, 56, 175, 0.49) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+  );
+
+  const background = useColorModeValue(
+    "linear-gradient(111.58deg, #3B49DA 21.73%, rgb(59, 72, 218) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgb(10, 14, 35) 100%)",
+  );
+
+  const colorModal = useColorModeValue("whiteAlpha", "yellow");
+  const colorHeader = useColorModeValue("aqua", "gray");
+  const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
+
+  const buttonColorReverse = useColorModeValue(
+    "rgba(6, 11, 40, 0.94)",
+    "#3B49DA",
+  );
+  const buttonColorReverseHover = useColorModeValue(
+    "#313bad",
+    "rgba(13, 24, 83, 0.94)",
+  );
 
   const {
     register: edit,
@@ -120,14 +141,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
     api
       .patch(`/User/${user.email}`, data, headers)
-      .then((response) => {
+      .then(() => {
         toast.success("Usuário editado com sucesso!");
         handleGetUsers();
         setRequisition(false);
         reset();
         onClose();
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Erro ao editar usuário!");
         setRequisition(false);
       });
@@ -135,12 +156,17 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
   return (
     <>
-      <Button width={"50%"} onClick={onOpen}>
+      <Button width={"50%"} onClick={onOpen} background={buttonColor}>
         <ExternalLinkIcon w={"25px"} h={"25px"} />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="6xl">
         <ModalOverlay />
-        <ModalContent w={"100%"} h={"80%"}>
+        <ModalContent
+          w={"100%"}
+          h={"80%"}
+          background={background}
+          color={"gray.100"}
+        >
           <ModalHeader display={"flex"} flexDirection={"row"} gap="1rem">
             <Text>
               {user.role === null &&
@@ -153,36 +179,42 @@ const ModalLastUserAdm = ({ value, user }: any) => {
             </Text>
             <Text>{user.name} </Text>
             {user.role === null ? (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 Contratado
               </Text>
             ) : (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 {user.role}
               </Text>
             )}
             {user.role === null ? (
               ""
             ) : (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 {user.team}
               </Text>
             )}
             {user.role === null ? (
               ""
             ) : (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 {user.chapter}
               </Text>
             )}
-            <Text fontSize={"17px"} color="gray">
+            <Text fontSize={"17px"} color={colorHeader}>
               {user.email}
             </Text>
           </ModalHeader>
 
           <ModalCloseButton />
           <ModalBody w={"100%"} h={"80%"}>
-            <Tabs variant="enclosed" mt={"-1rem"} w={"100%"} h={"93%"}>
+            <Tabs
+              variant="enclosed"
+              mt={"-1rem"}
+              w={"100%"}
+              h={"93%"}
+              colorScheme={colorModal}
+            >
               <TabList justifyContent={"space-between"}>
                 <Flex>
                   <Tab>Dados gerais</Tab>
@@ -202,88 +234,98 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     alignItems="end"
                   >
                     <Flex w={"58%"} h={"100%"} direction="column">
-                      <Swiper
-                        navigation={true}
-                        modules={[Navigation]}
-                        style={{ width: "100%", height: "100%" }}
+                      <Flex
+                        w={"100%"}
+                        h="100%"
+                        style={{
+                          background: "rgba(6, 11, 40, 0.94)",
+                          borderRadius: "10px",
+                        }}
+                        direction={"column"}
                       >
-                        <SwiperSlide>
-                          <Text fontSize="xl" mx="auto" textAlign="center">
-                            Todos os testes - Radar
-                          </Text>
-                          <AllRadarUserAdm user={user} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Todos os testes - Função - Linha
-                          </Text>
-                          <Flex w={"100%"} h="100%" justifyContent={"center"}>
-                            <AreaComposedChartAdm user={user} />
-                          </Flex>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Sistema
-                          </Text>
-                          <Flex w={"100%"} h="100%" justifyContent={"center"}>
-                            <OneLineUserAdm subject="System" user={user} />
-                          </Flex>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Processos
-                          </Text>
-                          <OneLineUserAdm subject="Process" user={user} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Pessoas
-                          </Text>
-                          <OneLineUserAdm subject="Person" user={user} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Tecnologia
-                          </Text>
-                          <OneLineUserAdm subject="Technology" user={user} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Influencia
-                          </Text>
-                          <OneLineUserAdm subject="Influence" user={user} />
-                        </SwiperSlide>
-                      </Swiper>
+                        <Swiper
+                          navigation={true}
+                          modules={[Navigation]}
+                          style={{ width: "100%", height: "100%" }}
+                        >
+                          <SwiperSlide>
+                            <Text fontSize="xl" mx="auto" textAlign="center">
+                              Todos os testes - Radar
+                            </Text>
+                            <AllRadarUserAdm user={user} />
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Todos os testes - Função - Linha
+                            </Text>
+                            <Flex w={"100%"} h="100%" justifyContent={"center"}>
+                              <AreaComposedChartAdm user={user} />
+                            </Flex>
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Sistema
+                            </Text>
+                            <Flex w={"100%"} h="100%" justifyContent={"center"}>
+                              <OneLineUserAdm subject="System" user={user} />
+                            </Flex>
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Processos
+                            </Text>
+                            <OneLineUserAdm subject="Process" user={user} />
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Pessoas
+                            </Text>
+                            <OneLineUserAdm subject="Person" user={user} />
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Tecnologia
+                            </Text>
+                            <OneLineUserAdm subject="Technology" user={user} />
+                          </SwiperSlide>
+                          <SwiperSlide>
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Influencia
+                            </Text>
+                            <OneLineUserAdm subject="Influence" user={user} />
+                          </SwiperSlide>
+                        </Swiper>
+                      </Flex>
                     </Flex>
                     <Divider orientation="vertical" mx={"-4rem"} />
                     <Flex
@@ -301,7 +343,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           borderBottom="1px solid gray"
                           borderRadius={"10px"}
                         >
-                          <Table variant={"striped"}>
+                          <Table variant={"unstyled"} colorScheme="whiteAlpha">
                             <Thead>
                               <Tr>
                                 <Th>Data</Th>
@@ -309,12 +351,19 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 <Th>Aprovação</Th>
                               </Tr>
                             </Thead>
+                            <Divider orientation="horizontal" w={"310%"} />
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{`${new Date(
-                                    result.createdAt
-                                  ).toLocaleDateString()}`}</Th>
+                                  <Th color={"white"}>
+                                    {`${new Date(
+                                      result.createdAt,
+                                    ).toLocaleDateString()}`}
+                                    <Divider
+                                      orientation="horizontal"
+                                      w={"460%"}
+                                    />
+                                  </Th>
                                   <Th color={"white"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
@@ -337,65 +386,76 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     direction={"column"}
                     alignItems="center"
                   >
-                    <Swiper
-                      navigation={true}
-                      modules={[Navigation]}
-                      style={{ width: "100%", height: "100%" }}
+                    <Flex
+                      w={"100%"}
+                      h="100%"
+                      style={{
+                        background: "rgba(6, 11, 40, 0.94)",
+                        borderRadius: "10px",
+                      }}
+                      direction={"column"}
                     >
-                      <SwiperSlide style={{ width: "100%", height: "100%" }}>
-                        <Text
-                          position={"absolute"}
-                          textAlign="center"
-                          w={"100%"}
-                        >
-                          Último teste e todas especialidades
-                        </Text>
+                      <Swiper
+                        navigation={true}
+                        modules={[Navigation]}
+                        style={{ width: "100%", height: "100%" }}
+                      >
+                        <SwiperSlide style={{ width: "100%", height: "100%" }}>
+                          <Text
+                            position={"absolute"}
+                            textAlign="center"
+                            w={"100%"}
+                            fontSize="xl"
+                          >
+                            Último teste e todas especialidades
+                          </Text>
 
-                        <AllRadarSpecialityAdm user={user} />
-                      </SwiperSlide>
-
-                      {specialtys?.map((speciality) => (
-                        <SwiperSlide key={speciality.id}>
-                          <Flex w={"100%"} h="90%" justifyContent="center">
-                            <Flex w={"50%"} h="100%">
-                              <Flex
-                                w={"100%"}
-                                h="100%"
-                                direction={"column"}
-                                alignItems="center"
-                              >
-                                <Text>
-                                  Último teste -{" "}
-                                  {value?.nextRole
-                                    ? value?.nextRole
-                                    : "Nenhum teste"}
-                                </Text>
-                                <LastRadarUserAdm
-                                  testUser={value}
-                                  type="user"
-                                />
-                              </Flex>
-                            </Flex>
-                            <Flex w={"50%"} h="100%">
-                              <Flex
-                                w={"100%"}
-                                h="100%"
-                                direction={"column"}
-                                alignItems="center"
-                              >
-                                <Text>
-                                  Estimativa - {speciality.performance}
-                                </Text>
-                                <LastRadarUserAdm
-                                  testUser={speciality}
-                                  type="specialities"
-                                />
-                              </Flex>
-                            </Flex>
-                          </Flex>
+                          <AllRadarSpecialityAdm user={user} />
                         </SwiperSlide>
-                      ))}
-                    </Swiper>
+
+                        {specialtyss?.map((speciality) => (
+                          <SwiperSlide key={speciality.id}>
+                            <Flex w={"100%"} h="90%" justifyContent="center">
+                              <Flex w={"50%"} h="100%">
+                                <Flex
+                                  w={"100%"}
+                                  h="100%"
+                                  direction={"column"}
+                                  alignItems="center"
+                                >
+                                  <Text fontSize="xl">
+                                    Último teste -{" "}
+                                    {value?.nextRole
+                                      ? value?.nextRole
+                                      : "Nenhum teste"}
+                                  </Text>
+                                  <LastRadarUserAdm
+                                    testUser={value}
+                                    type="user"
+                                  />
+                                </Flex>
+                              </Flex>
+                              <Flex w={"50%"} h="100%">
+                                <Flex
+                                  w={"100%"}
+                                  h="100%"
+                                  direction={"column"}
+                                  alignItems="center"
+                                >
+                                  <Text fontSize="xl">
+                                    Estimativa - {speciality.performance}
+                                  </Text>
+                                  <LastRadarUserAdm
+                                    testUser={speciality}
+                                    type="specialities"
+                                  />
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </Flex>
                   </Flex>
                 </TabPanel>
                 <TabPanel>
@@ -518,16 +578,32 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                   ? userChapter
                                   : "Selecione"}
                               </MenuButton>
-                              <MenuList minWidth="240px">
+                              <MenuList
+                                minWidth="240px"
+                                style={{
+                                  background: colorOption,
+                                  color: "white",
+                                }}
+                              >
                                 <MenuOptionGroup
                                   type="radio"
                                   defaultValue={userChapter}
                                   onChange={setUserChapter}
                                 >
-                                  <MenuItemOption value={"backend"}>
+                                  <MenuItemOption
+                                    value={"backend"}
+                                    _focus={{
+                                      background: "gray.600",
+                                    }}
+                                  >
                                     Backend
                                   </MenuItemOption>
-                                  <MenuItemOption value={"frontend"}>
+                                  <MenuItemOption
+                                    value={"frontend"}
+                                    _focus={{
+                                      background: "gray.600",
+                                    }}
+                                  >
                                     Frontend
                                   </MenuItemOption>
                                 </MenuOptionGroup>
@@ -542,16 +618,25 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                               <MenuButton as={Button} colorScheme="blue">
                                 {userRole !== null ? userRole : "Selecione"}
                               </MenuButton>
-                              <MenuList minWidth="240px">
+                              <MenuList
+                                minWidth="240px"
+                                style={{
+                                  background: colorOption,
+                                  color: "white",
+                                }}
+                              >
                                 <MenuOptionGroup
                                   type="radio"
                                   defaultValue={userRole}
                                   onChange={setUserRole}
                                 >
-                                  {specialtys?.map((speciality) => (
+                                  {specialtyss?.map((speciality) => (
                                     <MenuItemOption
                                       key={speciality.id}
                                       value={speciality.performance}
+                                      _focus={{
+                                        background: "gray.600",
+                                      }}
                                     >
                                       {speciality.performance}
                                     </MenuItemOption>
@@ -572,6 +657,10 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     >
                       <Button
                         isLoading={requisition}
+                        background={buttonColorReverse}
+                        _hover={{
+                          background: buttonColorReverseHover,
+                        }}
                         color="white"
                         variant="solid"
                         w={"80%"}

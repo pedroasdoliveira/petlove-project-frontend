@@ -1,4 +1,3 @@
-import { useColorModeValue } from "@chakra-ui/react";
 import {
   Legend,
   ResponsiveContainer,
@@ -11,11 +10,6 @@ import {
 } from "recharts";
 
 const LastRadarUserAdm = ({ testUser, type }: any) => {
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
-
   let testUserAdm = testUser;
 
   const handleColor = (value: string) => {
@@ -28,24 +22,34 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
         return "#FFFF00";
       case "Senior":
         return "#008000";
-        case "Tech-Lead":
+      case "Tech-Lead":
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#e2e2e2";
     }
   };
 
   const mountLastData = () => {
-
     if (type === "review") {
       testUserAdm = {
         nextRole: "review",
         system: testUser.Sistemas,
         person: testUser.Pessoas,
-        technology: ((testUser.Ferramentarias + testUser.Design + testUser.Teste + testUser.Computacionais) * (5 / 12)).toFixed(2),
+        technology: (
+          (testUser.Ferramentarias +
+            testUser.Design +
+            testUser.Teste +
+            testUser.Computacionais) *
+          (5 / 12)
+        ).toFixed(2),
         process: testUser.Processos,
-        influence: ((testUser.Sistemas + testUser.Processos + (2 * testUser.Pessoas)) / 4).toFixed(2),
-      }
+        influence: (
+          (testUser.Sistemas + testUser.Processos + 2 * testUser.Pessoas) /
+          4
+        ).toFixed(2),
+      };
     }
 
     if (type === "specialities") {
@@ -56,7 +60,7 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
         technology: testUser.technology,
         process: testUser.process,
         influence: testUser.influence,
-      }
+      };
     }
 
     const data = [
@@ -88,9 +92,9 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
   const data = mountLastData();
 
   return (
-    <ResponsiveContainer width="100%" height="100%" >
+    <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-        <PolarGrid gridType="circle"/>
+        <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"
           stroke="white"
@@ -112,7 +116,10 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
           dot={{ stroke: "white", strokeWidth: 0.5 }}
         />
         <Tooltip
-          contentStyle={{ background: background, borderRadius: "10px" }}
+          contentStyle={{
+            background: "rgba(6, 11, 40, 0.94)",
+            borderRadius: "10px",
+          }}
         />
         <Legend
           iconType="circle"

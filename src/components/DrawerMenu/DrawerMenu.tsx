@@ -1,6 +1,11 @@
-import { EditIcon, HamburgerIcon, SettingsIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import {
-  Button,
+  EditIcon,
+  HamburgerIcon,
+  SettingsIcon,
+  TimeIcon,
+  ViewIcon,
+} from "@chakra-ui/icons";
+import {
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -12,7 +17,6 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import MenuProfile from "components/MenuProfile/MenuProfile";
 import React from "react";
 import { ImUserTie } from "react-icons/im";
 
@@ -23,23 +27,29 @@ interface SettingsMenuProps {
     | "Especialidades"
     | "Mudar conta"
     | "Administrador"
-    | undefined
+    | undefined;
 }
 
 const DrawerMenu = ({ path }: SettingsMenuProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const menuPatchBackground = useColorModeValue(
     "rgba(255, 255, 255, 0.19)",
-    "rgba(27, 28, 51, 0.71)"
+    "rgba(27, 28, 51, 0.71)",
   );
   const pageBackground = useColorModeValue(
     "linear-gradient(123deg, #3B49DA 42.33%, rgba(59, 73, 218, 0.49) 73.76%)",
-    "linear-gradient(130.87deg, rgba(6, 11, 40, 0.94) 40.59%, rgba(10, 14, 35, 0.49) 64.14%)"
+    "linear-gradient(130.87deg, rgba(6, 11, 40, 0.94) 40.59%, rgba(10, 14, 35, 0.49) 64.14%)",
   );
 
   return (
     <>
-      <IconButton display={{sm: "block", lg: "none"}} aria-label="" w="48px" icon={<HamburgerIcon />} onClick={onOpen} />
+      <IconButton
+        display={{ sm: "block", lg: "none" }}
+        aria-label=""
+        w="48px"
+        icon={<HamburgerIcon />}
+        onClick={onOpen}
+      />
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerContent bg="transparent" boxShadow="none">
           <DrawerCloseButton />

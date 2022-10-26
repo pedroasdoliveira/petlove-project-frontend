@@ -17,7 +17,7 @@ const UserReviews = () => {
   return (
     <TableContainer marginTop={6}>
       <Table variant="striped" size="md" colorScheme={color}>
-        <TableCaption>Historicos de avaliacões dos usuários</TableCaption>
+        <TableCaption>Históricos de avaliações dos usuários</TableCaption>
         <Thead>
           <Tr>
             <Th>Nome</Th>

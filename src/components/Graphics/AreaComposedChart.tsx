@@ -1,11 +1,9 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { useSpecialtys } from "contexts/specialtys";
-import { useUsers } from "contexts/Users";
+import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useUsers } from "../../contexts/Users";
 import {
   ComposedChart,
-  Line,
   Area,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -15,11 +13,11 @@ import {
 
 const AreaComposedChart = () => {
   const { user } = useUsers();
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   const mountUserData = () => {
@@ -28,18 +26,17 @@ const AreaComposedChart = () => {
     });
 
     const dataToChart = data?.map((item: any) => {
-
       return {
         nextRole: item.nextRole,
         createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
         allSpecialities: [...speciality!],
-      }
+      };
     });
 
     return dataToChart;
   };
 
-  const speciality = specialtys?.map((item: any) => {
+  const speciality = specialtyss?.map((item: any) => {
     return item.performance;
   });
 
@@ -57,9 +54,14 @@ const AreaComposedChart = () => {
           bottom: 0,
         }}
       >
-        <CartesianGrid stroke={"white"} strokeDasharray="2"/>
+        <CartesianGrid stroke={"white"} strokeDasharray="2" />
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
-        <YAxis stroke={"white"} dataKey={"allSpecialities"} type="category" scale="point"/>
+        <YAxis
+          stroke={"white"}
+          dataKey={"allSpecialities"}
+          type="category"
+          scale="point"
+        />
 
         <Area
           type="monotone"
@@ -68,7 +70,9 @@ const AreaComposedChart = () => {
           stroke={"#ffffff"}
           name={"Função"}
         />
-        <Tooltip contentStyle={{ background: background, borderRadius: "10px" }}/>
+        <Tooltip
+          contentStyle={{ background: background, borderRadius: "10px" }}
+        />
       </ComposedChart>
     </ResponsiveContainer>
   );

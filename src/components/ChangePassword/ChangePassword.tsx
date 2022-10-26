@@ -1,22 +1,20 @@
 import {
   Button,
   Checkbox,
-  CircularProgress,
   Flex,
   FormControl,
   Heading,
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import { ErrorMessage } from "style/style";
+import { ErrorMessage } from "../../style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { api } from "services";
+import { api } from "../../services";
 import Router from "next/router";
 import toast from "react-hot-toast";
-import { useAuth } from "contexts/Auth";
+import { useAuth } from "../../contexts/Auth";
 import { useState } from "react";
 
 interface ChangePasswordData {
@@ -30,8 +28,8 @@ const changePasswordSchema = yup.object().shape({
     .min(6, "A senha deve ter no mínimo 6 caracteres")
     .matches(
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-      `Necessário ao menos: 
-      1 letra maiúscula, 1 número e 1 caractere especial`
+      `Necessário ao menos:
+      1 letra maiúscula, 1 número e 1 caractere especial`,
     )
     .required("Senha é obrigatória"),
 
@@ -46,7 +44,7 @@ const ChangePasswordComponent = ({ query }: any) => {
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
-  const { login: loginAuth, requisition, setRequisition } = useAuth();
+  const { requisition, setRequisition } = useAuth();
 
   const [viewPassword, setViewPassword] = useState(false);
 
@@ -63,13 +61,13 @@ const ChangePasswordComponent = ({ query }: any) => {
     setRequisition(true);
     api
       .patch(`User/change/password/${query?.[0]}/${query?.[1]}`, data)
-      .then((response) => {
+      .then(() => {
         setRequisition(false);
         reset();
         toast.success("Senha alterada com sucesso! Faça login para continuar");
         Router.push("/");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Erro ao alterar senha");
         setRequisition(false);
       });

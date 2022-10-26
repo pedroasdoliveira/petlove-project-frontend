@@ -10,16 +10,15 @@ import {
   RadioGroup,
   Stack,
   Icon,
-  Divider,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAuth } from "contexts/Auth";
-import { useUsers } from "contexts/Users";
-import { ErrorMessage } from "style/style";
+import { useAuth } from "../../contexts/Auth";
+import { useUsers } from "../../contexts/Users";
+import { ErrorMessage } from "../../style/style";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { api } from "services";
+import { api } from "../../services";
 import * as yup from "yup";
 import Image from "next/image";
 import axios from "axios";
@@ -41,8 +40,8 @@ const editSchema = yup.object().shape(
       .min(6, "A senha deve ter no mínimo 6 caracteres")
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-        `Necessário ao menos: 
-    1 letra maiúscula, 1 número e 1 caractere especial`
+        `Necessário ao menos:
+    1 letra maiúscula, 1 número e 1 caractere especial`,
       )
       .required("Senha é obrigatória"),
 
@@ -54,7 +53,7 @@ const editSchema = yup.object().shape(
         .matches(
           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
           `Necessário ao menos:
-        1 letra maiúscula, 1 número e 1 caractere especial`
+        1 letra maiúscula, 1 número e 1 caractere especial`,
         ),
     }),
 
@@ -68,11 +67,10 @@ const editSchema = yup.object().shape(
   [
     ["newPassword", "newPassword"],
     ["confirmPassword", "confirmPassword"],
-  ]
+  ],
 );
 
 const EditForm = () => {
-
   const { user, handleGetUsers } = useUsers();
   const { requisition, setRequisition } = useAuth();
   const [viewPassword, setViewPassword] = useState(false);
@@ -115,7 +113,7 @@ const EditForm = () => {
 
     api
       .patch(`/User/${user.email}`, dataToSend, headers)
-      .then((response) => {
+      .then(() => {
         toast.success("Dados alterados com sucesso!");
         handleGetUsers();
         setRequisition(false);
@@ -196,19 +194,23 @@ const EditForm = () => {
                   setLoading(true);
                   const formData = new FormData();
                   formData.append("image", file);
-                  formData.append("album", process.env.NEXT_PUBLIC_CLIENT_ALBUM as string);
+                  formData.append(
+                    "album",
+                    process.env.NEXT_PUBLIC_CLIENT_ALBUM as string,
+                  );
 
                   axios
                     .post("https://api.imgur.com/3/image", formData, {
                       headers: {
-                        Authorization: process.env.NEXT_PUBLIC_CLIENT_ID as string,
+                        Authorization: process.env
+                          .NEXT_PUBLIC_CLIENT_ID as string,
                       },
                     })
                     .then((response) => {
                       setImage(response.data.data.link);
                       setLoading(false);
                     })
-                    .catch((error) => {
+                    .catch(() => {
                       toast.error("Erro ao enviar imagem");
                       setLoading(false);
                     });
@@ -234,7 +236,7 @@ const EditForm = () => {
                 cursor={loading ? "not-allowed" : "pointer"}
                 onClick={() => {
                   const input = document.querySelector(
-                    'input[type="file"]'
+                    'input[type="file"]',
                   ) as HTMLInputElement;
                   if (loading) {
                     return;
@@ -263,7 +265,7 @@ const EditForm = () => {
           h="100%"
         >
           <Flex
-                        flexDir={{ md: "row", sm: "column" }}
+            flexDir={{ md: "row", sm: "column" }}
             gap="3.2rem"
             justifyContent={"center"}
             w="100%"

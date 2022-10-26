@@ -1,14 +1,7 @@
-import { useRadio, Box, Text } from '@chakra-ui/react';
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import React, { ReactNode } from 'react';
+import { useRadio, Box, Text } from "@chakra-ui/react";
 
-interface Props {
-  children: React.ReactNode;
-  setValueButton: (valueButton: string) => void;
-}
-
-  const RadioCard = (props: any) => { // prop: any
+const RadioCard = (props: any) => {
+  // prop: any
   const { getInputProps, getCheckboxProps } = useRadio(props);
 
   const input = getInputProps();
@@ -16,7 +9,7 @@ interface Props {
 
   return (
     <Box as="label">
-      <input {...input} placeholder=''/>
+      <input {...input} placeholder="" />
       <Box
         {...checkbox}
         position="relative"
@@ -45,6 +38,6 @@ interface Props {
       </Box>
     </Box>
   );
-}
+};
 
 export default RadioCard;

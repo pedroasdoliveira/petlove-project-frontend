@@ -39,7 +39,7 @@ const ForgotPassword: NextPage = () => {
 
   const formBackground = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
@@ -60,15 +60,15 @@ const ForgotPassword: NextPage = () => {
     setRequisition(true);
     api
       .get(`User/send/${data.email}`)
-      .then((response) => {
+      .then(() => {
         setRequisition(false);
         reset();
         toast.success(
-          "Email para redefinição de senha enviado com sucesso! Verifique sua caixa de entrada.",
+          "Email para redefinição de senha enviado com sucesso! Verifique sua caixa de entrada."
         );
         Router.push("/");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Erro ao enviar email para redefinição de senha!");
         setRequisition(false);
       });

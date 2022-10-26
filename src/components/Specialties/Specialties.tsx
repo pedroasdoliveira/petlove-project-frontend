@@ -6,37 +6,47 @@ import {
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
-import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
-import { useSpecialtys } from "contexts/specialtys";
+import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
+import { useSpecialtyss } from "../../contexts/specialtyss";
 
 const Specialties = () => {
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   return (
     <>
-      {specialtys?.map((specialty) => (
+      {specialtyss?.map((specialty) => (
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}
-          direction={{ xl: "row", sm: "column" }}
+          direction={"row"}
           p={8}
           borderRadius={"15px"}
-          w={{ xl: "100%", lg: "90%", sm: "100%" }}
+          w={"100%"}
+          height={"25rem"}
           bg={background}
           color={"white"}
           mb={5}
         >
-          <Flex w={{ xl: "50%", sm: "100%" }} h={"100%"}>
+          <Flex w={"50%"} h={"100%"}>
             {/* Grafico*/}
-            <LastRadarUserAdm testUser={specialty} type={"specialities"} />
+            <Flex
+              w={"100%"}
+              h={"100%"}
+              style={{
+                background: "rgba(6, 11, 40, 0.94)",
+                borderRadius: "10px",
+              }}
+            >
+              <LastRadarUserAdm testUser={specialty} type={"specialities"} />
+            </Flex>
           </Flex>
 
-          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }}>
+          <Flex direction={"column"} w={"50%"} ml="1rem">
             {/* Informações*/}
             <Heading
               as="h2"

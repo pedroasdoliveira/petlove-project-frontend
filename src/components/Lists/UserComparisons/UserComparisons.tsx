@@ -1,4 +1,3 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Table,
@@ -15,21 +14,21 @@ import {
   Flex,
   Tooltip,
 } from "@chakra-ui/react";
-import PieAdm from "components/Graphics/PieAdm";
-import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
+import PieAdm from "../../../components/Graphics/PieAdm";
+import ModalUserAdm from "../../../components/ModalUserAdm/ModalUserAdm";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Mousewheel, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import ComparisonBarAdm from "components/Graphics/ComparisonBarAdm";
-import ComparisonBarAdmTeams from "components/Graphics/ComparisonBarAdmTeams";
-import { useUsers } from "contexts/Users";
+import ComparisonBarAdm from "../../../components/Graphics/ComparisonBarAdm";
+import ComparisonBarAdmTeams from "../../../components/Graphics/ComparisonBarAdmTeams";
+import { useUsers } from "../../../contexts/Users";
 
 const UserComparisons = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
   const { users } = useUsers();
 
-  const removedNull = users?.filter((item, index) => {
+  const removedNull = users?.filter((item) => {
     const lastResult = item.results[item.results.length - 1];
     return lastResult !== null && lastResult !== undefined;
   });
@@ -79,7 +78,7 @@ const UserComparisons = () => {
   // ranking por team da maior media para a menor
 
   const teamOrdered = teamMapFiltered2?.map((item) => {
-    let teamLength: number = 0;
+    let teamLength = 0;
     //fazer a media de cada team
     const plus = item?.reduce((acc, item2) => {
       const lastResult = item2.results[item2.results.length - 1];
@@ -130,17 +129,17 @@ const UserComparisons = () => {
           Ranking de usuários - {removedNull?.length} usuários validados
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
-          <TableCaption>
+          <TableCaption color="gray.200">
             Ranking de usuários com base no último resultado
           </TableCaption>
           <Thead>
             <Tr>
-              <Th>Pontos</Th>
-              <Th>Nome</Th>
-              <Th>Chapter</Th>
-              <Th>Função</Th>
-              <Th>Equipe</Th>
-              <Th>Detalhes</Th>
+              <Th color="gray.200">Pontos</Th>
+              <Th color="gray.200">Nome</Th>
+              <Th color="gray.200">Chapter</Th>
+              <Th color="gray.200">Função</Th>
+              <Th color="gray.200">Equipe</Th>
+              <Th color="gray.200">Detalhes</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -158,7 +157,7 @@ const UserComparisons = () => {
               const teamAtual = user.team;
               return (
                 <Tr key={user.id}>
-                  <Th>{plus}</Th>
+                  <Th color="gray.200">{plus}</Th>
                   <Td>
                     {user.name}{" "}
                     {roleAtual === null &&
@@ -201,25 +200,25 @@ const UserComparisons = () => {
           Ranking de equipes - Total de equipes: {teamMapFiltered?.length}
         </Text>
         <Table variant="striped" size="md" colorScheme={color}>
-          <TableCaption>
+          <TableCaption color="gray.200">
             Ranking de equipes com base na média do último resultado dos
             usuários
           </TableCaption>
           <Thead>
             <Tr>
-              <Th textAlign="start" w={"1rem"} p="0.1rem">
+              <Th textAlign="start" w={"1rem"} p="0.1rem" color="gray.200">
                 Media/pontos
               </Th>
-              <Th>Equipe</Th>
-              <Th>Devs</Th>
-              <Th>Back-end</Th>
-              <Th>Front-end</Th>
-              <Th>Função majoritária</Th>
+              <Th color="gray.200">Equipe</Th>
+              <Th color="gray.200">Devs</Th>
+              <Th color="gray.200">Back-end</Th>
+              <Th color="gray.200">Front-end</Th>
+              <Th color="gray.200">Função majoritária</Th>
             </Tr>
           </Thead>
           <Tbody>
             {teamOrderedFilteredMedia?.map((item) => {
-              let teamLength: number = 0;
+              let teamLength = 0;
               //fazer a media de cada team
               const plus = item?.reduce((acc, item2) => {
                 const lastResult = item2.results[item2.results.length - 1];
@@ -285,7 +284,7 @@ const UserComparisons = () => {
                   Junior: 0,
                   Trainee: 0,
                   null: 0,
-                }
+                },
               );
 
               const specialityArray = Object.entries(speciality);
@@ -295,16 +294,18 @@ const UserComparisons = () => {
                   item[1] ===
                   Math.max(
                     ...(specialityArray.map(
-                      (item) => item[1]
-                    ) as unknown as any)
+                      (item) => item[1],
+                    ) as unknown as any),
                   )
                 );
               });
 
               return (
-                <Tr key={item![0].id}>
-                  <Th p="1rem">{media?.toFixed(2)}</Th>
-                  <Td>{item![0].team ? item![0].team : "Sem equipe"}</Td>
+                <Tr key={item?.[0].id}>
+                  <Th p="1rem" color="gray.200">
+                    {media?.toFixed(2)}
+                  </Th>
+                  <Td>{item?.[0].team ? item?.[0].team : "Sem equipe"}</Td>
                   <Td>{item?.length}</Td>
                   <Td>{back?.length}</Td>
                   <Td>{front?.length}</Td>
@@ -317,8 +318,7 @@ const UserComparisons = () => {
                     alignItems="center"
                   >
                     <Tooltip
-                      label={`Função com mais devs na equipe`}
-                      aria-label=""
+                      label={`Função com mais devs na equipe, ou seja, devs na função majoritária`}
                       hasArrow
                     >
                       {`${
@@ -330,14 +330,12 @@ const UserComparisons = () => {
 
                     <Tooltip
                       label={`quantidade de devs na função majoritária`}
-                      aria-label=""
                       hasArrow
                     >
                       {`(${specialityFiltered[0][1]})`}
                     </Tooltip>
                     <Tooltip
-                      label={`devs que fizeram pelo menos um teste`}
-                      aria-label=""
+                      label={`devs na função majoritária que fizeram pelo menos um teste`}
                       hasArrow
                     >
                       {`(${teamLength})`}
@@ -365,75 +363,85 @@ const UserComparisons = () => {
         Gráficos
       </Text>
 
-      <Swiper
-        navigation={true}
-        pagination={true}
-        mousewheel={true}
-        keyboard={true}
-        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        simulateTouch={false}
-        allowTouchMove={false}
-        style={{ width: "100%", height: "100%" }}
+      <Flex
+        w={"100%"}
+        h="100%"
+        style={{
+          background: "rgba(6, 11, 40, 0.94)",
+          borderRadius: "10px",
+        }}
+        direction={"column"}
       >
-        <SwiperSlide>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            marginBottom={4}
-            textAlign="center"
-          >
-            Comparação de usuários por total - Total de devs:{" "}
-            {removedNull?.length}
-          </Text>
-
-          <Flex w={"100%"} h="100%">
-            <ComparisonBarAdm value={removedNull!} />
-          </Flex>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            marginBottom={4}
-            textAlign="center"
-          >
-            Divisão de Devs por equipes
-          </Text>
-
-          <Flex
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            mb={6}
-          >
-            <Text textAlign="center" fontSize="md" fontWeight="bold">
-              Total de equipes: {teamMapFiltered?.length}
+        <Swiper
+          navigation={true}
+          pagination={true}
+          mousewheel={true}
+          keyboard={true}
+          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+          simulateTouch={false}
+          allowTouchMove={false}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <SwiperSlide>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              marginBottom={4}
+              textAlign="center"
+            >
+              Comparação de usuários por total - Total de devs:{" "}
+              {removedNull?.length}
             </Text>
 
-            <Text textAlign="center" fontSize="md" fontWeight="bold">
-              Total de devs: {removedNull?.length}
+            <Flex w={"100%"} h="100%">
+              <ComparisonBarAdm value={removedNull!} />
+            </Flex>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              marginBottom={4}
+              textAlign="center"
+            >
+              Divisão de Devs por equipes
             </Text>
-          </Flex>
-          <Flex w={"100%"} h="100%">
-            <PieAdm names={teamMapFiltered!} quantity={teamMapFiltered2!} />
-          </Flex>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            marginBottom={4}
-            textAlign="center"
-          >
-            Comparação de equipes pela media - Total de equipes:{" "}
-            {teamMapFiltered?.length}
-          </Text>
 
-          <Flex w={"100%"} h="100%">
-            <ComparisonBarAdmTeams teamMapFiltered={teamMapFiltered2!} />
-          </Flex>
-        </SwiperSlide>
-      </Swiper>
+            <Flex
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              mb={6}
+            >
+              <Text textAlign="center" fontSize="md" fontWeight="bold">
+                Total de equipes: {teamMapFiltered?.length}
+              </Text>
+
+              <Text textAlign="center" fontSize="md" fontWeight="bold">
+                Total de devs: {removedNull?.length}
+              </Text>
+            </Flex>
+            <Flex w={"100%"} h="100%">
+              <PieAdm names={teamMapFiltered!} quantity={teamMapFiltered2!} />
+            </Flex>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              marginBottom={4}
+              textAlign="center"
+            >
+              Comparação de equipes pela media - Total de equipes:{" "}
+              {teamMapFiltered?.length}
+            </Text>
+
+            <Flex w={"100%"} h="100%">
+              <ComparisonBarAdmTeams teamMapFiltered={teamMapFiltered2!} />
+            </Flex>
+          </SwiperSlide>
+        </Swiper>
+      </Flex>
     </>
   );
 };
