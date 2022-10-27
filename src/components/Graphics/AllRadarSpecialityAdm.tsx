@@ -1,5 +1,4 @@
-import { useColorModeValue } from "@chakra-ui/react";
-import { useSpecialtys } from "contexts/specialtys";
+import { useSpecialtyss } from "../../contexts/specialtyss";
 import {
   Legend,
   ResponsiveContainer,
@@ -12,12 +11,7 @@ import {
 } from "recharts";
 
 const AllRadarSpecialityAdm = ({ user }: any) => {
-  const { specialtys } = useSpecialtys();
-
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
+  const { specialtyss } = useSpecialtyss();
 
   const handleColor = (value: string) => {
     switch (value) {
@@ -29,7 +23,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         return "#FFFF00";
       case "Senior":
         return "#008000";
-        case "Tech-Lead":
+      case "Tech-Lead":
         return "cyan";
       case "Especialista":
         return "#0000FF";
@@ -38,7 +32,6 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
 
   const lastResult = user.results[user.results.length - 1] || {};
   const mountSpecialityData = () => {
-
     let data: any = [
       {
         subject: "Influence",
@@ -57,14 +50,14 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
       },
     ];
 
-    specialtys?.forEach((item: any, index: number) => {
+    specialtyss?.forEach((item: any, index: number) => {
       data.forEach((item2: any) => {
         item2[index] = item[item2.subject.toLowerCase()];
       });
     });
 
     data = data.map((item: any) => {
-      item["A"] = lastResult![item.subject.toLowerCase()];
+      item["A"] = lastResult?.[item.subject.toLowerCase()];
       return item;
     });
 
@@ -88,7 +81,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {specialtys?.map((item: any, index: any) => {
+        {specialtyss?.map((item: any, index: any) => {
           return (
             <Radar
               key={index}
@@ -104,7 +97,11 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         })}
 
         <Radar
-          name={lastResult.nextRole ? lastResult.nextRole + " - " + "Teste recente": "Nenhum teste"}
+          name={
+            lastResult.nextRole
+              ? lastResult.nextRole + " - " + "Teste recente"
+              : "Nenhum teste"
+          }
           dataKey="A"
           stroke={"red"}
           strokeWidth={3}
@@ -114,7 +111,10 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         />
 
         <Tooltip
-          contentStyle={{ background: background, borderRadius: "10px" }}
+          contentStyle={{
+            background: "rgba(6, 11, 40, 0.94)",
+            borderRadius: "10px",
+          }}
         />
         <Legend
           iconType="circle"

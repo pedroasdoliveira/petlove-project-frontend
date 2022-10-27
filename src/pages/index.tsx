@@ -1,4 +1,5 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import type { NextPage } from "next";
+import Head from "next/head";
 import {
   Box,
   Flex,
@@ -8,30 +9,29 @@ import {
   TabPanels,
   Tabs,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import Head from "next/head";
-import Router from "next/router";
-import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import LoginComponent from "../components/Login/Login";
 import RegisterComponent from "../components/RegisterComponent/RegisterComponent";
-import { useAuth } from "../contexts/Auth";
 import { useToggle } from "../hooks/useToggle";
 import { ToggleMode } from "../types/interfaces";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/Auth";
+import Router from "next/router";
 
 const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
-  const { checkTokenExpiration, logged } = useAuth();
+  const { logged } = useAuth();
 
   useEffect(() => {
     if (logged) Router.push("/Homepage");
   }, [logged]);
 
   const formBackground = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(90deg, rgba(37,27,113, 95) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -79,7 +79,7 @@ const Login: NextPage = () => {
               <LoginComponent />
             </TabPanel>
             <TabPanel p={0}>
-              <RegisterComponent setTabIndex={setTabIndex} />
+              <RegisterComponent />
             </TabPanel>
           </TabPanels>
         </Tabs>

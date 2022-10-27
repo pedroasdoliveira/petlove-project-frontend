@@ -1,5 +1,4 @@
-import { useColorModeValue } from "@chakra-ui/react";
-import { useUsers } from "contexts/Users";
+import { useUsers } from "../../contexts/Users";
 import {
   Legend,
   ResponsiveContainer,
@@ -10,13 +9,10 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { useColorModeValue } from "@chakra-ui/react";
 
 const AllRadarUser = () => {
   const { user } = useUsers();
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
 
   const handleColor = (value: string) => {
     switch (value) {
@@ -28,7 +24,7 @@ const AllRadarUser = () => {
         return "#FFFF00";
       case "Senior":
         return "#008000";
-        case "Tech-Lead":
+      case "Tech-Lead":
         return "cyan";
       case "Especialista":
         return "#0000FF";
@@ -36,7 +32,7 @@ const AllRadarUser = () => {
   };
 
   const mountLastData = () => {
-    let data: any = [
+    const data = [
       {
         subject: "Influence",
       },
@@ -66,8 +62,20 @@ const AllRadarUser = () => {
   const data1 = mountLastData();
 
   return (
-    <ResponsiveContainer width="100%" height="94%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
+    <ResponsiveContainer width="99%" height="85%">
+      <RadarChart
+        cx="50%"
+        cy="50%"
+        outerRadius="80%"
+        data={data1}
+        style={{
+          background: useColorModeValue(
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+          ),
+          borderRadius: "50px",
+        }}
+      >
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"
@@ -84,7 +92,11 @@ const AllRadarUser = () => {
           return (
             <Radar
               key={index}
-              name={index === user.results.length - 1 ? `Último teste - ${item.nextRole}` : item.nextRole}
+              name={
+                index === user.results.length - 1
+                  ? `Último teste - ${item.nextRole}`
+                  : item.nextRole
+              }
               dataKey={index}
               stroke={handleColor(item.nextRole)}
               strokeWidth={3}
@@ -96,7 +108,11 @@ const AllRadarUser = () => {
         })}
 
         <Tooltip
-          contentStyle={{ background: background, borderRadius: "10px" }}
+          contentStyle={{
+            background: "rgba(6, 11, 40, 0.94)",
+            borderRadius: "10px",
+            fontWeight: "bold",
+          }}
         />
         <Legend
           iconType="circle"

@@ -7,15 +7,14 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { CheckboxLeft, ErrorMessage } from "../../pages/style";
-import { api } from "services";
-import toast from "react-hot-toast";
 import * as yup from "yup";
-import { ErrorMessage } from "../../pages/style";
-import { useAuth } from "contexts/Auth";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "../../style/style";
+import { api } from "../../services";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { useAuth } from "../../contexts/Auth";
 
 interface RegisterData {
   email: string;
@@ -36,8 +35,8 @@ const registerSchema = yup.object().shape({
     .min(6, "A senha deve ter no mínimo 6 caracteres")
     .matches(
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-      `Necessário ao menos: 
-      1 letra maiúscula, 1 número e 1 caractere especial`
+      `Necessário ao menos:
+      1 letra maiúscula, 1 número e 1 caractere especial`,
     )
     .required("Senha é obrigatória"),
 
@@ -55,11 +54,7 @@ const registerSchema = yup.object().shape({
   terms: yup.boolean().oneOf([true]),
 });
 
-interface Prop {
-  setTabIndex: (value: number) => void;
-}
-
-const RegisterComponent = ({ setTabIndex }: Prop) => {
+const RegisterComponent = () => {
   const checkboxColor = useColorModeValue("#000000", "#ffffff");
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
@@ -80,13 +75,12 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
     setRequisition(true);
     api
       .post("/User/create", data)
-      .then((response) => {
+      .then(() => {
         toast.success("Usuário criado com sucesso! Faça login para continuar");
-        setTabIndex(0);
         setRequisition(false);
         reset();
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Erro ao criar usuário");
         setRequisition(false);
       });
@@ -101,7 +95,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
       <form>
         <FormControl>
           <Input
-            data-testid="name-input"
             placeholder="Seu nome completo..."
             variant={"flushed"}
             isInvalid={!!registerErrors.name}
@@ -124,7 +117,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
         </FormControl>
         <FormControl>
           <Input
-            data-testid="email-input"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!registerErrors.email}
@@ -148,7 +140,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
         </FormControl>
         <FormControl mt={"1.45rem"}>
           <Input
-            data-testid="password-input"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.password}
@@ -171,7 +162,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
         </FormControl>
         <FormControl>
           <Input
-            data-testid="confirmedPassword-input"
             placeholder="Confirme sua senha..."
             variant={"flushed"}
             isInvalid={!!registerErrors.confirmPassword}
@@ -207,7 +197,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
         <FormControl>
           <Flex justifyContent="center" alignItems="center">
             <Checkbox
-              data-testid="checkbox-input"
               size="sm"
               colorScheme="red"
               color={registerErrors.terms ? `${errorColor}` : checkboxColor}
@@ -220,7 +209,6 @@ const RegisterComponent = ({ setTabIndex }: Prop) => {
           </Flex>
         </FormControl>
         <Button
-          data-testid="button-submit"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"

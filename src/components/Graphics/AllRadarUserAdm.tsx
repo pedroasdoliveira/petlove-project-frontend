@@ -1,4 +1,3 @@
-import { useColorModeValue } from "@chakra-ui/react";
 import {
   Legend,
   ResponsiveContainer,
@@ -11,11 +10,6 @@ import {
 } from "recharts";
 
 const AllRadarUserAdm = ({ user }: any) => {
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
-
   const handleColor = (value: string) => {
     switch (value) {
       case "Trainee":
@@ -26,7 +20,7 @@ const AllRadarUserAdm = ({ user }: any) => {
         return "#FFFF00";
       case "Senior":
         return "#008000";
-        case "Tech-Lead":
+      case "Tech-Lead":
         return "cyan";
       case "Especialista":
         return "#0000FF";
@@ -34,7 +28,7 @@ const AllRadarUserAdm = ({ user }: any) => {
   };
 
   const mountLastData = () => {
-    let data: any = [
+    const data = [
       {
         subject: "Influence",
       },
@@ -82,7 +76,11 @@ const AllRadarUserAdm = ({ user }: any) => {
           return (
             <Radar
               key={index}
-              name={index === user.results.length - 1 ? `Último teste - ${item.nextRole}` : item.nextRole}
+              name={
+                index === user.results.length - 1
+                  ? `Último teste - ${item.nextRole}`
+                  : item.nextRole
+              }
               dataKey={index}
               stroke={handleColor(item.nextRole)}
               strokeWidth={3}
@@ -94,7 +92,10 @@ const AllRadarUserAdm = ({ user }: any) => {
         })}
 
         <Tooltip
-          contentStyle={{ background: background, borderRadius: "10px" }}
+          contentStyle={{
+            background: "rgba(6, 11, 40, 0.94)",
+            borderRadius: "10px",
+          }}
         />
         <Legend
           iconType="circle"

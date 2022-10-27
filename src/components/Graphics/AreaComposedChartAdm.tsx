@@ -1,10 +1,7 @@
-import { useColorModeValue } from "@chakra-ui/react";
-import { useSpecialtys } from "contexts/specialtys";
+import { useSpecialtyss } from "../../contexts/specialtyss";
 import {
   ComposedChart,
-  Line,
   Area,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -13,12 +10,7 @@ import {
 } from "recharts";
 
 const AreaComposedChartAdm = ({ user }: any) => {
-  const { specialtys } = useSpecialtys();
-
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
+  const { specialtyss } = useSpecialtyss();
 
   const mountUserData = () => {
     const data = user.results.sort((a: any, b: any) => {
@@ -30,13 +22,13 @@ const AreaComposedChartAdm = ({ user }: any) => {
         createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
         nextRole: item.nextRole,
         allSpecialities: [...speciality!],
-      }
+      };
     });
 
     return dataToChart;
   };
 
-  const speciality = specialtys?.map((item: any) => {
+  const speciality = specialtyss?.map((item: any) => {
     return item.performance;
   });
 
@@ -54,9 +46,14 @@ const AreaComposedChartAdm = ({ user }: any) => {
           bottom: 0,
         }}
       >
-        <CartesianGrid stroke={"white"} strokeDasharray="2"/>
+        <CartesianGrid stroke={"white"} strokeDasharray="2" />
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
-        <YAxis stroke={"white"} dataKey={"allSpecialities"} type="category" scale="point"/>
+        <YAxis
+          stroke={"white"}
+          dataKey={"allSpecialities"}
+          type="category"
+          scale="point"
+        />
 
         <Area
           type="monotone"
@@ -65,7 +62,12 @@ const AreaComposedChartAdm = ({ user }: any) => {
           stroke={"#ffffff"}
           name={"Função"}
         />
-        <Tooltip contentStyle={{ background: background, borderRadius: "10px" }}/>
+        <Tooltip
+          contentStyle={{
+            background: "rgba(6, 11, 40, 0.94)",
+            borderRadius: "10px",
+          }}
+        />
       </ComposedChart>
     </ResponsiveContainer>
   );

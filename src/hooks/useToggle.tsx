@@ -1,4 +1,4 @@
-import { ToggleContext } from "contexts/ToggleModeStyles";
+import { ToggleContext } from "../contexts/ToggleModeStyles";
 import { useContext } from "react";
 
 export const useToggle = () => {
@@ -6,7 +6,7 @@ export const useToggle = () => {
 
   if (!toggle) {
     throw new Error(
-      "useToggle deve ser utilizado dentro da função ToggleContextProvider"
+      "useToggle deve ser utilizado dentro da função ToggleContextProvider",
     );
   }
 

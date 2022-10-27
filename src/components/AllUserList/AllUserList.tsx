@@ -5,7 +5,6 @@ import {
   Menu,
   MenuButton,
   MenuDivider,
-  MenuItem,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
@@ -20,18 +19,21 @@ import {
   Tr,
   useColorModeValue,
   Badge,
+  Tooltip,
 } from "@chakra-ui/react";
-import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
-import { useSpecialtys } from "contexts/specialtys";
-import { useUsers } from "contexts/Users";
+import ModalUserAdm from "../../components/ModalUserAdm/ModalUserAdm";
+import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useUsers } from "../../contexts/Users";
 import { useState } from "react";
 import Image from "next/image";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 
 const AllUserList = () => {
   const { users } = useUsers();
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
+
   const color = useColorModeValue("whiteAlpha", "facebook");
+  const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -50,7 +52,7 @@ const AllUserList = () => {
   };
 
   const filteredData = users?.filter((item) => {
-    const speciality = specialtys?.map((item) => item.name);
+    const speciality = specialtyss?.map((item) => item.performance);
 
     if (filter === "all") {
       return (
@@ -65,8 +67,8 @@ const AllUserList = () => {
     if (filter === "new") {
       return (
         (item.role === null || item.chapter === null || item.team === null) &&
-        (item.name!.toLowerCase().includes(search.toLowerCase()) ||
-          item.email!.toLowerCase().includes(search.toLowerCase()))
+        (item.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item.email?.toLowerCase().includes(search.toLowerCase()))
       );
     }
 
@@ -115,15 +117,34 @@ const AllUserList = () => {
               {filter === "all" ? "Todos" : filter === "new" ? "Novos" : filter}
             </MenuButton>
           </Flex>
-          <MenuList minWidth="240px">
+          <MenuList
+            minWidth="240px"
+            style={{
+              background: colorOption,
+            }}
+          >
             <MenuOptionGroup
               defaultValue="asc"
               title="Ordem"
               type="radio"
               onChange={handleOrder}
             >
-              <MenuItemOption value="asc">crescente</MenuItemOption>
-              <MenuItemOption value="desc">decrescente</MenuItemOption>
+              <MenuItemOption
+                value="asc"
+                _focus={{
+                  background: "gray.600",
+                }}
+              >
+                crescente
+              </MenuItemOption>
+              <MenuItemOption
+                value="desc"
+                _focus={{
+                  background: "gray.600",
+                }}
+              >
+                decrescente
+              </MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
             <MenuOptionGroup
@@ -132,13 +153,33 @@ const AllUserList = () => {
               title="Filtrar por:"
               onChange={handleFilter}
             >
-              <MenuItemOption value="all">Todos</MenuItemOption>
-              <MenuItemOption value="new">Novos usuários</MenuItemOption>
+              <MenuItemOption
+                value="all"
+                _focus={{
+                  background: "gray.600",
+                }}
+              >
+                Todos
+              </MenuItemOption>
+              <MenuItemOption
+                value="new"
+                _focus={{
+                  background: "gray.600",
+                }}
+              >
+                Novos usuários
+              </MenuItemOption>
               <Text m={"0.5rem"} fontWeight="500">
                 Função:
               </Text>
-              {specialtys?.map((item) => (
-                <MenuItemOption value={item.performance} key={item.id}>
+              {specialtyss?.map((item) => (
+                <MenuItemOption
+                  value={item.performance}
+                  key={item.id}
+                  _focus={{
+                    background: "gray.600",
+                  }}
+                >
                   {item.performance}
                 </MenuItemOption>
               ))}
@@ -148,16 +189,18 @@ const AllUserList = () => {
       </Flex>
       <TableContainer marginTop={6}>
         <Table variant="striped" size="md" colorScheme={color}>
-          <TableCaption>Detalhes dos usuários</TableCaption>
+          <TableCaption color="gray.200">Detalhes dos usuários</TableCaption>
           <Thead>
             <Tr>
-              <Th>#</Th>
-              <Th>Nome</Th>
-              <Th>Chapter</Th>
-              <Th>Função</Th>
-              <Th>Equipe</Th>
-              <Th>Testes</Th>
-              <Th w={"1rem"}>Detalhes</Th>
+              <Th color="gray.200">#</Th>
+              <Th color="gray.200">Nome</Th>
+              <Th color="gray.200">Chapter</Th>
+              <Th color="gray.200">Função</Th>
+              <Th color="gray.200">Equipe</Th>
+              <Th color="gray.200">Testes</Th>
+              <Th w={"1rem"} color="gray.200">
+                Detalhes
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -193,14 +236,24 @@ const AllUserList = () => {
                     </Flex>
                   </Td>
                   <Td>
-                    {user.name}{" "}
                     {roleAtual === null &&
                       chapterAtual === null &&
                       teamAtual === null && (
-                        <Badge colorScheme="green" variant="solid">
+                        <Badge colorScheme="green" variant="solid" mr="-2.3rem">
                           Novo
                         </Badge>
                       )}
+                    {user.name.length > 25 ? (
+                      <Tooltip
+                        label={user.name}
+                        aria-label="A tooltip"
+                        placement="top"
+                      >
+                        <Text>{user.name.slice(0, 25)}...</Text>
+                      </Tooltip>
+                    ) : (
+                      <Text>{user.name}</Text>
+                    )}
                   </Td>
                   {chapterAtual === null ? (
                     <Td>...</Td>

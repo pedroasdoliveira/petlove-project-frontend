@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api } from "services";
+import { api } from "../services";
 import toast from "react-hot-toast";
 
 import Router from "next/router";
@@ -30,7 +30,7 @@ interface LoginParams {
 
 export const AuthContext = createContext<AuthData>({} as AuthData);
 
-export const AuthContextProvider: any = ({ children }: Props) => {
+export const AuthContextProvider = ({ children }: Props) => {
   const [logged, setLogged] = useState<boolean>(false);
   const [requisition, setRequisition] = useState<boolean>(false);
 
@@ -67,10 +67,10 @@ export const AuthContextProvider: any = ({ children }: Props) => {
 
       await api
         .get(`/User/${user.email}`, headers)
-        .then((response) => {
+        .then(() => {
           setLogged(true);
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error("Sessão expirada, faça login novamente!");
           logout();
         });
@@ -90,7 +90,14 @@ export const AuthContextProvider: any = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ logged, login, logout, checkTokenExpiration, requisition, setRequisition }}
+      value={{
+        logged,
+        login,
+        logout,
+        checkTokenExpiration,
+        requisition,
+        setRequisition,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import {
@@ -15,14 +14,14 @@ import {
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import RadioCard from "components/RadioCard/RadioCard";
+import RadioCard from "../../components/RadioCard/RadioCard";
 import React from "react";
 import Link from "next/link";
-import { api } from "services";
+import { api } from "../../services";
 import toast from "react-hot-toast";
-import { useTest } from "contexts/testQuests";
-import { useUsers } from "contexts/Users";
-import { useAuth } from "contexts/Auth";
+import { useTest } from "../../contexts/testQuests";
+import { useUsers } from "../../contexts/Users";
+import { useAuth } from "../../contexts/Auth";
 
 const respostas = {
   Sistemas: 0,
@@ -35,7 +34,7 @@ const respostas = {
 };
 
 const StepsForm = () => {
-  const { nextStep, activeStep, reset } = useSteps({
+  const { nextStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
 
@@ -88,7 +87,7 @@ const StepsForm = () => {
     }
   };
 
-  const { value, getRootProps, getRadioProps, setValue } = useRadioGroup({
+  const { getRootProps, getRadioProps, setValue } = useRadioGroup({
     name: "option",
     defaultValue: "none",
     onChange: changeValueRadio,
@@ -97,7 +96,14 @@ const StepsForm = () => {
   const group = getRootProps();
 
   return (
-    <>
+    <Flex
+      as="section"
+      display={"flex"}
+      flexDir={"column"}
+      width="100%"
+      minHeight="100%"
+      justify={"space-evenly"}
+    >
       <Progress
         colorScheme="green"
         borderRadius="10px"
@@ -112,56 +118,56 @@ const StepsForm = () => {
           test?.computationalFundamentals?.length +
           test?.process?.length
         }
-        
+        marginBottom={12}
       />
-      <Flex flexDirection="column" w="100%" h="30rem" alignItems="center" justifyContent="space-between">
-        <Steps
-          activeStep={activeStep}
-          colorScheme="green"
-          borderRadius="10px"
-          textColor={"#10cc19"}
-          color={useColorModeValue("#cc1010", "#1d1d31")}
-          borderColor={useColorModeValue("#10cc19", "#1d1d31")}
-          borderBlockEndColor={useColorModeValue("#10cc19", "#1d1d31")}
-          textStyle={{
-            color: useColorModeValue("#10cc19", "#1d1d31"),
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-          }}
-          responsive={false}
-        >
-          {steps.map(({ label, Content }, index) => (
-            <Step label={label} key={index} position="relative" w="200px">
-              <Flex
-                display={"flex"}
-                flexDir={"column"}
-                alignItems={"center"}
-                py="5rem"
-                
-              >
+      <Steps
+        activeStep={activeStep}
+        height={"1%"}
+        colorScheme="green"
+        borderRadius="10px"
+        textColor={"#10cc19"}
+        color={useColorModeValue("#cc1010", "#1d1d31")}
+        borderColor={useColorModeValue("#10cc19", "#1d1d31")}
+        borderBlockEndColor={useColorModeValue("#10cc19", "#1d1d31")}
+        textStyle={{
+          color: useColorModeValue("#10cc19", "#1d1d31"),
+          fontWeight: "bold",
+          fontSize: "1.2rem",
+        }}
+      >
+        {steps.map(({ label, Content }) => (
+          <Step label={label} key={label} height={"1%"}>
+            <Flex
+              display={"flex"}
+              flexDir={"column"}
+              alignItems={"center"}
+              mt={"10"}
+              height={"60%"}
+            >
+              <FormLabel display={"flex"} justifyContent={"center"}>
                 <Heading
                   as="h2"
                   size="lg"
-                  marginBottom={12}
+                  marginBottom={4}
                   textAlign={"center"}
-                  fontSize={{sm: 'xl', md: '2xl', lg: '3xl'}}
+                  width={"60%"}
                   display={"flex"}
                   justifyContent={"center"}
                   flexDir={"column"}
                 >
                   {Content?.[eval(`respostas.${label}`)] &&
                   Content?.[eval(`respostas.${label}`)].match(
-                    /https?:\/\/[^\s]+|www.?[^\s]+/g
+                    /https?:\/\/[^\s]+|www.?[^\s]+/g,
                   ) ? (
                     <>
                       {Content?.[eval(`respostas.${label}`)].replace(
                         /https?:\/\/[^\s]+|www.?[^\s]+/g,
-                        ""
+                        "",
                       )}
                       <ChakraLink
                         href={
                           Content?.[eval(`respostas.${label}`)].match(
-                            /https?:\/\/[^\s]+|www.?[^\s]+/g
+                            /https?:\/\/[^\s]+|www.?[^\s]+/g,
                           ) as unknown as string
                         }
                         target="_blank"
@@ -177,49 +183,45 @@ const StepsForm = () => {
                     Content?.[eval(`respostas.${label}`)]
                   )}
                 </Heading>
-                
-                <Button
-                  bgColor={buttonSendColorMode}
-                  color={colorButtonSend}
-                  letterSpacing="tight"
-                  _hover={{
-                    background: buttonSendHover,
-                    color: buttonColorHover,
-                  }}
-                  hidden={!valueButton}
-                  
-                  ml={"1"}
-                  onClick={() => {
-                    if (questionaryVerify === "question") {
-                      setQuantity(quantity + 1);
-                      setValueButton(false);
-                      if (eval(`respostas.${label}`) < Content.length - 1) {
-                        eval(`respostas.${label}++`);
-                      } else {
-                        eval(`respostas.${label}++`);
-                        nextStep();
-                        
-                      }
-                    } else if (questionaryVerify === "step") {
-                      setQuantity(
-                        quantity + Content.length - eval(`respostas.${label}`)
-                      );
-                      console.log("mandando pro proximo step!");
+              </FormLabel>
+              <Button
+                bgColor={buttonSendColorMode}
+                color={colorButtonSend}
+                letterSpacing="tight"
+                _hover={{
+                  background: buttonSendHover,
+                  color: buttonColorHover,
+                }}
+                hidden={!valueButton}
+                mt={"100"}
+                ml={"1"}
+                onClick={() => {
+                  if (questionaryVerify === "question") {
+                    setQuantity(quantity + 1);
+                    setValueButton(false);
+                    if (eval(`respostas.${label}`) < Content.length - 1) {
+                      eval(`respostas.${label}++`);
+                    } else {
+                      eval(`respostas.${label}++`);
                       nextStep();
                     }
-                    console.log("clicaram");
-                    setValue("none");
-                    setValueButton(false);
-                    setQuestionaryVerify("false");
-                  }}
-                >
-                  Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
-                </Button>
-              </Flex>
-            </Step>
-          ))}
-        </Steps>
-        
+                  } else if (questionaryVerify === "step") {
+                    setQuantity(
+                      quantity + Content.length - eval(`respostas.${label}`),
+                    );
+                    nextStep();
+                  }
+                  setValue("none");
+                  setValueButton(false);
+                  setQuestionaryVerify("false");
+                }}
+              >
+                Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+              </Button>
+            </Flex>
+          </Step>
+        ))}
+      </Steps>
       {activeStep === steps.length ? (
         <Flex px={4} py={4} width="100%" flexDir="column">
           <Heading fontSize="xl" textAlign="center">
@@ -253,16 +255,24 @@ const StepsForm = () => {
 
                 api
                   .post("/Result", data, headers)
-                  .then((response) => {
+                  .then(() => {
                     setQuantity(0);
                     handleReset();
                     handleGetUsers();
                     setRequisition(false);
                     toast.success("Resultado enviado com sucesso!");
                   })
-                  .catch((error) => {
+                  .catch((err) => {
                     handleReset();
                     setRequisition(false);
+                    if(err.response.data.message === "Insufficient completion time!"){
+                      toast.error("Tempo de conclusão insuficiente! Aguarde 3 meses para refazer o teste.");
+                      return;
+                    };
+                    if(err.response.data.message === "Last test not validated!"){
+                      toast.error("O último teste ainda não foi validado! Aguarde a validação para refazer o teste.");
+                      return;
+                    };
                     toast.error("Erro ao enviar resultado!");
                   });
               }}
@@ -295,8 +305,7 @@ const StepsForm = () => {
       ) : (
         ""
       )}
-      </Flex>
-    </>
+    </Flex>
   );
 };
 

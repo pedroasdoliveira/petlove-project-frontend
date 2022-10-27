@@ -1,4 +1,4 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import {
   ResponsiveContainer,
   Tooltip,
@@ -15,11 +15,6 @@ interface ComparisonBarUserProps {
 }
 
 const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
-
   const comparisonData = value?.map((item) => {
     const lastResult = item.results[item.results.length - 1];
     const nameSplit =
@@ -31,12 +26,13 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
 
     const data = {
       name: nameSplit,
-      total:
-        (lastResult?.system +
+      total: (
+        lastResult?.system +
         lastResult?.person +
         lastResult?.technology +
         lastResult?.process +
-        lastResult?.influence).toFixed(2),
+        lastResult?.influence
+      ).toFixed(2),
     };
 
     if (isNaN(data.total)) {
@@ -78,7 +74,10 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
 
           <Tooltip
             cursor={{ fill: "transparent" }}
-            contentStyle={{ background: background, borderRadius: "10px" }}
+            contentStyle={{
+              background: "rgba(6, 11, 40, 0.94)",
+              borderRadius: "10px",
+            }}
           />
           <Brush dataKey="total" stroke={"#8884d8"} height={25} x={50} />
         </BarChart>
