@@ -21,23 +21,19 @@ const Footer = () => {
           Sobre
         </Heading>
 
-        <Image
-          alt="barra horizontal"
-          src={HorizontalBar}
-          width="200px"
-          height="10px"
-        />
+        <Image alt="barra horizontal" src={HorizontalBar} width="200px" height="10px" />
 
         <Text textAlign={"center"} lineHeight={"165%"} color={"white"}>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          Reprehenderit neque cupiditate ipsam, inventore minus non id corrupti
-          dolor laborum animi rerum accusamus nihil, similique quaerat deserunt
-          deleniti assumenda dicta! Soluta.
+          A plataforma em conjunto com os administradores, que representam os
+          lideres de cada equipe e setor, tem como objetivo avaliar o
+          crescimento das habilidades de cada profissional com o passar de sua
+          evolução e de exibir o seu potencial sobre cada categoria que é
+          demonstrado.
         </Text>
       </Flex>
 
       <Flex alignItems={"center"} width={"300px"}>
-        <Image alt="sobre nos imagem" src={AboutImg} width="300px" height="300px" />
+        <Image alt="sobre" src={AboutImg} width="300px" height="300px" />
       </Flex>
     </Flex>
   );

@@ -414,7 +414,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         </SwiperSlide>
                       </Swiper>
                     </Flex>
-                    <Divider orientation="vertical" mx={"-4rem"} />
+                    <Divider orientation="vertical" mx={"-4.5rem"} />
                     <Flex
                       direction={"column"}
                       w={"40%"}
@@ -442,7 +442,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>
+                                  <Th color={"white"} fontSize={"11px"}>
                                     {`${new Date(
                                       result.createdAt,
                                     ).toLocaleDateString()}`}
@@ -451,7 +451,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                       w={"460%"}
                                     />
                                   </Th>
-                                  <Th color={"white"}>{result.nextRole}</Th>
+                                  <Th color={"white"} fontSize={"11px"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
                                       ? "Aguardando"

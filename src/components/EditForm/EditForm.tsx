@@ -41,7 +41,7 @@ const editSchema = yup.object().shape(
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
         `Necessário ao menos:
-    1 letra maiúscula, 1 número e 1 caractere especial`,
+    1 letra maiúscula, 1 número e 1 caractere especial`
       )
       .required("Senha é obrigatória"),
 
@@ -53,7 +53,7 @@ const editSchema = yup.object().shape(
         .matches(
           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
           `Necessário ao menos:
-        1 letra maiúscula, 1 número e 1 caractere especial`,
+        1 letra maiúscula, 1 número e 1 caractere especial`
         ),
     }),
 
@@ -67,7 +67,7 @@ const editSchema = yup.object().shape(
   [
     ["newPassword", "newPassword"],
     ["confirmPassword", "confirmPassword"],
-  ],
+  ]
 );
 
 const EditForm = () => {
@@ -142,6 +142,7 @@ const EditForm = () => {
           mt={5}
           mb={9}
         >
+          {/* Email */}
           <Flex gap="1rem" direction={"column"} w="23%">
             {user?.isAdmin && (
               <>
@@ -160,6 +161,7 @@ const EditForm = () => {
             )}
           </Flex>
 
+          {/* Foto de perfil */}
           <Flex
             flexDir="column"
             alignItems="center"
@@ -196,7 +198,7 @@ const EditForm = () => {
                   formData.append("image", file);
                   formData.append(
                     "album",
-                    process.env.NEXT_PUBLIC_CLIENT_ALBUM as string,
+                    process.env.NEXT_PUBLIC_CLIENT_ALBUM as string
                   );
 
                   axios
@@ -236,7 +238,7 @@ const EditForm = () => {
                 cursor={loading ? "not-allowed" : "pointer"}
                 onClick={() => {
                   const input = document.querySelector(
-                    'input[type="file"]',
+                    'input[type="file"]'
                   ) as HTMLInputElement;
                   if (loading) {
                     return;
@@ -257,6 +259,7 @@ const EditForm = () => {
             />
           </Flex>
         </Flex>
+
         <Flex
           flexDir="column"
           alignItems="center"
@@ -264,21 +267,28 @@ const EditForm = () => {
           w="100%"
           h="100%"
         >
+          {/* Input senha atual + alterar */}
           <Flex
             flexDir={{ md: "row", sm: "column" }}
             gap="3.2rem"
             justifyContent={"center"}
+            alignItems="center"
             w="100%"
             mb="2"
           >
-            {/* Input senha atual + nova senha + confirmar senha */}
+            {/* Senha atual */}
             <Flex
               alignItems="center"
               direction={{ sm: "row", md: "column" }}
-              w={{ md: "20%", sm: "85%" }}
+              w={{ md: "35%", sm: "85%" }}
               justify={{ sm: "center" }}
             >
-              <Text w={{ sm: "250px", md: "auto" }}>senha atual:</Text>
+              <Text
+                w={{ sm: "250px", md: "auto" }}
+                alignSelf={{ sm: "flex-end", md: "center" }}
+              >
+                senha atual:
+              </Text>
               <FormControl>
                 <Input
                   variant={"flushed"}
@@ -301,11 +311,13 @@ const EditForm = () => {
                 </ErrorMessage>
               </FormControl>
             </Flex>
+
+            {/* Alterar */}
             <Flex
               flexDir="column"
               alignItems="center"
               justifyContent="center"
-              w="60%"
+              w="100%"
               border="1px"
               borderColor={
                 editErrors.newPassword || editErrors.confirmPassword
@@ -313,81 +325,106 @@ const EditForm = () => {
                   : buttonBackground
               }
               borderRadius="1rem"
+              px={{ md: "0", sm: "2" }}
             >
               <Text>Alterar senha</Text>
               <Flex
-                flexDir="row"
+                flexDir={{ sm: "column" }}
                 justifyContent="center"
                 w="100%"
-                gap="1rem"
                 mt="1rem"
               >
                 <Flex
-                  alignItems="center"
-                  direction={{ sm: "row", md: "column" }}
-                  w={{ md: "40%", sm: "85%" }}
+                  w="100%"
+                  flexDir={{ sm: "column", md: "row" }}
+                  justifyContent="space-evenly"
                 >
-                  <Text w={{ sm: "250px", md: "auto" }}>nova senha:</Text>
-                  <FormControl>
-                    <Input
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.newPassword}
-                      mb={3}
-                      {...edit("newPassword")}
-                      type={viewPassword ? "text" : "password"}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.newPassword?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                </Flex>
-                <Flex
-                  alignItems="center"
-                  direction={{ sm: "row", md: "column" }}
-                  w={{ md: "40%", sm: "85%" }}
-                >
-                  <Text w={{ sm: "250px", md: "auto" }}>confirmar senha:</Text>
-                  <FormControl>
-                    <Input
-                      variant={"flushed"}
-                      isInvalid={!!editErrors.confirmPassword}
-                      mb={3}
-                      {...edit("confirmPassword")}
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          editHandleSubmit(handleEdit)();
-                        }
-                      }}
-                      color="white"
-                      type={viewPassword ? "text" : "password"}
-                      _placeholder={{
-                        color: "#bbbaba",
-                      }}
-                    />
-                    <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
-                      {editErrors.confirmPassword?.message || ""}
-                    </ErrorMessage>
-                  </FormControl>
-                  <Flex justifyContent="end" width="100%" mt={2}>
-                    <Checkbox
-                      colorScheme="purple"
-                      mt={1}
-                      onChange={() => {
-                        setViewPassword(!viewPassword);
-                      }}
+                  {/* Nova senha */}
+                  <Flex
+                    direction={{ sm: "row", md: "column" }}
+                    w={{ md: "40%", sm: "100%" }}
+                  >
+                    <Text
+                      w={{ sm: "250px", md: "auto" }}
+                      alignSelf={{ sm: "flex-end", md: "center" }}
                     >
-                      Mostrar senha
-                    </Checkbox>
+                      nova senha:
+                    </Text>
+                    <FormControl>
+                      <Input
+                        variant={"flushed"}
+                        isInvalid={!!editErrors.newPassword}
+                        mb={3}
+                        {...edit("newPassword")}
+                        type={viewPassword ? "text" : "password"}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter") {
+                            editHandleSubmit(handleEdit)();
+                          }
+                        }}
+                        color="white"
+                        _placeholder={{
+                          color: "#bbbaba",
+                        }}
+                      />
+                      <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                        {editErrors.newPassword?.message || ""}
+                      </ErrorMessage>
+                    </FormControl>
                   </Flex>
+
+                  {/* Confirmar senha */}
+                  <Flex
+                    alignItems="center"
+                    direction={{ sm: "row", md: "column" }}
+                    w={{ md: "40%", sm: "100%" }}
+                  >
+                    <Text
+                      w={{ sm: "250px", md: "auto" }}
+                      alignSelf={{ sm: "flex-end", md: "center" }}
+                    >
+                      confirmar senha:
+                    </Text>
+                    <FormControl>
+                      <Input
+                        variant={"flushed"}
+                        isInvalid={!!editErrors.confirmPassword}
+                        mb={3}
+                        {...edit("confirmPassword")}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter") {
+                            editHandleSubmit(handleEdit)();
+                          }
+                        }}
+                        color="white"
+                        type={viewPassword ? "text" : "password"}
+                        _placeholder={{
+                          color: "#bbbaba",
+                        }}
+                      />
+                      <ErrorMessage color={useColorModeValue("#ffee00", "red")}>
+                        {editErrors.confirmPassword?.message || ""}
+                      </ErrorMessage>
+                    </FormControl>
+                  </Flex>
+                </Flex>
+
+                {/* Checkbox */}
+                <Flex
+                  justifyContent={{ sm: "center", md: "end" }}
+                  width="100%"
+                  mt={2}
+                  px={10}
+                >
+                  <Checkbox
+                    colorScheme="purple"
+                    mt={1}
+                    onChange={() => {
+                      setViewPassword(!viewPassword);
+                    }}
+                  >
+                    Mostrar senha
+                  </Checkbox>
                 </Flex>
               </Flex>
             </Flex>

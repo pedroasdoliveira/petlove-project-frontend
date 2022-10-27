@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Flex,
   Icon,
@@ -12,6 +13,8 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import DrawerMenu from "../../components/DrawerMenu/DrawerMenu";
 import { AiFillHome, AiFillProfile, AiOutlineLogout } from "react-icons/ai";
 import { useAuth } from "../../contexts/Auth";
+import { useEffect, useState } from "react";
+import { useUsers } from "contexts/Users";
 
 interface Prop {
   direction?: any;
@@ -27,14 +30,25 @@ interface Prop {
 
 const AsideMenu = ({ path, direction, currentPage }: Prop) => {
   const { logout } = useAuth();
+  const { user, users } = useUsers();
 
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = useColorModeValue("#000000", "#ffffff");
+  const [newTest, setNewTest] = useState(false);
+  const [contTest, setContTest] = useState(0);
 
-  // h={direction === "column" ? (path === "Interview" ? "6%" : "25%") : "75%"}
-  // {...(path === "Interview" ? { top: "10rem" } : { right: {} })}
+  useEffect(() => {
+    if (user?.isAdmin) {
+      users?.map((user) => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          setContTest(contTest + 1);
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <>
@@ -80,6 +94,32 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
               <Link href={"/Profile"}>
                 <Button>
                   <Icon as={AiFillProfile} />
+                  {newTest && (
+                    <Badge
+                      ml="1"
+                      colorScheme="green"
+                      style={{
+                        position: "absolute",
+                        top: "1.7rem",
+                        right:"-0.5rem",
+                        zIndex: 2,
+                        width: "22px",
+                        height: "21px",
+                        borderRadius: "50%",
+                        background: "red",
+                        border: "1px solid #fff",
+                        fontSize: "11px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        color: "#fff",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {contTest > 9 ? "9+" : contTest}
+                    </Badge>
+                  )}
                 </Button>
               </Link>
               <Button

@@ -13,7 +13,7 @@ const Specialties = () => {
   const { specialtyss } = useSpecialtyss();
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
@@ -23,16 +23,15 @@ const Specialties = () => {
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}
-          direction={"row"}
+          direction={{ xl: "row", sm: "column" }}
           p={8}
           borderRadius={"15px"}
-          w={"100%"}
-          height={"25rem"}
+          w={{ xl: "100%", lg: "90%", sm: "100%" }}
           bg={background}
           color={"white"}
           mb={5}
         >
-          <Flex w={"50%"} h={"100%"}>
+          <Flex w={{ xl: "50%", sm: "100%" }} h={"19rem"}>
             {/* Grafico*/}
             <Flex
               w={"100%"}
@@ -46,7 +45,7 @@ const Specialties = () => {
             </Flex>
           </Flex>
 
-          <Flex direction={"column"} w={"50%"} ml="1rem">
+          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }} ml={{ xl: "1rem", sm: "0" }} mt={{xl: "0", sm: "2rem"}}>
             {/* Informações*/}
             <Heading
               as="h2"

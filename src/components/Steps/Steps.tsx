@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import {
@@ -263,9 +262,17 @@ const StepsForm = () => {
                     setRequisition(false);
                     toast.success("Resultado enviado com sucesso!");
                   })
-                  .catch(() => {
+                  .catch((err) => {
                     handleReset();
                     setRequisition(false);
+                    if(err.response.data.message === "Insufficient completion time!"){
+                      toast.error("Tempo de conclusão insuficiente! Aguarde 3 meses para refazer o teste.");
+                      return;
+                    };
+                    if(err.response.data.message === "Last test not validated!"){
+                      toast.error("O último teste ainda não foi validado! Aguarde a validação para refazer o teste.");
+                      return;
+                    };
                     toast.error("Erro ao enviar resultado!");
                   });
               }}

@@ -76,9 +76,7 @@ const RegisterComponent = () => {
     api
       .post("/User/create", data)
       .then(() => {
-        toast.success(
-          "Usuário criado com sucesso! Um email foi enviado para confirmação",
-        );
+        toast.success("Usuário criado com sucesso! Faça login para continuar");
         setRequisition(false);
         reset();
       })

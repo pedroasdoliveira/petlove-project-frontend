@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex } from "@chakra-ui/react";
 import AsideMenu from "../../components/AsideMenu/AsideMenu";
 import MenuProfile from "../../components/MenuProfile/MenuProfile";

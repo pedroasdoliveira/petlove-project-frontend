@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import AsideMenu from "../../components/AsideMenu/AsideMenu";
 import EditForm from "../../components/EditForm/EditForm";
@@ -35,7 +34,7 @@ const Edit: NextPage<ProfileProps> = () => {
   }, [user]);
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
@@ -79,7 +78,7 @@ const Edit: NextPage<ProfileProps> = () => {
           mr={{ lg: "30px", md: "60px" }}
           w={{ xl: "calc(100% - 20rem)", lg: "80%", sm: "100%" }}
           flexDir="column"
-          px="3%"
+          px={{md: "3%", sm: 0}}
           py={{ sm: "20%", md: "2%" }}
         >
           <Flex
@@ -103,10 +102,10 @@ const Edit: NextPage<ProfileProps> = () => {
 
           <Flex
             w="100%"
-            p="30px"
+            p={{md: "30px", sm: "10px"}}
             bg={background}
             borderRadius="20px"
-            h={"34rem"}
+            
             my="50px"
             flexDir="column"
             justifyContent="space-between"

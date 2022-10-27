@@ -327,7 +327,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         </Swiper>
                       </Flex>
                     </Flex>
-                    <Divider orientation="vertical" mx={"-4rem"} />
+                    <Divider orientation="vertical" mx={"-4.2rem"} />
                     <Flex
                       direction={"column"}
                       w={"40%"}
@@ -351,11 +351,11 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 <Th>Aprovação</Th>
                               </Tr>
                             </Thead>
-                            <Divider orientation="horizontal" w={"310%"} />
+                            <Divider orientation="horizontal" w={"310%"}/>
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>
+                                  <Th color={"white"} fontSize={"11px"}>
                                     {`${new Date(
                                       result.createdAt,
                                     ).toLocaleDateString()}`}
@@ -364,7 +364,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                       w={"460%"}
                                     />
                                   </Th>
-                                  <Th color={"white"}>{result.nextRole}</Th>
+                                  <Th color={"white"} fontSize={"11px"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
                                       ? "Aguardando"

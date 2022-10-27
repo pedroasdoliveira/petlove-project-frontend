@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Accordion,
   AccordionButton,
@@ -57,7 +56,7 @@ const History: NextPage = () => {
   };
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(111.58deg, rgba(37,27,113, 95) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
@@ -163,8 +162,6 @@ const History: NextPage = () => {
               w="100%"
               bg={background}
               color={"white"}
-              height={"25rem"}
-              h="98%"
             >
               <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
                 Histórico de evolução em gráficos
@@ -257,8 +254,8 @@ const History: NextPage = () => {
             </Flex>
           </Flex>
         </Flex>
-        <AsideMenu currentPage="Histórico" />
       </Flex>
+      <AsideMenu currentPage="Histórico" />
     </Flex>
   );
 };

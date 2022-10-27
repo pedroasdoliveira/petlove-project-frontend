@@ -9,6 +9,7 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { useColorModeValue } from "@chakra-ui/react";
 
 const AllRadarUser = () => {
   const { user } = useUsers();
@@ -67,7 +68,13 @@ const AllRadarUser = () => {
         cy="50%"
         outerRadius="80%"
         data={data1}
-        style={{ background: "rgba(6, 11, 40, 0.94)", borderRadius: "50px" }}
+        style={{
+          background: useColorModeValue(
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+          ),
+          borderRadius: "50px",
+        }}
       >
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
