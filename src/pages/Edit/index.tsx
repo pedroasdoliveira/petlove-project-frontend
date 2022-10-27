@@ -14,17 +14,17 @@ interface ProfileProps {
 
 const Edit: NextPage<ProfileProps> = () => {
   const { checkTokenExpiration } = useAuth();
-  const { handleGetUsers, users, user } = useUsers();
+  const { users, user } = useUsers();
   const [newTest, setNewTest] = useState(false);
   const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
-    checkTokenExpiration!();
+    checkTokenExpiration?.();
   }, []);
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user, index) => {
+      users?.map((user) => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           setContTest(contTest + 1);
@@ -34,7 +34,7 @@ const Edit: NextPage<ProfileProps> = () => {
   }, [user]);
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
+    "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
@@ -44,9 +44,9 @@ const Edit: NextPage<ProfileProps> = () => {
       display={"flex"}
       h="100vh"
       w="100vw"
-      px={{xl: "5rem", lg: "1.5rem"}}
+      px={{ xl: "5rem", lg: "1.5rem" }}
       py="30px"
-      justifyContent={{sm: 'center', md: 'space-between'}}
+      justifyContent={{ sm: "center", md: "space-between" }}
       position="relative"
     >
       <Head>
@@ -64,22 +64,36 @@ const Edit: NextPage<ProfileProps> = () => {
 
       <Flex w="100%">
         {/* Column 1 - Menu */}
-        <Flex w={{xl: '20rem', lg: '15rem'}} display={{lg: 'flex', sm: 'none'}} position="fixed">
+        <Flex
+          w={{ xl: "20rem", lg: "15rem" }}
+          display={{ lg: "flex", sm: "none" }}
+          position="fixed"
+        >
           <MenuProfile path="Mudar conta" />
         </Flex>
 
         {/* Column 2 - Content */}
         <Flex
-          ml={{xl: '350px', lg: "230px"}}
-          mr={{lg: '30px', md: '60px'} }
-          w={{xl: "calc(100% - 20rem)", lg: "80%", sm: '100%'}}
+          ml={{ xl: "350px", lg: "230px" }}
+          mr={{ lg: "30px", md: "60px" }}
+          w={{ xl: "calc(100% - 20rem)", lg: "80%", sm: "100%" }}
           flexDir="column"
-          px="3%"
-          py={{sm: '20%', md: '2%'}}
+          px={{md: "3%", sm: 0}}
+          py={{ sm: "20%", md: "2%" }}
         >
-          <Flex p="15px" borderRadius="15px" bg={background} color={"white"} justify={{sm: 'center', md: 'initial'}}>
-            <Heading fontWeight="normal" letterSpacing="tight" fontSize={{sm: '2xl', md: '3xl'}}>
-              Editar dados {" "}
+          <Flex
+            p="15px"
+            borderRadius="15px"
+            bg={background}
+            color={"white"}
+            justify={{ sm: "center", md: "initial" }}
+          >
+            <Heading
+              fontWeight="normal"
+              letterSpacing="tight"
+              fontSize={{ sm: "2xl", md: "3xl" }}
+            >
+              Editar dados{" "}
               <Flex fontWeight="bold" display="inline-flex">
                 {user.name?.split(" ")[0]}?
               </Flex>
@@ -88,10 +102,10 @@ const Edit: NextPage<ProfileProps> = () => {
 
           <Flex
             w="100%"
-            p="30px"
+            p={{md: "30px", sm: "10px"}}
             bg={background}
             borderRadius="20px"
-            h={"34rem"}
+            
             my="50px"
             flexDir="column"
             justifyContent="space-between"

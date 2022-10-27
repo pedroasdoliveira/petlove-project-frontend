@@ -5,7 +5,7 @@ import {
   useState,
   useEffect,
 } from "react";
-import { api } from "services";
+import { api } from "../services";
 import { useAuth } from "./Auth";
 
 interface UsersContextProps {

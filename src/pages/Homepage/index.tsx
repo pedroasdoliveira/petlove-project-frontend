@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -28,13 +29,13 @@ const Homepage: NextPage = () => {
   const [contTest, setContTest] = useState(0);
 
   useEffect(() => {
-    checkTokenExpiration!();
+    checkTokenExpiration?.();
   }, []);
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user, index) => {
+      users?.map((user) => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           setContTest(contTest + 1);
@@ -46,8 +47,8 @@ const Homepage: NextPage = () => {
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
   const bgCardColor = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
   const shadowColor = useColorModeValue("#1d1d31", "#8e6dd1");
 
@@ -87,15 +88,21 @@ const Homepage: NextPage = () => {
           direction={"row"}
           w={"100%"}
           h={"100%"}
-          justifyContent={{md: 'space-between', sm: 'center'}}
+          justifyContent={{ md: "space-between", sm: "center" }}
           alignItems={"center"}
-          mx={8}
+          mx={3}
           color={"white"}
         >
-          <Heading display={{md: 'block', sm: 'none'}} as="h2" fontSize={"2xl"} fontWeight="medium" ml={"2"}>
+          <Heading
+            display={{ md: "block", sm: "none" }}
+            as="h2"
+            fontSize={"2xl"}
+            fontWeight="medium"
+            ml={"2"}
+          >
             Questionário
           </Heading>
-          <Flex position="absolute" right="300" top="0.2">
+          <Flex position="absolute" right={{md: "310", sm:"-6"}} top="0.2">
             <Image
               src={image ? image : ProfileIcon}
               alt="Imagem de perfil"
@@ -105,34 +112,9 @@ const Homepage: NextPage = () => {
               style={{ borderRadius: "50%", background: "#dee0e3" }}
             />
           </Flex>
-          {newTest && (
-            <Badge
-              ml="1"
-              colorScheme="green"
-              style={{
-                position: "absolute",
-                top: "2.5rem",
-                right: "6.5rem",
-                zIndex: 2,
-                width: "22px",
-                height: "21px",
-                borderRadius: "50%",
-                background: "red",
-                border: "1px solid #fff",
-                fontSize: "11px",
-                fontWeight: "bold",
-                textAlign: "center",
-                color: "#fff",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {contTest > 9 ? "9+" : contTest}
-            </Badge>
-          )}
 
-          <AsideMenu direction="row"/>
+
+          <AsideMenu direction="row" />
         </Flex>
       </Flex>
 
@@ -154,97 +136,108 @@ const Homepage: NextPage = () => {
           fontWeight="normal"
           color={textColor}
         >
-          Faça um teste agora mesmo
+          Descubra o seu potencial
         </Text>
       </Flex>
 
-        <Grid templateColumns={{lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)"}} gap={8} my={12}>
-          <GridItem
-            data-testid='card'
-            bg={bgCardColor}
-            w={{lg: "285px", md: '500px', sm:'285px'}}
-            h={"340px"}
-            borderRadius={"15px"}
-            boxShadow={`10px 5px 15px ${shadowColor}`}
+      <Grid
+        templateColumns={{ lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)" }}
+        gap={8}
+        my={12}
+      >
+        <GridItem
+          bg={bgCardColor}
+          w={{ lg: "285px", md: "500px", sm: "285px" }}
+          h={"340px"}
+          borderRadius={"15px"}
+          boxShadow={`10px 5px 15px ${shadowColor}`}
+        >
+          <Flex
+            direction={"column"}
+            alignItems={"center"}
+            justifyContent={"space-around"}
+            wrap={"wrap"}
+            p={4}
+            w="full"
+            h="full"
           >
-            <Flex
-              direction={"column"}
-              alignItems={"center"}
-              justifyContent={"space-around"}
-              wrap={"wrap"}
-              p={4}
-              w="full"
-              h="full"
-            >
-              <Image src={CheckIcon} width={"60px"} height={"60px"} />
+            <Image
+              alt="check icon"
+              src={CheckIcon}
+              width={"60px"}
+              height={"60px"}
+            />
 
-              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
-                magnam, esse voluptas! Accusantium adipisci optio recusandae?
-                Nam nostrum velit vitae autem.
-              </Text>
-            </Flex>
-          </GridItem>
+            <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+              Testes suas competências e capacidades como profissional e avalie
+              seus pontos de melhoria para a sua evolução.
+            </Text>
+          </Flex>
+        </GridItem>
 
-          <GridItem
-            data-testid='card'
-            bg={bgCardColor}
-            w={{lg: "285px", md: '500px', sm:'285px'}}
-            h={"340px"}
-            borderRadius={"15px"}
-            boxShadow={`9px 5px 15px ${shadowColor}`}
+        <GridItem
+          bg={bgCardColor}
+          w={{ lg: "285px", md: "500px", sm: "285px" }}
+          h={"340px"}
+          borderRadius={"15px"}
+          boxShadow={`9px 5px 15px ${shadowColor}`}
+        >
+          <Flex
+            direction={"column"}
+            alignItems={"center"}
+            justifyContent={"space-around"}
+            wrap={"wrap"}
+            p={4}
+            w="full"
+            h="full"
           >
-            <Flex
-              direction={"column"}
-              alignItems={"center"}
-              justifyContent={"space-around"}
-              wrap={"wrap"}
-              p={4}
-              w="full"
-              h="full"
-            >
-              <Image src={ClockIcon} width={"60px"} height={"60px"} />
+            <Image
+              alt="clock icon"
+              src={ClockIcon}
+              width={"60px"}
+              height={"60px"}
+            />
 
-              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
-                magnam, esse voluptas! Accusantium adipisci optio recusandae?
-                Nam nostrum velit vitae autem.
-              </Text>
-            </Flex>
-          </GridItem>
+            <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+              Tenha acesso a seu histórico de evolução de forma rápida com o
+              comparativo com seu crescimento profissional.
+            </Text>
+          </Flex>
+        </GridItem>
 
-          <GridItem
-            data-testid='card'
-            bg={bgCardColor}
-            w={{lg: "285px", md: '500px', sm:'285px'}}
-            h={"340px"}
-            borderRadius={"15px"}
-            boxShadow={`10px 5px 15px ${shadowColor}`}
+        <GridItem
+          bg={bgCardColor}
+          w={{ lg: "285px", md: "500px", sm: "285px" }}
+          h={"340px"}
+          borderRadius={"15px"}
+          boxShadow={`10px 5px 15px ${shadowColor}`}
+        >
+          <Flex
+            direction={"column"}
+            alignItems={"center"}
+            justifyContent={"space-around"}
+            wrap={"wrap"}
+            p={4}
+            w="full"
+            h="full"
           >
-            <Flex
-              direction={"column"}
-              alignItems={"center"}
-              justifyContent={"space-around"}
-              wrap={"wrap"}
-              p={4}
-              w="full"
-              h="full"
-            >
-              <Image src={ProfileIcon} width={"60px"} height={"60px"} />
+            <Image
+              alt="profile icon"
+              src={ProfileIcon}
+              width={"60px"}
+              height={"60px"}
+            />
 
-              <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-                vitae ullam odit voluptates id explicabo aperiam saepe ipsa,
-                magnam, esse voluptas! Accusantium adipisci optio recusandae?
-                Nam nostrum velit vitae autem.
-              </Text>
-            </Flex>
-          </GridItem>
-        </Grid>
+            <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
+              Administradores tem acesso a diferentes funções com os usuários
+              cadastrados, desde o histórico de evolução até o cadastro de cada
+              time.
+            </Text>
+          </Flex>
+        </GridItem>
+      </Grid>
 
-        <DefaultButton valueButton="Realizar teste" />
+      <DefaultButton valueButton="Realizar teste" />
 
       <Footer />
     </Flex>

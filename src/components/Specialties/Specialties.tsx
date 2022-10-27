@@ -6,20 +6,20 @@ import {
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
-import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
-import { useSpecialtys } from "contexts/specialtys";
+import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
+import { useSpecialtyss } from "../../contexts/specialtyss";
 
 const Specialties = () => {
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
 
   const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
+    "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
   return (
     <>
-      {specialtys?.map((specialty) => (
+      {specialtyss?.map((specialty) => (
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}
@@ -31,12 +31,21 @@ const Specialties = () => {
           color={"white"}
           mb={5}
         >
-          <Flex w={{ xl: "50%", sm: "100%" }} h={"100%"}>
+          <Flex w={{ xl: "50%", sm: "100%" }} h={"19rem"}>
             {/* Grafico*/}
-            <LastRadarUserAdm testUser={specialty} type={"specialities"} />
+            <Flex
+              w={"100%"}
+              h={"100%"}
+              style={{
+                background: "rgba(6, 11, 40, 0.94)",
+                borderRadius: "10px",
+              }}
+            >
+              <LastRadarUserAdm testUser={specialty} type={"specialities"} />
+            </Flex>
           </Flex>
 
-          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }}>
+          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }} ml={{ xl: "1rem", sm: "0" }} mt={{xl: "0", sm: "2rem"}}>
             {/* Informações*/}
             <Heading
               as="h2"

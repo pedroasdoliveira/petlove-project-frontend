@@ -22,28 +22,29 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import StepsAdmForm from "components/StepsAdm/StepsAdm";
-import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
+import StepsAdmForm from "../../components/StepsAdm/StepsAdm";
+import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-import AllRadarUserAdm from "components/Graphics/AllRadarUserAdm";
-import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
-import AreaComposedChartAdm from "components/Graphics/AreaComposedChartAdm";
-import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
+import AllRadarUserAdm from "../../components/Graphics/AllRadarUserAdm";
+import OneLineUserAdm from "../../components/Graphics/OneLineUserAdm";
+import AreaComposedChartAdm from "../../components/Graphics/AreaComposedChartAdm";
+import AllRadarSpecialityAdm from "../../components/Graphics/AllRadarSpecialityAdm";
 import toast from "react-hot-toast";
-import { api } from "services";
-import { useUsers } from "contexts/Users";
-import { useSpecialtys } from "contexts/specialtys";
-import { useAuth } from "contexts/Auth";
+import { api } from "../../services";
+import { useUsers } from "../../contexts/Users";
+import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useAuth } from "../../contexts/Auth";
 
 const ModalLastUserAdm = ({ value, user }: any) => {
-  const { specialtys } = useSpecialtys();
+  const { specialtyss } = useSpecialtyss();
   const { handleGetUsers } = useUsers();
   const { requisition, setRequisition } = useAuth();
 
@@ -52,6 +53,27 @@ const ModalLastUserAdm = ({ value, user }: any) => {
   const [userEspeciality, setUserEspeciality] = useState(value.nextRole);
   const [userValidate, setUserValidate] = useState("");
   const [userTest, setUserTest] = useState({} as any);
+
+  const buttonColor = useColorModeValue(
+    "linear-gradient(111.58deg, #313baf 21.73%, rgba(45, 56, 175, 0.49) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+  );
+  const buttonColorReverse = useColorModeValue(
+    "rgba(6, 11, 40, 0.94)",
+    "#3B49DA",
+  );
+  const buttonColorReverseHover = useColorModeValue(
+    "#313bad",
+    "rgba(13, 24, 83, 0.94)",
+  );
+  const background = useColorModeValue(
+    "linear-gradient(111.58deg, #3B49DA 21.73%, rgb(59, 72, 218) 52.68%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgb(10, 14, 35) 100%)",
+  );
+
+  const colorModal = useColorModeValue("whiteAlpha", "yellow");
+  const colorHeader = useColorModeValue("aqua", "gray");
+  const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
 
   useEffect(() => {
     setUserTest({
@@ -75,7 +97,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
   const handleUserTest = (event: any) => {
     if (isNaN(event.target.value)) {
       toast.error("Digite um número");
-      return
+      return;
     }
     if (event.target.value > 5 || event.target.value < 0) {
       toast.error("A nota deve ser entre 0 e 5");
@@ -110,37 +132,48 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
   return (
     <>
-      <Button width={"50%"} onClick={onOpen}>
+      <Button width={"50%"} onClick={onOpen} background={buttonColor}>
         <ExternalLinkIcon w={"25px"} h={"25px"} />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="6xl">
         <ModalOverlay />
-        <ModalContent w={"100%"} h={"80%"}>
+        <ModalContent
+          w={"100%"}
+          h={"80%"}
+          background={background}
+          color={"gray.100"}
+        >
           <ModalHeader display={"flex"} flexDirection={"row"} gap="1rem">
             <Text>{user.name}</Text>
             {user.role === null ? (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 Contratado
               </Text>
             ) : (
-              <Text fontSize={"17px"} color="gray">
+              <Text fontSize={"17px"} color={colorHeader}>
                 {user.role}
               </Text>
             )}
-            <Text fontSize={"17px"} color="gray">
+            <Text fontSize={"17px"} color={colorHeader}>
               {user.team}
             </Text>
-            <Text fontSize={"17px"} color="gray">
+            <Text fontSize={"17px"} color={colorHeader}>
               {user.chapter}
             </Text>
-            <Text fontSize={"17px"} color="gray">
+            <Text fontSize={"17px"} color={colorHeader}>
               {user.email}
             </Text>
           </ModalHeader>
 
           <ModalCloseButton />
           <ModalBody w={"100%"} h={"80%"}>
-            <Tabs variant="enclosed" mt={"-1rem"} w={"100%"} h={"93%"}>
+            <Tabs
+              variant="enclosed"
+              mt={"-1rem"}
+              w={"100%"}
+              h={"93%"}
+              colorScheme={colorModal}
+            >
               <TabList justifyContent={"space-between"}>
                 <Flex>
                   <Tab>Dados gerais</Tab>
@@ -167,138 +200,221 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         style={{ width: "100%", height: "100%" }}
                       >
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Teste a ser validado
-                          </Text>
-                          <LastRadarUserAdm testUser={value} type="user" />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Todos os testes - Radar
-                          </Text>
-                          <AllRadarUserAdm user={user} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Todos os testes - Função - Linha
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <AreaComposedChartAdm user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Teste a ser validado
+                            </Text>
+                            <LastRadarUserAdm testUser={value} type="user" />
                           </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Sistema
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <OneLineUserAdm subject="System" user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Todos os testes - Radar
+                            </Text>
+                            <AllRadarUserAdm user={user} />
                           </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Processos
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <OneLineUserAdm subject="Process" user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Todos os testes - Função - Linha
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <AreaComposedChartAdm user={user} />
+                            </Flex>
                           </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Pessoas
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <OneLineUserAdm subject="Person" user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Sistema
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <OneLineUserAdm subject="System" user={user} />
+                            </Flex>
                           </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Tecnologia
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <OneLineUserAdm subject="Technology" user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Processos
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <OneLineUserAdm subject="Process" user={user} />
+                            </Flex>
                           </Flex>
                         </SwiperSlide>
                         <SwiperSlide>
-                          <Text
-                            fontSize="xl"
-                            mx="auto"
-                            mb={1}
-                            textAlign="center"
-                          >
-                            Evolução - Influencia
-                          </Text>
                           <Flex
                             w={"100%"}
                             h="100%"
-                            justifyContent={"center"}
-                            mt="1rem"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
                           >
-                            <OneLineUserAdm subject="Influence" user={user} />
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Pessoas
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <OneLineUserAdm subject="Person" user={user} />
+                            </Flex>
+                          </Flex>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
+                          >
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Tecnologia
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <OneLineUserAdm
+                                subject="Technology"
+                                user={user}
+                              />
+                            </Flex>
+                          </Flex>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                          <Flex
+                            w={"100%"}
+                            h="100%"
+                            style={{
+                              background: "rgba(6, 11, 40, 0.94)",
+                              borderRadius: "10px",
+                            }}
+                            direction={"column"}
+                          >
+                            <Text
+                              fontSize="xl"
+                              mx="auto"
+                              mb={1}
+                              textAlign="center"
+                            >
+                              Evolução - Influencia
+                            </Text>
+                            <Flex
+                              w={"100%"}
+                              h="100%"
+                              justifyContent={"center"}
+                              mt="1rem"
+                            >
+                              <OneLineUserAdm subject="Influence" user={user} />
+                            </Flex>
                           </Flex>
                         </SwiperSlide>
                       </Swiper>
                     </Flex>
-                    <Divider orientation="vertical" mx={"-4rem"} />
+                    <Divider orientation="vertical" mx={"-4.5rem"} />
                     <Flex
                       direction={"column"}
                       w={"40%"}
@@ -314,7 +430,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           borderBottom="1px solid gray"
                           borderRadius={"10px"}
                         >
-                          <Table variant={"striped"}>
+                          <Table variant={"unstyled"} colorScheme="whiteAlpha">
                             <Thead>
                               <Tr>
                                 <Th>Data</Th>
@@ -322,13 +438,20 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                                 <Th>Aprovação</Th>
                               </Tr>
                             </Thead>
+                            <Divider orientation="horizontal" w={"310%"} />
                             <Tbody>
                               {user.results.map((result: any) => (
                                 <Tr key={result.id}>
-                                  <Th color={"white"}>{`${new Date(
-                                    result.createdAt
-                                  ).toLocaleDateString()}`}</Th>
-                                  <Th color={"white"}>{result.nextRole}</Th>
+                                  <Th color={"white"} fontSize={"11px"}>
+                                    {`${new Date(
+                                      result.createdAt,
+                                    ).toLocaleDateString()}`}
+                                    <Divider
+                                      orientation="horizontal"
+                                      w={"460%"}
+                                    />
+                                  </Th>
+                                  <Th color={"white"} fontSize={"11px"}>{result.nextRole}</Th>
                                   <Th color={"white"}>
                                     {result.isValided === null
                                       ? "Aguardando"
@@ -349,10 +472,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             onChange={handleUserEspeciality}
                             w={"35%"}
                           >
-                            {specialtys?.map((speciality) => (
+                            {specialtyss?.map((speciality) => (
                               <option
                                 key={speciality.id}
                                 value={speciality.performance}
+                                style={{
+                                  background: colorOption,
+                                  color: "white",
+                                }}
                               >
                                 {speciality.performance}
                               </option>
@@ -364,15 +491,42 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                             defaultValue={""}
                             w={"35%"}
                           >
-                            <option disabled={true} value={""}>
+                            <option
+                              disabled={true}
+                              value={""}
+                              style={{
+                                background: colorOption,
+                                color: "#c0c0c0",
+                              }}
+                            >
                               Aprovado?
                             </option>
-                            <option value="Sim">Sim</option>
-                            <option value="Não">Não</option>
+                            <option
+                              value="Sim"
+                              style={{
+                                background: colorOption,
+                                color: "white",
+                              }}
+                            >
+                              Sim
+                            </option>
+                            <option
+                              value="Não"
+                              style={{
+                                background: colorOption,
+                                color: "white",
+                              }}
+                            >
+                              Não
+                            </option>
                           </Select>
 
                           <Button
                             isLoading={requisition}
+                            background={buttonColorReverse}
+                            _hover={{
+                              background: buttonColorReverseHover,
+                            }}
                             onClick={() => {
                               if (userValidate !== "") {
                                 setRequisition(true);
@@ -391,20 +545,22 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                                 api
                                   .patch(`/Result/${value.id}`, data, headers)
-                                  .then((response) => {
+                                  .then(() => {
                                     toast.success(
-                                      "Função atualizada com sucesso!"
+                                      "Função atualizada com sucesso!",
                                     );
                                     setRequisition(false);
                                     handleGetUsers();
                                     onClose();
                                   })
-                                  .catch((error) => {
+                                  .catch(() => {
                                     toast.error("Erro ao atualizar função!");
                                     setRequisition(false);
                                   });
                               } else {
-                                toast.error("Selecione se foi aprovado ou não!");
+                                toast.error(
+                                  "Selecione se foi aprovado ou não!",
+                                );
                               }
                             }}
                           >
@@ -422,61 +578,73 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     direction={"column"}
                     alignItems="center"
                   >
-                    <Swiper
-                      navigation={true}
-                      modules={[Navigation]}
-                      style={{ width: "100%", height: "100%" }}
+                    <Flex
+                      w={"100%"}
+                      h="100%"
+                      style={{
+                        background: "rgba(6, 11, 40, 0.94)",
+                        borderRadius: "10px",
+                      }}
+                      direction={"column"}
                     >
-                      <SwiperSlide style={{ width: "100%", height: "100%" }}>
-                        <Text
-                          position={"absolute"}
-                          textAlign="center"
-                          w={"100%"}
-                          fontSize="xl"
-                        >
-                          Teste recente e todas especialidades
-                        </Text>
+                      <Swiper
+                        navigation={true}
+                        modules={[Navigation]}
+                        style={{ width: "100%", height: "100%" }}
+                      >
+                        <SwiperSlide style={{ width: "100%", height: "100%" }}>
+                          <Text
+                            position={"absolute"}
+                            textAlign="center"
+                            w={"100%"}
+                            fontSize="xl"
+                          >
+                            Teste recente e todas especialidades
+                          </Text>
 
-                        <AllRadarSpecialityAdm user={user} />
-                      </SwiperSlide>
-
-                      {specialtys?.map((speciality) => (
-                        <SwiperSlide key={speciality.id}>
-                          <Flex w={"100%"} h="90%" justifyContent="center">
-                            <Flex w={"50%"} h="100%">
-                              <Flex
-                                w={"100%"}
-                                h="100%"
-                                direction={"column"}
-                                alignItems="center"
-                              >
-                                <Text fontSize="xl">Teste recente - {value.nextRole}</Text>
-                                <LastRadarUserAdm
-                                  testUser={value}
-                                  type="user"
-                                />
-                              </Flex>
-                            </Flex>
-                            <Flex w={"50%"} h="100%">
-                              <Flex
-                                w={"100%"}
-                                h="100%"
-                                direction={"column"}
-                                alignItems="center"
-                              >
-                                <Text fontSize="xl">
-                                  Estimativa - {speciality.performance}
-                                </Text>
-                                <LastRadarUserAdm
-                                  testUser={speciality}
-                                  type="specialities"
-                                />
-                              </Flex>
-                            </Flex>
-                          </Flex>
+                          <AllRadarSpecialityAdm user={user} />
                         </SwiperSlide>
-                      ))}
-                    </Swiper>
+
+                        {specialtyss?.map((speciality) => (
+                          <SwiperSlide key={speciality.id}>
+                            <Flex w={"100%"} h="90%" justifyContent="center">
+                              <Flex w={"50%"} h="100%">
+                                <Flex
+                                  w={"100%"}
+                                  h="100%"
+                                  direction={"column"}
+                                  alignItems="center"
+                                >
+                                  <Text fontSize="xl">
+                                    Teste recente - {value.nextRole}
+                                  </Text>
+                                  <LastRadarUserAdm
+                                    testUser={value}
+                                    type="user"
+                                  />
+                                </Flex>
+                              </Flex>
+                              <Flex w={"50%"} h="100%">
+                                <Flex
+                                  w={"100%"}
+                                  h="100%"
+                                  direction={"column"}
+                                  alignItems="center"
+                                >
+                                  <Text fontSize="xl">
+                                    Estimativa - {speciality.performance}
+                                  </Text>
+                                  <LastRadarUserAdm
+                                    testUser={speciality}
+                                    type="specialities"
+                                  />
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </Flex>
                     <Flex w={"100%"} h="10%">
                       <Flex
                         gap={"1rem"}
@@ -493,8 +661,15 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           defaultValue={value.nextRole}
                           w={"12%"}
                         >
-                          {specialtys?.map((speciality) => (
-                            <option key={speciality.id} value={speciality.performance}>
+                          {specialtyss?.map((speciality) => (
+                            <option
+                              key={speciality.id}
+                              value={speciality.performance}
+                              style={{
+                                background: colorOption,
+                                color: "white",
+                              }}
+                            >
                               {speciality.performance}
                             </option>
                           ))}
@@ -505,15 +680,42 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                           defaultValue={""}
                           w={"12%"}
                         >
-                          <option disabled={true} value={""}>
+                          <option
+                            disabled={true}
+                            value={""}
+                            style={{
+                              background: colorOption,
+                              color: "#c0c0c0",
+                            }}
+                          >
                             Aprovado?
                           </option>
-                          <option value="Sim">Sim</option>
-                          <option value="Não">Não</option>
+                          <option
+                            value="Sim"
+                            style={{
+                              background: colorOption,
+                              color: "white",
+                            }}
+                          >
+                            Sim
+                          </option>
+                          <option
+                            value="Não"
+                            style={{
+                              background: colorOption,
+                              color: "white",
+                            }}
+                          >
+                            Não
+                          </option>
                         </Select>
 
                         <Button
                           isLoading={requisition}
+                          background={buttonColorReverse}
+                          _hover={{
+                            background: buttonColorReverseHover,
+                          }}
                           onClick={() => {
                             if (userValidate !== "") {
                               setRequisition(true);
@@ -532,15 +734,15 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                               api
                                 .patch(`/Result/${value.id}`, data, headers)
-                                .then((response) => {
+                                .then(() => {
                                   toast.success(
-                                    "Função atualizada com sucesso!"
+                                    "Função atualizada com sucesso!",
                                   );
                                   setRequisition(false);
                                   handleGetUsers();
                                   onClose();
                                 })
-                                .catch((error) => {
+                                .catch(() => {
                                   toast.error("Erro ao atualizar função!");
                                   setRequisition(false);
                                 });
@@ -659,11 +861,17 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         isRequired={true}
                         onChange={handleUserEspeciality}
                         defaultValue={value.nextRole}
-
                         w={"60%"}
                       >
-                        {specialtys?.map((speciality) => (
-                          <option key={speciality.id} value={speciality.performance}>
+                        {specialtyss?.map((speciality) => (
+                          <option
+                            key={speciality.id}
+                            value={speciality.performance}
+                            style={{
+                              background: colorOption,
+                              color: "white",
+                            }}
+                          >
                             {speciality.performance}
                           </option>
                         ))}
@@ -674,15 +882,42 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                         defaultValue={""}
                         w={"60%"}
                       >
-                        <option disabled={true} value={""}>
+                        <option
+                          disabled={true}
+                          value={""}
+                          style={{
+                            background: colorOption,
+                            color: "#c0c0c0",
+                          }}
+                        >
                           Aprovado?
                         </option>
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
+                        <option
+                          value="Sim"
+                          style={{
+                            background: colorOption,
+                            color: "white",
+                          }}
+                        >
+                          Sim
+                        </option>
+                        <option
+                          value="Não"
+                          style={{
+                            background: colorOption,
+                            color: "white",
+                          }}
+                        >
+                          Não
+                        </option>
                       </Select>
 
                       <Button
                         isLoading={requisition}
+                        background={buttonColorReverse}
+                        _hover={{
+                          background: buttonColorReverseHover,
+                        }}
                         onClick={() => {
                           if (userValidate !== "") {
                             const token = localStorage.getItem("token");
@@ -701,15 +936,13 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
                             api
                               .patch(`/Result/${value.id}`, data, headers)
-                              .then((response) => {
-                                toast.success(
-                                  "Função atualizada com sucesso!"
-                                );
+                              .then(() => {
+                                toast.success("Função atualizada com sucesso!");
                                 setRequisition(false);
                                 handleGetUsers();
                                 onClose();
                               })
-                              .catch((error) => {
+                              .catch(() => {
                                 toast.error("Erro ao atualizar função!");
                                 setRequisition(false);
                               });

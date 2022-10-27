@@ -1,21 +1,21 @@
 import {
   Button,
   Checkbox,
-  CircularProgress,
   Flex,
   FormControl,
   Heading,
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ErrorMessage } from "style/style";
+import type { NextPage } from "next";
+import { ErrorMessage } from "../../style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { api } from "services";
+import { api } from "../../services";
 import Router from "next/router";
 import toast from "react-hot-toast";
-import { useAuth } from "contexts/Auth";
+import { useAuth } from "../../contexts/Auth";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -35,14 +35,14 @@ const loginSchema = yup.object().shape({
     .min(6, "A senha deve ter no mínimo 6 caracteres")
     .matches(
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/,
-      `Necessário ao menos: 
-      1 letra maiúscula, 1 número e 1 caractere especial`
+      `Necessário ao menos:
+      1 letra maiúscula, 1 número e 1 caractere especial`,
     )
     .required("Senha é obrigatória"),
 });
 
-const LoginComponent = () => {
-  const buttonBackground = useColorModeValue("#230d88", "#5030dd");
+const LoginComponent: NextPage = () => {
+  const buttonBackground = useColorModeValue("#5030dd", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
 
@@ -70,7 +70,7 @@ const LoginComponent = () => {
 
         api.get(`User/${data.email}`, headers).then((res) => {
           const user = res.data;
-          loginAuth!({ token: response.data.token, user: user });
+          loginAuth?.({ token: response.data.token, user: user });
           setRequisition(false);
           reset();
           Router.push("/Homepage");
@@ -88,13 +88,12 @@ const LoginComponent = () => {
 
   return (
     <>
-      <Heading mb={6} textAlign={"center"} cursor="default">
+      <Heading mb={6} textAlign={"center"} cursor="default" color="#fff">
         Login
       </Heading>
       <form>
         <FormControl>
           <Input
-            data-testid="email-login"
             placeholder="Seu email..."
             variant={"flushed"}
             isInvalid={!!loginErrors.email}
@@ -118,7 +117,6 @@ const LoginComponent = () => {
         </FormControl>
         <FormControl>
           <Input
-            data-testid="password-login"
             placeholder="Sua senha..."
             variant={"flushed"}
             isInvalid={!!loginErrors.password}
@@ -150,8 +148,15 @@ const LoginComponent = () => {
             </Checkbox>
           </Flex>
         </FormControl>
+        <Flex justifyContent="center" width="100%" marginTop={2}>
+          <Button
+            variant={"link"}
+            color={useColorModeValue("#000000", "#ffffff")}
+          >
+            <Link href={"/ForgotPassword"}>esqueci a senha</Link>
+          </Button>
+        </Flex>
         <Button
-          data-testid="submit-login"
           background={buttonBackground}
           _hover={{ background: buttonHover, color: buttonColor }}
           color="white"

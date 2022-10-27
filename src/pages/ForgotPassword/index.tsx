@@ -60,7 +60,7 @@ const ForgotPassword: NextPage = () => {
     setRequisition(true);
     api
       .get(`User/send/${data.email}`)
-      .then((response) => {
+      .then(() => {
         setRequisition(false);
         reset();
         toast.success(
@@ -68,7 +68,7 @@ const ForgotPassword: NextPage = () => {
         );
         Router.push("/");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Erro ao enviar email para redefinição de senha!");
         setRequisition(false);
       });

@@ -1,4 +1,4 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import {
   ResponsiveContainer,
   Tooltip,
@@ -15,37 +15,32 @@ interface ComparisonBarUserProps {
 }
 
 const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
-
   const comparisonData = teamMapFiltered?.map((item) => {
-    let teamLength: number = 0;
-              //fazer a media de cada team
-              const plus = item?.reduce((acc: any, item2: any) => {
-                const lastResult = item2.results[item2.results.length - 1];
+    let teamLength = 0;
+    //fazer a media de cada team
+    const plus = item?.reduce((acc: any, item2: any) => {
+      const lastResult = item2.results[item2.results.length - 1];
 
-                if (lastResult !== null && lastResult !== undefined) {
-                  const plus =
-                    lastResult?.system +
-                    lastResult?.person +
-                    lastResult?.technology +
-                    lastResult?.process +
-                    lastResult?.influence;
+      if (lastResult !== null && lastResult !== undefined) {
+        const plus =
+          lastResult?.system +
+          lastResult?.person +
+          lastResult?.technology +
+          lastResult?.process +
+          lastResult?.influence;
 
-                  teamLength++;
+        teamLength++;
 
-                  return acc + plus;
-                }
+        return acc + plus;
+      }
 
-                return acc;
-              }, 0);
+      return acc;
+    }, 0);
 
-              const media = (plus / (teamLength === 0 ? 1 : teamLength)).toFixed(2);
+    const media = (plus / (teamLength === 0 ? 1 : teamLength)).toFixed(2);
 
     return {
-      name: item![0].team ? item![0].team : "Sem equipe",
+      name: item?.[0].team ? item?.[0].team : "Sem equipe",
       media,
     };
   });
@@ -74,7 +69,10 @@ const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
 
           <Tooltip
             cursor={{ fill: "transparent" }}
-            contentStyle={{ background: background, borderRadius: "10px" }}
+            contentStyle={{
+              background: "rgba(6, 11, 40, 0.94)",
+              borderRadius: "10px",
+            }}
           />
           <Brush dataKey="total" stroke={"#8884d8"} height={25} x={50} />
         </BarChart>

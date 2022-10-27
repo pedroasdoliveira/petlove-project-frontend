@@ -1,4 +1,4 @@
 export interface ToggleMode {
-    toggle: boolean;
-    setToggle: (values: boolean) => void;
+  toggle: boolean;
+  setToggle: (values: boolean) => void;
 }

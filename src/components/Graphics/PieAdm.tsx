@@ -1,4 +1,4 @@
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { Legend, ResponsiveContainer, Tooltip, Pie, PieChart } from "recharts";
 
 interface PieAdmProps {
@@ -7,11 +7,6 @@ interface PieAdmProps {
 }
 
 const PieAdm = ({ quantity, names }: PieAdmProps) => {
-  const background = useColorModeValue(
-    "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
-  );
-
   // montar grafico de pizza separando por cargo e quantidade
 
   const dataToChart = quantity?.map((item, index) => {
@@ -40,7 +35,10 @@ const PieAdm = ({ quantity, names }: PieAdmProps) => {
           />
           <Tooltip
             cursor={{ fill: "transparent" }}
-            contentStyle={{ background: background, borderRadius: "10px" }}
+            contentStyle={{
+              background: "rgba(6, 11, 40, 0.94)",
+              borderRadius: "10px",
+            }}
             itemStyle={{ color: "white" }}
           />
           <Legend />
