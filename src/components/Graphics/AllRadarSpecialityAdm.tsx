@@ -12,7 +12,6 @@ import {
 
 const AllRadarSpecialityAdm = ({ user }: any) => {
   const { specialtyss } = useSpecialtyss();
-  console.log('nada a ver por aq');
 
   const handleColor = (value: string) => {
     switch (value) {
