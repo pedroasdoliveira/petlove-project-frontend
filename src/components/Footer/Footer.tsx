@@ -9,21 +9,22 @@ const Footer = () => {
       as="footer"
       direction={"row"}
       justifyContent={"space-evenly"}
-      marginBottom={24}
+      py={24}
+      px={15}
     >
       <Flex
-        width={"50%"}
+        width={{sm:"100%", lg:"50%"}}
         direction={"column"}
         alignItems={"center"}
-        justifyContent={"space-evenly"}
+        justifyContent={{sm: "center", lg:"space-evenly"}}
       >
-        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"} mb="-3.5">
+        <Heading as="h2" fontWeight={"medium"} fontSize={"5xl"}>
           Sobre
         </Heading>
 
         <Image alt="barra horizontal" src={HorizontalBar} width="200px" height="10px" />
 
-        <Text textAlign={"center"} lineHeight={"165%"} color={"white"}>
+        <Text textAlign={{sm: "justify", lg: "center"}} lineHeight={"165%"} color={"white"}>
           A plataforma em conjunto com os administradores, que representam os
           lideres de cada equipe e setor, tem como objetivo avaliar o
           crescimento das habilidades de cada profissional com o passar de sua
@@ -32,7 +33,7 @@ const Footer = () => {
         </Text>
       </Flex>
 
-      <Flex alignItems={"center"} width={"300px"}>
+      <Flex alignItems={"center"} width={"300px"} display={{sm: "none", lg: "flex"}}>
         <Image alt="sobre" src={AboutImg} width="300px" height="300px" />
       </Flex>
     </Flex>

@@ -123,7 +123,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                 </Button>
               </Link>
               <Button
-                m={direction === "column" ? "1.5rem 0 0 0" : "0 0 0 1.5rem"}
+                mx={{ md: "1.5rem", sm: "" }}
                 onClick={logout}
               >
                 <Icon as={AiOutlineLogout} />
@@ -171,6 +171,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                   <Icon as={AiFillProfile} />
                 </Button>
               </Link>
+              <DrawerMenu path={currentPage} />
               <Button
                 m={{ md: "1.5rem 0 0 0", sm: "" }}
                 onClick={logout}
@@ -178,7 +179,6 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
               >
                 <Icon as={AiOutlineLogout} />
               </Button>
-              <DrawerMenu path={currentPage} />
             </>
           )}
         </Flex>

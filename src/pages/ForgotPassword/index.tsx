@@ -87,6 +87,7 @@ const ForgotPassword: NextPage = () => {
           name="Page for sending email forgot password"
           content="Send email forgot password"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 

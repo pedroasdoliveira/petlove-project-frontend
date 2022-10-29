@@ -365,7 +365,6 @@ const UserComparisons = () => {
 
       <Flex
         w={"100%"}
-        h="100%"
         style={{
           background: useColorModeValue(
             "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
@@ -383,7 +382,7 @@ const UserComparisons = () => {
           modules={[Navigation, Pagination, Mousewheel, Keyboard]}
           simulateTouch={false}
           allowTouchMove={false}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%" }}
         >
           <SwiperSlide>
             <Text

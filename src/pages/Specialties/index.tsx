@@ -50,6 +50,7 @@ const Specialty: NextPage = () => {
           <title>Especialidades - Self Awareness</title>
         )}
         <meta name="Specialties" content="Página de especialidades" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 

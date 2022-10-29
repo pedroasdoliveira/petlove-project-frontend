@@ -46,6 +46,7 @@ const Login: NextPage = () => {
       <Head>
         <title>Login </title>
         <meta name="pagina inicial e de login" content="Pagina de Login" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 

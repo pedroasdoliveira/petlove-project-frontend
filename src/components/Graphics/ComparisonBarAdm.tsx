@@ -51,7 +51,7 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
   });
 
   return (
-    <Flex w="100%" h="35rem" ml="1rem">
+    <Flex w="100%" h="35rem">
       <ResponsiveContainer width="95%" height="90%">
         <BarChart data={removedNull}>
           <CartesianGrid strokeDasharray="3 3" />
