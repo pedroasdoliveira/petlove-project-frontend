@@ -60,6 +60,12 @@ Com o projeto clonado na maquina, execute o comando dentro da pasta do projeto:
 
 [Vercel](petlove-project-frontend.vercel.app)
 
+## Back-end e API
+
+Repositório: [back-end](https://github.com/pedroasdoliveira/petlove-project-backend)
+
+Deploy: [render](https://api-petlove-backend.onrender.com/api)
+
 ## ✒️ Autores
 
 - **Pedro Oliveira** (Github: https://github.com/pedroasdoliveira | Linkedin: https://www.linkedin.com/in/pedro-augusto-silva-de-oliveira/);
