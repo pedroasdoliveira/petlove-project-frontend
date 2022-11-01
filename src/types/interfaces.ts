@@ -28,3 +28,14 @@ export interface UserStorageType {
   createdAt: string;
   results: ResultType[];
 }
+
+export interface SpecialtiesType {
+  id: string;
+  performance: string;
+  description: string;
+  system: number;
+  person: number;
+  technology: number;
+  process: number;
+  influence: number;
+}
