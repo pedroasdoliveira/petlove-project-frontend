@@ -67,7 +67,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
         >
           <SettingsIcon w={"15"} pr={"3"} />
           <Flex mr={"4"} ml={"2"}>
-            Profile
+            Perfil
           </Flex>
         </Flex>
       </Link>
