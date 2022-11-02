@@ -30,6 +30,7 @@ export interface UserStorageType {
 }
 
 export interface SpecialtiesType {
+  name: any;
   id: string;
   performance: string;
   description: string;
@@ -38,4 +39,16 @@ export interface SpecialtiesType {
   technology: number;
   process: number;
   influence: number;
+}
+
+export interface TestTypes {
+  id: string;
+  title?: string;
+  system: string[];
+  computationalFundamentals: string[];
+  person: string[];
+  process: string[];
+  test: string[];
+  design: string[];
+  toolshop: string[];
 }
