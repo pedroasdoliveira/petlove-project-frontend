@@ -125,7 +125,7 @@ const Homepage: NextPage = () => {
         justifyContent={"center"}
         alignItems={"center"}
         marginTop={"8rem"}
-        marginBottom={"5rem"}
+        marginBottom={"3rem"}
       >
         <Heading as="h1" fontSize={"4xl"} fontWeight="bold" textAlign="center">
           Avalie suas capacidades!
@@ -144,7 +144,7 @@ const Homepage: NextPage = () => {
       <Grid
         templateColumns={{ lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)" }}
         gap={8}
-        my={12}
+        mb={12}
       >
         <GridItem
           bg={bgCardColor}

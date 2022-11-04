@@ -131,8 +131,8 @@ const UserComparisonsRankingTeam = ({
                 const role = speciality.role;
                 if (role === "Especialista") {
                   acc.Especialista += 1;
-                } else if (role === "Tech Lead") {
-                  acc.TechLead += 1;
+                } else if (role === "Tech-lead") {
+                  acc['Tech-Lead'] += 1;
                 } else if (role === "Senior") {
                   acc.Senior += 1;
                 } else if (role === "Pleno") {
@@ -142,19 +142,19 @@ const UserComparisonsRankingTeam = ({
                 } else if (role === "Trainee") {
                   acc.Trainee += 1;
                 } else {
-                  acc.null += 1;
+                  acc["Contratados"] += 1;
                 }
 
                 return acc;
               },
               {
                 Especialista: 0,
-                TechLead: 0,
+                ['Tech-Lead']: 0,
                 Senior: 0,
                 Pleno: 0,
                 Junior: 0,
                 Trainee: 0,
-                null: 0,
+                ["Contratados"]: 0,
               }
             );
 
@@ -191,9 +191,7 @@ const UserComparisonsRankingTeam = ({
                     hasArrow
                   >
                     {`${
-                      specialityFiltered[0][0] === "null"
-                        ? "Contratados"
-                        : specialityFiltered[0][0]
+                      specialityFiltered[0][0]
                     }`}
                   </Tooltip>
 
@@ -204,7 +202,7 @@ const UserComparisonsRankingTeam = ({
                     {`(${specialityFiltered[0][1]})`}
                   </Tooltip>
                   <Tooltip
-                    label={`devs na função majoritária que fizeram pelo menos um teste`}
+                    label={`devs na equipe que fizeram pelo menos um teste`}
                     hasArrow
                   >
                     {`(${teamLength})`}

@@ -216,7 +216,7 @@ const StepsForm = () => {
                   setQuestionaryVerify("false");
                 }}
               >
-                Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+                {questionaryVerify === "question" ? "Próxima questão" : "Próximo passo"} <ArrowForwardIcon w={8} h={5} />
               </Button>
             </Flex>
           </Step>
