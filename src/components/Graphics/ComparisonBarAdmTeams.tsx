@@ -15,11 +15,11 @@ interface ComparisonBarUserProps {
 }
 
 const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
-  const comparisonData = teamMapFiltered?.map((item) => {
+  const comparisonData = teamMapFiltered?.map((dataChart) => {
     let teamLength = 0;
     //fazer a media de cada team
-    const plus = item?.reduce((acc: any, item2: any) => {
-      const lastResult = item2.results[item2.results.length - 1];
+    const plus = dataChart?.reduce((acc: number, user: any) => {
+      const lastResult = user.results[user.results.length - 1];
 
       if (lastResult !== null && lastResult !== undefined) {
         const plus =
@@ -40,7 +40,7 @@ const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
     const media = (plus / (teamLength === 0 ? 1 : teamLength)).toFixed(2);
 
     return {
-      name: item?.[0].team ? item?.[0].team : "Sem equipe",
+      name: dataChart?.[0].team ? dataChart?.[0].team : "Sem equipe",
       media,
     };
   });

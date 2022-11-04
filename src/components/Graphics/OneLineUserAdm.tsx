@@ -21,10 +21,10 @@ const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((item: any) => {
+    const dataToChart = data.map((dataChart: any) => {
       return {
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
-        A: item[subName.toLowerCase()],
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
+        A: dataChart[subName.toLowerCase()],
       };
     });
 

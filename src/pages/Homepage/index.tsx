@@ -7,7 +7,6 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
-  Badge,
   Flex,
   Grid,
   GridItem,

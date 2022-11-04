@@ -25,10 +25,10 @@ const AreaComposedChart = () => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data?.map((item: any) => {
+    const dataToChart = data?.map((dataChart: any) => {
       return {
-        nextRole: item.nextRole,
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
+        nextRole: dataChart.nextRole,
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         allSpecialities: [...speciality!],
       };
     });
@@ -36,8 +36,8 @@ const AreaComposedChart = () => {
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((item: any) => {
-    return item.performance;
+  const speciality = specialtyss?.map((specialityData: any) => {
+    return specialityData.performance;
   });
 
   const data = mountUserData();

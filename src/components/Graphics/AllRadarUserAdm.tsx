@@ -46,20 +46,20 @@ const AllRadarUserAdm = ({ user }: any) => {
       },
     ];
 
-    user.results.forEach((item: any, index: number) => {
-      data.forEach((item2: any) => {
-        item2[index] = item[item2.subject.toLowerCase()];
+    user.results.forEach((result: any, index: number) => {
+      data.forEach((dataChart: any) => {
+        dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });
 
     return data;
   };
 
-  const data1 = mountLastData();
+  const data = mountLastData();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
+      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"

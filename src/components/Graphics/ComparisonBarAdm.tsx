@@ -11,17 +11,17 @@ import {
 } from "recharts";
 
 interface ComparisonBarUserProps {
-  value: any[];
+  value: any[]; // results
 }
 
 const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
-  const comparisonData = value?.map((item) => {
-    const lastResult = item.results[item.results.length - 1];
+  const comparisonData = value?.map((dataChart) => {
+    const lastResult = dataChart.results[dataChart.results.length - 1];
     const nameSplit =
-      item.name.split(" ")[0] +
+      dataChart.name.split(" ")[0] +
       " " +
-      (item.name?.split(" ")[1]?.at(0)
-        ? item.name?.split(" ")[1]?.at(0) + "."
+      (dataChart.name?.split(" ")[1]?.at(0)
+        ? dataChart.name?.split(" ")[1]?.at(0) + "."
         : "");
 
     const data = {
@@ -46,8 +46,8 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     return b?.total - a?.total;
   });
 
-  const removedNull = sortedData?.filter((item) => {
-    return item?.total !== null && item?.total !== undefined;
+  const removedNull = sortedData?.filter((dataChart) => {
+    return dataChart?.total !== null && dataChart?.total !== undefined;
   });
 
   return (

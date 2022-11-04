@@ -9,10 +9,10 @@ interface PieAdmProps {
 const PieAdm = ({ quantity, names }: PieAdmProps) => {
   // montar grafico de pizza separando por cargo e quantidade
 
-  const dataToChart = quantity?.map((item, index) => {
+  const dataToChart = quantity?.map((dataChart, indexChart) => {
     return {
-      name: names[index] ? names[index] : "Sem equipe",
-      value: item.length,
+      name: names[indexChart] ? names[indexChart] : "Sem equipe",
+      value: dataChart.length,
     };
   });
 
