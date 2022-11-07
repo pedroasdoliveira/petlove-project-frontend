@@ -48,7 +48,7 @@ const DrawerMenu = ({ path }: SettingsMenuProps) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      users?.map((user: any): void => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }
@@ -97,7 +97,7 @@ const DrawerMenu = ({ path }: SettingsMenuProps) => {
               >
                 <SettingsIcon w={"15"} pr={"3"} />
                 <Flex mr={"4"} ml={"2"}>
-                  Profile
+                  Perfil
                 </Flex>
               </Flex>
             </Link>

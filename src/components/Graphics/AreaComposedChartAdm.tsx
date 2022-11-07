@@ -13,23 +13,22 @@ const AreaComposedChartAdm = ({ user }: any) => {
   const { specialtyss } = useSpecialtyss();
 
   const mountUserData = () => {
-    const data = user.results.sort((a: any, b: any) => {
+    const data = user.results.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((item: any) => {
+    const dataToChart = data.map((dataChart: any): any => {
       return {
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
-        nextRole: item.nextRole,
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
+        nextRole: dataChart.nextRole,
         allSpecialities: [...speciality!],
       };
     });
-
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((item: any) => {
-    return item.performance;
+  const speciality = specialtyss?.map((speciality: any): any => {
+    return speciality.performance;
   });
 
   const data = mountUserData();

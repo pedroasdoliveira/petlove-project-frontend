@@ -32,7 +32,7 @@ const UserList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {users?.map((user) => {
+          {users?.map((user: any) => {
             const lastResult = user.results.at(-1);
 
             const roleAtual = user.role;

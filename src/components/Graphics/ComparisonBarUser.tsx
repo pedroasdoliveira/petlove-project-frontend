@@ -19,7 +19,7 @@ interface ComparisonBarUserProps {
 const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -33,12 +33,14 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
   const lastData = user.results?.[user.results?.length - 1];
 
-  const mountComparisonData = (subName: string) => {
+  const mountComparisonData = (subName: string): any => {
     const dataToChart = [
       {
         createdAt: `${new Date(value.createdAt).toLocaleDateString()}`,

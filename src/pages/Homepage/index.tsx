@@ -7,7 +7,6 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
-  Badge,
   Flex,
   Grid,
   GridItem,
@@ -22,11 +21,11 @@ import { useAuth } from "../../contexts/Auth";
 import { useUsers } from "../../contexts/Users";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { user, users } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -35,14 +34,17 @@ const Homepage: NextPage = () => {
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
@@ -125,7 +127,7 @@ const Homepage: NextPage = () => {
         justifyContent={"center"}
         alignItems={"center"}
         marginTop={"8rem"}
-        marginBottom={"5rem"}
+        marginBottom={"3rem"}
       >
         <Heading as="h1" fontSize={"4xl"} fontWeight="bold" textAlign="center">
           Avalie suas capacidades!
@@ -144,7 +146,7 @@ const Homepage: NextPage = () => {
       <Grid
         templateColumns={{ lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)" }}
         gap={8}
-        my={12}
+        mb={12}
       >
         <GridItem
           bg={bgCardColor}

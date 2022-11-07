@@ -41,7 +41,7 @@ const loginSchema = yup.object().shape({
     .required("Senha é obrigatória"),
 });
 
-const LoginComponent: NextPage = () => {
+const LoginComponent = () => {
   const buttonBackground = useColorModeValue("#5030dd", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");
@@ -77,7 +77,7 @@ const LoginComponent: NextPage = () => {
         });
       })
       .catch((error) => {
-        if (error.response.data.message === "User not verified") {
+        if (error.response?.data.message === "User not verified") {
           toast.error("Usuário não verificado");
         } else {
           toast.error("Email ou senha incorretos");

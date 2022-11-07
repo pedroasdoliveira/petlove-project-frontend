@@ -10,11 +10,11 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const Specialty: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { handleGetTest } = useTest();
   const { users, user } = useUsers();
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -23,14 +23,17 @@ const Specialty: NextPage = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   return (
     <Flex

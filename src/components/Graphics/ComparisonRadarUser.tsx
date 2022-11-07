@@ -17,7 +17,7 @@ interface ComparisonRadarUserProps {
 const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -31,12 +31,14 @@ const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
   const lastData = user.results?.[user.results?.length - 1];
 
-  const mountComparisonData = () => {
+  const mountComparisonData = (): any => {
     const data = [
       {
         subject: "Influence",

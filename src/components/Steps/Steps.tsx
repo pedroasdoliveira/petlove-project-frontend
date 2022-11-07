@@ -78,7 +78,7 @@ const StepsForm = () => {
   const [questionaryVerify, setQuestionaryVerify] = useState("false");
   const [quantity, setQuantity] = useState(0);
 
-  const changeValueRadio = (value: string) => {
+  const changeValueRadio = (value: string): void => {
     setValueButton(true);
 
     if (value === "Sim") {
@@ -136,7 +136,7 @@ const StepsForm = () => {
           fontSize: "1.2rem",
         }}
       >
-        {steps.map(({ label, Content }) => (
+        {steps.map(({ label, Content }: any) => (
           <Step label={label} key={label} height={"1%"}>
             <Flex
               display={"flex"}
@@ -217,7 +217,7 @@ const StepsForm = () => {
                   setQuestionaryVerify("false");
                 }}
               >
-                Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+                {questionaryVerify === "question" ? "Próxima questão" : "Próximo passo"} <ArrowForwardIcon w={8} h={5} />
               </Button>
             </Flex>
           </Step>

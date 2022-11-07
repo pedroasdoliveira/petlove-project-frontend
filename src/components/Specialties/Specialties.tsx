@@ -19,7 +19,7 @@ const Specialties = () => {
 
   return (
     <>
-      {specialtyss?.map((specialty) => (
+      {specialtyss?.map((specialty: any) => (
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}

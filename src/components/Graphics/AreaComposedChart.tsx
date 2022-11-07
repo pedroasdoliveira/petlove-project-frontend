@@ -20,15 +20,15 @@ const AreaComposedChart = () => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
-  const mountUserData = () => {
-    const data = user?.results?.sort((a: any, b: any) => {
+  const mountUserData = (): any => {
+    const data = user.results?.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data?.map((item: any) => {
+    const dataToChart = data?.map((dataChart: any): any => {
       return {
-        nextRole: item.nextRole,
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
+        nextRole: dataChart.nextRole,
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         allSpecialities: [...speciality!],
       };
     });
@@ -36,8 +36,8 @@ const AreaComposedChart = () => {
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((item: any) => {
-    return item.performance;
+  const speciality = specialtyss?.map((specialityData: any): string[] => {
+    return specialityData.performance;
   });
 
   const data = mountUserData();

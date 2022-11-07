@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 const AllRadarUserAdm = ({ user }: any) => {
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -24,10 +24,12 @@ const AllRadarUserAdm = ({ user }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): any => {
     const data = [
       {
         subject: "Influence",
@@ -46,20 +48,20 @@ const AllRadarUserAdm = ({ user }: any) => {
       },
     ];
 
-    user.results.forEach((item: any, index: number) => {
-      data.forEach((item2: any) => {
-        item2[index] = item[item2.subject.toLowerCase()];
+    user.results.forEach((result: any, index: number): any => {
+      data.forEach((dataChart: any): any => {
+        dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });
 
     return data;
   };
 
-  const data1 = mountLastData();
+  const data = mountLastData();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
+      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"

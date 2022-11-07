@@ -29,7 +29,7 @@ interface Prop {
 }
 
 const AsideMenu = ({ path, direction, currentPage }: Prop) => {
-  const { logout } = useAuth();
+  const { logout, logged } = useAuth();
   const { user, users } = useUsers();
 
   const { toggleColorMode } = useColorMode();
@@ -37,18 +37,21 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = useColorModeValue("#000000", "#ffffff");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   return (
     <>
@@ -117,7 +120,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                         alignItems: "center",
                       }}
                     >
-                      {contTest > 9 ? "9+" : contTest}
+                      {contTest && (contTest > 9 ? "9+" : contTest)}
                     </Badge>
                   )}
                 </Button>

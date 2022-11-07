@@ -14,7 +14,7 @@ import { useColorModeValue } from "@chakra-ui/react";
 const AllRadarUser = () => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -28,10 +28,12 @@ const AllRadarUser = () => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): any => {
     const data = [
       {
         subject: "Influence",
@@ -50,16 +52,16 @@ const AllRadarUser = () => {
       },
     ];
 
-    user?.results?.forEach((item: any, index: number) => {
-      data.forEach((item2: any) => {
-        item2[index] = item[item2.subject.toLowerCase()];
+    user.results?.forEach((result: any, index: number): any => {
+      data.forEach((dataChart: any): any => {
+        dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });
 
     return data;
   };
 
-  const data1 = mountLastData();
+  const data = mountLastData();
 
   return (
     <ResponsiveContainer width="99%" height="85%">
@@ -67,11 +69,11 @@ const AllRadarUser = () => {
         cx="50%"
         cy="50%"
         outerRadius="80%"
-        data={data1}
+        data={data}
         style={{
           background: useColorModeValue(
             "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
-            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)"
           ),
           borderRadius: "50px",
         }}
@@ -94,11 +96,11 @@ const AllRadarUser = () => {
               key={index}
               name={
                 index === user.results.length - 1
-                  ? `Último teste - ${item.nextRole}`
-                  : item.nextRole
+                  ? `Último teste - ${result.nextRole}`
+                  : result.nextRole
               }
               dataKey={index}
-              stroke={handleColor(item.nextRole)}
+              stroke={handleColor(result.nextRole)}
               strokeWidth={3}
               fill="none"
               fillOpacity={0.6}

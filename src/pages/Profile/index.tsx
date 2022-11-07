@@ -15,11 +15,11 @@ interface ProfileProps {
 }
 
 const Profile: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { user, users } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -28,14 +28,17 @@ const Profile: NextPage<ProfileProps> = () => {
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
@@ -173,6 +176,8 @@ const Profile: NextPage<ProfileProps> = () => {
                 alignItems={"center"}
                 w="100%"
                 justify={{ sm: "space-between", md: "center" }}
+                direction={{ sm: "column", md: "row" }}
+
               >
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Nome completo:
@@ -184,6 +189,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 alignItems={"center"}
                 w="100%"
                 justify={{ sm: "space-between", md: "center" }}
+                direction={{ sm: "column", md: "row" }}
               >
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Email:

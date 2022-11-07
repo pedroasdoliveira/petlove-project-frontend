@@ -13,10 +13,10 @@ interface ProfileProps {
 }
 
 const Edit: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { users, user } = useUsers();
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -24,14 +24,17 @@ const Edit: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
