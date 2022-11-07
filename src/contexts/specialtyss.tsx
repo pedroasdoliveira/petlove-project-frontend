@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import { SpecialtiesType } from "types/interfaces";
 import { api } from "../services";
 import { useAuth } from "./Auth";
 import { useUsers } from "./Users";
@@ -14,39 +15,37 @@ interface SpecialtyssContextProps {
 }
 
 interface SpecialtyssProviderData {
-  specialtyss?: any[];
+  specialtyss?: SpecialtiesType[];
   handleGetSpecialtyss: () => void;
 }
 
 const SpecialtyssContext = createContext<SpecialtyssProviderData>(
-  {} as SpecialtyssProviderData,
+  {} as SpecialtyssProviderData
 );
 
 export const SpecialtyssContextProvider = ({
   children,
 }: SpecialtyssContextProps) => {
-  const [specialtyss, setSpecialtyss] = useState<any[]>([]);
+  const [specialtyss, setSpecialtyss] = useState<SpecialtiesType[]>([]);
 
   const { logged } = useAuth();
   const { user } = useUsers();
 
   const handleGetSpecialtyss = () => {
-    let token: any;
-
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || "";
+      const token = localStorage.getItem("token") || "";
+
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      api
+        .get(`/Specialty`, headers)
+        .then((res) => setSpecialtyss(res.data))
+        .catch((err) => console.log(err));
     }
-
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    api
-      .get(`/Specialty`, headers)
-      .then((res) => setSpecialtyss(res.data))
-      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

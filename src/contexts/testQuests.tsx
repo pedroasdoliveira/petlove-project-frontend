@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import { TestTypes } from "types/interfaces";
 import { api } from "../services";
 import { useAuth } from "./Auth";
 
@@ -13,36 +14,33 @@ interface TestContextProps {
 }
 
 interface TestProviderData {
-  test?: any[];
+  test?: TestTypes[];
   handleGetTest: () => void;
 }
 
 const TestContext = createContext<TestProviderData>({} as TestProviderData);
 
 export const TestContextProvider = ({ children }: TestContextProps) => {
-  const [test, setTest] = useState<any>({} as any);
+  const [test, setTest] = useState<TestTypes[]>({} as TestTypes[]);
 
   const { logged } = useAuth();
 
   const handleGetTest = () => {
-    let token: any;
-
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || "";
+      const token = localStorage.getItem("token") || "";
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      api
+        .get(`/Test/allTests`, headers)
+        .then((res) => {
+          setTest(res.data[0]);
+        })
+        .catch((err) => console.log(err));
     }
-
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    api
-      .get(`/Test/allTests`, headers)
-      .then((res) => {
-        setTest(res.data[0]);
-      })
-      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

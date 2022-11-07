@@ -9,6 +9,7 @@ import { api } from "../services";
 import toast from "react-hot-toast";
 
 import Router from "next/router";
+import { UserStorageType } from "types/interfaces";
 
 interface Props {
   children: ReactNode;
@@ -25,7 +26,7 @@ interface AuthData {
 
 interface LoginParams {
   token: string;
-  user: any;
+  user: UserStorageType;
 }
 
 export const AuthContext = createContext<AuthData>({} as AuthData);
@@ -42,16 +43,16 @@ export const AuthContextProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    let token: any;
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || false;
+      const token = localStorage.getItem("token") || false;
+
+      if (token) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+      setLogged(false);
+      Router.push("/");
     }
-    if (token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-    }
-    setLogged(false);
-    Router.push("/");
   };
 
   const checkTokenExpiration = async () => {
