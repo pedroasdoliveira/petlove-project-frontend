@@ -21,11 +21,11 @@ import { useAuth } from "../../contexts/Auth";
 import { useUsers } from "../../contexts/Users";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { user, users } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -34,14 +34,17 @@ const Homepage: NextPage = () => {
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user: any) => {
+      const a = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
-          setContTest(contTest + 1);
+          return acc + 1;
         }
-      });
+        return acc;
+      }, 0 as number);
+
+      setContTest(a);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";

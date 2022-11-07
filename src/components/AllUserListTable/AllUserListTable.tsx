@@ -30,9 +30,9 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
 
   const color = useColorModeValue("whiteAlpha", "facebook");
 
-  const filteredData = users?.filter((user: any) => {
+  const filteredData = users?.filter((user: any): any => {
     const speciality = specialtyss?.map(
-      (speciality: any) => speciality.performance
+      (speciality: any): string[] => speciality.performance
     );
 
     if (filter === "all") {

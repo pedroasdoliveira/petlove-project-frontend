@@ -41,7 +41,7 @@ const OneLineUser = ({ subject }: OneLineUserProps) => {
   const data1 = mountLastData(subject);
 
   return (
-    <Flex width="100%" height="95%" alignItems={"end"}>
+    <Flex width="100%" height={{md: "90%", sm: "93%"}} alignItems={"end"}>
       <ResponsiveContainer width="90%" height="90%">
         <LineChart width={500} height={300} data={data1}>
           <CartesianGrid strokeDasharray="3 3" stroke="white" />

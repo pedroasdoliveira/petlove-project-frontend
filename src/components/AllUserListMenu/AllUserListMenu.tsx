@@ -11,6 +11,7 @@ import {
   MenuList,
   MenuOptionGroup,
 } from "@chakra-ui/react";
+import { ReactElement } from "react";
 
 interface Props {
   specialtyss: any;
@@ -122,17 +123,19 @@ const AllUserListMenu = ({
             <Text m={"0.5rem"} fontWeight="500">
               Função:
             </Text>
-            {specialtyss?.map((item: any) => (
-              <MenuItemOption
-                value={item.performance}
-                key={item.id}
-                _focus={{
-                  background: "gray.600",
-                }}
-              >
-                {item.performance}
-              </MenuItemOption>
-            ))}
+            {specialtyss?.map(
+              (item: any): ReactElement<any, any> => (
+                <MenuItemOption
+                  value={item.performance}
+                  key={item.id}
+                  _focus={{
+                    background: "gray.600",
+                  }}
+                >
+                  {item.performance}
+                </MenuItemOption>
+              )
+            )}
           </MenuOptionGroup>
         </MenuList>
       </Menu>

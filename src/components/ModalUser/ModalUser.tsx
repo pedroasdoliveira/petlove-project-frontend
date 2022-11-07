@@ -28,18 +28,22 @@ const ModalUser = ({ value }: any) => {
 
   const buttonColor = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgb(59, 72, 218) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgb(10, 14, 35) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgb(10, 14, 35) 100%)"
   );
 
   const colorModal = useColorModeValue("whiteAlpha", "yellow");
 
   return (
     <>
-      <Button width={"50%"} onClick={onOpen} background={buttonColor}>
+      <Button
+        width={{ sm: "100%", md: "45%" }}
+        onClick={onOpen}
+        background={buttonColor}
+      >
         Detalhes
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
