@@ -15,7 +15,7 @@ interface ComparisonBarUserProps {
 }
 
 const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
-  const comparisonData = value?.map((dataChart) => {
+  const comparisonData = value?.map((dataChart: any) => {
     const lastResult = dataChart.results[dataChart.results.length - 1];
     const nameSplit =
       dataChart.name.split(" ")[0] +
@@ -46,7 +46,7 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     return b?.total - a?.total;
   });
 
-  const removedNull = sortedData?.filter((dataChart) => {
+  const removedNull = sortedData?.filter((dataChart: any) => {
     return dataChart?.total !== null && dataChart?.total !== undefined;
   });
 

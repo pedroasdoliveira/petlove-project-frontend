@@ -24,14 +24,13 @@ const UserComparisonsRankingTeam = ({
   teamMapFiltered,
   users,
 }: Props) => {
-
   // ranking por team da maior media para a menor
-  const teamOrdered = teamMapFilteredReturnTeam?.map((item: any) => {
+  const teamOrdered = teamMapFilteredReturnTeam?.map((userFiltered: any) => {
     let teamLength = 0;
 
     //fazer a media de cada team
-    const plus = item?.reduce((acc: number, item2: any) => {
-      const lastResult = item2.results[item2.results.length - 1];
+    const plus = userFiltered?.reduce((acc: number, user: any) => {
+      const lastResult = user.results[user.results.length - 1];
 
       if (lastResult !== null && lastResult !== undefined) {
         const plus =
@@ -50,21 +49,23 @@ const UserComparisonsRankingTeam = ({
 
     const media = plus / (teamLength === 0 ? 1 : teamLength);
 
-    return { media: media, team: item?.[0].team };
+    return { media: media, team: userFiltered?.[0].team };
   });
 
   // ordenar por media
-  const teamOrderedFiltered = teamOrdered?.sort((item: any, item2: any) => {
-    return item2.media - item.media;
+  const teamOrderedFiltered = teamOrdered?.sort((a: any, b: any) => {
+    return b.media - a.media;
   });
 
-  const teamOrderedFilteredMedia = teamOrderedFiltered?.map((item: any) => {
-    const teamFiltered = users?.filter((item2: any) => {
-      return item2.team === item.team;
-    });
+  const teamOrderedFilteredMedia = teamOrderedFiltered?.map(
+    (userFiltered: any) => {
+      const teamFiltered = users?.filter((user: any) => {
+        return user.team === userFiltered.team;
+      });
 
-    return teamFiltered;
-  });
+      return teamFiltered;
+    }
+  );
 
   return (
     <TableContainer marginTop={6}>
@@ -132,7 +133,7 @@ const UserComparisonsRankingTeam = ({
                 if (role === "Especialista") {
                   acc.Especialista += 1;
                 } else if (role === "Tech-lead") {
-                  acc['Tech-Lead'] += 1;
+                  acc["Tech-Lead"] += 1;
                 } else if (role === "Senior") {
                   acc.Senior += 1;
                 } else if (role === "Pleno") {
@@ -149,7 +150,7 @@ const UserComparisonsRankingTeam = ({
               },
               {
                 Especialista: 0,
-                ['Tech-Lead']: 0,
+                ["Tech-Lead"]: 0,
                 Senior: 0,
                 Pleno: 0,
                 Junior: 0,
@@ -160,11 +161,13 @@ const UserComparisonsRankingTeam = ({
 
             const specialityArray = Object.entries(speciality);
 
-            const specialityFiltered = specialityArray.filter((item) => {
+            const specialityFiltered = specialityArray.filter((speciality: any) => {
               return (
-                item[1] ===
+                speciality[1] ===
                 Math.max(
-                  ...(specialityArray.map((item) => item[1]) as unknown as any)
+                  ...(specialityArray.map(
+                    (speciality: any) => speciality[1]
+                  ) as unknown as any)
                 )
               );
             });
@@ -190,9 +193,7 @@ const UserComparisonsRankingTeam = ({
                     label={`Função com mais devs na equipe, ou seja, devs na função majoritária`}
                     hasArrow
                   >
-                    {`${
-                      specialityFiltered[0][0]
-                    }`}
+                    {`${specialityFiltered[0][0]}`}
                   </Tooltip>
 
                   <Tooltip

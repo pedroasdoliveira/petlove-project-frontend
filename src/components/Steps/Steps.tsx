@@ -135,7 +135,7 @@ const StepsForm = () => {
           fontSize: "1.2rem",
         }}
       >
-        {steps.map(({ label, Content }) => (
+        {steps.map(({ label, Content }: any) => (
           <Step label={label} key={label} height={"1%"}>
             <Flex
               display={"flex"}

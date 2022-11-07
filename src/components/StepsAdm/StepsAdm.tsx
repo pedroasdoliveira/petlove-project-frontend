@@ -131,7 +131,7 @@ const StepsAdmForm = ({
             fontSize: "1.2rem",
           }}
         >
-          {steps.map(({ label, Content }) => (
+          {steps.map(({ label, Content }: any) => (
             <Step label={label} key={label} height={"1%"}>
               <Flex
                 flexDir={"column"}
@@ -302,7 +302,7 @@ const StepsAdmForm = ({
           </Button>
           <Flex gap={"1rem"}>
             <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
-              {specialtyss?.map((speciality) => (
+              {specialtyss?.map((speciality: any) => (
                 <option
                   key={speciality.id}
                   selected={

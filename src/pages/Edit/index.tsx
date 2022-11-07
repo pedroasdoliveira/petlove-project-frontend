@@ -24,7 +24,7 @@ const Edit: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      users?.map((user: any) => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           setContTest(contTest + 1);

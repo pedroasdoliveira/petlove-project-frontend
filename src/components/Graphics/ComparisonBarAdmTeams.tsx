@@ -15,7 +15,7 @@ interface ComparisonBarUserProps {
 }
 
 const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
-  const comparisonData = teamMapFiltered?.map((dataChart) => {
+  const comparisonData = teamMapFiltered?.map((dataChart: any) => {
     let teamLength = 0;
     //fazer a media de cada team
     const plus = dataChart?.reduce((acc: number, user: any) => {

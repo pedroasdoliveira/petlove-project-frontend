@@ -25,45 +25,42 @@ interface Props {
   search: string;
 }
 
-const AllUserListTable = ({
-  order,
-  specialtyss,
-  filter,
-  search,
-}: Props) => {
+const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
   const { users } = useUsers();
 
   const color = useColorModeValue("whiteAlpha", "facebook");
 
-  const filteredData = users?.filter((item) => {
-    const speciality = specialtyss?.map((item: any) => item.performance);
+  const filteredData = users?.filter((user: any) => {
+    const speciality = specialtyss?.map(
+      (speciality: any) => speciality.performance
+    );
 
     if (filter === "all") {
       return (
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.email.toLowerCase().includes(search.toLowerCase()) ||
-        item.role?.toLowerCase().includes(search.toLowerCase()) ||
-        item.chapter?.toLowerCase().includes(search.toLowerCase()) ||
-        item.team?.toLowerCase().includes(search.toLowerCase())
+        user.name.toLowerCase().includes(search.toLowerCase()) ||
+        user.email.toLowerCase().includes(search.toLowerCase()) ||
+        user.role?.toLowerCase().includes(search.toLowerCase()) ||
+        user.chapter?.toLowerCase().includes(search.toLowerCase()) ||
+        user.team?.toLowerCase().includes(search.toLowerCase())
       );
     }
 
     if (filter === "new") {
       return (
-        (item.role === null || item.chapter === null || item.team === null) &&
-        (item.name?.toLowerCase().includes(search.toLowerCase()) ||
-          item.email?.toLowerCase().includes(search.toLowerCase()))
+        (user.role === null || user.chapter === null || user.team === null) &&
+        (user.name?.toLowerCase().includes(search.toLowerCase()) ||
+          user.email?.toLowerCase().includes(search.toLowerCase()))
       );
     }
 
-    if (filter === speciality?.find((item: any) => item === filter)) {
+    if (filter === speciality?.find((speciality: any) => speciality === filter)) {
       return (
-        item.role?.includes(filter) &&
-        (item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.email.toLowerCase().includes(search.toLowerCase()) ||
-          item.role?.toLowerCase().includes(search.toLowerCase()) ||
-          item.chapter?.toLowerCase().includes(search.toLowerCase()) ||
-          item.team?.toLowerCase().includes(search.toLowerCase()))
+        user.role?.includes(filter) &&
+        (user.name.toLowerCase().includes(search.toLowerCase()) ||
+          user.email.toLowerCase().includes(search.toLowerCase()) ||
+          user.role?.toLowerCase().includes(search.toLowerCase()) ||
+          user.chapter?.toLowerCase().includes(search.toLowerCase()) ||
+          user.team?.toLowerCase().includes(search.toLowerCase()))
       );
     }
   });
@@ -92,7 +89,7 @@ const AllUserListTable = ({
           </Tr>
         </Thead>
         <Tbody>
-          {filterOrder?.map((user) => {
+          {filterOrder?.map((user: any) => {
             const lastResult = user.results[user.results.length - 1];
 
             const roleAtual = user.role;

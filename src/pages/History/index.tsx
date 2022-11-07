@@ -47,7 +47,7 @@ const History: NextPage = () => {
 
   const handleContTest = () => {
     setContTest(0);
-    users?.map((user) => {
+    users?.map((user: any) => {
       if (user?.results?.at(-1)?.isValided === null) {
         setNewTest(true);
         setContTest(contTest + 1);
