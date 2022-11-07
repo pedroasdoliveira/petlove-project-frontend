@@ -13,7 +13,6 @@ interface ResultType {
   technology?: number;
   influence?: number;
   isValided?: string;
-  createdAt: string;
 }
 export interface UserStorageType {
   id: string;
@@ -51,4 +50,24 @@ export interface TestTypes {
   test: string[];
   design: string[];
   toolshop: string[];
+}
+
+export interface TestContextTypes {
+  test?: TestTypes[];
+  handleGetTest: () => void;
+}
+
+export interface UserTypes {
+  profilePicture: string;
+  results: ResultType[];
+  id?: string;
+  name: string;
+  email: string;
+  password?: string;
+  team?: string;
+  chapter?: string;
+  role?: string;
+  isAdmin?: boolean;
+  isVerified?: boolean;
+  emailNotification?: "none" | "team" | "all";
 }

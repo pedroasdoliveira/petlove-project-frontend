@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import { UserTypes } from "types/interfaces";
 import { api } from "../services";
 import { useAuth } from "./Auth";
 
@@ -13,42 +14,40 @@ interface UsersContextProps {
 }
 
 interface UsersProviderData {
-  users?: any[];
-  user?: any;
+  users?: UserTypes[];
+  user?: UserTypes;
   handleGetUsers: () => void;
 }
 
-const UsersContext = createContext<UsersProviderData>({} as UsersProviderData);
+const UsersContext = createContext({} as UsersProviderData);
 
 export const UsersContextProvider = ({ children }: UsersContextProps) => {
-  const [users, setUsers] = useState<any[]>([]);
-  const [user, setUser] = useState<any>({} as any);
+  const [users, setUsers] = useState<UserTypes[]>([]);
+  const [user, setUser] = useState<UserTypes>({} as UserTypes);
 
   const { logged } = useAuth();
 
   const handleGetUsers = () => {
-    let token: any;
-    let userLocal: any;
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || "";
-      userLocal = JSON.parse(localStorage.getItem("user") || "");
-    }
+      const token = localStorage.getItem("token") || "";
+      const userLocal = JSON.parse(localStorage.getItem("user") || "");
 
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-    if (userLocal.isAdmin) {
-      api.get("/User", headers).then((res) => setUsers(res.data));
-      api
-        .get(`/User/${userLocal.email}`, headers)
-        .then((res) => setUser(res.data));
-    } else {
-      api
-        .get(`/User/${userLocal.email}`, headers)
-        .then((res) => setUser(res.data));
+      if (userLocal.isAdmin) {
+        api.get("/User", headers).then((res) => setUsers(res.data));
+        api
+          .get(`/User/${userLocal.email}`, headers)
+          .then((res) => setUser(res.data));
+      } else {
+        api
+          .get(`/User/${userLocal.email}`, headers)
+          .then((res) => setUser(res.data));
+      }
     }
   };
 

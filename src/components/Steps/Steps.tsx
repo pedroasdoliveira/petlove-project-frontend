@@ -22,6 +22,7 @@ import toast from "react-hot-toast";
 import { useTest } from "../../contexts/testQuests";
 import { useUsers } from "../../contexts/Users";
 import { useAuth } from "../../contexts/Auth";
+import { TestContextTypes } from "types/interfaces";
 
 const respostas = {
   Sistemas: 0,

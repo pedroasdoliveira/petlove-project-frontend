@@ -112,7 +112,7 @@ const EditForm = () => {
     };
 
     api
-      .patch(`/User/${user.email}`, dataToSend, headers)
+      .patch(`/User/${user?.email}`, dataToSend, headers)
       .then(() => {
         toast.success("Dados alterados com sucesso!");
         handleGetUsers();

@@ -21,7 +21,7 @@ interface TestProviderData {
 const TestContext = createContext<TestProviderData>({} as TestProviderData);
 
 export const TestContextProvider = ({ children }: TestContextProps) => {
-  const [test, setTest] = useState<any>({} as any);
+  const [test, setTest] = useState<TestTypes[]>({} as TestTypes[]);
 
   const { logged } = useAuth();
 

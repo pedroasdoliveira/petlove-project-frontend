@@ -50,7 +50,7 @@ const AllRadarUser = () => {
       },
     ];
 
-    user.results?.forEach((item: any, index: number) => {
+    user?.results?.forEach((item: any, index: number) => {
       data.forEach((item2: any) => {
         item2[index] = item[item2.subject.toLowerCase()];
       });
@@ -88,7 +88,7 @@ const AllRadarUser = () => {
           angle={60}
           stroke="white"
         />
-        {user.results?.map((item: any, index: number) => {
+        {user?.results?.map((item: any, index: number) => {
           return (
             <Radar
               key={index}
