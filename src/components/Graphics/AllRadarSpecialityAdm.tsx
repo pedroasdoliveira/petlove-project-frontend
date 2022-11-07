@@ -13,7 +13,7 @@ import {
 const AllRadarSpecialityAdm = ({ user }: any) => {
   const { specialtyss } = useSpecialtyss();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -27,11 +27,13 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
   const lastResult = user.results[user.results.length - 1] || {};
-  const mountSpecialityData = () => {
+  const mountSpecialityData = (): any => {
     let data: any = [
       {
         subject: "Influence",
@@ -50,13 +52,13 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
       },
     ];
 
-    specialtyss?.forEach((speciality: any, index: number) => {
-      data.forEach((dataChart: any) => {
+    specialtyss?.forEach((speciality: any, index: number): any => {
+      data.forEach((dataChart: any): any => {
         dataChart[index] = speciality[dataChart.subject.toLowerCase()];
       });
     });
 
-    data = data.map((dataChart: any) => {
+    data = data.map((dataChart: any): any => {
       dataChart["A"] = lastResult?.[dataChart.subject.toLowerCase()];
       return dataChart;
     });

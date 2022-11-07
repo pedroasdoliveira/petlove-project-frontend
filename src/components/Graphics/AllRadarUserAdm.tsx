@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 const AllRadarUserAdm = ({ user }: any) => {
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -24,10 +24,12 @@ const AllRadarUserAdm = ({ user }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): any => {
     const data = [
       {
         subject: "Influence",
@@ -46,8 +48,8 @@ const AllRadarUserAdm = ({ user }: any) => {
       },
     ];
 
-    user.results.forEach((result: any, index: number) => {
-      data.forEach((dataChart: any) => {
+    user.results.forEach((result: any, index: number): any => {
+      data.forEach((dataChart: any): any => {
         dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });

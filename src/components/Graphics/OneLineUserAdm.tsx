@@ -16,12 +16,12 @@ interface OneLineUserProps {
 }
 
 const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
-  const mountLastData = (subName: string) => {
-    const data = user.results.sort((a: any, b: any) => {
+  const mountLastData = (subName: string): any => {
+    const data = user.results.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((dataChart: any) => {
+    const dataToChart = data.map((dataChart: any): any => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         A: dataChart[subName.toLowerCase()],
@@ -31,12 +31,12 @@ const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
     return dataToChart;
   };
 
-  const data1 = mountLastData(subject);
+  const dataChart = mountLastData(subject);
 
   return (
     <Flex width="93%" height="80%">
       <ResponsiveContainer width="90%" height="90%">
-        <LineChart width={500} height={300} data={data1}>
+        <LineChart width={500} height={300} data={dataChart}>
           <CartesianGrid strokeDasharray="3 3" stroke="white" />
           <XAxis dataKey="createdAt" stroke={"white"} />
           <YAxis domain={[0, 5]} tickCount={6} stroke={"white"} />

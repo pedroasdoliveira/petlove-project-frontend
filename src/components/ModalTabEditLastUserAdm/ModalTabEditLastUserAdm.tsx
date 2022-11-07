@@ -40,7 +40,7 @@ const ModalTabEditLastUserAdm = ({
 }: Props) => {
   const [userTest, setUserTest] = useState({} as any);
 
-  const handleUserTest = (event: any) => {
+  const handleUserTest = (event: any): void => {
     if (isNaN(event.target.value)) {
       toast.error("Digite um número");
       return;

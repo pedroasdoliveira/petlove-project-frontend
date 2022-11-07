@@ -18,7 +18,7 @@ const HistoryList = () => {
 
   const color = useColorModeValue("whiteAlpha", "facebook");
 
-  const isValideColor = (value: string) => {
+  const isValideColor = (value: string): string => {
     if (value === "Sim") {
       return "#00FF00";
     } else if (value === "Não") {
@@ -28,7 +28,7 @@ const HistoryList = () => {
     }
   };
 
-  const isValideIcon = (value: string) => {
+  const isValideIcon = (value: string): JSX.Element => {
     if (value === "Sim") {
       return <CheckIcon />;
     } else if (value === "Não") {

@@ -53,7 +53,10 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
       );
     }
 
-    if (filter === speciality?.find((speciality: any) => speciality === filter)) {
+    if (
+      filter ===
+      speciality?.find((speciality: any): any => speciality === filter)
+    ) {
       return (
         user.role?.includes(filter) &&
         (user.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -64,7 +67,7 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
       );
     }
   });
-  const filterOrder = filteredData?.sort((a, b) => {
+  const filterOrder = filteredData?.sort((a: any, b: any): any => {
     if (order === "asc") {
       return a.name.localeCompare(b.name);
     } else {

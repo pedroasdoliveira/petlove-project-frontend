@@ -75,15 +75,15 @@ const StepsAdmForm = ({
   const [userEspeciality, setUserEspeciality] = useState(lastTest.nextRole);
   const [userValidate, setUserValidate] = useState("");
 
-  const handleUserEspeciality = (event: any) => {
+  const handleUserEspeciality = (event: any): void => {
     setUserEspeciality(event.target.value);
   };
 
-  const handleUserValidate = (event: any) => {
+  const handleUserValidate = (event: any): void => {
     setUserValidate(event.target.value);
   };
 
-  const changeValueRadio = (value: string) => {
+  const changeValueRadio = (value: string): void => {
     setValueButton(true);
 
     if (value === "Sim") {
@@ -93,7 +93,7 @@ const StepsAdmForm = ({
     }
   };
 
-  const handleHidden = () => {
+  const handleHidden = (): void => {
     setHidden(!hidden);
   };
 

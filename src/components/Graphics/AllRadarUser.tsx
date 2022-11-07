@@ -14,7 +14,7 @@ import { useColorModeValue } from "@chakra-ui/react";
 const AllRadarUser = () => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -28,10 +28,12 @@ const AllRadarUser = () => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): any => {
     const data = [
       {
         subject: "Influence",
@@ -50,8 +52,8 @@ const AllRadarUser = () => {
       },
     ];
 
-    user.results?.forEach((result: any, index: number) => {
-      data.forEach((dataChart: any) => {
+    user.results?.forEach((result: any, index: number): any => {
+      data.forEach((dataChart: any): any => {
         dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });
@@ -71,7 +73,7 @@ const AllRadarUser = () => {
         style={{
           background: useColorModeValue(
             "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
-            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)",
+            "linear-gradient(126.97deg, rgba(6, 12, 41, .3) 28.26%, rgba(4, 12, 48, 0.3) 91.2%)"
           ),
           borderRadius: "50px",
         }}

@@ -18,7 +18,7 @@ interface Props {
 }
 
 const UserComparisonsRanking = ({ color, removedNull }: Props) => {
-  const dataAdmFiltered = removedNull?.sort((item: any, item2: any) => {
+  const dataAdmFiltered = removedNull?.sort((item: any, item2: any): any => {
     const lastResult = item.results[item.results.length - 1];
     const lastResult2: any = item2.results[item2.results.length - 1];
     const plus =

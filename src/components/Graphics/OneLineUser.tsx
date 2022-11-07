@@ -23,12 +23,12 @@ const OneLineUser = ({ subject }: OneLineUserProps) => {
   );
   const colorChart = useColorModeValue("rgb(8, 16, 59)", "#FF0000");
 
-  const mountLastData = (subName: string) => {
-    const data = user.results?.sort((a: any, b: any) => {
+  const mountLastData = (subName: string): any => {
+    const data = user.results?.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data?.map((dataChart: any) => {
+    const dataToChart = data?.map((dataChart: any): any => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         A: dataChart[subName.toLowerCase()],
@@ -38,12 +38,12 @@ const OneLineUser = ({ subject }: OneLineUserProps) => {
     return dataToChart;
   };
 
-  const data1 = mountLastData(subject);
+  const dataChart = mountLastData(subject);
 
   return (
     <Flex width="100%" height={{md: "90%", sm: "93%"}} alignItems={"end"}>
       <ResponsiveContainer width="90%" height="90%">
-        <LineChart width={500} height={300} data={data1}>
+        <LineChart width={500} height={300} data={dataChart}>
           <CartesianGrid strokeDasharray="3 3" stroke="white" />
           <XAxis dataKey="createdAt" stroke={"white"} />
           <YAxis domain={[0, 5]} tickCount={6} stroke={"white"} />

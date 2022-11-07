@@ -77,7 +77,7 @@ const StepsForm = () => {
   const [questionaryVerify, setQuestionaryVerify] = useState("false");
   const [quantity, setQuantity] = useState(0);
 
-  const changeValueRadio = (value: string) => {
+  const changeValueRadio = (value: string): void => {
     setValueButton(true);
 
     if (value === "Sim") {

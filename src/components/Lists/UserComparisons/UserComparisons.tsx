@@ -10,28 +10,28 @@ const UserComparisons = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
   const { users } = useUsers();
 
-  const removedNull = users?.filter((item: any) => {
+  const removedNull = users?.filter((item: any): any => {
     const lastResult = item.results[item.results.length - 1];
     return lastResult !== null && lastResult !== undefined;
   });
 
   //separar cada usuario por team
 
-  const teamMap = users?.map((item: any) => {
+  const teamMap = users?.map((item: any): string[] => {
     return item.team;
   });
 
   // remover duplicados
 
-  const teamMapFiltered = teamMap?.filter((item: any, index: number) => {
+  const teamMapFiltered = teamMap?.filter((item: any, index: number): any => {
     return teamMap?.indexOf(item) === index;
   });
 
   // filtrar por team
 
-  const teamMapFilteredReturnTeam = teamMapFiltered?.map((itens: any) => {
-    const teamFiltered = users?.filter((item2: any) => {
-      return item2.team === itens;
+  const teamMapFilteredReturnTeam = teamMapFiltered?.map((itens: any): any => {
+    const teamFiltered = users?.filter((itemMap: any): any => {
+      return itemMap.team === itens;
     });
 
     return teamFiltered;

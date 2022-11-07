@@ -48,7 +48,7 @@ const DrawerMenu = ({ path }: SettingsMenuProps) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user: any) => {
+      users?.map((user: any): void => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }

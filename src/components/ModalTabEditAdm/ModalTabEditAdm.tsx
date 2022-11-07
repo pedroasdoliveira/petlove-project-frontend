@@ -77,7 +77,7 @@ const ModalTabEditAdm = ({ user, specialtyss, onClose }: Props) => {
     reset,
   } = useForm<EditData>({ resolver: yupResolver(editSchema) });
 
-  const handleEdit = (data: EditData) => {
+  const handleEdit = (data: EditData): void => {
     if (userRole === null) {
       return alert("Selecione uma função");
     }
