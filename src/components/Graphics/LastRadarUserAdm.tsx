@@ -12,7 +12,7 @@ import {
 const LastRadarUserAdm = ({ testUser, type }: any) => {
   let testUserAdm = testUser;
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -26,12 +26,12 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
-      default:
-        return "#e2e2e2";
+        default:
+          return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): any => {
     if (type === "review") {
       testUserAdm = {
         nextRole: "review",

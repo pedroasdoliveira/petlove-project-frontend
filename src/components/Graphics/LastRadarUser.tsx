@@ -19,7 +19,7 @@ const LastRadarUser = () => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
   );
 
-  const mountLastData = (value: any) => {
+  const mountLastData = (value: any): any => {
     const lastData = value?.at(-1);
 
     const data = [
@@ -51,7 +51,7 @@ const LastRadarUser = () => {
   const data = mountLastData(user?.results);
   const lastData = user.results?.at(-1);
 
-  const handleColor = () => {
+  const handleColor = (): string => {
     if (lastData?.isValided === "Sim") {
       return "#00FF00";
     } else if (lastData?.isValided === null) {
