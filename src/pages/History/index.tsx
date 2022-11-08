@@ -46,7 +46,7 @@ const History: NextPage = () => {
   }, [user && user.isAdmin]);
 
   const handleContTest = () => {
-    const a = users?.reduce((acc: number, user: any): number => {
+    const badgeNumber = users?.reduce((acc: number, user: any): number => {
       if (user?.results?.at(-1)?.isValided === null) {
         setNewTest(true);
         return acc + 1;
@@ -54,7 +54,7 @@ const History: NextPage = () => {
       return acc;
     }, 0 as number);
 
-    setContTest(a);
+    setContTest(badgeNumber);
   };
 
   const background = useColorModeValue(

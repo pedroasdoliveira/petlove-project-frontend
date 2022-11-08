@@ -41,7 +41,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      const a = users?.reduce((acc: number, user: any): number => {
+      const badgeNumber = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           return acc + 1;
@@ -49,7 +49,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
         return acc;
       }, 0 as number);
 
-      setContTest(a);
+      setContTest(badgeNumber);
     }
   }, [user, logged]);
 

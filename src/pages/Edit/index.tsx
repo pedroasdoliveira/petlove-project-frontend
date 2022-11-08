@@ -24,7 +24,7 @@ const Edit: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      const a = users?.reduce((acc: number, user: any): number => {
+      const badgeNumber = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           return acc + 1;
@@ -32,7 +32,7 @@ const Edit: NextPage<ProfileProps> = () => {
         return acc;
       }, 0 as number);
 
-      setContTest(a);
+      setContTest(badgeNumber);
     }
   }, [user, logged]);
 

@@ -22,19 +22,21 @@ import { useUsers } from "../../contexts/Users";
 
 const Homepage: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
-  const { user, users } = useUsers();
+  const { user, users,handleGetUsers } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
   const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
+    console.log("useEffect");
+    handleGetUsers?.();
   }, []);
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      const a = users?.reduce((acc: number, user: any): number => {
+      const badgeNumber = users?.reduce((acc: number, user: any): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
           return acc + 1;
@@ -42,9 +44,9 @@ const Homepage: NextPage = () => {
         return acc;
       }, 0 as number);
 
-      setContTest(a);
+      setContTest(badgeNumber);
     }
-  }, [user, logged]);
+  }, [user]);
 
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = "white";
