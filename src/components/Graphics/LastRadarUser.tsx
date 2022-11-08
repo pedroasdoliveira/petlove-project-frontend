@@ -49,7 +49,7 @@ const LastRadarUser = () => {
   };
 
   const data = mountLastData(user?.results);
-  const lastData = user.results?.at(-1);
+  const lastData = user?.results?.at(-1);
 
   const handleColor = (): string => {
     if (lastData?.isValided === "Sim") {

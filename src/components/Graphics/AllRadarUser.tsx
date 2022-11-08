@@ -52,7 +52,7 @@ const AllRadarUser = () => {
       },
     ];
 
-    user.results?.forEach((result: any, index: number): any => {
+    user?.results?.forEach((result: any, index: number): any => {
       data.forEach((dataChart: any): any => {
         dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
@@ -90,7 +90,7 @@ const AllRadarUser = () => {
           angle={60}
           stroke="white"
         />
-        {user?.results?.map((item: any, index: number) => {
+        {user?.results?.map((result: any, index: number) => {
           return (
             <Radar
               key={index}

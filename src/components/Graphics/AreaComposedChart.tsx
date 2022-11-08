@@ -21,7 +21,7 @@ const AreaComposedChart = () => {
   );
 
   const mountUserData = (): any => {
-    const data = user.results?.sort((a: any, b: any): any => {
+    const data = user?.results?.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 

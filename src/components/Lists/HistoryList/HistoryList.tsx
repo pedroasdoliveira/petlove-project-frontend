@@ -50,7 +50,7 @@ const HistoryList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {user.results?.map((item: any) => {
+          {user?.results?.map((item: any) => {
             return (
               <Tr key={item.id}>
                 <Td color={"white"}>

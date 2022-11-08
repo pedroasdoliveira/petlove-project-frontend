@@ -22,11 +22,11 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.reduce((acc: number, user: any): void => {
+      users?.reduce((acc: number, user: any): any => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }
-      });
+      }, 0);
     }
   }, [user, logged]);
 

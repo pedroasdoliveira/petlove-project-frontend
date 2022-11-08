@@ -55,6 +55,7 @@ const ModalTabEditLastUserAdm = ({
       [event.target.name]: number,
     });
   };
+
   useEffect(() => {
     setUserTest({
       system: value.system,
@@ -65,6 +66,7 @@ const ModalTabEditLastUserAdm = ({
     });
     setUserValidate("");
   }, [isOpen, value]);
+
   return (
     <Flex w="100%" h={"100%"}>
       <Flex flexDirection="column" gap={"1.5rem"} w="50%">

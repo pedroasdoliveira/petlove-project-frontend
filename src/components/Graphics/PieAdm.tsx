@@ -7,7 +7,7 @@ interface PieAdmProps {
 }
 
 const PieAdm = ({ quantity, names }: PieAdmProps) => {
-  // montar grafico de pizza separando por cargo e quantidade
+  // montar gráfico de pizza separando por cargo e quantidade
 
   const dataToChart = quantity?.map((dataChart: any, indexChart: number): any => {
     return {

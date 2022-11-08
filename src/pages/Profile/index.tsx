@@ -130,7 +130,7 @@ const Profile: NextPage<ProfileProps> = () => {
             >
               {"<"}Welcome back{"/>"}{" "}
               <Flex fontWeight="normal" ml={"1.2rem"}>
-              {user.name?.split(" ")[0]}
+              {user?.name?.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
@@ -182,7 +182,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Nome completo:
                 </Text>
-                <Text>{user.name}</Text>
+                <Text>{user?.name}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -194,7 +194,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Email:
                 </Text>
-                <Text>{user.email}</Text>
+                <Text>{user?.email}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -205,7 +205,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Chapter:
                 </Text>
-                <Text>{user.chapter ? user.chapter : `...`}</Text>
+                <Text>{user?.chapter ? user.chapter : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -216,7 +216,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Time:
                 </Text>
-                <Text>{user.team ? user.team : `...`}</Text>
+                <Text>{user?.team ? user.team : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -227,7 +227,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Função:
                 </Text>
-                <Text>{user.role ? user.role : `...`}</Text>
+                <Text>{user?.role ? user.role : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -239,7 +239,7 @@ const Profile: NextPage<ProfileProps> = () => {
                   Data de contratação:
                 </Text>
                 <Text>
-                  {`${new Date(user.createdAt).toLocaleDateString()}`}
+                  {`${new Date(user?.createdAt || 0).toLocaleDateString()}`}
                 </Text>
               </Flex>
             </Flex>

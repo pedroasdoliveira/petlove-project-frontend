@@ -79,7 +79,7 @@ const EditForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setEmailNotification(user?.emailNotification);
+    setEmailNotification(user?.emailNotification as string);
     setImage(user?.profilePicture ?? ProfileIcon);
   }, [user]);
 

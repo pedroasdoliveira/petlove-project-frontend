@@ -61,11 +61,11 @@ const ModalLastUserAdm = ({ value, user }: any) => {
 
 
 
-  const handleUserEspeciality = (event: any) => {
+  const handleUserEspeciality = (event: any): void => {
     setUserEspeciality(event.target.value);
   };
 
-  const handleUserValidate = (event: any) => {
+  const handleUserValidate = (event: any): void => {
     setUserValidate(event.target.value);
   };
 
@@ -79,7 +79,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
     Computacionais: 0,
   };
 
-  const handleResetRespostas = () => {
+  const handleResetRespostas = (): void => {
     respostas.Sistemas = 0;
     respostas.Processos = 0;
     respostas.Pessoas = 0;

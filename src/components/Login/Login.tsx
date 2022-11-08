@@ -7,7 +7,6 @@ import {
   Input,
   useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
 import { ErrorMessage } from "../../style/style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

@@ -38,7 +38,7 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
     }
   };
 
-  const lastData = user.results?.[user.results?.length - 1];
+  const lastData = user?.results[user?.results.length - 1];
 
   const mountComparisonData = (subName: string): any => {
     const dataToChart = [
@@ -47,7 +47,7 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
         A: value?.[subName.toLowerCase() as keyof typeof value],
       },
       {
-        createdAt: `${new Date(lastData.createdAt).toLocaleDateString()}`,
+        createdAt: `${new Date(lastData?.createdAt || 0).toLocaleDateString()}`,
         B: lastData?.[subName?.toLowerCase() as keyof typeof lastData],
       },
     ];
@@ -80,10 +80,10 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
             fill={handleColor(value.nextRole)}
           />
           <Bar
-            name={"Último teste - " + lastData.nextRole}
+            name={"Último teste - " + lastData?.nextRole}
             dataKey="B"
             stackId="a"
-            fill={handleColor(lastData.nextRole)}
+            fill={handleColor(lastData?.nextRole || "")}
           />
           <Tooltip
             cursor={{ fill: "transparent" }}

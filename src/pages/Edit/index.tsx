@@ -99,7 +99,7 @@ const Edit: NextPage<ProfileProps> = () => {
             >
               Editar dados{" "}
               <Flex fontWeight="bold" display="inline-flex">
-                {user.name?.split(" ")[0]}?
+                {user?.name?.split(" ")[0]}?
               </Flex>
             </Heading>
           </Flex>

@@ -27,7 +27,7 @@ export const UsersContextProvider = ({ children }: UsersContextProps) => {
 
   const { logged } = useAuth();
 
-  const handleGetUsers = () => {
+  const handleGetUsers = (): void => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token") || "";
       const userLocal = JSON.parse(localStorage.getItem("user") || "");

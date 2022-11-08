@@ -23,11 +23,15 @@ import Router from "next/router";
 const Login: NextPage = () => {
   const { toggleColorMode } = useColorMode();
   const { toggle, setToggle } = useToggle() as ToggleMode;
-  const { logged } = useAuth();
+  const { logged, logoutUser } = useAuth();
 
   useEffect(() => {
     if (logged) Router.push("/Homepage");
   }, [logged]);
+
+  useEffect(() => {
+    if (logoutUser) Router.reload();
+  }, [logoutUser]);
 
   const formBackground = useColorModeValue(
     "linear-gradient(90deg, rgba(37,27,113, 95) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",

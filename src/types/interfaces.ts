@@ -13,6 +13,7 @@ interface ResultType {
   technology?: number;
   influence?: number;
   isValided?: string;
+  createdAt: string;
 }
 export interface UserStorageType {
   id: string;
@@ -24,7 +25,7 @@ export interface UserStorageType {
   profilePicture?: string;
   role?: string;
   team?: string;
-  createdAt: string;
+  createdAt: Date;
   results: ResultType[];
 }
 
@@ -69,5 +70,6 @@ export interface UserTypes {
   role?: string;
   isAdmin?: boolean;
   isVerified?: boolean;
-  emailNotification?: "none" | "team" | "all";
+  emailNotification?: string;
+  createdAt?: Date;
 }

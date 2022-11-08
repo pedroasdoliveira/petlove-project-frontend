@@ -24,7 +24,7 @@ const OneLineUser = ({ subject }: OneLineUserProps) => {
   const colorChart = useColorModeValue("rgb(8, 16, 59)", "#FF0000");
 
   const mountLastData = (subName: string): any => {
-    const data = user.results?.sort((a: any, b: any): any => {
+    const data = user?.results?.sort((a: any, b: any): any => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
