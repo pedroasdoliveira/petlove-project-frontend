@@ -18,10 +18,10 @@ interface AuthData {
   logged: boolean;
   logoutUser: boolean;
   requisition: boolean;
-  login?: (params: any) => void;
+  login?: ({token, user}: LoginParams) => void;
   logout?: () => void;
   checkTokenExpiration?: () => void;
-  setRequisition: (params: any) => void;
+  setRequisition: (params: boolean) => void;
 }
 
 interface LoginParams {
@@ -44,13 +44,12 @@ export const AuthContextProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    let token: any;
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || false;
-    }
-    if (token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      const token = localStorage.getItem("token") || false;
+      if (token) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
     }
     setLogged(false);
     setLogoutUser(true);

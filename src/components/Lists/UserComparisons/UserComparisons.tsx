@@ -5,37 +5,42 @@ import { useUsers } from "../../../contexts/Users";
 import UserComparisonsRanking from "components/UserComparisonsRanking/UserComparisonsRanking";
 import UserComparisonsRankingTeam from "components/UserComparisonsRankingTeam/UserComparisonsRankingTeam";
 import UserComparisonsRankingCharts from "components/UserComparisonsRankingCharts/UserComparisonsRankingCharts";
+import { UserTypes } from "types/interfaces";
 
 const UserComparisons = () => {
   const color = useColorModeValue("whiteAlpha", "facebook");
   const { users } = useUsers();
 
-  const removedNull = users?.filter((item: any): any => {
+  const removedNull = users?.filter((item: UserTypes): boolean => {
     const lastResult = item.results[item.results.length - 1];
     return lastResult !== null && lastResult !== undefined;
   });
 
-  //separar cada usuario por team
+  //separar times de cada usuário
 
-  const teamMap = users?.map((item: any): string[] => {
+  const teamMap = users?.map((item: UserTypes): string | undefined => {
     return item.team;
   });
 
   // remover duplicados
 
-  const teamMapFiltered = teamMap?.filter((item: any, index: number): any => {
-    return teamMap?.indexOf(item) === index;
-  });
+  const teamMapFiltered = teamMap?.filter(
+    (item: string | undefined, index: number): boolean => {
+      return teamMap?.indexOf(item) === index;
+    }
+  );
 
-  // filtrar por team
+  // filtrar usuários por team
 
-  const teamMapFilteredReturnTeam = teamMapFiltered?.map((itens: any): any => {
-    const teamFiltered = users?.filter((itemMap: any): any => {
-      return itemMap.team === itens;
-    });
+  const teamMapFilteredReturnTeam = teamMapFiltered?.map(
+    (itens: string | undefined): UserTypes[] | undefined => {
+      const teamFiltered = users?.filter((itemMap: UserTypes): boolean => {
+        return itemMap.team === itens;
+      });
 
-    return teamFiltered;
-  });
+      return teamFiltered;
+    }
+  );
 
   return (
     <>
@@ -49,7 +54,7 @@ const UserComparisons = () => {
 
       <UserComparisonsRankingTeam
         color={color}
-        teamMapFilteredReturnTeam={teamMapFilteredReturnTeam}
+        teamMapFilteredReturnTeam={teamMapFilteredReturnTeam as UserTypes[][]}
         teamMapFiltered={teamMapFiltered}
         users={users}
       />

@@ -12,9 +12,10 @@ import {
   MenuOptionGroup,
 } from "@chakra-ui/react";
 import { ReactElement } from "react";
+import { SpecialtiesType } from "types/interfaces";
 
 interface Props {
-  specialtyss: any;
+  specialties: SpecialtiesType[] | undefined;
   filter: string;
   search: string;
   setSearch: (value: string) => void;
@@ -23,7 +24,7 @@ interface Props {
 }
 
 const AllUserListMenu = ({
-  specialtyss,
+  specialties,
   filter,
   search,
   setFilter,
@@ -32,15 +33,15 @@ const AllUserListMenu = ({
 }: Props) => {
   const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: any): void => {
     setSearch(event.target.value);
   };
 
-  const handleFilter = (event: any) => {
+  const handleFilter = (event: any): void => {
     setFilter(event);
   };
 
-  const handleOrder = (event: any) => {
+  const handleOrder = (event: any): void => {
     setOrder(event);
   };
 
@@ -123,8 +124,8 @@ const AllUserListMenu = ({
             <Text m={"0.5rem"} fontWeight="500">
               Função:
             </Text>
-            {specialtyss?.map(
-              (item: any): ReactElement<any, any> => (
+            {specialties?.map(
+              (item: SpecialtiesType): ReactElement<any, any> => (
                 <MenuItemOption
                   value={item.performance}
                   key={item.id}

@@ -9,15 +9,16 @@ import {
   YAxis,
   Line,
 } from "recharts";
+import { ResultType, UserTypes } from "types/interfaces";
 
 interface OneLineUserProps {
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
-  user: any;
+  user: UserTypes;
 }
 
 const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
   const mountLastData = (subName: string): any => {
-    const data = user.results.sort((a: any, b: any): any => {
+    const data = user.results.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 

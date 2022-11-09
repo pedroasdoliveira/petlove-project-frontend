@@ -8,8 +8,13 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { ResultType, UserTypes } from "types/interfaces";
 
-const AllRadarUserAdm = ({ user }: any) => {
+interface Prop {
+  user: UserTypes;
+}
+
+const AllRadarUserAdm = ({ user }: Prop) => {
   const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
@@ -48,8 +53,9 @@ const AllRadarUserAdm = ({ user }: any) => {
       },
     ];
 
-    user.results.forEach((result: any, index: number): any => {
+    user.results.forEach((result: ResultType, index: number): any => {
       data.forEach((dataChart: any): any => {
+        // @ts-expect-error
         dataChart[index] = result[dataChart.subject.toLowerCase()];
       });
     });
@@ -74,7 +80,7 @@ const AllRadarUserAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {user.results.map((item: any, index: any) => {
+        {user.results.map((item: ResultType, index: number) => {
           return (
             <Radar
               key={index}

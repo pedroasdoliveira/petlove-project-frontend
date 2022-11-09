@@ -3,8 +3,21 @@ export interface ToggleMode {
   setToggle: (values: boolean) => void;
 }
 
-interface ResultType {
+export interface ResultType {
   id: string;
+  userId?: string;
+  nextRole: string;
+  system: number;
+  person: number;
+  process: number;
+  technology: number;
+  influence: number;
+  isValided?: string;
+  createdAt: string;
+}
+
+export interface ResultReviewType {
+  id?: string;
   userId?: string;
   nextRole?: string;
   system?: number;
@@ -12,9 +25,18 @@ interface ResultType {
   process?: number;
   technology?: number;
   influence?: number;
+  Processos?: number;
+  Sistemas?: number;
+  Pessoas?: number;
+  Ferramentarias?: number;
+  Design?: number;
+  Teste?: number;
+  Computacionais?: number;
+  performance?: string;
   isValided?: string;
-  createdAt: string;
+  createdAt?: string;
 }
+
 export interface UserStorageType {
   id: string;
   name: string;
@@ -29,8 +51,13 @@ export interface UserStorageType {
   results: ResultType[];
 }
 
+export interface PieChartType {
+  name: string;
+  value: number;
+}
+
 export interface SpecialtiesType {
-  name: any;
+  name: string;
   id: string;
   performance: string;
   description: string;
@@ -42,7 +69,7 @@ export interface SpecialtiesType {
 }
 
 export interface TestTypes {
-  id: string;
+  id?: string;
   title?: string;
   system: string[];
   computationalFundamentals: string[];
@@ -53,9 +80,29 @@ export interface TestTypes {
   toolshop: string[];
 }
 
+export interface StepsType {
+  Content: string[] | undefined;
+  label: string | undefined;
+}
+
 export interface TestContextTypes {
   test?: TestTypes[];
   handleGetTest: () => void;
+}
+
+export interface teamType {
+  media: number;
+  team: string | undefined;
+}
+
+export interface reduceType {
+  Especialista: number;
+  "Tech-Lead": number;
+  Senior: number;
+  Pleno: number;
+  Junior: number;
+  Trainee: number;
+  Contratados: number;
 }
 
 export interface UserTypes {

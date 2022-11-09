@@ -21,6 +21,7 @@ import {
 import { useUsers } from "contexts/Users";
 import React, { useEffect, useState } from "react";
 import { ImUserTie } from "react-icons/im";
+import { UserTypes } from "types/interfaces";
 
 interface SettingsMenuProps {
   path:
@@ -48,7 +49,7 @@ const DrawerMenu = ({ path }: SettingsMenuProps) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user: any): void => {
+      users?.map((user: UserTypes): void => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }
@@ -171,45 +172,45 @@ const DrawerMenu = ({ path }: SettingsMenuProps) => {
               </Flex>
             </Link>
             {user?.isAdmin && (
-            <Link href={"/Administration"}>
-              <Flex
-                mb={"2"}
-                p={"3"}
-                display={"flex"}
-                alignItems={"center"}
-                background={
-                  path === "Administrador" ? menuPatchBackground : "none"
-                }
-                color={path === "Administrador" ? "white" : "gray.400"}
-                borderRadius={"10px"}
-                cursor={"pointer"}
-                _hover={{
-                  background: menuPatchBackground,
-                  color: "white",
-                }}
-              >
-                <Icon as={ImUserTie} w={8} pr={"3"} />
-                <Flex mr={"4"} ml={"2"} position="relative">
-                  Administrador
-                  {newTest && path !== "Administrador" && (
-                <Badge
-                  ml="1"
-                  colorScheme="green"
-                  style={{
-                    position: "absolute",
-                    top: "1.1rem",
-                    right: "9.8rem",
-                    width: "13px",
-                    height: "13px",
-                    borderRadius: "50%",
-                    background: "red",
-                    border: "1px solid #fff",
+              <Link href={"/Administration"}>
+                <Flex
+                  mb={"2"}
+                  p={"3"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  background={
+                    path === "Administrador" ? menuPatchBackground : "none"
+                  }
+                  color={path === "Administrador" ? "white" : "gray.400"}
+                  borderRadius={"10px"}
+                  cursor={"pointer"}
+                  _hover={{
+                    background: menuPatchBackground,
+                    color: "white",
                   }}
-                />
-              )}
+                >
+                  <Icon as={ImUserTie} w={8} pr={"3"} />
+                  <Flex mr={"4"} ml={"2"} position="relative">
+                    Administrador
+                    {newTest && path !== "Administrador" && (
+                      <Badge
+                        ml="1"
+                        colorScheme="green"
+                        style={{
+                          position: "absolute",
+                          top: "1.1rem",
+                          right: "9.8rem",
+                          width: "13px",
+                          height: "13px",
+                          borderRadius: "50%",
+                          background: "red",
+                          border: "1px solid #fff",
+                        }}
+                      />
+                    )}
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Link>
+              </Link>
             )}
           </DrawerBody>
         </DrawerContent>

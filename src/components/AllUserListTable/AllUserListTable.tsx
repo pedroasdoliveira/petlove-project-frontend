@@ -16,23 +16,24 @@ import {
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
 import { useUsers } from "contexts/Users";
 import Image from "next/image";
+import { SpecialtiesType, UserTypes } from "types/interfaces";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 
 interface Props {
   order: string;
-  specialtyss: any;
+  specialties: SpecialtiesType[] | undefined;
   filter: string;
   search: string;
 }
 
-const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
+const AllUserListTable = ({ order, specialties, filter, search }: Props) => {
   const { users } = useUsers();
 
   const color = useColorModeValue("whiteAlpha", "facebook");
 
-  const filteredData = users?.filter((user: any): any => {
-    const speciality = specialtyss?.map(
-      (speciality: any): string[] => speciality.performance
+  const filteredData = users?.filter((user: UserTypes): boolean | undefined => {
+    const speciality = specialties?.map(
+      (speciality: SpecialtiesType): string => speciality.performance
     );
 
     if (filter === "all") {
@@ -55,7 +56,7 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
 
     if (
       filter ===
-      speciality?.find((speciality: any): any => speciality === filter)
+      speciality?.find((speciality: string): boolean => speciality === filter)
     ) {
       return (
         user.role?.includes(filter) &&
@@ -67,7 +68,7 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
       );
     }
   });
-  const filterOrder = filteredData?.sort((a: any, b: any): any => {
+  const filterOrder = filteredData?.sort((a: UserTypes, b: UserTypes): number => {
     if (order === "asc") {
       return a.name.localeCompare(b.name);
     } else {
@@ -92,7 +93,7 @@ const AllUserListTable = ({ order, specialtyss, filter, search }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {filterOrder?.map((user: any) => {
+          {filterOrder?.map((user: UserTypes) => {
             const lastResult = user.results[user.results.length - 1];
 
             const roleAtual = user.role;

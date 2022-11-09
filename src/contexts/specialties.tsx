@@ -10,28 +10,28 @@ import { api } from "../services";
 import { useAuth } from "./Auth";
 import { useUsers } from "./Users";
 
-interface SpecialtyssContextProps {
+interface SpecialtiesContextProps {
   children: ReactNode;
 }
 
-interface SpecialtyssProviderData {
-  specialtyss?: SpecialtiesType[];
-  handleGetSpecialtyss: () => void;
+interface SpecialtiesProviderData {
+  specialties?: SpecialtiesType[];
+  handleGetSpecialties: () => void;
 }
 
-const SpecialtyssContext = createContext<SpecialtyssProviderData>(
-  {} as SpecialtyssProviderData
+const SpecialtiesContext = createContext<SpecialtiesProviderData>(
+  {} as SpecialtiesProviderData
 );
 
-export const SpecialtyssContextProvider = ({
+export const SpecialtiesContextProvider = ({
   children,
-}: SpecialtyssContextProps) => {
-  const [specialtyss, setSpecialtyss] = useState<SpecialtiesType[]>([]);
+}: SpecialtiesContextProps) => {
+  const [specialties, setSpecialties] = useState<SpecialtiesType[]>([]);
 
   const { logged } = useAuth();
   const { user } = useUsers();
 
-  const handleGetSpecialtyss = () => {
+  const handleGetSpecialties = () => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token") || "";
 
@@ -43,20 +43,20 @@ export const SpecialtyssContextProvider = ({
 
       api
         .get(`/Specialty`, headers)
-        .then((res) => setSpecialtyss(res.data))
+        .then((res) => setSpecialties(res.data))
         .catch((err) => console.log(err));
     }
   };
 
   useEffect(() => {
-    if (logged) handleGetSpecialtyss();
+    if (logged) handleGetSpecialties();
   }, [logged, user]);
 
   return (
-    <SpecialtyssContext.Provider value={{ specialtyss, handleGetSpecialtyss }}>
+    <SpecialtiesContext.Provider value={{ specialties, handleGetSpecialties }}>
       {children}
-    </SpecialtyssContext.Provider>
+    </SpecialtiesContext.Provider>
   );
 };
 
-export const useSpecialtyss = () => useContext(SpecialtyssContext);
+export const useSpecialties = () => useContext(SpecialtiesContext);

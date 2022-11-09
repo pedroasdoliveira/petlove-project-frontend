@@ -11,32 +11,35 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import ModalUserAdm from "components/ModalUserAdm/ModalUserAdm";
+import { UserTypes } from "types/interfaces";
 
 interface Props {
-  color: any;
-  removedNull: any;
+  color: string;
+  removedNull: UserTypes[] | undefined;
 }
 
 const UserComparisonsRanking = ({ color, removedNull }: Props) => {
-  const dataAdmFiltered = removedNull?.sort((item: any, item2: any): any => {
-    const lastResult = item.results[item.results.length - 1];
-    const lastResult2: any = item2.results[item2.results.length - 1];
-    const plus =
-      lastResult?.system +
-      lastResult?.person +
-      lastResult?.technology +
-      lastResult?.process +
-      lastResult?.influence;
+  const dataAdmFiltered = removedNull?.sort(
+    (item: UserTypes, item2: UserTypes): number => {
+      const lastResult = item.results[item.results.length - 1];
+      const lastResult2 = item2.results[item2.results.length - 1];
+      const plus =
+        lastResult?.system +
+        lastResult?.person +
+        lastResult?.technology +
+        lastResult?.process +
+        lastResult?.influence;
 
-    const plus2: any =
-      lastResult2?.system +
-      lastResult2?.person +
-      lastResult2?.technology +
-      lastResult2?.process +
-      lastResult2?.influence;
+      const plus2 =
+        lastResult2?.system +
+        lastResult2?.person +
+        lastResult2?.technology +
+        lastResult2?.process +
+        lastResult2?.influence;
 
-    return plus2 - plus;
-  });
+      return plus2 - plus;
+    }
+  );
 
   return (
     <TableContainer marginTop={6}>
@@ -58,7 +61,7 @@ const UserComparisonsRanking = ({ color, removedNull }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {dataAdmFiltered?.map((user: any) => {
+          {dataAdmFiltered?.map((user: UserTypes) => {
             const lastResult = user.results[user.results.length - 1];
 
             const plus =

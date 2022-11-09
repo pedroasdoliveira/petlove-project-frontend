@@ -20,13 +20,19 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import ModalTabDataAdm from "components/ModalTabDataAdm/ModalTabDataAdm";
 import ModalTabSpecialtyAdm from "components/ModalTabSpecialtyAdm/ModalTabDataAdm";
 import ModalTabEditAdm from "components/ModalTabEditAdm/ModalTabEditAdm";
+import { UserTypes, ResultType } from "types/interfaces";
 
-const ModalLastUserAdm = ({ value, user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Props {
+  user: UserTypes;
+  value: ResultType;
+}
+
+const ModalLastUserAdm = ({ value, user }: Props) => {
+  const { specialties } = useSpecialties();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -120,14 +126,14 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                 <TabPanel w={"100%"} h={"100%"}>
                   <ModalTabSpecialtyAdm
                     user={user}
-                    specialtyss={specialtyss}
+                    specialties={specialties}
                     value={value}
                   />
                 </TabPanel>
                 <TabPanel>
                   <ModalTabEditAdm
                     user={user}
-                    specialtyss={specialtyss}
+                    specialties={specialties}
                     onClose={onClose}
                   />
                 </TabPanel>

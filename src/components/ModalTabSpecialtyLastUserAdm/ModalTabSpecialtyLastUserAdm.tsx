@@ -1,29 +1,25 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-import {
-  Flex,
-  Text,
-  Select,
-  Button,
-} from "@chakra-ui/react";
+import { Flex, Text, Select, Button } from "@chakra-ui/react";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import toast from "react-hot-toast";
 import { api } from "services";
 import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
+import { UserTypes, SpecialtiesType, ResultType } from "types/interfaces";
 
 interface Props {
-  user: any;
-  value: any;
+  user: UserTypes;
+  value: ResultType;
   handleUserEspeciality: (params: any) => void;
-  specialtyss: any;
-  colorOption: any;
+  specialties: SpecialtiesType[] | undefined;
+  colorOption: string;
   handleUserValidate: (params: any) => void;
   requisition: boolean;
   setRequisition: (params: any) => void;
-  userValidate: any;
-  buttonColorReverse: any;
-  buttonColorReverseHover: any;
-  userEspeciality: any;
+  userValidate: string;
+  buttonColorReverse: string;
+  buttonColorReverseHover: string;
+  userEspeciality: string;
   handleGetUsers: () => void;
   onClose: () => void;
 }
@@ -32,7 +28,7 @@ const ModalTabSpecialtyLastUserAdm = ({
   user,
   value,
   handleUserEspeciality,
-  specialtyss,
+  specialties,
   colorOption,
   handleUserValidate,
   requisition,
@@ -73,7 +69,7 @@ const ModalTabSpecialtyLastUserAdm = ({
             <AllRadarSpecialityAdm user={user} />
           </SwiperSlide>
 
-          {specialtyss?.map((speciality: any) => (
+          {specialties?.map((speciality: SpecialtiesType) => (
             <SwiperSlide key={speciality.id}>
               <Flex w={"100%"} h="90%" justifyContent="center">
                 <Flex w={"50%"} h="100%">
@@ -124,7 +120,7 @@ const ModalTabSpecialtyLastUserAdm = ({
             defaultValue={value.nextRole}
             w={"12%"}
           >
-            {specialtyss?.map((speciality: any) => (
+            {specialties?.map((speciality: SpecialtiesType) => (
               <option
                 key={speciality.id}
                 value={speciality.performance}

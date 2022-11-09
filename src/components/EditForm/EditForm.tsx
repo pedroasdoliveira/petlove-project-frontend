@@ -121,8 +121,6 @@ const EditForm = () => {
       })
       .catch((error) => {
         toast.error("Erro ao alterar dados!");
-        console.log(error);
-        console.log(dataToSend);
         setRequisition(false);
       });
   };

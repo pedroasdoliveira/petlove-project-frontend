@@ -10,12 +10,13 @@ import {
   TableContainer,
   Tooltip,
 } from "@chakra-ui/react";
+import { reduceType, teamType, UserTypes } from "types/interfaces";
 
 interface Props {
-  color: any;
-  teamMapFilteredReturnTeam: any;
-  teamMapFiltered: any;
-  users: any;
+  color: string;
+  teamMapFilteredReturnTeam: UserTypes[][];
+  teamMapFiltered: (string | undefined)[] | undefined;
+  users: UserTypes[] | undefined;
 }
 
 const UserComparisonsRankingTeam = ({
@@ -26,27 +27,30 @@ const UserComparisonsRankingTeam = ({
 }: Props) => {
   // ranking por team da maior media para a menor
   const teamOrdered = teamMapFilteredReturnTeam?.map(
-    (userFiltered: any): any => {
+    (userFiltered: UserTypes[]): teamType => {
       let teamLength = 0;
 
       //fazer a media de cada team
-      const plus = userFiltered?.reduce((acc: number, user: any): any => {
-        const lastResult = user.results[user.results.length - 1];
+      const plus = userFiltered?.reduce(
+        (acc: number, user: UserTypes): number => {
+          const lastResult = user.results[user.results.length - 1];
 
-        if (lastResult !== null && lastResult !== undefined) {
-          const plus =
-            lastResult?.system +
-            lastResult?.person +
-            lastResult?.technology +
-            lastResult?.process +
-            lastResult?.influence;
+          if (lastResult !== null && lastResult !== undefined) {
+            const plus =
+              lastResult?.system +
+              lastResult?.person +
+              lastResult?.technology +
+              lastResult?.process +
+              lastResult?.influence;
 
-          teamLength++;
-          return acc + plus;
-        }
+            teamLength++;
+            return acc + plus;
+          }
 
-        return acc;
-      }, 0);
+          return acc;
+        },
+        0
+      );
 
       const media = plus / (teamLength === 0 ? 1 : teamLength);
 
@@ -55,17 +59,19 @@ const UserComparisonsRankingTeam = ({
   );
 
   // ordenar por media
-  const teamOrderedFiltered = teamOrdered?.sort((a: any, b: any): any => {
-    return b.media - a.media;
-  });
+  const teamOrderedFiltered = teamOrdered?.sort(
+    (a: teamType, b: teamType): number => {
+      return b.media - a.media;
+    }
+  );
 
   const teamOrderedFilteredMedia = teamOrderedFiltered?.map(
-    (userFiltered: any): any => {
-      const teamFiltered = users?.filter((user: any) => {
+    (userFiltered: teamType): UserTypes[] => {
+      const teamFiltered = users?.filter((user: UserTypes) => {
         return user.team === userFiltered.team;
       });
 
-      return teamFiltered;
+      return teamFiltered as UserTypes[];
     }
   );
 
@@ -91,47 +97,50 @@ const UserComparisonsRankingTeam = ({
           </Tr>
         </Thead>
         <Tbody>
-          {teamOrderedFilteredMedia?.map((item: any) => {
+          {teamOrderedFilteredMedia?.map((item: UserTypes[]) => {
             let teamLength = 0;
             //fazer a media de cada team
-            const plus = item?.reduce((acc: number, item2: any): number => {
-              const lastResult = item2.results[item2.results.length - 1];
+            const plus = item?.reduce(
+              (acc: number, item2: UserTypes): number => {
+                const lastResult = item2.results[item2.results.length - 1];
 
-              if (lastResult !== null && lastResult !== undefined) {
-                const plus =
-                  lastResult?.system +
-                  lastResult?.person +
-                  lastResult?.technology +
-                  lastResult?.process +
-                  lastResult?.influence;
+                if (lastResult !== null && lastResult !== undefined) {
+                  const plus =
+                    lastResult?.system +
+                    lastResult?.person +
+                    lastResult?.technology +
+                    lastResult?.process +
+                    lastResult?.influence;
 
-                teamLength++;
+                  teamLength++;
 
-                return acc + plus;
-              }
+                  return acc + plus;
+                }
 
-              return acc;
-            }, 0);
+                return acc;
+              },
+              0
+            );
 
             const media = plus / (teamLength === 0 ? 1 : teamLength);
 
             //quantidade de devs backend
 
-            const back = item?.filter((itemChapter: any): boolean => {
+            const back = item?.filter((itemChapter: UserTypes): boolean => {
               return itemChapter.chapter === "backend";
             });
 
             //quantidade de devs frontend
 
-            const front = item?.filter((itemChapter: any): boolean => {
+            const front = item?.filter((itemChapter: UserTypes): boolean => {
               return itemChapter.chapter === "frontend";
             });
 
             // ver qual função é mais presente (Especialista, Tech Lead, Senior, Pleno, Junior, Trainee)
 
             const speciality = item?.reduce(
-              (acc: any, speciality: any): any => {
-                const role = speciality.role;
+              (acc: reduceType, user: UserTypes): reduceType => {
+                const role = user.role;
                 if (role === "Especialista") {
                   acc.Especialista += 1;
                 } else if (role === "Tech-lead") {
@@ -164,7 +173,7 @@ const UserComparisonsRankingTeam = ({
             const specialityArray = Object.entries(speciality);
 
             const specialityFiltered = specialityArray.filter(
-              (speciality: any): any => {
+              (speciality) => {
                 return (
                   speciality[1] ===
                   Math.max(

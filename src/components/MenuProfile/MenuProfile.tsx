@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useUsers } from "../../contexts/Users";
 import { useState, useEffect } from "react";
 import { useAuth } from "contexts/Auth";
+import { UserTypes } from "types/interfaces";
 
 interface SettingsMenuProps {
   path:
@@ -22,11 +23,12 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.reduce((acc: number, user: any): any => {
+      users?.reduce((acc: number, user: UserTypes): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }
-      }, 0);
+        return acc;
+      }, 0 as number);
     }
   }, [user, logged]);
 

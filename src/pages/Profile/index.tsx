@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useUsers } from "../../contexts/Users";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import Image from "next/image";
+import { UserTypes } from "types/interfaces";
 
 interface ProfileProps {
   name: string;
@@ -28,13 +29,16 @@ const Profile: NextPage<ProfileProps> = () => {
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      const badgeNumber = users?.reduce((acc: number, user: any): number => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          return acc + 1;
-        }
-        return acc;
-      }, 0 as number);
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
 
       setContTest(badgeNumber);
     }
@@ -42,7 +46,7 @@ const Profile: NextPage<ProfileProps> = () => {
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   const handleVerify = () => {
@@ -78,7 +82,10 @@ const Profile: NextPage<ProfileProps> = () => {
           name="Pagina do perfil do usuário"
           content="Primeira pagina do perfil"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -130,7 +137,7 @@ const Profile: NextPage<ProfileProps> = () => {
             >
               {"<"}Welcome back{"/>"}{" "}
               <Flex fontWeight="normal" ml={"1.2rem"}>
-              {user?.name?.split(" ")[0]}
+                {user?.name?.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
@@ -177,7 +184,6 @@ const Profile: NextPage<ProfileProps> = () => {
                 w="100%"
                 justify={{ sm: "space-between", md: "center" }}
                 direction={{ sm: "column", md: "row" }}
-
               >
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Nome completo:

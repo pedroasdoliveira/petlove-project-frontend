@@ -14,9 +14,10 @@ import {
 import AllRadarUserAdm from "components/Graphics/AllRadarUserAdm";
 import AreaComposedChartAdm from "components/Graphics/AreaComposedChartAdm";
 import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
+import { UserTypes, ResultType } from "types/interfaces";
 
 interface Props {
-  user: any;
+  user: UserTypes;
 }
 
 const ModalTabDataAdm = ({ user }: Props) => {
@@ -119,7 +120,7 @@ const ModalTabDataAdm = ({ user }: Props) => {
               </Thead>
               <Divider orientation="horizontal" w={"310%"} />
               <Tbody>
-                {user.results.map((result: any) => (
+                {user.results.map((result: ResultType) => (
                   <Tr key={result.id}>
                     <Th color={"white"} fontSize={"11px"}>
                       {`${new Date(result.createdAt).toLocaleDateString()}`}

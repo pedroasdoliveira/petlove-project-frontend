@@ -19,30 +19,33 @@ import Footer from "../../components/Footer/Footer";
 import AsideMenu from "../../components/AsideMenu/AsideMenu";
 import { useAuth } from "../../contexts/Auth";
 import { useUsers } from "../../contexts/Users";
+import { UserTypes } from "types/interfaces";
 
 const Homepage: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
-  const { user, users,handleGetUsers } = useUsers();
+  const { user, users, handleGetUsers } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
   const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
-    console.log("useEffect");
     handleGetUsers?.();
   }, []);
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      const badgeNumber = users?.reduce((acc: number, user: any): number => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          return acc + 1;
-        }
-        return acc;
-      }, 0 as number);
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
 
       setContTest(badgeNumber);
     }
@@ -72,7 +75,10 @@ const Homepage: NextPage = () => {
           <title>Homepage - Self Awareness</title>
         )}
         <meta name="description" content="Homepage" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -107,7 +113,7 @@ const Homepage: NextPage = () => {
           >
             Questionário
           </Heading>
-          <Flex position="absolute" right={{md: "310", sm:"-6"}} top="0.2">
+          <Flex position="absolute" right={{ md: "310", sm: "-6" }} top="0.2">
             <Image
               src={image ? image : ProfileIcon}
               alt="Imagem de perfil"
@@ -117,7 +123,6 @@ const Homepage: NextPage = () => {
               style={{ borderRadius: "50%", background: "#dee0e3" }}
             />
           </Flex>
-
 
           <AsideMenu direction="row" />
         </Flex>

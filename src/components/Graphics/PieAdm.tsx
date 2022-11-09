@@ -1,20 +1,23 @@
 import { Flex } from "@chakra-ui/react";
 import { Legend, ResponsiveContainer, Tooltip, Pie, PieChart } from "recharts";
+import { PieChartType, UserStorageType, UserTypes } from "types/interfaces";
 
 interface PieAdmProps {
-  quantity: any[];
-  names: any[];
+  quantity: UserTypes[][];
+  names: string[];
 }
 
 const PieAdm = ({ quantity, names }: PieAdmProps) => {
   // montar gráfico de pizza separando por cargo e quantidade
 
-  const dataToChart = quantity?.map((dataChart: any, indexChart: number): any => {
-    return {
-      name: names[indexChart] ? names[indexChart] : "Sem equipe",
-      value: dataChart.length,
-    };
-  });
+  const dataToChart = quantity?.map(
+    (dataChart: UserTypes[], indexChart: number): PieChartType => {
+      return {
+        name: names[indexChart] ? names[indexChart] : "Sem equipe",
+        value: dataChart.length,
+      };
+    }
+  );
 
   return (
     <Flex w="100%" h="25rem">

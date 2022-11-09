@@ -20,10 +20,11 @@ import { api } from "../../services";
 import toast from "react-hot-toast";
 import { useUsers } from "../../contexts/Users";
 import { useAuth } from "contexts/Auth";
+import { UserTypes, SpecialtiesType } from "types/interfaces";
 
 interface Props {
-  user: any;
-  specialtyss: any;
+  user: UserTypes;
+  specialties: SpecialtiesType[] | undefined;
   onClose: () => void;
 }
 
@@ -33,9 +34,9 @@ interface EditData {
   password: string;
   newPassword?: string;
   confirmPassword?: string;
-  team: string;
-  chapter: string;
-  role: string;
+  team?: string;
+  chapter?: string;
+  role?: string;
 }
 
 const editSchema = yup.object().shape({
@@ -53,7 +54,7 @@ const editSchema = yup.object().shape({
   team: yup.string().required("Time é obrigatório"),
 });
 
-const ModalTabEditAdm = ({ user, specialtyss, onClose }: Props) => {
+const ModalTabEditAdm = ({ user, specialties, onClose }: Props) => {
   const [userRole, setUserRole] = useState(user.role);
   const [userChapter, setUserChapter] = useState(user.chapter);
   const { handleGetUsers } = useUsers();
@@ -235,7 +236,7 @@ const ModalTabEditAdm = ({ user, specialtyss, onClose }: Props) => {
                   <MenuOptionGroup
                     type="radio"
                     defaultValue={userChapter}
-                    onChange={setUserChapter}
+                    onChange={setUserChapter as any}
                   >
                     <MenuItemOption
                       value={"backend"}
@@ -275,9 +276,9 @@ const ModalTabEditAdm = ({ user, specialtyss, onClose }: Props) => {
                   <MenuOptionGroup
                     type="radio"
                     defaultValue={userRole}
-                    onChange={setUserRole}
+                    onChange={setUserRole as any}
                   >
-                    {specialtyss?.map((speciality: any) => (
+                    {specialties?.map((speciality: SpecialtiesType) => (
                       <MenuItemOption
                         key={speciality.id}
                         value={speciality.performance}

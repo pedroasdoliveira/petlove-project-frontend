@@ -1,4 +1,4 @@
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import {
   Legend,
   ResponsiveContainer,
@@ -9,9 +9,14 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { SpecialtiesType, UserTypes } from "types/interfaces";
 
-const AllRadarSpecialityAdm = ({ user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Prop {
+  user: UserTypes;
+}
+
+const AllRadarSpecialityAdm = ({ user }: Prop) => {
+  const { specialties } = useSpecialties();
 
   const handleColor = (value: string): string => {
     switch (value) {
@@ -33,8 +38,8 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
   };
 
   const lastResult = user.results[user.results.length - 1] || {};
-  const mountSpecialityData = (): any => {
-    let data: any = [
+  const mountSpecialityData = (): any[] => {
+    let data: any[] = [
       {
         subject: "Influence",
       },
@@ -52,13 +57,15 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
       },
     ];
 
-    specialtyss?.forEach((speciality: any, index: number): any => {
+    specialties?.forEach((speciality: SpecialtiesType, index: number): void => {
       data.forEach((dataChart: any): any => {
+        // @ts-expect-error
         dataChart[index] = speciality[dataChart.subject.toLowerCase()];
       });
     });
 
     data = data.map((dataChart: any): any => {
+      // @ts-expect-error
       dataChart["A"] = lastResult?.[dataChart.subject.toLowerCase()];
       return dataChart;
     });
@@ -83,7 +90,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {specialtyss?.map((item: any, index: number) => {
+        {specialties?.map((item: SpecialtiesType, index: number) => {
           return (
             <Radar
               key={index}

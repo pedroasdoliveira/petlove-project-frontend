@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useToggle } from "../../hooks/useToggle";
-import { ToggleMode } from "../../types/interfaces";
+import { ToggleMode, UserTypes } from "../../types/interfaces";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import DrawerMenu from "../../components/DrawerMenu/DrawerMenu";
 import { AiFillHome, AiFillProfile, AiOutlineLogout } from "react-icons/ai";
@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { useUsers } from "contexts/Users";
 
 interface Prop {
-  direction?: any;
+  direction?: "row" | "column";
   path?: "Interview";
   currentPage?:
     | "Perfil"
@@ -41,13 +41,16 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      const badgeNumber = users?.reduce((acc: number, user: any): number => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          return acc + 1;
-        }
-        return acc;
-      }, 0 as number);
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
 
       setContTest(badgeNumber);
     }
@@ -61,7 +64,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
           p="3px"
           borderRadius="10px"
           h={
-            direction === "column"
+            direction === ("column" as string)
               ? path === "Interview"
                 ? "6%"
                 : "35%"
@@ -104,7 +107,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                       style={{
                         position: "absolute",
                         top: "1.7rem",
-                        right:"-0.5rem",
+                        right: "-0.5rem",
                         zIndex: 2,
                         width: "22px",
                         height: "21px",
@@ -125,10 +128,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                   )}
                 </Button>
               </Link>
-              <Button
-                mx={{ md: "1.5rem", sm: "" }}
-                onClick={logout}
-              >
+              <Button mx={{ md: "1.5rem", sm: "" }} onClick={logout}>
                 <Icon as={AiOutlineLogout} />
               </Button>
             </>

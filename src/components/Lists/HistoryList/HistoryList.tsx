@@ -10,6 +10,7 @@ import {
   Td,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { ResultType } from "types/interfaces";
 import ModalUser from "../../../components/ModalUser/ModalUser";
 import { useUsers } from "../../../contexts/Users";
 
@@ -50,7 +51,7 @@ const HistoryList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {user?.results?.map((item: any) => {
+          {user?.results?.map((item: ResultType) => {
             return (
               <Tr key={item.id}>
                 <Td color={"white"}>
@@ -62,11 +63,11 @@ const HistoryList = () => {
                 </Td>
                 <Td
                   width="7.5rem"
-                  color={isValideColor(item.isValided)}
+                  color={isValideColor(item.isValided || "")}
                   fontSize="1.5rem"
                   textAlign="center"
                 >
-                  {isValideIcon(item.isValided)}
+                  {isValideIcon(item.isValided || "")}
                 </Td>
               </Tr>
             );

@@ -10,9 +10,10 @@ import {
   YAxis,
   Bar,
 } from "recharts";
+import { ResultType } from "types/interfaces";
 
 interface ComparisonBarUserProps {
-  value: any;
+  value: ResultType;
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
 }
 

@@ -1,10 +1,10 @@
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import { useState } from "react";
 import AllUserListTable from "components/AllUserListTable/AllUserListTable";
 import AllUserListMenu from "components/AllUserListMenu/AllUserListMenu";
 
 const AllUserList = () => {
-  const { specialtyss } = useSpecialtyss();
+  const { specialties } = useSpecialties();
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -15,7 +15,7 @@ const AllUserList = () => {
       {/* Menu para pesquisas */}
 
       <AllUserListMenu
-        specialtyss={specialtyss}
+        specialties={specialties}
         filter={filter}
         search={search}
         setFilter={setFilter}
@@ -26,7 +26,7 @@ const AllUserList = () => {
 
       <AllUserListTable
         order={order}
-        specialtyss={specialtyss}
+        specialties={specialties}
         filter={filter}
         search={search}
       />

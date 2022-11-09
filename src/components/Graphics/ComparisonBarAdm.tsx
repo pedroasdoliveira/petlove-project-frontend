@@ -9,13 +9,14 @@ import {
   Bar,
   Brush,
 } from "recharts";
+import { UserTypes } from "types/interfaces";
 
 interface ComparisonBarUserProps {
-  value: any[]; // results
+  value: UserTypes[] | undefined;
 }
 
 const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
-  const comparisonData = value?.map((dataChart: any): any => {
+  const comparisonData = value?.map((dataChart: UserTypes): any => {
     const lastResult = dataChart.results[dataChart.results.length - 1];
     const nameSplit =
       dataChart.name.split(" ")[0] +
@@ -26,7 +27,7 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
 
     const data = {
       name: nameSplit,
-      total: (
+      total: +(
         lastResult?.system +
         lastResult?.person +
         lastResult?.technology +
@@ -36,17 +37,17 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     };
 
     if (isNaN(data.total)) {
-      return (data.total = null);
+      return (data.total = 0);
     }
 
     return data;
   });
 
-  const sortedData = comparisonData?.sort((a: any, b: any): any => {
+  const sortedData = comparisonData?.sort((a: any, b: any): number => {
     return b?.total - a?.total;
   });
 
-  const removedNull = sortedData?.filter((dataChart: any): any => {
+  const removedNull = sortedData?.filter((dataChart: any): boolean => {
     return dataChart?.total !== null && dataChart?.total !== undefined;
   });
 

@@ -9,9 +9,10 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { ResultType } from "types/interfaces";
 
 interface ComparisonRadarUserProps {
-  value: any;
+  value: ResultType;
 }
 
 const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {

@@ -22,7 +22,7 @@ import toast from "react-hot-toast";
 import { useTest } from "../../contexts/testQuests";
 import { useUsers } from "../../contexts/Users";
 import { useAuth } from "../../contexts/Auth";
-import { TestContextTypes } from "types/interfaces";
+import { StepsType } from "types/interfaces";
 
 const respostas = {
   Sistemas: 0,
@@ -39,7 +39,7 @@ const StepsForm = () => {
     initialStep: 0,
   });
 
-  const { test }: any = useTest();
+  const { test } = useTest();
   const { handleGetUsers } = useUsers();
   const { requisition, setRequisition } = useAuth();
 
@@ -111,13 +111,13 @@ const StepsForm = () => {
         size="sm"
         value={quantity}
         max={
-          test?.system?.length +
-          test?.person?.length +
-          test?.toolshop?.length +
-          test?.design?.length +
-          test?.test?.length +
-          test?.computationalFundamentals?.length +
-          test?.process?.length
+          (test?.system?.length || 0) +
+          (test?.person?.length || 0) +
+          (test?.toolshop?.length || 0) +
+          (test?.design?.length || 0) +
+          (test?.test?.length || 0) +
+          (test?.computationalFundamentals?.length || 0) +
+          (test?.process?.length || 0)
         }
         marginBottom={12}
       />
@@ -136,7 +136,7 @@ const StepsForm = () => {
           fontSize: "1.2rem",
         }}
       >
-        {steps.map(({ label, Content }: any) => (
+        {steps.map(({ label, Content }: StepsType) => (
           <Step label={label} key={label} height={"1%"}>
             <Flex
               display={"flex"}
@@ -158,17 +158,17 @@ const StepsForm = () => {
                 >
                   {Content?.[eval(`respostas.${label}`)] &&
                   Content?.[eval(`respostas.${label}`)].match(
-                    /https?:\/\/[^\s]+|www.?[^\s]+/g,
+                    /https?:\/\/[^\s]+|www.?[^\s]+/g
                   ) ? (
                     <>
                       {Content?.[eval(`respostas.${label}`)].replace(
                         /https?:\/\/[^\s]+|www.?[^\s]+/g,
-                        "",
+                        ""
                       )}
                       <ChakraLink
                         href={
                           Content?.[eval(`respostas.${label}`)].match(
-                            /https?:\/\/[^\s]+|www.?[^\s]+/g,
+                            /https?:\/\/[^\s]+|www.?[^\s]+/g
                           ) as unknown as string
                         }
                         target="_blank"
@@ -200,7 +200,7 @@ const StepsForm = () => {
                   if (questionaryVerify === "question") {
                     setQuantity(quantity + 1);
                     setValueButton(false);
-                    if (eval(`respostas.${label}`) < Content.length - 1) {
+                    if (eval(`respostas.${label}`) < Content?.length! - 1) {
                       eval(`respostas.${label}++`);
                     } else {
                       eval(`respostas.${label}++`);
@@ -208,7 +208,7 @@ const StepsForm = () => {
                     }
                   } else if (questionaryVerify === "step") {
                     setQuantity(
-                      quantity + Content.length - eval(`respostas.${label}`),
+                      quantity + Content?.length! - eval(`respostas.${label}`)
                     );
                     nextStep();
                   }
@@ -217,7 +217,10 @@ const StepsForm = () => {
                   setQuestionaryVerify("false");
                 }}
               >
-                {questionaryVerify === "question" ? "Próxima questão" : "Próximo passo"} <ArrowForwardIcon w={8} h={5} />
+                {questionaryVerify === "question"
+                  ? "Próxima questão"
+                  : "Próximo passo"}{" "}
+                <ArrowForwardIcon w={8} h={5} />
               </Button>
             </Flex>
           </Step>
@@ -266,14 +269,23 @@ const StepsForm = () => {
                   .catch((err) => {
                     handleReset();
                     setRequisition(false);
-                    if(err.response.data.message === "Insufficient completion time!"){
-                      toast.error("Tempo de conclusão insuficiente! Aguarde 3 meses para refazer o teste.");
+                    if (
+                      err.response.data.message ===
+                      "Insufficient completion time!"
+                    ) {
+                      toast.error(
+                        "Tempo de conclusão insuficiente! Aguarde 3 meses para refazer o teste."
+                      );
                       return;
-                    };
-                    if(err.response.data.message === "Last test not validated!"){
-                      toast.error("O último teste ainda não foi validado! Aguarde a validação para refazer o teste.");
+                    }
+                    if (
+                      err.response.data.message === "Last test not validated!"
+                    ) {
+                      toast.error(
+                        "O último teste ainda não foi validado! Aguarde a validação para refazer o teste."
+                      );
                       return;
-                    };
+                    }
                     toast.error("Erro ao enviar resultado!");
                   });
               }}

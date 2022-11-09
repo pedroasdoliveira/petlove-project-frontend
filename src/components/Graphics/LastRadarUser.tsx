@@ -10,16 +10,17 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { ResultType } from "types/interfaces";
 
 const LastRadarUser = () => {
   const { user } = useUsers();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const mountLastData = (value: any): any => {
+  const mountLastData = (value: ResultType[]): any => {
     const lastData = value?.at(-1);
 
     const data = [
@@ -48,7 +49,7 @@ const LastRadarUser = () => {
     return data;
   };
 
-  const data = mountLastData(user?.results);
+  const data = mountLastData(user?.results as ResultType[]);
   const lastData = user?.results?.at(-1);
 
   const handleColor = (): string => {

@@ -8,6 +8,7 @@ import { useUsers } from "../../contexts/Users";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { UserTypes } from "types/interfaces";
 
 const Specialty: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
@@ -23,13 +24,16 @@ const Specialty: NextPage = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      const badgeNumber = users?.reduce((acc: number, user: any): number => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          return acc + 1;
-        }
-        return acc;
-      }, 0 as number);
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
 
       setContTest(badgeNumber);
     }
@@ -53,7 +57,10 @@ const Specialty: NextPage = () => {
           <title>Especialidades - Self Awareness</title>
         )}
         <meta name="Specialties" content="Página de especialidades" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 

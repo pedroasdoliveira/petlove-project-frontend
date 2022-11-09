@@ -14,14 +14,14 @@ interface TestContextProps {
 }
 
 interface TestProviderData {
-  test?: TestTypes[];
+  test?: TestTypes;
   handleGetTest: () => void;
 }
 
 const TestContext = createContext<TestProviderData>({} as TestProviderData);
 
 export const TestContextProvider = ({ children }: TestContextProps) => {
-  const [test, setTest] = useState<TestTypes[]>({} as TestTypes[]);
+  const [test, setTest] = useState<TestTypes>({} as TestTypes);
 
   const { logged } = useAuth();
 

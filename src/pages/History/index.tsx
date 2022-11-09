@@ -24,6 +24,7 @@ import OneLineUser from "../../components/Graphics/OneLineUser";
 import { useAuth } from "../../contexts/Auth";
 import { useEffect, useState } from "react";
 import { useUsers } from "../../contexts/Users";
+import { UserTypes } from "types/interfaces";
 
 const History: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
@@ -46,13 +47,16 @@ const History: NextPage = () => {
   }, [user && user.isAdmin]);
 
   const handleContTest = () => {
-    const badgeNumber = users?.reduce((acc: number, user: any): number => {
-      if (user?.results?.at(-1)?.isValided === null) {
-        setNewTest(true);
-        return acc + 1;
-      }
-      return acc;
-    }, 0 as number);
+    const badgeNumber = users?.reduce(
+      (acc: number, user: UserTypes): number => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          return acc + 1;
+        }
+        return acc;
+      },
+      0 as number
+    );
 
     setContTest(badgeNumber);
   };

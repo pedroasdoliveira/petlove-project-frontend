@@ -9,6 +9,7 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { UserTypes } from "types/interfaces";
 import ModalLastUserAdm from "../../../components/ModalLastUserAdm/ModalLastUserAdm";
 import { useUsers } from "../../../contexts/Users";
 
@@ -32,7 +33,7 @@ const UserList = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {users?.map((user: any) => {
+          {users?.map((user: UserTypes) => {
             const lastResult = user.results.at(-1);
 
             const roleAtual = user.role;
@@ -42,7 +43,7 @@ const UserList = () => {
                 <Tr key={user.id}>
                   <Td>{user.name}</Td>
                   <Td>{`${new Date(
-                    lastResult.createdAt,
+                    lastResult.createdAt
                   ).toLocaleDateString()}`}</Td>
                   {roleAtual === null ? (
                     <Td>Contratado</Td>

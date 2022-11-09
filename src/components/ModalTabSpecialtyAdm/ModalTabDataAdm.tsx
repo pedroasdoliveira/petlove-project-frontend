@@ -3,14 +3,15 @@ import { Navigation } from "swiper";
 import { Flex, Text } from "@chakra-ui/react";
 import AllRadarSpecialityAdm from "components/Graphics/AllRadarSpecialityAdm";
 import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
+import { ResultType, SpecialtiesType, UserTypes } from "types/interfaces";
 
 interface Props {
-  user: any;
-  specialtyss: any;
-  value: any;
+  user: UserTypes;
+  specialties: SpecialtiesType[] | undefined;
+  value: ResultType;
 }
 
-const ModalTabSpecialtyAdm = ({ user, specialtyss, value }: Props) => {
+const ModalTabSpecialtyAdm = ({ user, specialties, value }: Props) => {
   return (
     <Flex w={"100%"} h="100%" direction={"column"} alignItems="center">
       <Flex
@@ -40,7 +41,7 @@ const ModalTabSpecialtyAdm = ({ user, specialtyss, value }: Props) => {
             <AllRadarSpecialityAdm user={user} />
           </SwiperSlide>
 
-          {specialtyss?.map((speciality: any) => (
+          {specialties?.map((speciality: SpecialtiesType) => (
             <SwiperSlide key={speciality.id}>
               <Flex w={"100%"} h="90%" justifyContent="center">
                 <Flex w={"50%"} h="100%">

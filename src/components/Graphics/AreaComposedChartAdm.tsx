@@ -1,4 +1,4 @@
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import {
   ComposedChart,
   Area,
@@ -8,16 +8,21 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { ResultType, SpecialtiesType, UserTypes } from "types/interfaces";
 
-const AreaComposedChartAdm = ({ user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Prop {
+  user: UserTypes;
+}
+
+const AreaComposedChartAdm = ({ user }: Prop) => {
+  const { specialties } = useSpecialties();
 
   const mountUserData = () => {
-    const data = user.results.sort((a: any, b: any): any => {
+    const data = user.results.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((dataChart: any): any => {
+    const dataToChart = data.map((dataChart: ResultType): any => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         nextRole: dataChart.nextRole,
@@ -27,7 +32,7 @@ const AreaComposedChartAdm = ({ user }: any) => {
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((speciality: any): any => {
+  const speciality = specialties?.map((speciality: SpecialtiesType): string => {
     return speciality.performance;
   });
 

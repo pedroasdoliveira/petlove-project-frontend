@@ -19,20 +19,21 @@ import LastRadarUserAdm from "components/Graphics/LastRadarUserAdm";
 import OneLineUserAdm from "components/Graphics/OneLineUserAdm";
 import toast from "react-hot-toast";
 import { api } from "services";
+import { ResultType, SpecialtiesType, UserTypes } from "types/interfaces";
 
 interface Props {
-  user: any;
-  value: any;
+  user: UserTypes;
+  value: ResultType;
   handleUserEspeciality: (params: any) => void;
-  specialtyss: any;
-  colorOption: any;
+  specialties: SpecialtiesType[] | undefined;
+  colorOption: string;
   handleUserValidate: (params: any) => void;
   requisition: boolean;
   setRequisition: (params: any) => void;
-  userValidate: any;
-  buttonColorReverse: any;
-  buttonColorReverseHover: any;
-  userEspeciality: any;
+  userValidate: string;
+  buttonColorReverse: string;
+  buttonColorReverseHover: string;
+  userEspeciality: string;
   handleGetUsers: () => void;
   onClose: () => void;
 }
@@ -41,7 +42,7 @@ const ModalTabDataLastUserAdm = ({
   user,
   value,
   handleUserEspeciality,
-  specialtyss,
+  specialties,
   colorOption,
   handleUserValidate,
   requisition,
@@ -235,7 +236,7 @@ const ModalTabDataLastUserAdm = ({
               </Thead>
               <Divider orientation="horizontal" w={"310%"} />
               <Tbody>
-                {user.results.map((result: any) => (
+                {user.results.map((result: ResultType) => (
                   <Tr key={result.id}>
                     <Th color={"white"} fontSize={"11px"}>
                       {`${new Date(result.createdAt).toLocaleDateString()}`}
@@ -264,7 +265,7 @@ const ModalTabDataLastUserAdm = ({
               onChange={handleUserEspeciality}
               w={"35%"}
             >
-              {specialtyss?.map((speciality: any) => (
+              {specialties?.map((speciality: SpecialtiesType) => (
                 <option
                   key={speciality.id}
                   value={speciality.performance}

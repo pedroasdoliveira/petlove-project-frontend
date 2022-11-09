@@ -22,8 +22,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import { ResultType } from "types/interfaces";
 
-const ModalUser = ({ value }: any) => {
+interface Props {
+  value: ResultType;
+}
+
+const ModalUser = ({ value }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const buttonColor = useColorModeValue(

@@ -9,16 +9,16 @@ import {
   Bar,
   Brush,
 } from "recharts";
-
+import { UserStorageType } from "types/interfaces";
 interface ComparisonBarUserProps {
   teamMapFiltered: any[];
 }
 
 const ComparisonBarAdmTeams = ({ teamMapFiltered }: ComparisonBarUserProps) => {
-  const comparisonData = teamMapFiltered?.map((dataChart: any): any => {
+  const comparisonData = teamMapFiltered?.map((dataChart: UserStorageType[]): any => {
     let teamLength = 0;
     //fazer a media de cada team
-    const plus = dataChart?.reduce((acc: number, user: any): number => {
+    const plus = dataChart?.reduce((acc: number, user: UserStorageType): number => {
       const lastResult = user.results[user.results.length - 1];
 
       if (lastResult !== null && lastResult !== undefined) {

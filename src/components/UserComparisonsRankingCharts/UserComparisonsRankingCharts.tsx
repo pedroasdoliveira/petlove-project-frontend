@@ -1,18 +1,15 @@
-import {
-  Text,
-  Flex,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Text, Flex, useColorModeValue } from "@chakra-ui/react";
 import ComparisonBarAdm from "components/Graphics/ComparisonBarAdm";
 import ComparisonBarAdmTeams from "components/Graphics/ComparisonBarAdmTeams";
 import PieAdm from "components/Graphics/PieAdm";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Mousewheel, Navigation, Pagination } from "swiper";
+import { UserTypes } from "types/interfaces";
 
 interface Props {
-  teamMapFilteredReturnTeam: any;
-  teamMapFiltered: any;
-  removedNull: any;
+  teamMapFilteredReturnTeam: (UserTypes[] | undefined)[] | undefined;
+  teamMapFiltered: (string | undefined)[] | undefined;
+  removedNull: UserTypes[] | undefined;
 }
 
 const UserComparisonsRankingCharts = ({
@@ -20,7 +17,6 @@ const UserComparisonsRankingCharts = ({
   teamMapFiltered,
   removedNull,
 }: Props) => {
-
   return (
     <Flex
       w={"100%"}
@@ -84,8 +80,8 @@ const UserComparisonsRankingCharts = ({
           </Flex>
           <Flex w={"100%"} h="100%">
             <PieAdm
-              names={teamMapFiltered!}
-              quantity={teamMapFilteredReturnTeam!}
+              names={teamMapFiltered! as string[]}
+              quantity={teamMapFilteredReturnTeam! as UserTypes[][]}
             />
           </Flex>
         </SwiperSlide>

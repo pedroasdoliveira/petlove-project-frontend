@@ -22,14 +22,20 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import StepsAdmForm from "../../components/StepsAdm/StepsAdm";
 import { useState } from "react";
 import { useUsers } from "../../contexts/Users";
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import { useAuth } from "../../contexts/Auth";
 import ModalTabDataLastUserAdm from "components/ModalTabDataLastUserAdm/ModalTabDataLastUserAdm";
 import ModalTabSpecialtyLastUserAdm from "components/ModalTabSpecialtyLastUserAdm/ModalTabSpecialtyLastUserAdm";
 import ModalTabEditLastUserAdm from "components/ModalTabEditLastUserAdm/ModalTabEditLastUserAdm";
+import { ResultType, UserTypes } from "types/interfaces";
 
-const ModalLastUserAdm = ({ value, user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Props {
+  value: ResultType;
+  user: UserTypes;
+}
+
+const ModalLastUserAdm = ({ value, user }: Props) => {
+  const { specialties } = useSpecialties();
   const { handleGetUsers } = useUsers();
   const { requisition, setRequisition } = useAuth();
 
@@ -58,8 +64,6 @@ const ModalLastUserAdm = ({ value, user }: any) => {
   const colorModal = useColorModeValue("whiteAlpha", "yellow");
   const colorHeader = useColorModeValue("aqua", "gray");
   const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
-
-
 
   const handleUserEspeciality = (event: any): void => {
     setUserEspeciality(event.target.value);
@@ -149,7 +153,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     user={user}
                     value={value}
                     handleUserEspeciality={handleUserEspeciality}
-                    specialtyss={specialtyss}
+                    specialties={specialties}
                     colorOption={colorOption}
                     handleUserValidate={handleUserValidate}
                     requisition={requisition}
@@ -167,7 +171,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                     user={user}
                     value={value}
                     handleUserEspeciality={handleUserEspeciality}
-                    specialtyss={specialtyss}
+                    specialties={specialties}
                     colorOption={colorOption}
                     handleUserValidate={handleUserValidate}
                     requisition={requisition}
@@ -189,7 +193,7 @@ const ModalLastUserAdm = ({ value, user }: any) => {
                   <ModalTabEditLastUserAdm
                     value={value}
                     handleUserEspeciality={handleUserEspeciality}
-                    specialtyss={specialtyss}
+                    specialties={specialties}
                     colorOption={colorOption}
                     handleUserValidate={handleUserValidate}
                     requisition={requisition}

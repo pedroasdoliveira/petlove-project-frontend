@@ -2,29 +2,30 @@ import { Flex, Text, Select, Button, Divider, Input } from "@chakra-ui/react";
 import toast from "react-hot-toast";
 import { api } from "services";
 import { useEffect, useState } from "react";
+import { ResultType, SpecialtiesType } from "types/interfaces";
 
 interface Props {
-  value: any;
+  value: ResultType;
   handleUserEspeciality: (params: any) => void;
-  specialtyss: any;
-  colorOption: any;
+  specialties: SpecialtiesType[] | undefined;
+  colorOption: string;
   handleUserValidate: (params: any) => void;
   requisition: boolean;
   setRequisition: (params: any) => void;
-  userValidate: any;
-  buttonColorReverse: any;
-  buttonColorReverseHover: any;
-  userEspeciality: any;
+  userValidate: string;
+  buttonColorReverse: string;
+  buttonColorReverseHover: string;
+  userEspeciality: string;
   handleGetUsers: () => void;
   onClose: () => void;
   isOpen: boolean;
-  setUserValidate: (params: any) => void;
+  setUserValidate: (params: string) => void;
 }
 
 const ModalTabEditLastUserAdm = ({
   value,
   handleUserEspeciality,
-  specialtyss,
+  specialties,
   colorOption,
   handleUserValidate,
   requisition,
@@ -169,7 +170,7 @@ const ModalTabEditLastUserAdm = ({
             defaultValue={value.nextRole}
             w={"60%"}
           >
-            {specialtyss?.map((speciality: any) => (
+            {specialties?.map((speciality: SpecialtiesType) => (
               <option
                 key={speciality.id}
                 value={speciality.performance}
