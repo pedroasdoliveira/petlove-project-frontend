@@ -8,7 +8,7 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
-import { ResultReviewType } from "types/interfaces";
+import { RadarChartType, ResultReviewType } from "types/interfaces";
 
 interface Prop {
   testUser: ResultReviewType;
@@ -37,7 +37,7 @@ const LastRadarUserAdm = ({ testUser, type }: Prop) => {
     }
   };
 
-  const mountLastData = (): any => {
+  const mountLastData = (): RadarChartType[] => {
     if (type === "review") {
       testUserAdm = {
         nextRole: "review",

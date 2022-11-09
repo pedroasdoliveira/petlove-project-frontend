@@ -10,7 +10,7 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
-import { ResultType } from "types/interfaces";
+import { RadarChartType, ResultType } from "types/interfaces";
 
 const LastRadarUser = () => {
   const { user } = useUsers();
@@ -20,7 +20,7 @@ const LastRadarUser = () => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const mountLastData = (value: ResultType[]): any => {
+  const mountLastData = (value: ResultType[]): RadarChartType[] => {
     const lastData = value?.at(-1);
 
     const data = [

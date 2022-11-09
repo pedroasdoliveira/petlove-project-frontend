@@ -10,7 +10,7 @@ import {
   YAxis,
   Line,
 } from "recharts";
-import { ResultType } from "types/interfaces";
+import { LineChartType, ResultType } from "types/interfaces";
 
 interface OneLineUserProps {
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
@@ -24,16 +24,15 @@ const OneLineUser = ({ subject }: OneLineUserProps) => {
   );
   const colorChart = useColorModeValue("rgb(8, 16, 59)", "#FF0000");
 
-  const mountLastData = (subName: string): any => {
+  const mountLastData = (subName: string): LineChartType[]| undefined => {
     const data = user?.results?.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data?.map((dataChart: ResultType): any => {
+    const dataToChart = data?.map((dataChart: ResultType): LineChartType => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
-        // @ts-expect-error
-        A: dataChart[subName.toLowerCase()],
+        A: `${dataChart[subName.toLowerCase() as keyof ResultType]}`,
       };
     });
 

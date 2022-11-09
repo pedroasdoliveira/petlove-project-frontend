@@ -4,7 +4,7 @@ import ComparisonBarAdmTeams from "components/Graphics/ComparisonBarAdmTeams";
 import PieAdm from "components/Graphics/PieAdm";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Mousewheel, Navigation, Pagination } from "swiper";
-import { UserTypes } from "types/interfaces";
+import { UserStorageType, UserTypes } from "types/interfaces";
 
 interface Props {
   teamMapFilteredReturnTeam: (UserTypes[] | undefined)[] | undefined;
@@ -98,7 +98,9 @@ const UserComparisonsRankingCharts = ({
 
           <Flex w={"100%"} h="100%">
             <ComparisonBarAdmTeams
-              teamMapFiltered={teamMapFilteredReturnTeam!}
+              teamMapFiltered={
+                teamMapFilteredReturnTeam! as UserStorageType[][]
+              }
             />
           </Flex>
         </SwiperSlide>

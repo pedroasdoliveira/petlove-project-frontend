@@ -8,7 +8,7 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
-import { ResultType, UserTypes } from "types/interfaces";
+import { RadarChartType, ResultType, UserTypes } from "types/interfaces";
 
 interface Prop {
   user: UserTypes;
@@ -34,8 +34,8 @@ const AllRadarUserAdm = ({ user }: Prop) => {
     }
   };
 
-  const mountLastData = (): any => {
-    const data = [
+  const mountLastData = (): RadarChartType[] => {
+    const data: RadarChartType[] = [
       {
         subject: "Influence",
       },
@@ -53,10 +53,11 @@ const AllRadarUserAdm = ({ user }: Prop) => {
       },
     ];
 
-    user.results.forEach((result: ResultType, index: number): any => {
-      data.forEach((dataChart: any): any => {
+    user.results.forEach((result: ResultType, index: number): void => {
+      data.forEach((dataChart: RadarChartType): void => {
         // @ts-expect-error
-        dataChart[index] = result[dataChart.subject.toLowerCase()];
+        dataChart[index] =
+          result[dataChart.subject.toLowerCase() as keyof ResultType];
       });
     });
 

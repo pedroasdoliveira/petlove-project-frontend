@@ -9,7 +9,7 @@ import {
   YAxis,
   Line,
 } from "recharts";
-import { ResultType, UserTypes } from "types/interfaces";
+import { LineChartType, ResultType, UserTypes } from "types/interfaces";
 
 interface OneLineUserProps {
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
@@ -17,15 +17,15 @@ interface OneLineUserProps {
 }
 
 const OneLineUserAdm = ({ subject, user }: OneLineUserProps) => {
-  const mountLastData = (subName: string): any => {
+  const mountLastData = (subName: string): LineChartType[] => {
     const data = user.results.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((dataChart: any): any => {
+    const dataToChart = data.map((dataChart: ResultType): LineChartType => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
-        A: dataChart[subName.toLowerCase()],
+        A: `${dataChart[subName.toLowerCase() as keyof typeof dataChart]}`,
       };
     });
 

@@ -9,7 +9,7 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
-import { ResultType } from "types/interfaces";
+import { ComparisonRadarChartType, ResultType } from "types/interfaces";
 
 interface ComparisonRadarUserProps {
   value: ResultType;
@@ -39,7 +39,7 @@ const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
 
   const lastData = user?.results[user?.results.length - 1];
 
-  const mountComparisonData = (): any => {
+  const mountComparisonData = (): ComparisonRadarChartType[] => {
     const data = [
       {
         subject: "Influence",

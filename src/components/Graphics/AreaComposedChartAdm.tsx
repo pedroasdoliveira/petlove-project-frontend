@@ -8,7 +8,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { ResultType, SpecialtiesType, UserTypes } from "types/interfaces";
+import {
+  AreaChartType,
+  ResultType,
+  SpecialtiesType,
+  UserTypes,
+} from "types/interfaces";
 
 interface Prop {
   user: UserTypes;
@@ -17,26 +22,27 @@ interface Prop {
 const AreaComposedChartAdm = ({ user }: Prop) => {
   const { specialties } = useSpecialties();
 
-  const mountUserData = () => {
+  const speciality = specialties?.map((speciality: SpecialtiesType): string => {
+    return speciality.performance;
+  });
+
+  const mountUserData = (): AreaChartType[] | undefined => {
     const data = user.results.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((dataChart: ResultType): any => {
+    const dataToChart = data.map((dataChart: ResultType): AreaChartType => {
       return {
         createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
         nextRole: dataChart.nextRole,
-        allSpecialities: [...speciality!],
+        speciality,
       };
     });
     return dataToChart;
   };
 
-  const speciality = specialties?.map((speciality: SpecialtiesType): string => {
-    return speciality.performance;
-  });
-
   const data = mountUserData();
+
   return (
     <ResponsiveContainer width="85%" height="70%">
       <ComposedChart
@@ -54,7 +60,7 @@ const AreaComposedChartAdm = ({ user }: Prop) => {
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
         <YAxis
           stroke={"white"}
-          dataKey={"allSpecialities"}
+          dataKey={"speciality"}
           type="category"
           scale="point"
         />

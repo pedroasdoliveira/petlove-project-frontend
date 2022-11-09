@@ -9,7 +9,12 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
-import { SpecialtiesType, UserTypes } from "types/interfaces";
+import {
+  RadarChartType,
+  ResultType,
+  SpecialtiesType,
+  UserTypes,
+} from "types/interfaces";
 
 interface Prop {
   user: UserTypes;
@@ -38,8 +43,8 @@ const AllRadarSpecialityAdm = ({ user }: Prop) => {
   };
 
   const lastResult = user.results[user.results.length - 1] || {};
-  const mountSpecialityData = (): any[] => {
-    let data: any[] = [
+  const mountSpecialityData = (): RadarChartType[] => {
+    let data: RadarChartType[] = [
       {
         subject: "Influence",
       },
@@ -57,16 +62,8 @@ const AllRadarSpecialityAdm = ({ user }: Prop) => {
       },
     ];
 
-    specialties?.forEach((speciality: SpecialtiesType, index: number): void => {
-      data.forEach((dataChart: any): any => {
-        // @ts-expect-error
-        dataChart[index] = speciality[dataChart.subject.toLowerCase()];
-      });
-    });
-
-    data = data.map((dataChart: any): any => {
-      // @ts-expect-error
-      dataChart["A"] = lastResult?.[dataChart.subject.toLowerCase()];
+    data = data.map((dataChart: RadarChartType): RadarChartType => {
+      dataChart.A = +(lastResult?.[dataChart.subject.toLowerCase() as keyof ResultType] || 0);
       return dataChart;
     });
 

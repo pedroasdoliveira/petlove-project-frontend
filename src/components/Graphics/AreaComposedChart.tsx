@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { ResultType, SpecialtiesType } from "types/interfaces";
+import { AreaChartType, ResultType, SpecialtiesType } from "types/interfaces";
 
 const AreaComposedChart = () => {
   const { user } = useUsers();
@@ -21,29 +21,30 @@ const AreaComposedChart = () => {
     "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const mountUserData = (): any => {
-    const data = user?.results?.sort((a: ResultType, b: ResultType): number => {
-      return Number(a.createdAt) - Number(b.createdAt);
-    });
-
-    const dataToChart = data?.map((dataChart: ResultType): any => {
-      return {
-        nextRole: dataChart.nextRole,
-        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
-        allSpecialities: [...speciality!],
-      };
-    });
-
-    return dataToChart;
-  };
-
   const speciality = specialties?.map(
     (specialityData: SpecialtiesType): string => {
       return specialityData.performance;
     }
   );
 
+  const mountUserData = (): AreaChartType[] | undefined => {
+    const data = user?.results?.sort((a: ResultType, b: ResultType): number => {
+      return Number(a.createdAt) - Number(b.createdAt);
+    });
+
+    const dataToChart = data?.map((dataChart: ResultType): AreaChartType => {
+      return {
+        nextRole: dataChart.nextRole,
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
+        speciality,
+      };
+    });
+
+    return dataToChart;
+  };
+
   const data = mountUserData();
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
@@ -61,7 +62,7 @@ const AreaComposedChart = () => {
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
         <YAxis
           stroke={"white"}
-          dataKey={"allSpecialities"}
+          dataKey={"speciality"}
           type="category"
           scale="point"
         />

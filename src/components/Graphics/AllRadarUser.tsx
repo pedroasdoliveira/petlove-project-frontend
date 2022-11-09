@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "recharts";
 import { useColorModeValue } from "@chakra-ui/react";
-import { ResultType, SpecialtiesType } from "types/interfaces";
+import { RadarChartType, ResultType, SpecialtiesType } from "types/interfaces";
 
 const AllRadarUser = () => {
   const { user } = useUsers();
@@ -34,8 +34,8 @@ const AllRadarUser = () => {
     }
   };
 
-  const mountLastData = (): any[] => {
-    const data: any[] = [
+  const mountLastData = (): RadarChartType[] => {
+    const data: RadarChartType[] = [
       {
         subject: "Influence",
       },
@@ -53,10 +53,10 @@ const AllRadarUser = () => {
       },
     ];
 
-    user?.results?.forEach((result: ResultType, index: number): any => {
-      data.forEach((dataChart: any): any => {
+    user?.results?.forEach((result: ResultType, index: number): void => {
+      data.forEach((dataChart: RadarChartType): void => {
         // @ts-expect-error
-        dataChart[index] = result[dataChart.subject.toLowerCase()];
+        dataChart[index] = result[dataChart.subject.toLowerCase() as keyof ResultType];
       });
     });
 

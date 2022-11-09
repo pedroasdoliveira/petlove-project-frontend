@@ -90,12 +90,12 @@ export interface TestContextTypes {
   handleGetTest: () => void;
 }
 
-export interface teamType {
+export interface TeamType {
   media: number;
   team: string | undefined;
 }
 
-export interface reduceType {
+export interface ReduceType {
   Especialista: number;
   "Tech-Lead": number;
   Senior: number;
@@ -119,4 +119,38 @@ export interface UserTypes {
   isVerified?: boolean;
   emailNotification?: string;
   createdAt?: Date;
+}
+
+export interface RadarChartType {
+  subject: string;
+  A?: number;
+}
+
+export interface ComparisonRadarChartType {
+  subject: string;
+  A?: number;
+  B?: number;
+}
+
+export interface BarChartType {
+  name: string;
+  total?: number;
+  media?: number;
+}
+
+export interface BarUserChartType {
+  createdAt: string;
+  A?: string | number;
+  B?: string | number;
+}
+
+export interface LineChartType {
+  createdAt: string;
+  A: string;
+}
+
+export interface AreaChartType {
+  nextRole: string;
+  createdAt: string;
+  speciality: string[] | undefined;
 }

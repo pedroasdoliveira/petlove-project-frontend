@@ -12,7 +12,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bgImage: mode("/b.png", "/a.png")(props),
+        bgImage: mode("/white-mode.png", "/dark-mode.png")(props),
         bgSize: "cover",
         bgPosition: "center center",
         bgRepeat: "no-repeat",

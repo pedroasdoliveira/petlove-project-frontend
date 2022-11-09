@@ -40,7 +40,7 @@ const changePasswordSchema = yup.object().shape({
 });
 
 interface Prop {
-  query: string[];
+  query: string[] | string | undefined;
 }
 
 const ChangePasswordComponent = ({ query }: Prop) => {

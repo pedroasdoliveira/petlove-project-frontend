@@ -10,7 +10,7 @@ import {
   YAxis,
   Bar,
 } from "recharts";
-import { ResultType } from "types/interfaces";
+import { BarUserChartType, ResultType } from "types/interfaces";
 
 interface ComparisonBarUserProps {
   value: ResultType;
@@ -41,7 +41,7 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
 
   const lastData = user?.results[user?.results.length - 1];
 
-  const mountComparisonData = (subName: string): any => {
+  const mountComparisonData = (subName: string): BarUserChartType[] => {
     const dataToChart = [
       {
         createdAt: `${new Date(value.createdAt).toLocaleDateString()}`,

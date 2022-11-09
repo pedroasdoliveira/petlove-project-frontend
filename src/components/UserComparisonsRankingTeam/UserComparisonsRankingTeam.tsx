@@ -10,7 +10,7 @@ import {
   TableContainer,
   Tooltip,
 } from "@chakra-ui/react";
-import { reduceType, teamType, UserTypes } from "types/interfaces";
+import { ReduceType, TeamType, UserTypes } from "types/interfaces";
 
 interface Props {
   color: string;
@@ -27,7 +27,7 @@ const UserComparisonsRankingTeam = ({
 }: Props) => {
   // ranking por team da maior media para a menor
   const teamOrdered = teamMapFilteredReturnTeam?.map(
-    (userFiltered: UserTypes[]): teamType => {
+    (userFiltered: UserTypes[]): TeamType => {
       let teamLength = 0;
 
       //fazer a media de cada team
@@ -60,13 +60,13 @@ const UserComparisonsRankingTeam = ({
 
   // ordenar por media
   const teamOrderedFiltered = teamOrdered?.sort(
-    (a: teamType, b: teamType): number => {
+    (a: TeamType, b: TeamType): number => {
       return b.media - a.media;
     }
   );
 
   const teamOrderedFilteredMedia = teamOrderedFiltered?.map(
-    (userFiltered: teamType): UserTypes[] => {
+    (userFiltered: TeamType): UserTypes[] => {
       const teamFiltered = users?.filter((user: UserTypes) => {
         return user.team === userFiltered.team;
       });
@@ -139,7 +139,7 @@ const UserComparisonsRankingTeam = ({
             // ver qual função é mais presente (Especialista, Tech Lead, Senior, Pleno, Junior, Trainee)
 
             const speciality = item?.reduce(
-              (acc: reduceType, user: UserTypes): reduceType => {
+              (acc: ReduceType, user: UserTypes): ReduceType => {
                 const role = user.role;
                 if (role === "Especialista") {
                   acc.Especialista += 1;
@@ -172,18 +172,16 @@ const UserComparisonsRankingTeam = ({
 
             const specialityArray = Object.entries(speciality);
 
-            const specialityFiltered = specialityArray.filter(
-              (speciality) => {
-                return (
-                  speciality[1] ===
-                  Math.max(
-                    ...(specialityArray.map(
-                      (speciality: any) => speciality[1]
-                    ) as unknown as any)
-                  )
-                );
-              }
-            );
+            const specialityFiltered = specialityArray.filter((speciality) => {
+              return (
+                speciality[1] ===
+                Math.max(
+                  ...(specialityArray.map(
+                    (speciality) => speciality[1]
+                  ) as unknown as any)
+                )
+              );
+            });
 
             return (
               <Tr key={item?.[0].id}>
