@@ -9,17 +9,18 @@ import { useEffect, useState } from "react";
 import { useUsers } from "../../contexts/Users";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import Image from "next/image";
+import { UserTypes } from "types/interfaces";
 
 interface ProfileProps {
   name: string;
 }
 
 const Profile: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { user, users } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -28,18 +29,24 @@ const Profile: NextPage<ProfileProps> = () => {
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user) => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          setContTest(contTest + 1);
-        }
-      });
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
+
+      setContTest(badgeNumber);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   const handleVerify = () => {
@@ -75,6 +82,10 @@ const Profile: NextPage<ProfileProps> = () => {
           name="Pagina do perfil do usuário"
           content="Primeira pagina do perfil"
         />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -126,7 +137,7 @@ const Profile: NextPage<ProfileProps> = () => {
             >
               {"<"}Welcome back{"/>"}{" "}
               <Flex fontWeight="normal" ml={"1.2rem"}>
-              {user.name?.split(" ")[0]}
+                {user?.name?.split(" ")[0]}
               </Flex>
             </Heading>
           </Flex>
@@ -172,22 +183,24 @@ const Profile: NextPage<ProfileProps> = () => {
                 alignItems={"center"}
                 w="100%"
                 justify={{ sm: "space-between", md: "center" }}
+                direction={{ sm: "column", md: "row" }}
               >
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Nome completo:
                 </Text>
-                <Text>{user.name}</Text>
+                <Text>{user?.name}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
                 alignItems={"center"}
                 w="100%"
                 justify={{ sm: "space-between", md: "center" }}
+                direction={{ sm: "column", md: "row" }}
               >
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Email:
                 </Text>
-                <Text>{user.email}</Text>
+                <Text>{user?.email}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -198,7 +211,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Chapter:
                 </Text>
-                <Text>{user.chapter ? user.chapter : `...`}</Text>
+                <Text>{user?.chapter ? user.chapter : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -209,7 +222,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Time:
                 </Text>
-                <Text>{user.team ? user.team : `...`}</Text>
+                <Text>{user?.team ? user.team : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -220,7 +233,7 @@ const Profile: NextPage<ProfileProps> = () => {
                 <Text color={"gray.300"} mr={{ md: 4, sm: "0" }}>
                   Função:
                 </Text>
-                <Text>{user.role ? user.role : `...`}</Text>
+                <Text>{user?.role ? user.role : `...`}</Text>
               </Flex>
               <Flex
                 fontSize={{ sm: "md", md: "lg" }}
@@ -232,7 +245,7 @@ const Profile: NextPage<ProfileProps> = () => {
                   Data de contratação:
                 </Text>
                 <Text>
-                  {`${new Date(user.createdAt).toLocaleDateString()}`}
+                  {`${new Date(user?.createdAt || 0).toLocaleDateString()}`}
                 </Text>
               </Flex>
             </Flex>

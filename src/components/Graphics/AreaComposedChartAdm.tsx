@@ -1,4 +1,4 @@
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import {
   ComposedChart,
   Area,
@@ -8,31 +8,41 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import {
+  AreaChartType,
+  ResultType,
+  SpecialtiesType,
+  UserTypes,
+} from "types/interfaces";
 
-const AreaComposedChartAdm = ({ user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Prop {
+  user: UserTypes;
+}
 
-  const mountUserData = () => {
-    const data = user.results.sort((a: any, b: any) => {
+const AreaComposedChartAdm = ({ user }: Prop) => {
+  const { specialties } = useSpecialties();
+
+  const speciality = specialties?.map((speciality: SpecialtiesType): string => {
+    return speciality.performance;
+  });
+
+  const mountUserData = (): AreaChartType[] | undefined => {
+    const data = user.results.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data.map((item: any) => {
+    const dataToChart = data.map((dataChart: ResultType): AreaChartType => {
       return {
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
-        nextRole: item.nextRole,
-        allSpecialities: [...speciality!],
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
+        nextRole: dataChart.nextRole,
+        speciality,
       };
     });
-
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((item: any) => {
-    return item.performance;
-  });
-
   const data = mountUserData();
+
   return (
     <ResponsiveContainer width="85%" height="70%">
       <ComposedChart
@@ -50,7 +60,7 @@ const AreaComposedChartAdm = ({ user }: any) => {
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
         <YAxis
           stroke={"white"}
-          dataKey={"allSpecialities"}
+          dataKey={"speciality"}
           type="category"
           scale="point"
         />

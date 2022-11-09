@@ -6,20 +6,21 @@ import {
   UnorderedList,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { SpecialtiesType } from "types/interfaces";
 import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 
 const Specialties = () => {
-  const { specialtyss } = useSpecialtyss();
+  const { specialties } = useSpecialties();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   return (
     <>
-      {specialtyss?.map((specialty) => (
+      {specialties?.map((specialty: SpecialtiesType) => (
         <Flex
           key={specialty.id}
           justifyContent={"space-evenly"}
@@ -45,7 +46,12 @@ const Specialties = () => {
             </Flex>
           </Flex>
 
-          <Flex direction={"column"} w={{ xl: "50%", sm: "100%" }} ml={{ xl: "1rem", sm: "0" }} mt={{xl: "0", sm: "2rem"}}>
+          <Flex
+            direction={"column"}
+            w={{ xl: "50%", sm: "100%" }}
+            ml={{ xl: "1rem", sm: "0" }}
+            mt={{ xl: "0", sm: "2rem" }}
+          >
             {/* Informações*/}
             <Heading
               as="h2"

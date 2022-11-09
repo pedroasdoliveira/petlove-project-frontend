@@ -4,6 +4,8 @@ import { ImUserTie } from "react-icons/im";
 import Link from "next/link";
 import { useUsers } from "../../contexts/Users";
 import { useState, useEffect } from "react";
+import { useAuth } from "contexts/Auth";
+import { UserTypes } from "types/interfaces";
 
 interface SettingsMenuProps {
   path:
@@ -16,25 +18,27 @@ interface SettingsMenuProps {
 
 const MenuProfile = ({ path }: SettingsMenuProps) => {
   const { user, users } = useUsers();
+  const { logged } = useAuth();
   const [newTest, setNewTest] = useState(false);
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
+      users?.reduce((acc: number, user: UserTypes): number => {
         if (user?.results?.at(-1)?.isValided === null) {
           setNewTest(true);
         }
-      });
+        return acc;
+      }, 0 as number);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const menuPatchBackground = useColorModeValue(
     "rgba(255, 255, 255, 0.19)",
-    "rgba(27, 28, 51, 0.71)",
+    "rgba(27, 28, 51, 0.71)"
   );
   const pageBackground = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .95) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   return (
@@ -45,7 +49,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
       h="43.5rem"
       bg={pageBackground}
       borderRadius="10px"
-      p={{xl: '40px', lg: '15px'}}
+      p={{ xl: "40px", lg: "15px" }}
       paddingY={"5"}
       fontSize="20px"
     >
@@ -67,7 +71,7 @@ const MenuProfile = ({ path }: SettingsMenuProps) => {
         >
           <SettingsIcon w={"15"} pr={"3"} />
           <Flex mr={"4"} ml={"2"}>
-            Profile
+            Perfil
           </Flex>
         </Flex>
       </Link>

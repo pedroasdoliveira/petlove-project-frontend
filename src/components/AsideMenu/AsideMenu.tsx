@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useToggle } from "../../hooks/useToggle";
-import { ToggleMode } from "../../types/interfaces";
+import { ToggleMode, UserTypes } from "../../types/interfaces";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import DrawerMenu from "../../components/DrawerMenu/DrawerMenu";
 import { AiFillHome, AiFillProfile, AiOutlineLogout } from "react-icons/ai";
@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { useUsers } from "contexts/Users";
 
 interface Prop {
-  direction?: any;
+  direction?: "row" | "column";
   path?: "Interview";
   currentPage?:
     | "Perfil"
@@ -29,7 +29,7 @@ interface Prop {
 }
 
 const AsideMenu = ({ path, direction, currentPage }: Prop) => {
-  const { logout } = useAuth();
+  const { logout, logged } = useAuth();
   const { user, users } = useUsers();
 
   const { toggleColorMode } = useColorMode();
@@ -37,18 +37,24 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
   const borderColor = useColorModeValue("#1d1d31", "#8e6dd1");
   const textColor = useColorModeValue("#000000", "#ffffff");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          setContTest(contTest + 1);
-        }
-      });
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
+
+      setContTest(badgeNumber);
     }
-  }, [user]);
+  }, [user, logged]);
 
   return (
     <>
@@ -58,7 +64,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
           p="3px"
           borderRadius="10px"
           h={
-            direction === "column"
+            direction === ("column" as string)
               ? path === "Interview"
                 ? "6%"
                 : "35%"
@@ -101,7 +107,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                       style={{
                         position: "absolute",
                         top: "1.7rem",
-                        right:"-0.5rem",
+                        right: "-0.5rem",
                         zIndex: 2,
                         width: "22px",
                         height: "21px",
@@ -117,15 +123,12 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                         alignItems: "center",
                       }}
                     >
-                      {contTest > 9 ? "9+" : contTest}
+                      {contTest && (contTest > 9 ? "9+" : contTest)}
                     </Badge>
                   )}
                 </Button>
               </Link>
-              <Button
-                m={direction === "column" ? "1.5rem 0 0 0" : "0 0 0 1.5rem"}
-                onClick={logout}
-              >
+              <Button mx={{ md: "1.5rem", sm: "" }} onClick={logout}>
                 <Icon as={AiOutlineLogout} />
               </Button>
             </>
@@ -171,6 +174,7 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
                   <Icon as={AiFillProfile} />
                 </Button>
               </Link>
+              <DrawerMenu path={currentPage} />
               <Button
                 m={{ md: "1.5rem 0 0 0", sm: "" }}
                 onClick={logout}
@@ -178,7 +182,6 @@ const AsideMenu = ({ path, direction, currentPage }: Prop) => {
               >
                 <Icon as={AiOutlineLogout} />
               </Button>
-              <DrawerMenu path={currentPage} />
             </>
           )}
         </Flex>

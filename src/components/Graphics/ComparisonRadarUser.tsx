@@ -9,15 +9,16 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { ComparisonRadarChartType, ResultType } from "types/interfaces";
 
 interface ComparisonRadarUserProps {
-  value: any;
+  value: ResultType;
 }
 
 const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -31,37 +32,39 @@ const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const lastData = user.results?.[user.results?.length - 1];
+  const lastData = user?.results[user?.results.length - 1];
 
-  const mountComparisonData = () => {
+  const mountComparisonData = (): ComparisonRadarChartType[] => {
     const data = [
       {
         subject: "Influence",
         A: value.influence,
-        B: lastData.influence,
+        B: lastData?.influence,
       },
       {
         subject: "Person",
         A: value.person,
-        B: lastData.person,
+        B: lastData?.person,
       },
       {
         subject: "Process",
         A: value.process,
-        B: lastData.process,
+        B: lastData?.process,
       },
       {
         subject: "System",
         A: value.system,
-        B: lastData.system,
+        B: lastData?.system,
       },
       {
         subject: "Technology",
         A: value.technology,
-        B: lastData.technology,
+        B: lastData?.technology,
       },
     ];
 
@@ -95,9 +98,9 @@ const ComparisonRadarUser = ({ value }: ComparisonRadarUserProps) => {
           dot={{ stroke: "white", strokeWidth: 0.5 }}
         />
         <Radar
-          name={"Último teste - " + lastData.nextRole}
+          name={"Último teste - " + lastData?.nextRole}
           dataKey="B"
-          stroke={handleColor(lastData.nextRole)}
+          stroke={handleColor(lastData?.nextRole || "")}
           strokeWidth={3}
           fill="cyan"
           fillOpacity={0}

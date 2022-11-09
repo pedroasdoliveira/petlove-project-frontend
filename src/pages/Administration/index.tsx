@@ -43,7 +43,7 @@ const Administration: NextPage = () => {
       h="100vh"
       w="100vw"
       px={{ xl: "5rem", lg: "1.5rem" }}
-      py="30px"
+      py={{sm: "0", md: "30px"}}
       justifyContent={{ sm: "center", md: "space-between" }}
       position="relative"
       cursor="default"
@@ -54,6 +54,7 @@ const Administration: NextPage = () => {
           name="Página do administrador"
           content="Página do administrador"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -71,8 +72,8 @@ const Administration: NextPage = () => {
           mr={{ lg: "30px", md: "60px" }}
           w={{ xl: "calc(100% - 20rem)", lg: "80%", sm: "100%" }}
           flexDir="column"
-          px="3%"
-          py={{ sm: "20%", md: "2%" }}
+          px={{md: "3%", sm: "0"}}
+          py={{ sm: "20%", md: "2%"}}
         >
           {/* #1 Accordion: Teste dos usuários */}
 
@@ -140,7 +141,7 @@ const Administration: NextPage = () => {
                   direction={"column"}
                   marginBottom={8}
                   py={8}
-                  px={{ sm: 3, md: 8 }}
+                  px={{ sm: 0, md: 8 }}
                   borderRadius={"15px"}
                   bg={background}
                   color={"white"}
@@ -151,7 +152,7 @@ const Administration: NextPage = () => {
                     </Flex>
                     <AccordionIcon w={10} h={10} />
                   </AccordionButton>
-                  <AccordionPanel pb={4}>
+                  <AccordionPanel pb={4} px={0}>
                     <Flex direction={"column"}>
                       <UserComparisons />
                     </Flex>

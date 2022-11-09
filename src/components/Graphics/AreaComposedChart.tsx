@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import { useUsers } from "../../contexts/Users";
 import {
   ComposedChart,
@@ -10,37 +10,41 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { AreaChartType, ResultType, SpecialtiesType } from "types/interfaces";
 
 const AreaComposedChart = () => {
   const { user } = useUsers();
-  const { specialtyss } = useSpecialtyss();
+  const { specialties } = useSpecialties();
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, #3B49DA 21.73%, rgba(59, 73, 218, 0.49) 52.68%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
-  const mountUserData = () => {
-    const data = user.results?.sort((a: any, b: any) => {
+  const speciality = specialties?.map(
+    (specialityData: SpecialtiesType): string => {
+      return specialityData.performance;
+    }
+  );
+
+  const mountUserData = (): AreaChartType[] | undefined => {
+    const data = user?.results?.sort((a: ResultType, b: ResultType): number => {
       return Number(a.createdAt) - Number(b.createdAt);
     });
 
-    const dataToChart = data?.map((item: any) => {
+    const dataToChart = data?.map((dataChart: ResultType): AreaChartType => {
       return {
-        nextRole: item.nextRole,
-        createdAt: `${new Date(item.createdAt).toLocaleDateString()}`,
-        allSpecialities: [...speciality!],
+        nextRole: dataChart.nextRole,
+        createdAt: `${new Date(dataChart.createdAt).toLocaleDateString()}`,
+        speciality,
       };
     });
 
     return dataToChart;
   };
 
-  const speciality = specialtyss?.map((item: any) => {
-    return item.performance;
-  });
-
   const data = mountUserData();
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
@@ -58,7 +62,7 @@ const AreaComposedChart = () => {
         <XAxis dataKey="createdAt" stroke={"white"} padding={{ left: 0 }} />
         <YAxis
           stroke={"white"}
-          dataKey={"allSpecialities"}
+          dataKey={"speciality"}
           type="category"
           scale="point"
         />

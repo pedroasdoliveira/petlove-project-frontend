@@ -27,6 +27,7 @@ const Interview: NextPage = () => {
       <Head>
         <title>Teste - Self Awareness</title>
         <meta name="description" content="Questions to answer" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 

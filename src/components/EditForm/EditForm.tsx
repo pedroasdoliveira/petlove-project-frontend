@@ -79,7 +79,7 @@ const EditForm = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setEmailNotification(user?.emailNotification);
+    setEmailNotification(user?.emailNotification as string);
     setImage(user?.profilePicture ?? ProfileIcon);
   }, [user]);
 
@@ -112,7 +112,7 @@ const EditForm = () => {
     };
 
     api
-      .patch(`/User/${user.email}`, dataToSend, headers)
+      .patch(`/User/${user?.email}`, dataToSend, headers)
       .then(() => {
         toast.success("Dados alterados com sucesso!");
         handleGetUsers();
@@ -121,8 +121,6 @@ const EditForm = () => {
       })
       .catch((error) => {
         toast.error("Erro ao alterar dados!");
-        console.log(error);
-        console.log(dataToSend);
         setRequisition(false);
       });
   };

@@ -10,16 +10,17 @@ import {
   YAxis,
   Bar,
 } from "recharts";
+import { BarUserChartType, ResultType } from "types/interfaces";
 
 interface ComparisonBarUserProps {
-  value: any;
+  value: ResultType;
   subject: "Influence" | "Person" | "Process" | "System" | "Technology";
 }
 
 const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
   const { user } = useUsers();
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -33,19 +34,21 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const lastData = user.results?.[user.results?.length - 1];
+  const lastData = user?.results[user?.results.length - 1];
 
-  const mountComparisonData = (subName: string) => {
+  const mountComparisonData = (subName: string): BarUserChartType[] => {
     const dataToChart = [
       {
         createdAt: `${new Date(value.createdAt).toLocaleDateString()}`,
         A: value?.[subName.toLowerCase() as keyof typeof value],
       },
       {
-        createdAt: `${new Date(lastData.createdAt).toLocaleDateString()}`,
+        createdAt: `${new Date(lastData?.createdAt || 0).toLocaleDateString()}`,
         B: lastData?.[subName?.toLowerCase() as keyof typeof lastData],
       },
     ];
@@ -78,10 +81,10 @@ const ComparisonBarUser = ({ value, subject }: ComparisonBarUserProps) => {
             fill={handleColor(value.nextRole)}
           />
           <Bar
-            name={"Último teste - " + lastData.nextRole}
+            name={"Último teste - " + lastData?.nextRole}
             dataKey="B"
             stackId="a"
-            fill={handleColor(lastData.nextRole)}
+            fill={handleColor(lastData?.nextRole || "")}
           />
           <Tooltip
             cursor={{ fill: "transparent" }}

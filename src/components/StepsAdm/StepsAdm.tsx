@@ -20,18 +20,31 @@ import LastRadarUserAdm from "../../components/Graphics/LastRadarUserAdm";
 import toast from "react-hot-toast";
 import { api } from "../../services";
 import { useUsers } from "../../contexts/Users";
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import { useTest } from "../../contexts/testQuests";
 import { useAuth } from "../../contexts/Auth";
+import {
+  ResultType,
+  ResultReviewType,
+  StepsType,
+  SpecialtiesType,
+} from "types/interfaces";
+
+interface Props {
+  lastTest: ResultType;
+  respostas: ResultReviewType;
+  handleResetRespostas: () => void;
+  onClose: () => void;
+}
 
 const StepsAdmForm = ({
   lastTest,
   respostas,
   handleResetRespostas,
   onClose,
-}: any) => {
-  const { specialtyss } = useSpecialtyss();
-  const { test }: any = useTest();
+}: Props) => {
+  const { specialties } = useSpecialties();
+  const { test } = useTest();
   const { requisition, setRequisition } = useAuth();
 
   const { handleGetUsers } = useUsers();
@@ -49,11 +62,11 @@ const StepsAdmForm = ({
 
   const buttonColorReverse = useColorModeValue(
     "rgba(6, 11, 40, 0.94)",
-    "#3B49DA",
+    "#3B49DA"
   );
   const buttonColorReverseHover = useColorModeValue(
     "#313bad",
-    "rgba(13, 24, 83, 0.94)",
+    "rgba(13, 24, 83, 0.94)"
   );
   const colorOption = useColorModeValue("#3B49DA", "rgba(6, 11, 40, 0.94)");
 
@@ -75,15 +88,15 @@ const StepsAdmForm = ({
   const [userEspeciality, setUserEspeciality] = useState(lastTest.nextRole);
   const [userValidate, setUserValidate] = useState("");
 
-  const handleUserEspeciality = (event: any) => {
+  const handleUserEspeciality = (event: any): void => {
     setUserEspeciality(event.target.value);
   };
 
-  const handleUserValidate = (event: any) => {
+  const handleUserValidate = (event: any): void => {
     setUserValidate(event.target.value);
   };
 
-  const changeValueRadio = (value: string) => {
+  const changeValueRadio = (value: string): void => {
     setValueButton(true);
 
     if (value === "Sim") {
@@ -93,7 +106,7 @@ const StepsAdmForm = ({
     }
   };
 
-  const handleHidden = () => {
+  const handleHidden = (): void => {
     setHidden(!hidden);
   };
 
@@ -131,7 +144,7 @@ const StepsAdmForm = ({
             fontSize: "1.2rem",
           }}
         >
-          {steps.map(({ label, Content }) => (
+          {steps.map(({ label, Content }: StepsType) => (
             <Step label={label} key={label} height={"1%"}>
               <Flex
                 flexDir={"column"}
@@ -151,19 +164,19 @@ const StepsAdmForm = ({
                     justifyContent={"center"}
                     flexDir={"column"}
                   >
-                    {Content[eval(`respostas.${label}`)] &&
+                    {Content?.[eval(`respostas.${label}`)] &&
                     Content[eval(`respostas.${label}`)].match(
-                      /https?:\/\/[^\s]+|www.?[^\s]+/g,
+                      /https?:\/\/[^\s]+|www.?[^\s]+/g
                     ) ? (
                       <>
                         {Content[eval(`respostas.${label}`)].replace(
                           /https?:\/\/[^\s]+|www.?[^\s]+/g,
-                          "",
+                          ""
                         )}
                         <ChakraLink
                           href={
                             Content[eval(`respostas.${label}`)].match(
-                              /https?:\/\/[^\s]+|www.?[^\s]+/g,
+                              /https?:\/\/[^\s]+|www.?[^\s]+/g
                             ) as unknown as string
                           }
                           target="_blank"
@@ -176,7 +189,7 @@ const StepsAdmForm = ({
                         </ChakraLink>
                       </>
                     ) : (
-                      Content[eval(`respostas.${label}`)]
+                      Content?.[eval(`respostas.${label}`)]
                     )}
                   </Heading>
                 </FormLabel>
@@ -195,7 +208,7 @@ const StepsAdmForm = ({
                     if (questionaryVerify === "question") {
                       setQuantity(quantity + 1);
                       setValueButton(false);
-                      if (eval(`respostas.${label}`) < Content.length - 1) {
+                      if (eval(`respostas.${label}`) < Content?.length! - 1) {
                         eval(`respostas.${label}++`);
                       } else {
                         eval(`respostas.${label}++`);
@@ -203,7 +216,7 @@ const StepsAdmForm = ({
                       }
                     } else if (questionaryVerify === "step") {
                       setQuantity(
-                        quantity + Content.length - eval(`respostas.${label}`),
+                        quantity + Content?.length! - eval(`respostas.${label}`)
                       );
                       nextStep();
                     }
@@ -302,7 +315,7 @@ const StepsAdmForm = ({
           </Button>
           <Flex gap={"1rem"}>
             <Select w="80%" isRequired={true} onChange={handleUserEspeciality}>
-              {specialtyss?.map((speciality) => (
+              {specialties?.map((speciality: SpecialtiesType) => (
                 <option
                   key={speciality.id}
                   selected={
@@ -379,17 +392,17 @@ const StepsAdmForm = ({
                     isValided: userValidate,
                     system: respostas.Sistemas,
                     technology: +(
-                      (respostas.Ferramentarias +
-                        respostas.Design +
-                        respostas.Teste +
-                        respostas.Computacionais) *
+                      ((respostas.Ferramentarias || 0) +
+                        (respostas.Design || 0) +
+                        (respostas.Teste || 0) +
+                        (respostas.Computacionais || 0)) *
                       (5 / 12)
                     ).toFixed(2),
                     person: respostas.Pessoas,
                     influence: +(
-                      (respostas.Sistemas +
-                        respostas.Processos +
-                        2 * respostas.Pessoas) /
+                      ((respostas.Sistemas || 0) +
+                        (respostas.Processos || 0) +
+                        2 * (respostas.Pessoas || 0)) /
                       4
                     ).toFixed(2),
                     process: respostas.Processos,

@@ -7,16 +7,17 @@ import { useUsers } from "../../contexts/Users";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { UserTypes } from "types/interfaces";
 
 interface ProfileProps {
   name: string;
 }
 
 const Edit: NextPage<ProfileProps> = () => {
-  const { checkTokenExpiration } = useAuth();
+  const { checkTokenExpiration, logged } = useAuth();
   const { users, user } = useUsers();
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -24,18 +25,24 @@ const Edit: NextPage<ProfileProps> = () => {
 
   useEffect(() => {
     if (user?.isAdmin) {
-      users?.map((user) => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          setContTest(contTest + 1);
-        }
-      });
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
+
+      setContTest(badgeNumber);
     }
-  }, [user]);
+  }, [user, logged]);
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, .40) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   return (
@@ -59,6 +66,10 @@ const Edit: NextPage<ProfileProps> = () => {
           name="Pagina de edição de dados do usuário"
           content="Pagina de edição de dados do usuário"
         />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -78,7 +89,7 @@ const Edit: NextPage<ProfileProps> = () => {
           mr={{ lg: "30px", md: "60px" }}
           w={{ xl: "calc(100% - 20rem)", lg: "80%", sm: "100%" }}
           flexDir="column"
-          px={{md: "3%", sm: 0}}
+          px={{ md: "3%", sm: 0 }}
           py={{ sm: "20%", md: "2%" }}
         >
           <Flex
@@ -95,17 +106,16 @@ const Edit: NextPage<ProfileProps> = () => {
             >
               Editar dados{" "}
               <Flex fontWeight="bold" display="inline-flex">
-                {user.name?.split(" ")[0]}?
+                {user?.name?.split(" ")[0]}?
               </Flex>
             </Heading>
           </Flex>
 
           <Flex
             w="100%"
-            p={{md: "30px", sm: "10px"}}
+            p={{ md: "30px", sm: "10px" }}
             bg={background}
             borderRadius="20px"
-            
             my="50px"
             flexDir="column"
             justifyContent="space-between"
