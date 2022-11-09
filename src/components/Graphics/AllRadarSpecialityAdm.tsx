@@ -1,4 +1,4 @@
-import { useSpecialtyss } from "../../contexts/specialtyss";
+import { useSpecialties } from "../../contexts/specialties";
 import {
   Legend,
   ResponsiveContainer,
@@ -9,11 +9,21 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import {
+  RadarChartType,
+  ResultType,
+  SpecialtiesType,
+  UserTypes,
+} from "types/interfaces";
 
-const AllRadarSpecialityAdm = ({ user }: any) => {
-  const { specialtyss } = useSpecialtyss();
+interface Prop {
+  user: UserTypes;
+}
 
-  const handleColor = (value: string) => {
+const AllRadarSpecialityAdm = ({ user }: Prop) => {
+  const { specialties } = useSpecialties();
+
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -27,12 +37,14 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
   const lastResult = user.results[user.results.length - 1] || {};
-  const mountSpecialityData = () => {
-    let data: any = [
+  const mountSpecialityData = (): RadarChartType[] => {
+    let data: RadarChartType[] = [
       {
         subject: "Influence",
       },
@@ -50,25 +62,19 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
       },
     ];
 
-    specialtyss?.forEach((item: any, index: number) => {
-      data.forEach((item2: any) => {
-        item2[index] = item[item2.subject.toLowerCase()];
-      });
-    });
-
-    data = data.map((item: any) => {
-      item["A"] = lastResult?.[item.subject.toLowerCase()];
-      return item;
+    data = data.map((dataChart: RadarChartType): RadarChartType => {
+      dataChart.A = +(lastResult?.[dataChart.subject.toLowerCase() as keyof ResultType] || 0);
+      return dataChart;
     });
 
     return data;
   };
 
-  const data1 = mountSpecialityData();
+  const data = mountSpecialityData();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
+      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"
@@ -81,7 +87,7 @@ const AllRadarSpecialityAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {specialtyss?.map((item: any, index: any) => {
+        {specialties?.map((item: SpecialtiesType, index: number) => {
           return (
             <Radar
               key={index}

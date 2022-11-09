@@ -24,12 +24,13 @@ import OneLineUser from "../../components/Graphics/OneLineUser";
 import { useAuth } from "../../contexts/Auth";
 import { useEffect, useState } from "react";
 import { useUsers } from "../../contexts/Users";
+import { UserTypes } from "types/interfaces";
 
 const History: NextPage = () => {
   const { checkTokenExpiration, logged } = useAuth();
   const { handleGetUsers, users, user } = useUsers();
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
@@ -46,18 +47,23 @@ const History: NextPage = () => {
   }, [user && user.isAdmin]);
 
   const handleContTest = () => {
-    setContTest(0);
-    users?.map((user) => {
-      if (user?.results?.at(-1)?.isValided === null) {
-        setNewTest(true);
-        setContTest(contTest + 1);
-      }
-    });
+    const badgeNumber = users?.reduce(
+      (acc: number, user: UserTypes): number => {
+        if (user?.results?.at(-1)?.isValided === null) {
+          setNewTest(true);
+          return acc + 1;
+        }
+        return acc;
+      },
+      0 as number
+    );
+
+    setContTest(badgeNumber);
   };
 
   const background = useColorModeValue(
     "linear-gradient(111.58deg, rgba(37,27,113, 95) 21.73%, rgba(37, 29, 103, 0.50) 78.27%)",
-    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)",
+    "linear-gradient(97.85deg, rgba(6, 11, 40, 0.94) 20.22%, rgba(10, 14, 35, 0.49) 100%)"
   );
 
   return (
@@ -81,7 +87,10 @@ const History: NextPage = () => {
           name="Pagina do histórico do usuário"
           content="Pagina contendo gráficos e informações para o usuário"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -164,7 +173,11 @@ const History: NextPage = () => {
               bg={background}
               color={"white"}
             >
-              <Heading as="h3" fontSize={{ sm: "lg", md: "xl" }}>
+              <Heading
+                as="h3"
+                fontSize={{ sm: "lg", md: "xl" }}
+                textAlign="center"
+              >
                 Histórico de evolução em gráficos
               </Heading>
 
@@ -175,7 +188,7 @@ const History: NextPage = () => {
               >
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
@@ -188,12 +201,12 @@ const History: NextPage = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
                     mt={"1rem"}
-                    mb={"-1rem"}
+                    mb={"-0.5rem"}
                   >
                     Linha - Todos os testes - Influencia
                   </Text>
@@ -201,12 +214,12 @@ const History: NextPage = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
                     mt={"1rem"}
-                    mb={"-1rem"}
+                    mb={"-0.5rem"}
                   >
                     Linha - Todos os testes - Pessoas
                   </Text>
@@ -214,12 +227,12 @@ const History: NextPage = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
                     mt={"1rem"}
-                    mb={"-1rem"}
+                    mb={"-0.5rem"}
                   >
                     Linha - Todos os testes - Processos
                   </Text>
@@ -227,12 +240,12 @@ const History: NextPage = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
                     mt={"1rem"}
-                    mb={"-1rem"}
+                    mb={"-0.5rem"}
                   >
                     Linha - Todos os testes - Sistema
                   </Text>
@@ -240,12 +253,12 @@ const History: NextPage = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                   <Text
-                    fontSize={"1.5rem"}
+                    fontSize={{ md: "1.5rem", sm: "1rem" }}
                     fontWeight={"bold"}
                     color={"white"}
                     textAlign={"center"}
                     mt={"1rem"}
-                    mb={"-1rem"}
+                    mb={"-0.5rem"}
                   >
                     Linha - Todos os testes - Tecnologia
                   </Text>

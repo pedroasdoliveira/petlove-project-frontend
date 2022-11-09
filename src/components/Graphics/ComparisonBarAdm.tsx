@@ -9,24 +9,25 @@ import {
   Bar,
   Brush,
 } from "recharts";
+import { BarChartType, UserTypes } from "types/interfaces";
 
 interface ComparisonBarUserProps {
-  value: any[];
+  value: UserTypes[] | undefined;
 }
 
 const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
-  const comparisonData = value?.map((item) => {
-    const lastResult = item.results[item.results.length - 1];
+  const comparisonData = value?.map((dataChart: UserTypes): BarChartType => {
+    const lastResult = dataChart.results[dataChart.results.length - 1];
     const nameSplit =
-      item.name.split(" ")[0] +
+      dataChart.name.split(" ")[0] +
       " " +
-      (item.name?.split(" ")[1]?.at(0)
-        ? item.name?.split(" ")[1]?.at(0) + "."
+      (dataChart.name?.split(" ")[1]?.at(0)
+        ? dataChart.name?.split(" ")[1]?.at(0) + "."
         : "");
 
     const data = {
       name: nameSplit,
-      total: (
+      total: +(
         lastResult?.system +
         lastResult?.person +
         lastResult?.technology +
@@ -36,18 +37,18 @@ const ComparisonBarAdm = ({ value }: ComparisonBarUserProps) => {
     };
 
     if (isNaN(data.total)) {
-      return (data.total = null);
+      data.total = 0;
     }
 
     return data;
   });
 
-  const sortedData = comparisonData?.sort((a, b) => {
-    return b?.total - a?.total;
+  const sortedData = comparisonData?.sort((a: BarChartType, b: BarChartType): number => {
+    return b?.total! - a?.total!;
   });
 
-  const removedNull = sortedData?.filter((item) => {
-    return item?.total !== null && item?.total !== undefined;
+  const removedNull = sortedData?.filter((dataChart: BarChartType): boolean => {
+    return dataChart?.total !== null && dataChart?.total !== undefined;
   });
 
   return (

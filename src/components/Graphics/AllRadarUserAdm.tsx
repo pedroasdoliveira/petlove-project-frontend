@@ -8,9 +8,14 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { RadarChartType, ResultType, UserTypes } from "types/interfaces";
 
-const AllRadarUserAdm = ({ user }: any) => {
-  const handleColor = (value: string) => {
+interface Prop {
+  user: UserTypes;
+}
+
+const AllRadarUserAdm = ({ user }: Prop) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -24,11 +29,13 @@ const AllRadarUserAdm = ({ user }: any) => {
         return "cyan";
       case "Especialista":
         return "#0000FF";
+      default:
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
-    const data = [
+  const mountLastData = (): RadarChartType[] => {
+    const data: RadarChartType[] = [
       {
         subject: "Influence",
       },
@@ -46,20 +53,22 @@ const AllRadarUserAdm = ({ user }: any) => {
       },
     ];
 
-    user.results.forEach((item: any, index: number) => {
-      data.forEach((item2: any) => {
-        item2[index] = item[item2.subject.toLowerCase()];
+    user.results.forEach((result: ResultType, index: number): void => {
+      data.forEach((dataChart: RadarChartType): void => {
+        // @ts-expect-error
+        dataChart[index] =
+          result[dataChart.subject.toLowerCase() as keyof ResultType];
       });
     });
 
     return data;
   };
 
-  const data1 = mountLastData();
+  const data = mountLastData();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data1}>
+      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
         <PolarGrid gridType="circle" />
         <PolarAngleAxis
           dataKey="subject"
@@ -72,7 +81,7 @@ const AllRadarUserAdm = ({ user }: any) => {
           angle={60}
           stroke="white"
         />
-        {user.results.map((item: any, index: any) => {
+        {user.results.map((item: ResultType, index: number) => {
           return (
             <Radar
               key={index}

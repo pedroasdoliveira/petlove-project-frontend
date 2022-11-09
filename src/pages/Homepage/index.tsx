@@ -7,7 +7,6 @@ import CheckIcon from "../../../public/icon/Icon_check.svg";
 import ClockIcon from "../../../public/icon/Icon_Clock.svg";
 import ProfileIcon from "../../../public/icon/Profile_Icon.svg";
 import {
-  Badge,
   Flex,
   Grid,
   GridItem,
@@ -20,27 +19,35 @@ import Footer from "../../components/Footer/Footer";
 import AsideMenu from "../../components/AsideMenu/AsideMenu";
 import { useAuth } from "../../contexts/Auth";
 import { useUsers } from "../../contexts/Users";
+import { UserTypes } from "types/interfaces";
 
 const Homepage: NextPage = () => {
-  const { checkTokenExpiration } = useAuth();
-  const { user, users } = useUsers();
+  const { checkTokenExpiration, logged } = useAuth();
+  const { user, users, handleGetUsers } = useUsers();
   const [image, setImage] = useState("");
   const [newTest, setNewTest] = useState(false);
-  const [contTest, setContTest] = useState(0);
+  const [contTest, setContTest] = useState<number>();
 
   useEffect(() => {
     checkTokenExpiration?.();
+    handleGetUsers?.();
   }, []);
 
   useEffect(() => {
     setImage(user?.profilePicture ?? "");
     if (user?.isAdmin) {
-      users?.map((user) => {
-        if (user?.results?.at(-1)?.isValided === null) {
-          setNewTest(true);
-          setContTest(contTest + 1);
-        }
-      });
+      const badgeNumber = users?.reduce(
+        (acc: number, user: UserTypes): number => {
+          if (user?.results?.at(-1)?.isValided === null) {
+            setNewTest(true);
+            return acc + 1;
+          }
+          return acc;
+        },
+        0 as number
+      );
+
+      setContTest(badgeNumber);
     }
   }, [user]);
 
@@ -68,7 +75,10 @@ const Homepage: NextPage = () => {
           <title>Homepage - Self Awareness</title>
         )}
         <meta name="description" content="Homepage" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
         <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
       </Head>
 
@@ -103,7 +113,7 @@ const Homepage: NextPage = () => {
           >
             Questionário
           </Heading>
-          <Flex position="absolute" right={{md: "310", sm:"-6"}} top="0.2">
+          <Flex position="absolute" right={{ md: "310", sm: "-6" }} top="0.2">
             <Image
               src={image ? image : ProfileIcon}
               alt="Imagem de perfil"
@@ -113,7 +123,6 @@ const Homepage: NextPage = () => {
               style={{ borderRadius: "50%", background: "#dee0e3" }}
             />
           </Flex>
-
 
           <AsideMenu direction="row" />
         </Flex>
@@ -125,7 +134,7 @@ const Homepage: NextPage = () => {
         justifyContent={"center"}
         alignItems={"center"}
         marginTop={"8rem"}
-        marginBottom={"5rem"}
+        marginBottom={"3rem"}
       >
         <Heading as="h1" fontSize={"4xl"} fontWeight="bold" textAlign="center">
           Avalie suas capacidades!
@@ -144,7 +153,7 @@ const Homepage: NextPage = () => {
       <Grid
         templateColumns={{ lg: "repeat(3, 1fr)", sm: "repeat(1, 1fr)" }}
         gap={8}
-        my={12}
+        mb={12}
       >
         <GridItem
           bg={bgCardColor}

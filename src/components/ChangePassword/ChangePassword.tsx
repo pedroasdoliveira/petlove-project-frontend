@@ -39,7 +39,11 @@ const changePasswordSchema = yup.object().shape({
     .required("Confirmação de senha é obrigatória"),
 });
 
-const ChangePasswordComponent = ({ query }: any) => {
+interface Prop {
+  query: string[] | string | undefined;
+}
+
+const ChangePasswordComponent = ({ query }: Prop) => {
   const buttonBackground = useColorModeValue("#230d88", "#5030dd");
   const buttonHover = useColorModeValue("#383838", "#dee0e3");
   const buttonColor = useColorModeValue("#dee0e3", "#000000");

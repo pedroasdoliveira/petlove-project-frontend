@@ -8,11 +8,17 @@ import {
   RadarChart,
   Tooltip,
 } from "recharts";
+import { RadarChartType, ResultReviewType } from "types/interfaces";
 
-const LastRadarUserAdm = ({ testUser, type }: any) => {
+interface Prop {
+  testUser: ResultReviewType;
+  type: string;
+}
+
+const LastRadarUserAdm = ({ testUser, type }: Prop) => {
   let testUserAdm = testUser;
 
-  const handleColor = (value: string) => {
+  const handleColor = (value: string): string => {
     switch (value) {
       case "Trainee":
         return "#7700ff";
@@ -27,26 +33,28 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
       case "Especialista":
         return "#0000FF";
       default:
-        return "#e2e2e2";
+        return "#00ffc8";
     }
   };
 
-  const mountLastData = () => {
+  const mountLastData = (): RadarChartType[] => {
     if (type === "review") {
       testUserAdm = {
         nextRole: "review",
-        system: testUser.Sistemas,
-        person: testUser.Pessoas,
-        technology: (
-          (testUser.Ferramentarias +
-            testUser.Design +
-            testUser.Teste +
-            testUser.Computacionais) *
+        system: testUser.Sistemas ? testUser.Sistemas : 0,
+        person: testUser.Pessoas ? testUser.Pessoas : 0,
+        technology: +(
+          ((testUser.Ferramentarias ? testUser.Ferramentarias : 0) +
+            (testUser.Design ? testUser.Design : 0) +
+            (testUser.Teste ? testUser.Teste : 0) +
+            (testUser.Computacionais ? testUser.Computacionais : 0)) *
           (5 / 12)
         ).toFixed(2),
-        process: testUser.Processos,
-        influence: (
-          (testUser.Sistemas + testUser.Processos + 2 * testUser.Pessoas) /
+        process: testUser.Processos ? testUser.Processos : 0,
+        influence: +(
+          ((testUser.Sistemas ? testUser.Sistemas : 0) +
+            (testUser.Processos ? testUser.Processos : 0) +
+            2 * (testUser.Pessoas ? testUser.Pessoas : 0)) /
           4
         ).toFixed(2),
       };
@@ -109,9 +117,9 @@ const LastRadarUserAdm = ({ testUser, type }: any) => {
         <Radar
           name={testUserAdm?.nextRole}
           dataKey="A"
-          stroke={handleColor(testUserAdm?.nextRole)}
+          stroke={handleColor(testUserAdm?.nextRole as string)}
           strokeWidth={3}
-          fill={handleColor(testUserAdm?.nextRole)}
+          fill={handleColor(testUserAdm?.nextRole as string)}
           fillOpacity={0.6}
           dot={{ stroke: "white", strokeWidth: 0.5 }}
         />

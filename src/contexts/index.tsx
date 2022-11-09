@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ToggleContextProvider } from "./ToggleModeStyles";
 import { AuthContextProvider } from "./Auth";
 import { UsersContextProvider } from "./Users";
-import { SpecialtyssContextProvider } from "./specialtyss";
+import { SpecialtiesContextProvider } from "./specialties";
 import { TestContextProvider } from "./testQuests";
 
 interface ProviderProps {
@@ -15,7 +15,7 @@ const Providers = ({ children }: ProviderProps) => {
       <AuthContextProvider>
         <UsersContextProvider>
           <TestContextProvider>
-            <SpecialtyssContextProvider>{children}</SpecialtyssContextProvider>
+            <SpecialtiesContextProvider>{children}</SpecialtiesContextProvider>
           </TestContextProvider>
         </UsersContextProvider>
       </AuthContextProvider>

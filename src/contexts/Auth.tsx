@@ -7,8 +7,8 @@ import {
 } from "react";
 import { api } from "../services";
 import toast from "react-hot-toast";
-
 import Router from "next/router";
+import { UserStorageType } from "types/interfaces";
 
 interface Props {
   children: ReactNode;
@@ -16,22 +16,24 @@ interface Props {
 
 interface AuthData {
   logged: boolean;
+  logoutUser: boolean;
   requisition: boolean;
-  login?: (params: any) => void;
+  login?: ({token, user}: LoginParams) => void;
   logout?: () => void;
   checkTokenExpiration?: () => void;
-  setRequisition: (params: any) => void;
+  setRequisition: (params: boolean) => void;
 }
 
 interface LoginParams {
   token: string;
-  user: any;
+  user: UserStorageType;
 }
 
 export const AuthContext = createContext<AuthData>({} as AuthData);
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [logged, setLogged] = useState<boolean>(false);
+  const [logoutUser, setLogoutUser] = useState<boolean>(false);
   const [requisition, setRequisition] = useState<boolean>(false);
 
   const login = ({ token, user }: LoginParams) => {
@@ -42,15 +44,15 @@ export const AuthContextProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    let token: any;
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token") || false;
-    }
-    if (token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      const token = localStorage.getItem("token") || false;
+      if (token) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
     }
     setLogged(false);
+    setLogoutUser(true);
     Router.push("/");
   };
 
@@ -97,6 +99,7 @@ export const AuthContextProvider = ({ children }: Props) => {
         checkTokenExpiration,
         requisition,
         setRequisition,
+        logoutUser,
       }}
     >
       {children}
