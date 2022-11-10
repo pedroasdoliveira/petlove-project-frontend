@@ -260,7 +260,7 @@ const StepsForm = () => {
                 console.log(data);
 
                 api
-                  .post("/Result", data, headers)
+                  .post("/Result/create", data, headers)
                   .then(() => {
                     setQuantity(0);
                     handleReset();
@@ -269,6 +269,7 @@ const StepsForm = () => {
                     toast.success("Resultado enviado com sucesso!");
                   })
                   .catch((err) => {
+                    console.log(err);
                     handleReset();
                     setRequisition(false);
                     if (
