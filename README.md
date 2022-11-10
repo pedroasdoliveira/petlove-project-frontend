@@ -58,7 +58,7 @@ Com o projeto clonado na maquina, execute o comando dentro da pasta do projeto:
 
 ## 🚀 Deploy
 
-[Vercel](petlove-project-frontend.vercel.app)
+[Vercel](https://selfawareness.solutions)
 
 ## Back-end e API
 
