@@ -257,6 +257,8 @@ const StepsForm = () => {
                   system: respostas.Sistemas,
                 };
 
+                console.log(data);
+
                 api
                   .post("/Result", data, headers)
                   .then(() => {
