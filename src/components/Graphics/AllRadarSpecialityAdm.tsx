@@ -62,6 +62,13 @@ const AllRadarSpecialityAdm = ({ user }: Prop) => {
       },
     ];
 
+    specialties?.forEach((speciality: SpecialtiesType, index: number): void => {
+      data.forEach((dataChart: RadarChartType) => {
+        // @ts-expect-error
+        dataChart[index] = speciality[dataChart.subject.toLowerCase() as keyof SpecialtiesType];
+      });
+    });
+
     data = data.map((dataChart: RadarChartType): RadarChartType => {
       dataChart.A = +(lastResult?.[dataChart.subject.toLowerCase() as keyof ResultType] || 0);
       return dataChart;

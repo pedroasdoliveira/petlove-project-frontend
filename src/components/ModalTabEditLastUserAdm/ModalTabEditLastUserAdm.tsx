@@ -1,4 +1,11 @@
-import { Flex, Text, Select, Button, Divider, Input } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  Select,
+  Button,
+  Divider,
+  Input,
+} from "@chakra-ui/react";
 import toast from "react-hot-toast";
 import { api } from "services";
 import { useEffect, useState } from "react";
@@ -46,10 +53,39 @@ const ModalTabEditLastUserAdm = ({
       toast.error("Digite um número");
       return;
     }
+
+    if (event.target.value.toString().split(".")[1]?.length > 2) {
+      toast.error("Somente duas casas decimais");
+      event.target.value =
+        event.target.value.toString().split(".")[0] +
+        "." +
+        event.target.value.toString().split(".")[1]?.slice(0, 2);
+      return;
+    }
+
+    if (event.target.value.toString().split(".")[1]?.length === 0) {
+      event.target.value = event.target.value.toString().split(".")[0] + ".";
+      return;
+    }
+
     if (event.target.value > 5 || event.target.value < 0) {
       toast.error("A nota deve ser entre 0 e 5");
       return;
     }
+
+    if (
+      event.target.value.length >= 2 &&
+      event.target.value.toString().includes("00")
+    ) {
+      toast.error("Dois zeros seguidos não são permitidos");
+      event.target.value = +event.target.value.toString().replace(/^0+/, "");
+      return;
+    }
+
+    if(event.target.value.length >= 2 && event.target.value.toString().includes("0") && event.target.value.toString().split(".")[0]?.length === 2) {
+      event.target.value = +event.target.value.toString().split("0")[1]
+    }
+
     const number = +event.target.value;
     setUserTest({
       ...userTest,
@@ -86,6 +122,8 @@ const ModalTabEditLastUserAdm = ({
             name="system"
             value={userTest.system}
             w="20%"
+            type="number"
+            step="0.01"
           />
         </Flex>
         <Flex
@@ -101,6 +139,8 @@ const ModalTabEditLastUserAdm = ({
             value={userTest.person}
             name="person"
             w="20%"
+            type="number"
+            step="0.01"
           />
         </Flex>
         <Flex
@@ -116,6 +156,8 @@ const ModalTabEditLastUserAdm = ({
             name="technology"
             value={userTest.technology}
             w="20%"
+            type="number"
+            step="0.01"
           />
         </Flex>
         <Flex
@@ -131,6 +173,8 @@ const ModalTabEditLastUserAdm = ({
             name="process"
             value={userTest.process}
             w="20%"
+            type="number"
+            step="0.01"
           />
         </Flex>
         <Flex
@@ -146,6 +190,8 @@ const ModalTabEditLastUserAdm = ({
             name="influence"
             value={userTest.influence}
             w="20%"
+            type="number"
+            step="0.01"
           />
         </Flex>
       </Flex>

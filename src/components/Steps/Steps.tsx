@@ -194,7 +194,8 @@ const StepsForm = () => {
                   color: buttonColorHover,
                 }}
                 hidden={!valueButton}
-                mt={"100"}
+                position={"absolute"}
+                bottom={"7.4rem"}
                 ml={"1"}
                 onClick={() => {
                   if (questionaryVerify === "question") {
@@ -229,7 +230,7 @@ const StepsForm = () => {
       {activeStep === steps.length ? (
         <Flex px={4} py={4} width="100%" flexDir="column">
           <Heading fontSize="xl" textAlign="center">
-            Teste Concluido
+            Teste concluído
           </Heading>
           <Link href={"/Profile"}>
             <Button
@@ -257,8 +258,6 @@ const StepsForm = () => {
                   system: respostas.Sistemas,
                 };
 
-                console.log(data);
-
                 api
                   .post("/Result/create", data, headers)
                   .then(() => {
@@ -269,7 +268,6 @@ const StepsForm = () => {
                     toast.success("Resultado enviado com sucesso!");
                   })
                   .catch((err) => {
-                    console.log(err);
                     handleReset();
                     setRequisition(false);
                     if (

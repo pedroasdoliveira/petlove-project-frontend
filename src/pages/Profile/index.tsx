@@ -135,7 +135,7 @@ const Profile: NextPage<ProfileProps> = () => {
               fontSize={{ sm: "xl", md: "2xl" }}
               lineHeight={1.5}
             >
-              {"<"}Welcome back{"/>"}{" "}
+              {"<"}Welcome back {"/>"}{" "}
               <Flex fontWeight="normal" ml={"1.2rem"}>
                 {user?.name?.split(" ")[0]}
               </Flex>

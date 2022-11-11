@@ -76,7 +76,7 @@ const AllUserListTable = ({ order, specialties, filter, search }: Props) => {
     }
   });
   return (
-    <TableContainer marginTop={6}>
+    <TableContainer marginTop={8}>
       <Table variant="striped" size="md" colorScheme={color}>
         <TableCaption color="gray.200">Detalhes dos usuários</TableCaption>
         <Thead>
@@ -130,13 +130,13 @@ const AllUserListTable = ({ order, specialties, filter, search }: Props) => {
                         Novo
                       </Badge>
                     )}
-                  {user.name.length > 25 ? (
+                  {user.name.length > 20 ? (
                     <Tooltip
                       label={user.name}
                       aria-label="A tooltip"
                       placement="top"
                     >
-                      <Text>{user.name.slice(0, 25)}...</Text>
+                      <Text>{user.name.slice(0, 20)}...</Text>
                     </Tooltip>
                   ) : (
                     <Text>{user.name}</Text>

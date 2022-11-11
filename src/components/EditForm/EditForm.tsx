@@ -27,7 +27,6 @@ import { MdAddAPhoto } from "react-icons/md";
 import Infinity from "../../../public/icon/Infinity.svg";
 
 interface EditData {
-  name: string;
   password: string;
   newPassword?: string;
   confirmPassword?: string;
@@ -108,7 +107,7 @@ const EditForm = () => {
     const dataToSend = {
       ...data,
       emailNotification,
-      profilePicture: image,
+      profilePicture: image === ProfileIcon ? null : image,
     };
 
     api

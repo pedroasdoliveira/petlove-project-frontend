@@ -202,7 +202,8 @@ const StepsAdmForm = ({
                     color: buttonColorHover,
                   }}
                   hidden={!valueButton}
-                  my={"1rem"}
+                  position={"absolute"}
+                  bottom={"16.3rem"}
                   ml={"1"}
                   onClick={() => {
                     if (questionaryVerify === "question") {
@@ -225,7 +226,10 @@ const StepsAdmForm = ({
                     setQuestionaryVerify("false");
                   }}
                 >
-                  Next {questionaryVerify} <ArrowForwardIcon w={8} h={5} />
+                  {questionaryVerify === "question"
+                    ? "Próxima questão"
+                    : "Próximo passo"}{" "}
+                  <ArrowForwardIcon w={8} h={5} />
                 </Button>
               </Flex>
             </Step>
@@ -266,6 +270,7 @@ const StepsAdmForm = ({
             display="flex"
             alignItems="center"
             flexDir="column"
+            mt={"3rem"}
           >
             <RadioGroup defaultValue="none" mb={10} display="flex">
               <HStack color="#fff" spacing="80px" {...group}>

@@ -111,7 +111,7 @@ const Homepage: NextPage = () => {
             fontWeight="medium"
             ml={"2"}
           >
-            Questionário
+            {"<"}Self Awareness {"/>"}
           </Heading>
           <Flex position="absolute" right={{ md: "310", sm: "-6" }} top="0.2">
             <Image

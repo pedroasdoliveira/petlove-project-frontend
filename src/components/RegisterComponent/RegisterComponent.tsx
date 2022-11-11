@@ -47,7 +47,7 @@ const registerSchema = yup.object().shape({
 
   name: yup
     .string()
-    .min(15, "Nome deve ter no mínimo 15 caracteres")
+    .min(3, "Nome deve ter no mínimo 3 caracteres")
     .max(40, "Nome deve ter no máximo 40 caracteres")
     .required("Nome é obrigatório"),
 
