@@ -209,8 +209,8 @@ const Homepage: NextPage = () => {
             />
 
             <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
-              Tenha acesso a seu histórico de evolução de forma rápida com o
-              comparativo com seu crescimento profissional.
+              Tenha acesso ao seu histórico de evolução profissional de forma rápida com os
+              comparativos em gráficos.
             </Text>
           </Flex>
         </GridItem>
@@ -239,9 +239,9 @@ const Homepage: NextPage = () => {
             />
 
             <Text textAlign={"center"} color={textColor} lineHeight={"165%"}>
-              Administradores tem acesso a diferentes funções com os usuários
-              cadastrados, desde o histórico de evolução até o cadastro de cada
-              time.
+              Administradores tem acesso a diferentes funções sobre os usuários
+              cadastrados, desde o histórico de evolução, validação de testes, até a edição de cada
+              time e usuário.
             </Text>
           </Flex>
         </GridItem>

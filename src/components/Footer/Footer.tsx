@@ -26,10 +26,10 @@ const Footer = () => {
 
         <Text textAlign={{sm: "justify", lg: "center"}} lineHeight={"165%"} color={"white"}>
           A plataforma em conjunto com os administradores, que representam os
-          lideres de cada equipe e setor, tem como objetivo avaliar o
+          gestores de cada equipe e setor, tem como objetivo avaliar o
           crescimento das habilidades de cada profissional com o passar de sua
           evolução e de exibir o seu potencial sobre cada categoria que é
-          demonstrado.
+          essencial para o crescimento da empresa e do profissional.
         </Text>
       </Flex>
 
